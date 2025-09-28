@@ -1,0 +1,5 @@
+export { PortfolioTemplate } from "./portfolio-template"
+export { SaaSTemplate } from "./saas-landing-template"
+export { ProjectOverviewTemplate } from "./project-overview-template"
+export { PersonalProfileTemplate } from "./personal-profile-template"
+export { EventLandingTemplate } from "./event-landing-template"
