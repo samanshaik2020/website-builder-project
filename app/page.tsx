@@ -3,10 +3,10 @@
 import type React from "react"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { Eye, Save, ArrowLeft } from "lucide-react"
-import { Bold, Italic, LinkIcon, AlignLeft, AlignCenter, AlignRight, TypeIcon, Palette, X } from "lucide-react"
+import { X } from "lucide-react"
 import { SiteBuilderSlateToolbar } from "@/components/site-builder-slate-toolbar"
 import { AIGenerationModal } from "@/components/ai-generation-modal"
-import { generateSaaSProContent } from "@/lib/gemini-api"
+import { generateSaaSProContent, generatePortfolioProThemeContent } from "@/lib/gemini-api"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { PortfolioTemplate } from "@/components/templates/normal/portfolio-template"
@@ -14,9 +14,9 @@ import { SaaSTemplate } from "@/components/templates/normal/saas-landing-templat
 import { ProjectOverviewTemplate } from "@/components/templates/normal/project-overview-template"
 import { PersonalProfileTemplate } from "@/components/templates/normal/personal-profile-template"
 import { EventLandingTemplate } from "@/components/templates/normal/event-landing-template"
-// TODO: Create remaining pro templates
 // import { AgencyProTemplate } from "@/components/templates/pro/agency-pro-template"
 import { SAAS_PRO_THEMES, type SaaSProThemeId } from "@/components/templates/pro/saas-pro"
+import { PortfolioProTemplatePro } from "@/components/templates/pro/portfolio-pro-template"
 import type { AITheme } from "@/components/ai-generation-modal"
 // import { EcommerceProTemplate } from "@/components/templates/pro/ecommerce-pro-template"
 import { saveProject, type ProjectRecord } from "@/components/lib/projects-store"
@@ -29,6 +29,7 @@ type TemplateId =
   | "event"
   | "agency-pro"
   | "saas-pro"
+  | "portfolio-pro"
   | "ecommerce-pro"
 
 type SelectedElement = { kind: "image"; el: HTMLImageElement } | { kind: "button"; el: HTMLAnchorElement } | { kind: "link"; el: HTMLAnchorElement }
@@ -179,6 +180,15 @@ function TemplateModal({
       desc: "Premium SaaS marketing with advanced sections and testimonials.",
       category: "SaaS",
       tags: ["Pro", "Marketing", "Premium"],
+      free: false,
+    },
+    {
+      id: "portfolio-pro",
+      title: "Portfolio Pro",
+      imgAlt: "Portfolio Pro template preview",
+      desc: "Advanced portfolio with multiple themes, AI-powered content, and premium features.",
+      category: "Portfolio",
+      tags: ["Pro", "Portfolio", "Multi-Theme", "AI"],
       free: false,
     },
     {
@@ -493,7 +503,7 @@ export default function Page() {
 
   const onSelectTemplate = useCallback((id: TemplateId) => {
     // Check if it's a Pro template
-    const proTemplates: TemplateId[] = ["agency-pro", "saas-pro", "ecommerce-pro"]
+    const proTemplates: TemplateId[] = ["agency-pro", "saas-pro", "portfolio-pro", "ecommerce-pro"]
     
     if (proTemplates.includes(id)) {
       // Open AI generation modal for Pro templates
@@ -522,8 +532,19 @@ export default function Page() {
     if (!selectedProTemplate) return
 
     try {
-      // Generate content using Gemini API
-      const { elements } = await generateSaaSProContent(topic, theme)
+      // Generate content using Gemini API based on template type
+      let elements
+      if (selectedProTemplate === "saas-pro") {
+        const result = await generateSaaSProContent(topic, theme)
+        elements = result.elements
+      } else if (selectedProTemplate === "portfolio-pro") {
+        const result = await generatePortfolioProThemeContent(topic, theme.id)
+        elements = result.elements
+      } else {
+        // For other pro templates, use SaaS Pro as fallback for now
+        const result = await generateSaaSProContent(topic, theme)
+        elements = result.elements
+      }
       
       // Close AI modal, set template and theme
       setAiModalOpen(false)
@@ -649,6 +670,8 @@ export default function Page() {
         const ThemedTemplate = SAAS_PRO_THEMES[themeId]
         return <ThemedTemplate editable={!preview} openInspector={openInspector} />
       }
+      case "portfolio-pro":
+        return <PortfolioProTemplatePro editable={!preview} openInspector={openInspector} />
       case "ecommerce-pro":
         // return <EcommerceProTemplate editable={!preview} openInspector={openInspector} />
         return <div className="text-center p-8"><p className="text-lg">Ecommerce Pro template coming soon...</p></div>
@@ -693,7 +716,12 @@ export default function Page() {
       <TemplateModal open={modalOpen} onSelect={onSelectTemplate} />
       <AIGenerationModal 
         open={aiModalOpen} 
-        templateType={selectedProTemplate === "saas-pro" ? "SaaS Pro" : selectedProTemplate === "agency-pro" ? "Agency Pro" : "Ecommerce Pro"}
+        templateType={
+          selectedProTemplate === "saas-pro" ? "SaaS Pro" : 
+          selectedProTemplate === "portfolio-pro" ? "Portfolio Pro" :
+          selectedProTemplate === "agency-pro" ? "Agency Pro" : 
+          "Ecommerce Pro"
+        }
         onClose={() => {
           // User cancelled - go back to template selection
           setAiModalOpen(false)
