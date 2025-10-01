@@ -4,6 +4,7 @@ export type ProjectRecord = {
   id: string
   name: string
   template: string
+  theme?: string // For Pro templates like saas-pro
   updatedAt: number
   data: {
     texts: Record<string, string>

@@ -2,8 +2,11 @@
 
 import type React from "react"
 import { useCallback, useEffect, useMemo, useState } from "react"
-import { Eye, Save } from "lucide-react"
+import { Eye, Save, ArrowLeft } from "lucide-react"
 import { Bold, Italic, LinkIcon, AlignLeft, AlignCenter, AlignRight, TypeIcon, Palette, X } from "lucide-react"
+import { SiteBuilderSlateToolbar } from "@/components/site-builder-slate-toolbar"
+import { AIGenerationModal } from "@/components/ai-generation-modal"
+import { generateSaaSProContent } from "@/lib/gemini-api"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { PortfolioTemplate } from "@/components/templates/normal/portfolio-template"
@@ -11,9 +14,11 @@ import { SaaSTemplate } from "@/components/templates/normal/saas-landing-templat
 import { ProjectOverviewTemplate } from "@/components/templates/normal/project-overview-template"
 import { PersonalProfileTemplate } from "@/components/templates/normal/personal-profile-template"
 import { EventLandingTemplate } from "@/components/templates/normal/event-landing-template"
-import { AgencyProTemplate } from "@/components/templates/pro/agency-pro-template"
-import { SaaSProTemplatePro } from "@/components/templates/pro/saas-pro-template"
-import { EcommerceProTemplate } from "@/components/templates/pro/ecommerce-pro-template"
+// TODO: Create remaining pro templates
+// import { AgencyProTemplate } from "@/components/templates/pro/agency-pro-template"
+import { SAAS_PRO_THEMES, type SaaSProThemeId } from "@/components/templates/pro/saas-pro"
+import type { AITheme } from "@/components/ai-generation-modal"
+// import { EcommerceProTemplate } from "@/components/templates/pro/ecommerce-pro-template"
 import { saveProject, type ProjectRecord } from "@/components/lib/projects-store"
 
 type TemplateId =
@@ -26,16 +31,18 @@ type TemplateId =
   | "saas-pro"
   | "ecommerce-pro"
 
-type SelectedElement = { kind: "image"; el: HTMLImageElement } | { kind: "button"; el: HTMLAnchorElement }
+type SelectedElement = { kind: "image"; el: HTMLImageElement } | { kind: "button"; el: HTMLAnchorElement } | { kind: "link"; el: HTMLAnchorElement }
 
 function EditorHeader({
   onTogglePreview,
   onSavePublish,
+  onBackToTemplates,
   isPreview,
   saving,
 }: {
   onTogglePreview: () => void
   onSavePublish: () => Promise<void> | void
+  onBackToTemplates: () => void
   isPreview: boolean
   saving: boolean
 }) {
@@ -58,6 +65,15 @@ function EditorHeader({
         >
           {"SiteBuilder"}
         </div>
+        <Button
+          type="button"
+          variant="ghost"
+          onClick={onBackToTemplates}
+          className={cn("h-9 gap-2 text-[var(--sb-text)] hover:opacity-80")}
+        >
+          <ArrowLeft className="size-4" aria-hidden />
+          Back to Templates
+        </Button>
       </div>
 
       <div className="flex items-center gap-2">
@@ -188,7 +204,7 @@ function TemplateModal({
 
   return (
     <div
-      className="fixed inset-0 z-40 overflow-y-auto bg-black/40 backdrop-blur-sm"
+      className="fixed inset-0 z-40 overflow-y-auto bg-white"
       role="dialog"
       aria-modal="true"
       aria-label="Choose a Template"
@@ -196,7 +212,7 @@ function TemplateModal({
       <div className="mx-auto w-full max-w-6xl px-4 py-6 md:py-10">
         {/* Header */}
         <div className="mb-6 flex items-center justify-between">
-          <a href="/dashboard" className="inline-flex items-center gap-2 text-sm text-black/70 hover:text-black">
+          <a href="/dashboard" className="inline-flex items-center gap-2 text-sm text-black/70 hover:text-black font-medium">
             {"← Back to Dashboard"}
           </a>
           <div aria-label="SiteBuilder" className="rounded-md bg-black/5 px-3 py-1.5 text-sm font-semibold">
@@ -210,6 +226,15 @@ function TemplateModal({
           <p className="mx-auto mt-2 max-w-xl text-pretty text-sm text-black/60">
             {"Start with a professionally designed template and customize every element to match your vision"}
           </p>
+          <div className="mt-4">
+            <Button 
+              variant="outline" 
+              className="rounded-lg border-black/20 bg-white text-black hover:bg-black/5"
+              onClick={() => window.location.href = '/dashboard'}
+            >
+              Go to Dashboard
+            </Button>
+          </div>
         </div>
 
         {/* Filters */}
@@ -233,14 +258,6 @@ function TemplateModal({
               {f.label}
             </button>
           ))}
-          <button
-            type="button"
-            onClick={() => setActiveFilter("all")}
-            className="ml-3 rounded-full border border-red-200 bg-red-50 px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-100"
-            aria-label="Reset Templates filter"
-          >
-            {"Reset Templates"}
-          </button>
         </div>
 
         {/* Grid */}
@@ -283,226 +300,7 @@ function TemplateModal({
   )
 }
 
-function FloatingTextToolbar({ active }: { active: boolean }) {
-  const [visible, setVisible] = useState(false)
-  const [pos, setPos] = useState<{ top: number; left: number }>({ top: 0, left: 0 })
-  const [target, setTarget] = useState<HTMLElement | null>(null)
-  const [showLinkInput, setShowLinkInput] = useState(false)
-  const [linkValue, setLinkValue] = useState("")
-  const [fontSize, setFontSize] = useState<string>("")
-  const [color, setColor] = useState<string>("")
 
-  const getEditableTarget = useCallback((el: HTMLElement | null) => {
-    if (!el) return null
-    // Prefer the nearest element explicitly marked as editable or contentEditable
-    const nearest = el.closest('[data-editable="true"], [contenteditable="true"]') as HTMLElement | null
-    if (nearest) return nearest
-    // Fallback: if the element itself is in an editable region
-    if ((el as HTMLElement).isContentEditable) return el
-    return null
-  }, [])
-
-  const positionForEl = useCallback((el: HTMLElement) => {
-    const rect = el.getBoundingClientRect()
-    const top = Math.max(8, rect.top - 48) // 48px toolbar height estimate
-    const left = Math.min(window.innerWidth - 120, Math.max(120, rect.left + rect.width / 2))
-    setPos({ top, left })
-  }, [])
-
-  useEffect(() => {
-    if (!active) {
-      setVisible(false)
-      setTarget(null)
-      return
-    }
-    const onFocusIn = (e: Event) => {
-      const t = getEditableTarget(e.target as HTMLElement | null)
-      if (t) {
-        setTarget(t)
-        // Initialize style states from computed styles to reflect current appearance
-        const cs = window.getComputedStyle(t)
-        const fs = cs.fontSize.replace("px", "")
-        setFontSize(fs || "")
-        setColor(cs.color || "")
-        positionForEl(t)
-        setVisible(true)
-      }
-    }
-    const onMouseDown = (e: MouseEvent) => {
-      const el = e.target as HTMLElement
-      const toolbar = document.getElementById("sb-text-toolbar")
-      if (!toolbar) return
-      const clickedInsideToolbar = toolbar.contains(el)
-      const clickedTarget = target && (el === target || target.contains(el))
-      if (!clickedInsideToolbar && !clickedTarget) {
-        setVisible(false)
-        setTarget(null)
-        setShowLinkInput(false)
-      }
-    }
-    const onScrollOrResize = () => {
-      if (target) positionForEl(target)
-    }
-    const onSelectionChange = () => {
-      if (target) positionForEl(target)
-    }
-
-    document.addEventListener("focusin", onFocusIn, true)
-    document.addEventListener("mousedown", onMouseDown, true)
-    window.addEventListener("scroll", onScrollOrResize, true)
-    window.addEventListener("resize", onScrollOrResize, true)
-    document.addEventListener("selectionchange", onSelectionChange)
-
-    return () => {
-      document.removeEventListener("focusin", onFocusIn, true)
-      document.removeEventListener("mousedown", onMouseDown, true)
-      window.removeEventListener("scroll", onScrollOrResize, true)
-      window.removeEventListener("resize", onScrollOrResize, true)
-      document.removeEventListener("selectionchange", onSelectionChange)
-    }
-  }, [active, getEditableTarget, positionForEl, target])
-
-  if (!visible || !target) return null
-
-  const exec = (cmd: string, value?: string) => {
-    try {
-      document.execCommand(cmd, false, value)
-    } catch {}
-    // update position and states in case layout changed
-    positionForEl(target)
-  }
-
-  const setAlign = (align: "left" | "center" | "right") => {
-    if (!target) return
-    target.style.textAlign = align
-    positionForEl(target)
-  }
-
-  const onFontSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (!target) return
-    const v = e.target.value
-    setFontSize(v)
-    target.style.fontSize = v ? `${v}px` : ""
-    positionForEl(target)
-  }
-
-  const onColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!target) return
-    const v = e.target.value
-    setColor(v)
-    target.style.color = v
-    positionForEl(target)
-  }
-
-  const applyLink = () => {
-    if (!linkValue) return
-    exec("createLink", linkValue)
-    setShowLinkInput(false)
-    setLinkValue("")
-  }
-
-  return (
-    <div
-      id="sb-text-toolbar"
-      className="fixed z-[60] flex items-center gap-2 rounded-md border px-2 py-1 shadow-lg"
-      style={{ top: pos.top, left: pos.left, transform: "translateX(-50%)" }}
-    >
-      <div className="flex items-center gap-1 rounded bg-[color-mix(in_oklab,var(--sb-overlay)_30%,var(--sb-header))] px-2 py-1 text-[var(--sb-text)]">
-        <button type="button" className="rounded px-1 hover:opacity-80" onClick={() => exec("bold")} aria-label="Bold">
-          <Bold className="size-4" />
-        </button>
-        <button
-          type="button"
-          className="rounded px-1 hover:opacity-80"
-          onClick={() => exec("italic")}
-          aria-label="Italic"
-        >
-          <Italic className="size-4" />
-        </button>
-        <div className="h-4 w-px bg-[var(--sb-text)]/20" />
-        <button
-          type="button"
-          className="rounded px-1 hover:opacity-80"
-          onClick={() => setShowLinkInput((s) => !s)}
-          aria-label="Add link"
-        >
-          <LinkIcon className="size-4" />
-        </button>
-        {showLinkInput && (
-          <div className="ml-2 flex items-center gap-1">
-            <input
-              aria-label="Link URL"
-              placeholder="https://example.com"
-              value={linkValue}
-              onChange={(e) => setLinkValue(e.target.value)}
-              className="h-7 w-48 rounded border bg-[var(--sb-bg)] px-2 text-sm text-[var(--sb-text)]"
-            />
-            <button
-              type="button"
-              className="rounded bg-[var(--sb-primary)] px-2 py-1 text-xs text-[var(--sb-text)] hover:opacity-90"
-              onClick={applyLink}
-            >
-              Apply
-            </button>
-          </div>
-        )}
-        <div className="h-4 w-px bg-[var(--sb-text)]/20" />
-        <button
-          type="button"
-          className="rounded px-1 hover:opacity-80"
-          onClick={() => setAlign("left")}
-          aria-label="Align left"
-        >
-          <AlignLeft className="size-4" />
-        </button>
-        <button
-          type="button"
-          className="rounded px-1 hover:opacity-80"
-          onClick={() => setAlign("center")}
-          aria-label="Align center"
-        >
-          <AlignCenter className="size-4" />
-        </button>
-        <button
-          type="button"
-          className="rounded px-1 hover:opacity-80"
-          onClick={() => setAlign("right")}
-          aria-label="Align right"
-        >
-          <AlignRight className="size-4" />
-        </button>
-        <div className="h-4 w-px bg-[var(--sb-text)]/20" />
-        <div className="flex items-center gap-1">
-          <TypeIcon className="size-4 opacity-70" aria-hidden />
-          <select
-            aria-label="Font size"
-            value={fontSize}
-            onChange={onFontSizeChange}
-            className="h-7 rounded border bg-[var(--sb-bg)] px-2 text-sm text-[var(--sb-text)]"
-          >
-            <option value="">Auto</option>
-            <option value="14">14</option>
-            <option value="16">16</option>
-            <option value="18">18</option>
-            <option value="24">24</option>
-            <option value="32">32</option>
-            <option value="40">40</option>
-          </select>
-        </div>
-        <div className="flex items-center gap-1 pl-1">
-          <Palette className="size-4 opacity-70" aria-hidden />
-          <input
-            aria-label="Text color"
-            type="color"
-            value={color || "#ffffff"}
-            onChange={onColorChange}
-            className="h-7 w-7 cursor-pointer rounded border bg-[var(--sb-bg)] p-0"
-          />
-        </div>
-      </div>
-    </div>
-  )
-}
 
 function EditElementPanel({
   open,
@@ -521,7 +319,7 @@ function EditElementPanel({
     if (!open || !selected) return
     if (selected.kind === "image") {
       setImageSrc(selected.el.getAttribute("src") || "")
-    } else if (selected.kind === "button") {
+    } else if (selected.kind === "button" || selected.kind === "link") {
       setButtonText(selected.el.textContent || "")
       setButtonHref(selected.el.getAttribute("href") || "")
     }
@@ -543,7 +341,7 @@ function EditElementPanel({
   }
 
   const onApplyButtonChanges = () => {
-    if (selected?.kind !== "button") return
+    if (selected?.kind !== "button" && selected?.kind !== "link") return
     selected.el.textContent = buttonText
     selected.el.setAttribute("href", buttonHref || "#")
   }
@@ -563,55 +361,96 @@ function EditElementPanel({
       </div>
 
       <div className="space-y-4 p-4">
-        {!selected && <p className="opacity-70">Select an image or button to edit.</p>}
+        {!selected && <p className="opacity-70">Select an image, button, or link to edit.</p>}
 
         {selected?.kind === "image" && (
-          <div className="space-y-3">
+          <div className="space-y-4">
             <div>
-              <p className="mb-2 text-sm opacity-80">Preview</p>
-              <img
-                src={imageSrc || "/placeholder.svg?height=160&width=256&query=selected image preview"}
-                alt="Selected image preview"
-                className="h-40 w-full rounded border object-cover"
-              />
+              <p className="mb-2 text-sm font-medium opacity-90">Current Image</p>
+              <div className="relative group">
+                <img
+                  src={imageSrc || "/placeholder.svg?height=160&width=256&query=selected image preview"}
+                  alt="Selected image preview"
+                  className="h-40 w-full rounded-lg border object-cover"
+                />
+                <div className="absolute top-2 right-2 bg-black/60 text-white px-2 py-1 rounded text-xs">
+                  Preview
+                </div>
+              </div>
             </div>
-            <div className="space-y-2">
-              <label className="text-sm opacity-80">Image URL</label>
-              <input
-                value={imageSrc}
-                onChange={(e) => setImageSrc(e.target.value)}
-                placeholder="https://…"
-                className="w-full rounded border bg-[var(--sb-bg)] px-3 py-2 text-sm text-[var(--sb-text)]"
-              />
-              <button
-                type="button"
-                onClick={onSetImageUrl}
-                className="w-full rounded bg-[var(--sb-primary)] px-3 py-2 text-sm text-[var(--sb-text)] hover:opacity-90"
-              >
-                Apply URL
-              </button>
+
+            <div className="space-y-3">
+              <div>
+                <label className="block text-sm font-medium opacity-90 mb-2">📤 Upload Image</label>
+                <div className="relative">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => e.target.files?.[0] && onUploadImage(e.target.files[0])}
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                    id="image-upload"
+                  />
+                  <label
+                    htmlFor="image-upload"
+                    className="flex flex-col items-center justify-center w-full h-24 border-2 border-dashed rounded-lg cursor-pointer hover:bg-[var(--sb-primary)]/10 transition-colors"
+                  >
+                    <div className="flex flex-col items-center justify-center pt-2 pb-3">
+                      <svg className="w-8 h-8 mb-2 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                      </svg>
+                      <p className="text-xs opacity-80">Click or drag image here</p>
+                      <p className="text-xs opacity-60 mt-1">PNG, JPG, GIF up to 10MB</p>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-border"></div>
+                </div>
+                <div className="relative flex justify-center text-xs">
+                  <span className="bg-[var(--sb-header)] px-2 opacity-60">OR</span>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium opacity-90 mb-2">🔗 Image URL</label>
+                <input
+                  value={imageSrc}
+                  onChange={(e) => setImageSrc(e.target.value)}
+                  placeholder="https://example.com/image.jpg"
+                  className="w-full rounded-lg border bg-[var(--sb-bg)] px-3 py-2.5 text-sm text-[var(--sb-text)] focus:ring-2 focus:ring-primary/50 outline-none"
+                />
+                <button
+                  type="button"
+                  onClick={onSetImageUrl}
+                  className="w-full mt-2 rounded-lg bg-[var(--sb-primary)] px-3 py-2.5 text-sm font-medium text-[var(--sb-text)] hover:opacity-90 transition-opacity"
+                >
+                  Apply URL
+                </button>
+              </div>
             </div>
-            <div className="space-y-2">
-              <label className="text-sm opacity-80">Upload New Image</label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => e.target.files?.[0] && onUploadImage(e.target.files[0])}
-                className="w-full text-sm"
-              />
+
+            <div className="pt-2 border-t border-border">
+              <p className="text-xs opacity-60">
+                💡 Tip: Uploaded images are converted to base64 and embedded in your project
+              </p>
             </div>
           </div>
         )}
 
-        {selected?.kind === "button" && (
+        {(selected?.kind === "button" || selected?.kind === "link") && (
           <div className="space-y-3">
             <div className="space-y-2">
-              <label className="text-sm opacity-80">Button Text</label>
+              <label className="text-sm opacity-80">
+                {selected.kind === "button" ? "Button Text" : "Link Text"}
+              </label>
               <input
                 value={buttonText}
                 onChange={(e) => setButtonText(e.target.value)}
                 className="w-full rounded border bg-[var(--sb-bg)] px-3 py-2 text-sm text-[var(--sb-text)]"
-                placeholder="Get Started for Free"
+                placeholder={selected.kind === "button" ? "Get Started for Free" : "Link text"}
               />
             </div>
             <div className="space-y-2">
@@ -640,6 +479,9 @@ function EditElementPanel({
 export default function Page() {
   const [template, setTemplate] = useState<TemplateId | null>(null)
   const [modalOpen, setModalOpen] = useState(true)
+  const [aiModalOpen, setAiModalOpen] = useState(false)
+  const [selectedProTemplate, setSelectedProTemplate] = useState<TemplateId | null>(null)
+  const [selectedThemeId, setSelectedThemeId] = useState<SaaSProThemeId | null>(null)
   const [preview, setPreview] = useState(false)
   const [saving, setSaving] = useState(false)
   const [panelOpen, setPanelOpen] = useState(false)
@@ -650,13 +492,67 @@ export default function Page() {
   }, [template])
 
   const onSelectTemplate = useCallback((id: TemplateId) => {
-    setTemplate(id)
-    setModalOpen(false)
+    // Check if it's a Pro template
+    const proTemplates: TemplateId[] = ["agency-pro", "saas-pro", "ecommerce-pro"]
+    
+    if (proTemplates.includes(id)) {
+      // Open AI generation modal for Pro templates
+      setSelectedProTemplate(id)
+      setModalOpen(false)
+      setAiModalOpen(true)
+    } else {
+      // Regular templates - just select
+      setTemplate(id)
+      setModalOpen(false)
+    }
   }, [])
 
   const onTogglePreview = useCallback(() => {
     setPreview((p) => !p)
   }, [])
+
+  const onBackToTemplates = useCallback(() => {
+    setTemplate(null)
+    setSelectedThemeId(null)
+    setModalOpen(true)
+    setPreview(false)
+  }, [])
+
+  const handleAIGenerate = useCallback(async (topic: string, theme: AITheme) => {
+    if (!selectedProTemplate) return
+
+    try {
+      // Generate content using Gemini API
+      const { elements } = await generateSaaSProContent(topic, theme)
+      
+      // Close AI modal, set template and theme
+      setAiModalOpen(false)
+      setSelectedThemeId(theme.id as SaaSProThemeId)
+      setTemplate(selectedProTemplate)
+      setSelectedProTemplate(null)
+      
+      // Wait for template to render
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      
+      // Populate all elements with generated content
+      elements.forEach(({ id, content }) => {
+        const element = document.querySelector(`[data-eid="${id}"]`)
+        if (element) {
+          // Update text content
+          if (element.textContent !== undefined) {
+            element.textContent = content
+          }
+        }
+      })
+      
+      console.log("AI content generated and populated successfully!", `Populated ${elements.length} elements`)
+    } catch (error) {
+      console.error("Error during AI generation:", error)
+      alert("Failed to generate content. Please try again.")
+      setAiModalOpen(false)
+      setModalOpen(true)
+    }
+  }, [selectedProTemplate])
 
   const onSavePublish = useCallback(async () => {
     setSaving(true)
@@ -701,6 +597,7 @@ export default function Page() {
       id: `p_${Date.now()}`,
       name: titleCandidate,
       template: template || "unknown",
+      theme: template === "saas-pro" ? selectedThemeId || undefined : undefined,
       updatedAt: Date.now(),
       data: { texts, images, buttons },
     }
@@ -713,13 +610,21 @@ export default function Page() {
     alert("Saved & Published! Check the Dashboard to see your project.")
   }, [template])
 
-  const openInspector = useCallback((type: "image" | "button", payload: { id: string }) => {
+  const openInspector = useCallback((type: "image" | "button" | "link", payload: { id: string }) => {
     const selector = type === "image" ? `img[data-eid="${payload.id}"]` : `a[data-eid="${payload.id}"]`
     const el = document.querySelector(selector) as HTMLImageElement | HTMLAnchorElement | null
     if (!el) return
-    setSelected(
-      type === "image" ? ({ kind: "image", el } as SelectedElement) : ({ kind: "button", el } as SelectedElement),
-    )
+    
+    let selectedElement: SelectedElement
+    if (type === "image") {
+      selectedElement = { kind: "image", el: el as HTMLImageElement }
+    } else if (type === "button") {
+      selectedElement = { kind: "button", el: el as HTMLAnchorElement }
+    } else {
+      selectedElement = { kind: "link", el: el as HTMLAnchorElement }
+    }
+    
+    setSelected(selectedElement)
     setPanelOpen(true)
   }, [])
 
@@ -736,28 +641,44 @@ export default function Page() {
       case "event":
         return <EventLandingTemplate editable={!preview} openInspector={openInspector} />
       case "agency-pro":
-        return <AgencyProTemplate editable={!preview} openInspector={openInspector} />
-      case "saas-pro":
-        return <SaaSProTemplatePro editable={!preview} openInspector={openInspector} />
+        // return <AgencyProTemplate editable={!preview} openInspector={openInspector} />
+        return <div className="text-center p-8"><p className="text-lg">Agency Pro template coming soon...</p></div>
+      case "saas-pro": {
+        // Use the themed template based on selected theme
+        const themeId = selectedThemeId || "modern-minimal"
+        const ThemedTemplate = SAAS_PRO_THEMES[themeId]
+        return <ThemedTemplate editable={!preview} openInspector={openInspector} />
+      }
       case "ecommerce-pro":
-        return <EcommerceProTemplate editable={!preview} openInspector={openInspector} />
+        // return <EcommerceProTemplate editable={!preview} openInspector={openInspector} />
+        return <div className="text-center p-8"><p className="text-lg">Ecommerce Pro template coming soon...</p></div>
       default:
         return null
     }
-  }, [template, preview, openInspector])
+  }, [template, preview, openInspector, selectedThemeId])
 
   return (
     <main className={cn("min-h-screen", "bg-[var(--sb-bg)] text-[var(--sb-text)]")}>
-      <EditorHeader
-        onTogglePreview={onTogglePreview}
-        onSavePublish={onSavePublish}
-        isPreview={preview}
-        saving={saving}
-      />
+      {template && (
+        <>
+          <EditorHeader
+            onTogglePreview={onTogglePreview}
+            onSavePublish={onSavePublish}
+            onBackToTemplates={onBackToTemplates}
+            isPreview={preview}
+            saving={saving}
+          />
+          <div className="h-14" aria-hidden />
+        </>
+      )}
 
-      <div className="h-14" aria-hidden />
       <section
-        className={cn("relative", "flex min-h-[calc(100vh-3.5rem)] items-center justify-center p-4")}
+        className={cn(
+          "relative",
+          preview 
+            ? "min-h-screen w-full" 
+            : "flex min-h-[calc(100vh-3.5rem)] items-center justify-center p-4"
+        )}
         aria-label="Editor canvas"
       >
         {TemplateView ?? (
@@ -765,11 +686,22 @@ export default function Page() {
             <p>{"Select a template to begin."}</p>
           </div>
         )}
-        {!preview && <FloatingTextToolbar active={!preview} />}
+        {!preview && template && <SiteBuilderSlateToolbar active={!preview} />}
         <EditElementPanel open={!preview && panelOpen} selected={selected} onClose={() => setPanelOpen(false)} />
       </section>
 
       <TemplateModal open={modalOpen} onSelect={onSelectTemplate} />
+      <AIGenerationModal 
+        open={aiModalOpen} 
+        templateType={selectedProTemplate === "saas-pro" ? "SaaS Pro" : selectedProTemplate === "agency-pro" ? "Agency Pro" : "Ecommerce Pro"}
+        onClose={() => {
+          // User cancelled - go back to template selection
+          setAiModalOpen(false)
+          setModalOpen(true)
+          setSelectedProTemplate(null)
+        }}
+        onGenerate={handleAIGenerate}
+      />
     </main>
   )
 }

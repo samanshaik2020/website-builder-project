@@ -68,18 +68,59 @@ export function EditableImage({
   selectedId,
   editable,
 }: EditableImageProps) {
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    e.preventDefault()
+    console.log("🖼️ Image clicked:", { id, editable, hasOpenInspector: !!openInspector })
+    
+    if (onSelect) {
+      onSelect(id)
+    }
+    
+    if (editable && openInspector) {
+      console.log("🎯 Calling openInspector for image:", id)
+      openInspector("image", { id })
+    } else {
+      console.warn("⚠️ Cannot open inspector:", { editable, hasOpenInspector: !!openInspector })
+    }
+  }
+
+  if (!editable) {
+    // In preview mode, just render the image without wrapper
+    return (
+      <img
+        src={src || "/placeholder.svg"}
+        alt={alt}
+        data-eid={id}
+        className={cn("rounded-md border border-border", className)}
+      />
+    )
+  }
+
+  // In edit mode, render with interactive wrapper
   return (
-    <img
-      src={src || "/placeholder.svg"}
-      alt={alt}
-      data-eid={id}
-      onClick={(e) => {
-        e.stopPropagation()
-        onSelect?.(id)
-        if (editable) openInspector?.("image", { id, src, alt })
-      }}
-      className={cn("rounded-md border border-border", selectedId === id && "ring-2 ring-primary/50", className)}
-    />
+    <div 
+      className={cn("relative inline-block group", className)}
+      onClick={handleClick}
+      style={{ cursor: 'pointer' }}
+    >
+      <img
+        src={src || "/placeholder.svg"}
+        alt={alt}
+        data-eid={id}
+        className={cn(
+          "rounded-md border border-border transition-all",
+          "hover:opacity-80 hover:ring-2 hover:ring-primary/30",
+          selectedId === id && "ring-2 ring-primary/50"
+        )}
+        style={{ display: 'block', maxWidth: '100%' }}
+      />
+      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40 rounded-md pointer-events-none">
+        <div className="bg-white text-black px-3 py-1.5 rounded-md text-xs font-medium shadow-lg">
+          Click to edit image
+        </div>
+      </div>
+    </div>
   )
 }
 

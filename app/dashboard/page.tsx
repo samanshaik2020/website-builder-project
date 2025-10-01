@@ -4,9 +4,10 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useRouter } from "next/navigation"
-import { Bell, User, Plus, Grid } from "lucide-react"
+import { Bell, User, Plus, Grid, Download, ExternalLink } from "lucide-react"
 import { useProjects } from "@/hooks/use-projects"
 import { useMemo } from "react"
+import { generateHTMLExport, downloadHTML } from "@/lib/export-html"
 
 export default function DashboardPage() {
   const router = useRouter()
@@ -22,6 +23,41 @@ export default function DashboardPage() {
     ],
     [projects.length],
   )
+
+  const handleExport = (project: typeof projects[0]) => {
+    try {
+      const html = generateHTMLExport(project)
+      const filename = `${project.name.replace(/[^a-z0-9]/gi, '-').toLowerCase()}-${Date.now()}`
+      downloadHTML(html, filename)
+      
+      // Show success message
+      const message = document.createElement('div')
+      message.className = 'fixed bottom-4 right-4 bg-black text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-in fade-in slide-in-from-bottom-2'
+      message.textContent = `✓ ${project.name} exported successfully!`
+      document.body.appendChild(message)
+      setTimeout(() => {
+        message.remove()
+      }, 3000)
+    } catch (error) {
+      console.error("Export failed:", error)
+      alert("Failed to export project. Please try again.")
+    }
+  }
+
+  const handlePreview = (project: typeof projects[0]) => {
+    try {
+      const html = generateHTMLExport(project)
+      const blob = new Blob([html], { type: 'text/html' })
+      const url = URL.createObjectURL(blob)
+      window.open(url, '_blank')
+      
+      // Clean up after a delay
+      setTimeout(() => URL.revokeObjectURL(url), 10000)
+    } catch (error) {
+      console.error("Preview failed:", error)
+      alert("Failed to preview project. Please try again.")
+    }
+  }
   return (
     <main className="min-h-screen bg-white text-black">
       {/* Topbar */}
@@ -38,7 +74,7 @@ export default function DashboardPage() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline" className="h-9 rounded-lg bg-transparent" onClick={() => router.push("/")}>
+            <Button variant="outline" className="h-9 rounded-lg bg-transparent font-medium border-black/20 hover:bg-black/5" onClick={() => router.push("/")}>
               Browse Templates
             </Button>
             <Button className="h-9 rounded-lg bg-black text-white hover:opacity-90" onClick={() => router.push("/")}>
@@ -129,25 +165,57 @@ export default function DashboardPage() {
               {projects.map((p) => (
                 <div key={p.id} className="rounded-xl border bg-white p-4">
                   <div className="h-40 rounded-lg bg-black/5" />
-                  <div className="mt-3 flex items-center justify-between">
-                    <div>
-                      <p className="text-sm font-semibold">{p.name}</p>
-                      <p className="mt-1 text-xs text-black/60">
-                        {p.template} • {new Date(p.updatedAt).toLocaleDateString()}
-                      </p>
+                  <div className="mt-3">
+                    <div className="flex items-center justify-between mb-2">
+                      <div>
+                        <p className="text-sm font-semibold">{p.name}</p>
+                        <p className="mt-1 text-xs text-black/60">
+                          {p.template}{p.theme ? ` (${p.theme})` : ""} • {new Date(p.updatedAt).toLocaleDateString()}
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Button variant="outline" className="rounded-lg bg-transparent" onClick={() => router.push("/")}>
-                        Edit
-                      </Button>
-                      <Button
-                        variant="outline"
-                        className="rounded-lg bg-transparent"
-                        onClick={() => remove(p.id)}
-                        aria-label={`Delete ${p.name}`}
-                      >
-                        Delete
-                      </Button>
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2">
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          className="flex-1 rounded-lg bg-transparent text-xs" 
+                          onClick={() => router.push("/")}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="flex-1 rounded-lg bg-transparent text-xs"
+                          onClick={() => handlePreview(p)}
+                          aria-label={`Preview ${p.name}`}
+                        >
+                          <ExternalLink className="mr-1 size-3" />
+                          Preview
+                        </Button>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="flex-1 rounded-lg bg-transparent text-xs"
+                          onClick={() => handleExport(p)}
+                          aria-label={`Export ${p.name}`}
+                        >
+                          <Download className="mr-1 size-3" />
+                          Export HTML
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="rounded-lg bg-transparent text-xs text-red-600 hover:text-red-700 hover:bg-red-50"
+                          onClick={() => remove(p.id)}
+                          aria-label={`Delete ${p.name}`}
+                        >
+                          Delete
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -155,7 +223,7 @@ export default function DashboardPage() {
             </div>
 
             <div className="mt-4 text-center">
-              <Button variant="outline" className="rounded-lg bg-transparent" onClick={() => router.push("/")}>
+              <Button variant="outline" className="rounded-lg bg-transparent font-medium" onClick={() => router.push("/")}>
                 View All Templates
               </Button>
             </div>
