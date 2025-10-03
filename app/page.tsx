@@ -4,8 +4,8 @@ import type React from "react"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { Eye, Save, ArrowLeft } from "lucide-react"
 import { X } from "lucide-react"
-import { SiteBuilderSlateToolbar } from "@/components/site-builder-slate-toolbar"
 import { AIGenerationModal } from "@/components/ai-generation-modal"
+import { FloatingTextToolbar } from "@/components/floating-text-toolbar"
 import { generateSaaSProContent, generatePortfolioProThemeContent } from "@/lib/gemini-api"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
@@ -316,10 +316,12 @@ function EditElementPanel({
   open,
   selected,
   onClose,
+  onImageUpdate,
 }: {
   open: boolean
   selected: SelectedElement | null
   onClose: () => void
+  onImageUpdate?: (imageId: string, src: string) => void
 }) {
   const [buttonText, setButtonText] = useState("")
   const [buttonHref, setButtonHref] = useState("")
@@ -340,14 +342,26 @@ function EditElementPanel({
     reader.onload = () => {
       const dataUrl = reader.result as string
       setImageSrc(dataUrl)
-      selected?.kind === "image" && selected.el.setAttribute("src", dataUrl)
+      if (selected?.kind === "image") {
+        const imageId = selected.el.getAttribute("data-eid")
+        selected.el.setAttribute("src", dataUrl)
+        // Cache the image so it persists through preview toggles
+        if (imageId && onImageUpdate) {
+          onImageUpdate(imageId, dataUrl)
+        }
+      }
     }
     reader.readAsDataURL(file)
   }
 
   const onSetImageUrl = () => {
     if (selected?.kind !== "image") return
+    const imageId = selected.el.getAttribute("data-eid")
     selected.el.setAttribute("src", imageSrc)
+    // Cache the image URL
+    if (imageId && onImageUpdate) {
+      onImageUpdate(imageId, imageSrc)
+    }
   }
 
   const onApplyButtonChanges = () => {
@@ -496,6 +510,7 @@ export default function Page() {
   const [saving, setSaving] = useState(false)
   const [panelOpen, setPanelOpen] = useState(false)
   const [selected, setSelected] = useState<SelectedElement | null>(null)
+  const [imageCache, setImageCache] = useState<Record<string, string>>({})
 
   useEffect(() => {
     if (template) setModalOpen(false)
@@ -519,7 +534,18 @@ export default function Page() {
 
   const onTogglePreview = useCallback(() => {
     setPreview((p) => !p)
-  }, [])
+    
+    // After toggling, restore cached images
+    setTimeout(() => {
+      Object.entries(imageCache).forEach(([imageId, src]) => {
+        const img = document.querySelector(`img[data-eid="${imageId}"]`) as HTMLImageElement
+        if (img && img.getAttribute("src") !== src) {
+          console.log("Restoring cached image:", imageId)
+          img.setAttribute("src", src)
+        }
+      })
+    }, 100)
+  }, [imageCache])
 
   const onBackToTemplates = useCallback(() => {
     setTemplate(null)
@@ -709,8 +735,15 @@ export default function Page() {
             <p>{"Select a template to begin."}</p>
           </div>
         )}
-        {!preview && template && <SiteBuilderSlateToolbar active={!preview} />}
-        <EditElementPanel open={!preview && panelOpen} selected={selected} onClose={() => setPanelOpen(false)} />
+        {!preview && template && <FloatingTextToolbar active={!preview} />}
+        <EditElementPanel 
+          open={!preview && panelOpen} 
+          selected={selected} 
+          onClose={() => setPanelOpen(false)}
+          onImageUpdate={(imageId, src) => {
+            setImageCache(prev => ({ ...prev, [imageId]: src }))
+          }}
+        />
       </section>
 
       <TemplateModal open={modalOpen} onSelect={onSelectTemplate} />
