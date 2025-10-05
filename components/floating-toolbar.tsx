@@ -1,0 +1,155 @@
+'use client'
+
+import React, { useEffect, useRef, useState } from 'react'
+import { Editor, Range } from 'slate'
+import { ReactEditor, useSlate } from 'slate-react'
+import { Bold, Italic, Underline, Code, Type, Heading1, Heading2, Quote } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+
+interface FloatingToolbarProps {
+  toggleMark: (editor: Editor, format: string) => void
+  toggleBlock: (editor: Editor, format: string) => void
+  isMarkActive: (editor: Editor, format: string) => boolean
+  isBlockActive: (editor: Editor, format: string) => boolean
+}
+
+export function FloatingToolbar({ 
+  toggleMark, 
+  toggleBlock, 
+  isMarkActive, 
+  isBlockActive 
+}: FloatingToolbarProps) {
+  const ref = useRef<HTMLDivElement>(null)
+  const editor = useSlate()
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const el = ref.current
+    const { selection } = editor
+
+    if (!el) {
+      return
+    }
+
+    if (
+      !selection ||
+      !ReactEditor.isFocused(editor) ||
+      Range.isCollapsed(selection) ||
+      Editor.string(editor, selection) === ''
+    ) {
+      el.removeAttribute('style')
+      setVisible(false)
+      return
+    }
+
+    const domSelection = window.getSelection()
+    if (!domSelection || domSelection.rangeCount === 0) {
+      return
+    }
+
+    const domRange = domSelection.getRangeAt(0)
+    const rect = domRange.getBoundingClientRect()
+    
+    el.style.opacity = '1'
+    el.style.top = `${rect.top + window.pageYOffset - el.offsetHeight - 10}px`
+    el.style.left = `${rect.left + window.pageXOffset - el.offsetWidth / 2 + rect.width / 2}px`
+    
+    setVisible(true)
+  })
+
+  if (!visible) {
+    return null
+  }
+
+  return (
+    <div
+      ref={ref}
+      className="absolute z-50 bg-white border border-gray-200 rounded-lg shadow-lg p-2 flex items-center gap-1 opacity-0 transition-opacity duration-200"
+      onMouseDown={(e) => {
+        // Prevent toolbar from taking focus away from editor
+        e.preventDefault()
+      }}
+    >
+      {/* Text formatting buttons */}
+      <Button
+        variant={isMarkActive(editor, 'bold') ? 'default' : 'ghost'}
+        size="sm"
+        onClick={() => toggleMark(editor, 'bold')}
+        className="h-8 w-8 p-0"
+      >
+        <Bold className="h-4 w-4" />
+      </Button>
+      
+      <Button
+        variant={isMarkActive(editor, 'italic') ? 'default' : 'ghost'}
+        size="sm"
+        onClick={() => toggleMark(editor, 'italic')}
+        className="h-8 w-8 p-0"
+      >
+        <Italic className="h-4 w-4" />
+      </Button>
+      
+      <Button
+        variant={isMarkActive(editor, 'underline') ? 'default' : 'ghost'}
+        size="sm"
+        onClick={() => toggleMark(editor, 'underline')}
+        className="h-8 w-8 p-0"
+      >
+        <Underline className="h-4 w-4" />
+      </Button>
+      
+      <Button
+        variant={isMarkActive(editor, 'code') ? 'default' : 'ghost'}
+        size="sm"
+        onClick={() => toggleMark(editor, 'code')}
+        className="h-8 w-8 p-0"
+      >
+        <Code className="h-4 w-4" />
+      </Button>
+
+      {/* Separator */}
+      <div className="w-px h-6 bg-gray-200 mx-1" />
+
+      {/* Block formatting buttons */}
+      <Button
+        variant={isBlockActive(editor, 'paragraph') ? 'default' : 'ghost'}
+        size="sm"
+        onClick={() => toggleBlock(editor, 'paragraph')}
+        className="h-8 w-8 p-0"
+        title="Paragraph"
+      >
+        <Type className="h-4 w-4" />
+      </Button>
+      
+      <Button
+        variant={isBlockActive(editor, 'heading-one') ? 'default' : 'ghost'}
+        size="sm"
+        onClick={() => toggleBlock(editor, 'heading-one')}
+        className="h-8 w-8 p-0"
+        title="Heading 1"
+      >
+        <Heading1 className="h-4 w-4" />
+      </Button>
+      
+      <Button
+        variant={isBlockActive(editor, 'heading-two') ? 'default' : 'ghost'}
+        size="sm"
+        onClick={() => toggleBlock(editor, 'heading-two')}
+        className="h-8 w-8 p-0"
+        title="Heading 2"
+      >
+        <Heading2 className="h-4 w-4" />
+      </Button>
+      
+      <Button
+        variant={isBlockActive(editor, 'block-quote') ? 'default' : 'ghost'}
+        size="sm"
+        onClick={() => toggleBlock(editor, 'block-quote')}
+        className="h-8 w-8 p-0"
+        title="Quote"
+      >
+        <Quote className="h-4 w-4" />
+      </Button>
+    </div>
+  )
+}

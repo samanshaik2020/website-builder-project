@@ -43,6 +43,9 @@ export function generateHTMLExport(project: ProjectRecord): string {
     case "portfolio-pro":
       html = generatePortfolioProHTML(getText, getImage, getButton, theme)
       break
+    case "iphone-pro":
+      html = generateIPhoneProHTML(getText, getImage, getButton, theme)
+      break
     default:
       html = generateGenericHTML(getText, getImage, getButton, name)
   }
@@ -878,6 +881,175 @@ function generatePortfolioProHTML(getText: GetText, getImage: GetImage, getButto
   <footer class="border-t border-opacity-20 py-12 bg-opacity-30">
     <div class="mx-auto max-w-7xl px-4 text-center">
       <p class="text-sm opacity-70">${escapeHtml(getText("portfolio_pro_footer_copyright", "© 2025 Alex Morgan. All rights reserved."))}</p>
+    </div>
+  </footer>
+</main>
+  `
+}
+
+function generateIPhoneProHTML(getText: GetText, getImage: GetImage, getButton: GetButton, theme?: string): string {
+  // iPhone Pro templates have dark/premium themes
+  const isDark = theme?.includes('dark') || theme?.includes('neon') || theme?.includes('cyberpunk')
+  const bgClass = isDark ? 'bg-gradient-to-b from-slate-950 via-slate-900 to-black text-white' : 'bg-white text-gray-900'
+  
+  return `
+<main class="${bgClass}">
+  <!-- Navigation -->
+  <header class="border-b ${isDark ? 'border-white/10 bg-black/40' : 'border-gray-200 bg-white'} backdrop-blur-xl sticky top-0 z-50">
+    <div class="mx-auto max-w-7xl px-8 py-4 flex items-center justify-between">
+      <h1 class="text-2xl font-bold ${isDark ? 'bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent' : 'text-gray-900'}">${escapeHtml(getText("iphone_pro_brand", "iPhone Pro"))}</h1>
+      <nav class="hidden md:flex items-center gap-10 text-sm font-medium">
+        ${[0,1,2,3].map(i => `<span class="${isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'} transition-colors">${escapeHtml(getText(`iphone_pro_nav_${i}`, ["Overview","Tech Specs","Gallery","Compare"][i]))}</span>`).join("")}
+      </nav>
+      <div class="flex items-center gap-4">
+        <a href="${escapeHtml(getButton("iphone_pro_nav_preorder").href)}" class="${isDark ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700' : 'bg-blue-600 hover:bg-blue-700'} text-white px-6 py-2.5 rounded-full text-sm font-semibold shadow-lg">${escapeHtml(getButton("iphone_pro_nav_preorder").text)}</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden py-24 md:py-32">
+    ${isDark ? '<div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/20 to-pink-600/20 blur-3xl"></div>' : ''}
+    <div class="relative mx-auto max-w-7xl px-8 text-center">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full ${isDark ? 'bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-400/30 text-blue-300' : 'bg-blue-50 border border-blue-200 text-blue-700'} text-sm font-semibold mb-8 backdrop-blur-sm">
+        ${escapeHtml(getText("iphone_pro_hero_badge", "✨ Introducing iPhone 15 Pro Max"))}
+      </div>
+      <h2 class="text-6xl md:text-8xl font-black mb-6 tracking-tighter ${isDark ? 'bg-gradient-to-b from-white via-white to-gray-400 bg-clip-text text-transparent' : 'text-gray-900'}">
+        ${escapeHtml(getText("iphone_pro_hero_title", "Titanium. So strong. So light. So Pro."))}
+      </h2>
+      <p class="text-xl md:text-2xl ${isDark ? 'text-gray-300' : 'text-gray-600'} mb-10 max-w-4xl mx-auto leading-relaxed">
+        ${escapeHtml(getText("iphone_pro_hero_subtitle", "Forged from aerospace-grade titanium with the most advanced camera system ever in an iPhone."))}
+      </p>
+      <div class="flex flex-col sm:flex-row gap-5 justify-center mb-8">
+        <a href="${escapeHtml(getButton("iphone_pro_hero_cta_primary").href)}" class="${isDark ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700' : 'bg-blue-600 hover:bg-blue-700'} text-white px-10 py-4 rounded-full text-lg font-semibold shadow-2xl transform hover:scale-105 transition-all">${escapeHtml(getButton("iphone_pro_hero_cta_primary").text)}</a>
+        <a href="${escapeHtml(getButton("iphone_pro_hero_cta_secondary").href)}" class="${isDark ? 'bg-white/10 hover:bg-white/20 text-white border border-white/20' : 'bg-gray-100 hover:bg-gray-200 text-gray-900 border border-gray-300'} px-10 py-4 rounded-full text-lg font-semibold backdrop-blur-sm transition-all">${escapeHtml(getButton("iphone_pro_hero_cta_secondary").text)}</a>
+      </div>
+      <div class="flex items-center justify-center gap-8 text-base ${isDark ? 'text-gray-400' : 'text-gray-600'}">
+        <span class="font-medium">${escapeHtml(getText("iphone_pro_hero_price", "From $1,199"))}</span>
+        <span class="${isDark ? 'text-gray-600' : 'text-gray-400'}">•</span>
+        <span class="font-medium">${escapeHtml(getText("iphone_pro_hero_trade", "or $49.95/mo. for 24 mo."))}</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Showcase -->
+  <section class="py-20 relative">
+    <div class="mx-auto max-w-7xl px-8">
+      <div class="relative rounded-3xl overflow-hidden ${isDark ? 'border border-white/10 shadow-2xl shadow-blue-500/20' : 'border border-gray-200 shadow-2xl'}">
+        <img src="${escapeHtml(getImage("iphone_pro_showcase_image", "/placeholder.svg?height=800&width=1400&query=iphone"))}" alt="iPhone Pro showcase" class="w-full h-auto" />
+        ${isDark ? '<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>' : ''}
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="py-24 ${isDark ? 'bg-gradient-to-b from-transparent to-slate-950/50' : 'bg-gray-50'}">
+    <div class="mx-auto max-w-7xl px-8">
+      <div class="text-center mb-20">
+        <p class="${isDark ? 'text-blue-400' : 'text-blue-600'} font-bold text-sm uppercase tracking-widest mb-4">${escapeHtml(getText("iphone_pro_features_eyebrow", "Revolutionary Technology"))}</p>
+        <h3 class="text-5xl md:text-6xl font-black mb-6 ${isDark ? 'bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent' : 'text-gray-900'}">${escapeHtml(getText("iphone_pro_features_title", "Engineered to perfection."))}</h3>
+        <p class="text-xl ${isDark ? 'text-gray-400' : 'text-gray-600'} max-w-3xl mx-auto">${escapeHtml(getText("iphone_pro_features_subtitle", "Every detail meticulously crafted to deliver an unprecedented mobile experience."))}</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-8">
+        ${[0,1,2].map(i => `
+          <div class="relative p-8 rounded-2xl ${isDark ? 'bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-white/10' : 'bg-white border border-gray-200'} backdrop-blur-sm hover:scale-105 transition-transform duration-300">
+            <div class="text-6xl mb-6">${escapeHtml(getText(`iphone_pro_feature_${i}_icon`, ["⚡","📸","🔋"][i]))}</div>
+            <h4 class="text-2xl font-bold mb-4">${escapeHtml(getText(`iphone_pro_feature_${i}_title`, ["A18 Pro Chip","Pro Camera System","All-Day Battery"][i]))}</h4>
+            <p class="${isDark ? 'text-gray-300' : 'text-gray-600'} leading-relaxed">${escapeHtml(getText(`iphone_pro_feature_${i}_desc`, "Feature description"))}</p>
+          </div>
+        `).join("")}
+      </div>
+    </div>
+  </section>
+
+  <!-- Camera Showcase -->
+  <section class="py-24 ${isDark ? 'bg-slate-950/50' : 'bg-white'}">
+    <div class="mx-auto max-w-7xl px-8">
+      <div class="grid md:grid-cols-2 gap-16 items-center">
+        <div>
+          <p class="${isDark ? 'text-purple-400' : 'text-purple-600'} font-bold text-sm uppercase tracking-widest mb-4">${escapeHtml(getText("iphone_pro_camera_eyebrow", "Pro Camera System"))}</p>
+          <h3 class="text-5xl md:text-6xl font-black mb-6">
+            <span class="${isDark ? 'text-white' : 'text-gray-900'}">${escapeHtml(getText("iphone_pro_camera_title", "Shoot like a pro."))}</span>
+          </h3>
+          <p class="text-lg ${isDark ? 'text-gray-300' : 'text-gray-600'} mb-8 leading-relaxed">${escapeHtml(getText("iphone_pro_camera_desc", "The new 48MP Main camera captures super-high-resolution photos with incredible detail."))}</p>
+          <ul class="space-y-4">
+            ${[0,1,2,3].map(i => `
+              <li class="flex items-start gap-3">
+                <span class="${isDark ? 'text-blue-400' : 'text-blue-600'} mt-1">✓</span>
+                <span class="${isDark ? 'text-gray-300' : 'text-gray-600'}">${escapeHtml(getText(`iphone_pro_camera_feature_${i}`, `Camera feature ${i+1}`))}</span>
+              </li>
+            `).join("")}
+          </ul>
+        </div>
+        <div class="rounded-2xl overflow-hidden ${isDark ? 'border border-white/10' : 'border border-gray-200'} shadow-2xl">
+          <img src="${escapeHtml(getImage("iphone_pro_camera_image", "/placeholder.svg?height=700&width=600&query=photography"))}" alt="Camera sample" class="w-full h-auto" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech Specs -->
+  <section class="py-24">
+    <div class="mx-auto max-w-7xl px-8">
+      <h3 class="text-5xl md:text-6xl font-black mb-16 text-center">${escapeHtml(getText("iphone_pro_specs_title", "Technical excellence."))}</h3>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        ${[0,1,2,3].map(i => `
+          <div class="p-6 rounded-xl ${isDark ? 'bg-white/5 border border-white/10 hover:bg-white/10' : 'bg-gray-50 border border-gray-200 hover:bg-gray-100'} backdrop-blur-sm text-center transition-colors">
+            <p class="text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'} uppercase tracking-wider mb-2">${escapeHtml(getText(`iphone_pro_spec_${i}_label`, ["Display","Chip","Storage","5G"][i]))}</p>
+            <p class="text-2xl font-bold mb-1">${escapeHtml(getText(`iphone_pro_spec_${i}_value`, ["6.7″ XDR","A18 Pro","Up to 1TB","Superfast"][i]))}</p>
+            <p class="text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}">${escapeHtml(getText(`iphone_pro_spec_${i}_detail`, "Detail"))}</p>
+          </div>
+        `).join("")}
+      </div>
+    </div>
+  </section>
+
+  <!-- Color Options -->
+  <section class="py-24 ${isDark ? 'bg-gradient-to-b from-slate-950/50 to-black' : 'bg-gray-50'}">
+    <div class="mx-auto max-w-7xl px-8 text-center">
+      <h3 class="text-5xl md:text-6xl font-black mb-6">${escapeHtml(getText("iphone_pro_colors_title", "Four stunning finishes."))}</h3>
+      <p class="text-xl ${isDark ? 'text-gray-400' : 'text-gray-600'} mb-16">${escapeHtml(getText("iphone_pro_colors_subtitle", "Titanium design in Natural, Blue, White, and Black."))}</p>
+      <div class="flex flex-wrap justify-center gap-6 mb-12">
+        ${[0,1,2,3].map(i => `
+          <div class="text-center">
+            <div class="w-20 h-20 rounded-full bg-gradient-to-br from-gray-400 to-gray-600 mb-3 mx-auto ${isDark ? 'border-2 border-white/20' : 'border-2 border-gray-300'} shadow-xl"></div>
+            <p class="text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}">${escapeHtml(getText(`iphone_pro_color_${i}`, ["Natural Titanium","Blue Titanium","White Titanium","Black Titanium"][i]))}</p>
+          </div>
+        `).join("")}
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="py-24 relative overflow-hidden">
+    ${isDark ? '<div class="absolute inset-0 bg-gradient-to-r from-blue-600/30 via-purple-600/30 to-pink-600/30 blur-3xl"></div>' : ''}
+    <div class="relative mx-auto max-w-5xl px-8 text-center">
+      <h3 class="text-5xl md:text-7xl font-black mb-8 ${isDark ? 'bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent' : 'text-gray-900'}">${escapeHtml(getText("iphone_pro_cta_title", "The ultimate iPhone experience awaits."))}</h3>
+      <p class="text-xl ${isDark ? 'text-gray-300' : 'text-gray-600'} mb-10">${escapeHtml(getText("iphone_pro_cta_subtitle", "Pre-order now and be among the first to experience iPhone Pro."))}</p>
+      <div class="flex flex-col sm:flex-row gap-5 justify-center">
+        <a href="${escapeHtml(getButton("iphone_pro_cta_primary").href)}" class="${isDark ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700' : 'bg-blue-600 hover:bg-blue-700'} text-white px-12 py-5 rounded-full text-lg font-bold shadow-2xl transform hover:scale-105 transition-all">${escapeHtml(getButton("iphone_pro_cta_primary").text)}</a>
+        <a href="${escapeHtml(getButton("iphone_pro_cta_secondary").href)}" class="${isDark ? 'bg-white/10 hover:bg-white/20 text-white border-2 border-white/30' : 'bg-gray-100 hover:bg-gray-200 text-gray-900 border-2 border-gray-300'} px-12 py-5 rounded-full text-lg font-semibold backdrop-blur-sm transition-all">${escapeHtml(getButton("iphone_pro_cta_secondary").text)}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="${isDark ? 'border-t border-white/10 bg-black/60' : 'border-t border-gray-200 bg-gray-50'} backdrop-blur-xl">
+    <div class="mx-auto max-w-7xl px-8 py-12">
+      <div class="grid md:grid-cols-4 gap-8 mb-8">
+        ${[1,2,3,4].map(col => `
+          <div>
+            <p class="font-semibold mb-4">${escapeHtml(getText(`iphone_pro_footer_col${col}_title`, ["Shop","Learn More","Support","Company"][col-1]))}</p>
+            <div class="space-y-2 text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}">
+              <p class="${isDark ? 'hover:text-white' : 'hover:text-gray-900'} transition-colors">${escapeHtml(getText(`iphone_pro_footer_${["shop","learn","support","company"][col-1]}_1`, "Link 1"))}</p>
+              <p class="${isDark ? 'hover:text-white' : 'hover:text-gray-900'} transition-colors">${escapeHtml(getText(`iphone_pro_footer_${["shop","learn","support","company"][col-1]}_2`, "Link 2"))}</p>
+            </div>
+          </div>
+        `).join("")}
+      </div>
+      <div class="pt-8 ${isDark ? 'border-t border-white/10' : 'border-t border-gray-200'} text-center text-sm ${isDark ? 'text-gray-500' : 'text-gray-600'}">
+        <p>${escapeHtml(getText("iphone_pro_footer_copyright", "Copyright © 2025 Apple Inc. All rights reserved."))}</p>
+      </div>
     </div>
   </footer>
 </main>

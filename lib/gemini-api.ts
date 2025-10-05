@@ -412,5 +412,226 @@ export async function generatePortfolioProThemeContent(
   return generatePortfolioProContent(topic, theme)
 }
 
+/**
+ * Generate content for iPhone Pro template using Gemini AI
+ */
+export async function generateIPhoneProContent(
+  topic: string,
+  theme: { name: string; tone: string }
+): Promise<GeneratedContent> {
+  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" })
+
+  const prompt = `You are a professional product marketing copywriter creating content for a premium iPhone product landing page.
+
+PRODUCT: ${topic}
+THEME: ${theme.name}
+TONE: ${theme.tone}
+
+Generate compelling, conversion-focused copy for a complete iPhone product landing page. The tone should be ${theme.tone}.
+
+Return ONLY a valid JSON object (no markdown, no code blocks) with this exact structure:
+{
+  "brand": "Product/Brand Name (e.g., iPhone Pro)",
+  "nav_0": "Overview",
+  "nav_1": "Tech Specs",
+  "nav_2": "Gallery",
+  "nav_3": "Compare",
+  "nav_preorder": "CTA button text (e.g., Pre-order Now)",
+  "hero_badge": "Announcement badge (e.g., ✨ Introducing iPhone 15 Pro Max)",
+  "hero_title": "Main headline (50-70 characters, bold and impactful)",
+  "hero_subtitle": "Supporting text (150-200 characters, explain the innovation)",
+  "hero_cta_primary": "Primary CTA (2-3 words)",
+  "hero_cta_secondary": "Secondary CTA (2-3 words)",
+  "hero_price": "Price text (e.g., From $1,199)",
+  "hero_trade": "Payment option (e.g., or $49.95/mo. for 24 mo.)",
+  "features_eyebrow": "Small text above features (e.g., Revolutionary Technology)",
+  "features_title": "Features section headline",
+  "features_subtitle": "Features section description",
+  "feature_0_icon": "Single emoji for feature 1",
+  "feature_0_title": "Feature 1 title (3-5 words)",
+  "feature_0_desc": "Feature 1 description (80-120 characters)",
+  "feature_1_icon": "Single emoji for feature 2",
+  "feature_1_title": "Feature 2 title (3-5 words)",
+  "feature_1_desc": "Feature 2 description (80-120 characters)",
+  "feature_2_icon": "Single emoji for feature 3",
+  "feature_2_title": "Feature 3 title (3-5 words)",
+  "feature_2_desc": "Feature 3 description (80-120 characters)",
+  "camera_eyebrow": "Small text above camera section",
+  "camera_title": "Camera section headline",
+  "camera_desc": "Camera description (120-180 characters)",
+  "camera_feature_0": "Camera feature 1 (40-60 characters)",
+  "camera_feature_1": "Camera feature 2 (40-60 characters)",
+  "camera_feature_2": "Camera feature 3 (40-60 characters)",
+  "camera_feature_3": "Camera feature 4 (40-60 characters)",
+  "specs_title": "Tech specs section headline",
+  "spec_0_label": "Spec 1 label (e.g., Display)",
+  "spec_0_value": "Spec 1 value (e.g., 6.7″ Super Retina XDR)",
+  "spec_0_detail": "Spec 1 detail (e.g., ProMotion 120Hz)",
+  "spec_1_label": "Spec 2 label (e.g., Chip)",
+  "spec_1_value": "Spec 2 value (e.g., A18 Pro)",
+  "spec_1_detail": "Spec 2 detail (e.g., 6-core CPU, 6-core GPU)",
+  "spec_2_label": "Spec 3 label (e.g., Storage)",
+  "spec_2_value": "Spec 3 value (e.g., Up to 1TB)",
+  "spec_2_detail": "Spec 3 detail (e.g., Choose your capacity)",
+  "spec_3_label": "Spec 4 label (e.g., 5G)",
+  "spec_3_value": "Spec 4 value (e.g., Superfast)",
+  "spec_3_detail": "Spec 4 detail (e.g., Download. Stream. Game.)",
+  "colors_title": "Color options headline",
+  "colors_subtitle": "Color options description",
+  "color_0": "Color 1 name (e.g., Natural Titanium)",
+  "color_1": "Color 2 name (e.g., Blue Titanium)",
+  "color_2": "Color 3 name (e.g., White Titanium)",
+  "color_3": "Color 4 name (e.g., Black Titanium)",
+  "cta_title": "Final CTA headline (40-60 characters)",
+  "cta_subtitle": "Final CTA description (80-120 characters)",
+  "cta_primary": "Final CTA button (2-4 words)",
+  "cta_secondary": "Secondary CTA button (2-4 words)",
+  "footer_col1_title": "Footer column 1 title",
+  "footer_shop_1": "Shop link 1",
+  "footer_shop_2": "Shop link 2",
+  "footer_col2_title": "Footer column 2 title",
+  "footer_learn_1": "Learn link 1",
+  "footer_learn_2": "Learn link 2",
+  "footer_col3_title": "Footer column 3 title",
+  "footer_support_1": "Support link 1",
+  "footer_support_2": "Support link 2",
+  "footer_col4_title": "Footer column 4 title",
+  "footer_company_1": "Company link 1",
+  "footer_company_2": "Company link 2",
+  "footer_copyright": "Copyright text"
+}
+
+Make the copy compelling, specific to ${topic}, and matching the ${theme.tone} tone.`
+
+  try {
+    const result = await model.generateContent(prompt)
+    const text = result.response.text()
+    
+    // Clean up the response - remove markdown code blocks if present
+    const cleanText = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
+    const data = JSON.parse(cleanText)
+
+    // Map the generated content to element IDs
+    const elements: ElementContent[] = [
+      { id: "iphone_pro_brand", content: data.brand },
+      { id: "iphone_pro_nav_0", content: data.nav_0 },
+      { id: "iphone_pro_nav_1", content: data.nav_1 },
+      { id: "iphone_pro_nav_2", content: data.nav_2 },
+      { id: "iphone_pro_nav_3", content: data.nav_3 },
+      { id: "iphone_pro_nav_preorder", content: data.nav_preorder },
+      { id: "iphone_pro_hero_badge", content: data.hero_badge },
+      { id: "iphone_pro_hero_title", content: data.hero_title },
+      { id: "iphone_pro_hero_subtitle", content: data.hero_subtitle },
+      { id: "iphone_pro_hero_cta_primary", content: data.hero_cta_primary },
+      { id: "iphone_pro_hero_cta_secondary", content: data.hero_cta_secondary },
+      { id: "iphone_pro_hero_price", content: data.hero_price },
+      { id: "iphone_pro_hero_trade", content: data.hero_trade },
+      { id: "iphone_pro_features_eyebrow", content: data.features_eyebrow },
+      { id: "iphone_pro_features_title", content: data.features_title },
+      { id: "iphone_pro_features_subtitle", content: data.features_subtitle },
+      { id: "iphone_pro_feature_0_icon", content: data.feature_0_icon },
+      { id: "iphone_pro_feature_0_title", content: data.feature_0_title },
+      { id: "iphone_pro_feature_0_desc", content: data.feature_0_desc },
+      { id: "iphone_pro_feature_1_icon", content: data.feature_1_icon },
+      { id: "iphone_pro_feature_1_title", content: data.feature_1_title },
+      { id: "iphone_pro_feature_1_desc", content: data.feature_1_desc },
+      { id: "iphone_pro_feature_2_icon", content: data.feature_2_icon },
+      { id: "iphone_pro_feature_2_title", content: data.feature_2_title },
+      { id: "iphone_pro_feature_2_desc", content: data.feature_2_desc },
+      { id: "iphone_pro_camera_eyebrow", content: data.camera_eyebrow },
+      { id: "iphone_pro_camera_title", content: data.camera_title },
+      { id: "iphone_pro_camera_desc", content: data.camera_desc },
+      { id: "iphone_pro_camera_feature_0", content: data.camera_feature_0 },
+      { id: "iphone_pro_camera_feature_1", content: data.camera_feature_1 },
+      { id: "iphone_pro_camera_feature_2", content: data.camera_feature_2 },
+      { id: "iphone_pro_camera_feature_3", content: data.camera_feature_3 },
+      { id: "iphone_pro_specs_title", content: data.specs_title },
+      { id: "iphone_pro_spec_0_label", content: data.spec_0_label },
+      { id: "iphone_pro_spec_0_value", content: data.spec_0_value },
+      { id: "iphone_pro_spec_0_detail", content: data.spec_0_detail },
+      { id: "iphone_pro_spec_1_label", content: data.spec_1_label },
+      { id: "iphone_pro_spec_1_value", content: data.spec_1_value },
+      { id: "iphone_pro_spec_1_detail", content: data.spec_1_detail },
+      { id: "iphone_pro_spec_2_label", content: data.spec_2_label },
+      { id: "iphone_pro_spec_2_value", content: data.spec_2_value },
+      { id: "iphone_pro_spec_2_detail", content: data.spec_2_detail },
+      { id: "iphone_pro_spec_3_label", content: data.spec_3_label },
+      { id: "iphone_pro_spec_3_value", content: data.spec_3_value },
+      { id: "iphone_pro_spec_3_detail", content: data.spec_3_detail },
+      { id: "iphone_pro_colors_title", content: data.colors_title },
+      { id: "iphone_pro_colors_subtitle", content: data.colors_subtitle },
+      { id: "iphone_pro_color_0", content: data.color_0 },
+      { id: "iphone_pro_color_1", content: data.color_1 },
+      { id: "iphone_pro_color_2", content: data.color_2 },
+      { id: "iphone_pro_color_3", content: data.color_3 },
+      { id: "iphone_pro_cta_title", content: data.cta_title },
+      { id: "iphone_pro_cta_subtitle", content: data.cta_subtitle },
+      { id: "iphone_pro_cta_primary", content: data.cta_primary },
+      { id: "iphone_pro_cta_secondary", content: data.cta_secondary },
+      { id: "iphone_pro_footer_col1_title", content: data.footer_col1_title },
+      { id: "iphone_pro_footer_shop_1", content: data.footer_shop_1 },
+      { id: "iphone_pro_footer_shop_2", content: data.footer_shop_2 },
+      { id: "iphone_pro_footer_col2_title", content: data.footer_col2_title },
+      { id: "iphone_pro_footer_learn_1", content: data.footer_learn_1 },
+      { id: "iphone_pro_footer_learn_2", content: data.footer_learn_2 },
+      { id: "iphone_pro_footer_col3_title", content: data.footer_col3_title },
+      { id: "iphone_pro_footer_support_1", content: data.footer_support_1 },
+      { id: "iphone_pro_footer_support_2", content: data.footer_support_2 },
+      { id: "iphone_pro_footer_col4_title", content: data.footer_col4_title },
+      { id: "iphone_pro_footer_company_1", content: data.footer_company_1 },
+      { id: "iphone_pro_footer_company_2", content: data.footer_company_2 },
+      { id: "iphone_pro_footer_copyright", content: data.footer_copyright }
+    ]
+
+    return { elements }
+  } catch (error) {
+    console.error("Error generating iPhone Pro content:", error)
+    throw new Error("Failed to generate iPhone Pro content. Please try again.")
+  }
+}
+
+/**
+ * Generate theme-specific content for iPhone Pro template
+ */
+export async function generateIPhoneProThemeContent(
+  topic: string,
+  themeId: string
+): Promise<GeneratedContent> {
+  // Define theme-specific configurations
+  const themeConfigs = {
+    "dark-gradient": {
+      name: "Dark Gradient Premium",
+      tone: "premium, sophisticated, and high-tech with gradient effects"
+    },
+    "light-elegant": {
+      name: "Light Elegant",
+      tone: "clean, minimal, and elegant with professional sophistication"
+    },
+    "neon-cyberpunk": {
+      name: "Neon Cyberpunk",
+      tone: "edgy, futuristic, and bold with cyberpunk vibes"
+    },
+    "luxury-gold": {
+      name: "Luxury Gold",
+      tone: "luxurious, refined, and premium with gold accents"
+    },
+    "minimalist-tech": {
+      name: "Minimalist Tech",
+      tone: "ultra-minimal, monochrome, and refined with technical precision"
+    },
+    "vibrant-gradient": {
+      name: "Vibrant Gradient",
+      tone: "colorful, energetic, and playful with vibrant gradients"
+    },
+    "default": {
+      name: "Premium Default",
+      tone: "professional, premium, and sophisticated"
+    }
+  }
+
+  const theme = themeConfigs[themeId as keyof typeof themeConfigs] || themeConfigs.default
+
+  return generateIPhoneProContent(topic, theme)
+}
 
 

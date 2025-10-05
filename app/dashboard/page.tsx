@@ -2,247 +2,390 @@
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { useRouter } from "next/navigation"
-import { Bell, User, Plus, Grid, Download, ExternalLink } from "lucide-react"
+import { 
+  Brain, 
+  Plus, 
+  Search, 
+  Bell, 
+  HelpCircle, 
+  Globe, 
+  Eye, 
+  MousePointerClick, 
+  Target,
+  Layout,
+  Upload,
+  Layers,
+  Calendar,
+  Trash2,
+  Grid3x3,
+  List,
+  Download,
+  ExternalLink
+} from "lucide-react"
+import Link from "next/link"
 import { useProjects } from "@/hooks/use-projects"
-import { useMemo } from "react"
-import { generateHTMLExport, downloadHTML } from "@/lib/export-html"
+import { generateHTMLExport } from "@/lib/export-html"
+import type { ProjectRecord } from "@/components/lib/projects-store"
 
 export default function DashboardPage() {
-  const router = useRouter()
   const { projects, remove } = useProjects()
-  const hasProjects = projects.length > 0
-  const kpis = useMemo(
-    () => [
-      { label: "Total Websites", value: String(projects.length) },
-      { label: "Total Views", value: "0" },
-      { label: "Total Clicks", value: "0" },
-      { label: "Avg. Conversion", value: "0%" },
-      { label: "Bounce Rate", value: "0%" },
-    ],
-    [projects.length],
-  )
 
-  const handleExport = (project: typeof projects[0]) => {
-    try {
-      const html = generateHTMLExport(project)
-      const filename = `${project.name.replace(/[^a-z0-9]/gi, '-').toLowerCase()}-${Date.now()}`
-      downloadHTML(html, filename)
-      
-      // Show success message
-      const message = document.createElement('div')
-      message.className = 'fixed bottom-4 right-4 bg-black text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-in fade-in slide-in-from-bottom-2'
-      message.textContent = `✓ ${project.name} exported successfully!`
-      document.body.appendChild(message)
-      setTimeout(() => {
-        message.remove()
-      }, 3000)
-    } catch (error) {
-      console.error("Export failed:", error)
-      alert("Failed to export project. Please try again.")
-    }
+  const handleExport = (project: ProjectRecord) => {
+    const html = generateHTMLExport(project)
+    const blob = new Blob([html], { type: "text/html" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = `${project.name.replace(/\s+/g, "-").toLowerCase()}.html`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
   }
 
-  const handlePreview = (project: typeof projects[0]) => {
-    try {
-      const html = generateHTMLExport(project)
-      const blob = new Blob([html], { type: 'text/html' })
-      const url = URL.createObjectURL(blob)
-      window.open(url, '_blank')
-      
-      // Clean up after a delay
-      setTimeout(() => URL.revokeObjectURL(url), 10000)
-    } catch (error) {
-      console.error("Preview failed:", error)
-      alert("Failed to preview project. Please try again.")
-    }
+  const handlePreview = (project: ProjectRecord) => {
+    const html = generateHTMLExport(project)
+    const blob = new Blob([html], { type: "text/html" })
+    const url = URL.createObjectURL(blob)
+    window.open(url, "_blank")
   }
+
   return (
-    <main className="min-h-screen bg-white text-black">
-      {/* Topbar */}
-      <header className="sticky top-0 z-30 border-b bg-white/80 backdrop-blur">
-        <div className="mx-auto flex h-16 max-w-6xl items-center gap-4 px-4">
-          <div className="flex items-center gap-2">
-            <div className="h-7 w-7 rounded bg-black/10" aria-hidden />
-            <span className="text-sm font-semibold">SiteBuilder</span>
-          </div>
-          <div className="flex-1">
+    <div className="min-h-screen bg-gray-50">
+      {/* Top Navigation */}
+      <nav className="bg-white border-b border-gray-200 px-6 py-3">
+        <div className="flex items-center justify-between max-w-[1400px] mx-auto">
+          {/* Left: Logo and Search */}
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
+                <Brain className="w-5 h-5 text-white" />
+              </div>
+              <span className="text-lg font-bold text-gray-900">SiteBuilder</span>
+            </div>
+            
             <div className="relative">
-              <Input placeholder="Search projects…" className="h-10 rounded-lg bg-black/5 pl-10 text-sm" />
-              <Grid className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-black/40" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <Input
+                type="text"
+                placeholder="Search projects..."
+                className="pl-10 w-80 h-9 bg-gray-50 border-gray-200"
+              />
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <Button variant="outline" className="h-9 rounded-lg bg-transparent font-medium border-black/20 hover:bg-black/5" onClick={() => router.push("/")}>
-              Browse Templates
-            </Button>
-            <Button className="h-9 rounded-lg bg-black text-white hover:opacity-90" onClick={() => router.push("/")}>
-              <Plus className="mr-2 size-4" /> New Website
-            </Button>
-            <Bell className="ml-2 size-5 text-black/50" />
-            <div className="ml-2 flex items-center gap-2 rounded-full bg-black/5 px-3 py-1.5 text-sm">
-              <User className="size-4" />
-              <span>Local User</span>
+
+          {/* Right: Actions and User */}
+          <div className="flex items-center gap-4">
+            <button className="relative p-2 hover:bg-gray-100 rounded-lg">
+              <Bell className="w-5 h-5 text-gray-600" />
+              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+            </button>
+            <button className="p-2 hover:bg-gray-100 rounded-lg">
+              <HelpCircle className="w-5 h-5 text-gray-600" />
+            </button>
+            <div className="flex items-center gap-2 pl-4 border-l border-gray-200">
+              <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                LU
+              </div>
+              <div className="text-sm">
+                <div className="font-medium text-gray-900">Local User</div>
+                <div className="text-xs text-gray-500">user@example.com</div>
+              </div>
             </div>
           </div>
         </div>
-      </header>
+      </nav>
 
-      <div className="mx-auto max-w-6xl px-4 py-6">
-        <h1 className="text-2xl font-semibold">Welcome back!</h1>
-        <p className="mt-1 text-sm text-black/60">Here's what's happening with your websites today.</p>
+      {/* Main Content */}
+      <div className="max-w-[1400px] mx-auto p-6">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome back!</h1>
+          <p className="text-gray-600">Here's what's happening with your websites today.</p>
+        </div>
 
-        {/* KPI cards */}
-        <section className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-5">
-          {kpis.map((k, i) => (
-            <div key={i} className="rounded-xl border bg-white p-4">
-              <p className="text-xs text-black/60">{k.label}</p>
-              <p className="mt-2 text-xl font-semibold">{k.value}</p>
+        {/* Action Buttons */}
+        <div className="flex gap-3 mb-8">
+          <Link href="/editor">
+            <Button variant="outline" className="gap-2">
+              <Layout className="w-4 h-4" />
+              Browse Templates
+            </Button>
+          </Link>
+          <Link href="/editor">
+            <Button className="gap-2 bg-purple-600 hover:bg-purple-700">
+              <Plus className="w-4 h-4" />
+              New Website
+            </Button>
+          </Link>
+        </div>
+
+        {/* Stats Cards */}
+        <div className="grid grid-cols-4 gap-6 mb-8">
+          <div className="bg-white rounded-xl border border-gray-200 p-6">
+            <div className="flex items-start justify-between mb-4">
+              <div>
+                <div className="text-sm text-gray-600 mb-1">Total Websites</div>
+                <div className="text-3xl font-bold text-gray-900">{projects.length}</div>
+              </div>
+              <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center">
+                <Globe className="w-6 h-6 text-blue-600" />
+              </div>
             </div>
-          ))}
-        </section>
-
-        {/* Quick actions and month summary */}
-        <section className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-[1.2fr_1fr]">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {[
-              { title: "Portfolio Template", desc: "Professional portfolio website", action: () => router.push("/") },
-              { title: "Blank Canvas", desc: "Build with the editor", action: () => router.push("/") },
-              { title: "Import Design", desc: "Upload your existing design", action: () => {} },
-              { title: "View Templates", desc: "Browse all templates", action: () => router.push("/") },
-            ].map((qa, i) => (
-              <button
-                key={i}
-                onClick={qa.action}
-                className="rounded-xl border bg-white p-4 text-left transition hover:bg-black/5"
-              >
-                <p className="text-sm font-semibold">{qa.title}</p>
-                <p className="mt-1 text-xs text-black/60">{qa.desc}</p>
-              </button>
-            ))}
-          </div>
-          <div className="rounded-xl border bg-white p-4">
-            <p className="text-sm font-semibold">This Month</p>
-            <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
-              {[
-                { k: "Websites Created", v: "0" },
-                { k: "Total Visitors", v: "0" },
-                { k: "Conversion Rate", v: "0%" },
-                { k: "Leads Generated", v: "0" },
-              ].map((m, i) => (
-                <div key={i} className="rounded-lg bg-black/5 p-3">
-                  <p className="text-black/60">{m.k}</p>
-                  <p className="mt-1 font-semibold">{m.v}</p>
-                </div>
-              ))}
+            <div className="flex items-center gap-1 text-sm text-green-600">
+              <span>↑ {projects.length} this month</span>
             </div>
           </div>
-        </section>
 
-        {/* Projects */}
-        <section className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-[1.2fr_1fr]">
-          <div className="rounded-xl border bg-white p-4">
-            <div className="flex items-center justify-between">
-              <p className="text-sm font-semibold">My Projects</p>
-              <Tabs defaultValue="all">
-                <TabsList className="rounded-full bg-black/5 p-1">
-                  {["all"].map((t) => (
-                    <TabsTrigger key={t} value={t} className="rounded-full px-3 py-1.5 text-xs">
-                      {t[0].toUpperCase() + t.slice(1)}
-                    </TabsTrigger>
-                  ))}
-                </TabsList>
-              </Tabs>
+          <div className="bg-white rounded-xl border border-gray-200 p-6">
+            <div className="flex items-start justify-between mb-4">
+              <div>
+                <div className="text-sm text-gray-600 mb-1">Total Views</div>
+                <div className="text-3xl font-bold text-gray-900">0</div>
+              </div>
+              <div className="w-12 h-12 bg-green-50 rounded-full flex items-center justify-center">
+                <Eye className="w-6 h-6 text-green-600" />
+              </div>
             </div>
+            <div className="flex items-center gap-1 text-sm text-green-600">
+              <span>↑ 0% vs last month</span>
+            </div>
+          </div>
 
-            <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {!hasProjects && (
-                <div className="col-span-full rounded-xl border bg-white p-6 text-center text-sm text-black/60">
-                  No projects yet. Create one from “Browse Templates”.
-                </div>
-              )}
-              {projects.map((p) => (
-                <div key={p.id} className="rounded-xl border bg-white p-4">
-                  <div className="h-40 rounded-lg bg-black/5" />
-                  <div className="mt-3">
-                    <div className="flex items-center justify-between mb-2">
-                      <div>
-                        <p className="text-sm font-semibold">{p.name}</p>
-                        <p className="mt-1 text-xs text-black/60">
-                          {p.template}{p.theme ? ` (${p.theme})` : ""} • {new Date(p.updatedAt).toLocaleDateString()}
-                        </p>
-                      </div>
+          <div className="bg-white rounded-xl border border-gray-200 p-6">
+            <div className="flex items-start justify-between mb-4">
+              <div>
+                <div className="text-sm text-gray-600 mb-1">Total Clicks</div>
+                <div className="text-3xl font-bold text-gray-900">0</div>
+              </div>
+              <div className="w-12 h-12 bg-purple-50 rounded-full flex items-center justify-center">
+                <MousePointerClick className="w-6 h-6 text-purple-600" />
+              </div>
+            </div>
+            <div className="flex items-center gap-1 text-sm text-green-600">
+              <span>↑ 0% vs last month</span>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-xl border border-gray-200 p-6">
+            <div className="flex items-start justify-between mb-4">
+              <div>
+                <div className="text-sm text-gray-600 mb-1">Avg. Conversion</div>
+                <div className="text-3xl font-bold text-gray-900">0%</div>
+              </div>
+              <div className="w-12 h-12 bg-orange-50 rounded-full flex items-center justify-center">
+                <Target className="w-6 h-6 text-orange-600" />
+              </div>
+            </div>
+            <div className="flex items-center gap-1 text-sm text-green-600">
+              <span>↑ 0% vs last month</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Two Column Layout */}
+        <div className="grid grid-cols-3 gap-6">
+          {/* Left Column - Quick Actions and Projects */}
+          <div className="col-span-2 space-y-6">
+            {/* Quick Actions */}
+            <div className="bg-white rounded-xl border border-gray-200 p-6">
+              <h2 className="text-lg font-bold text-gray-900 mb-4">Quick Actions</h2>
+              <div className="grid grid-cols-2 gap-4">
+                <Link href="/editor">
+                  <div className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-colors cursor-pointer">
+                    <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
+                      <Layout className="w-5 h-5 text-white" />
                     </div>
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2">
-                        <Button 
-                          variant="outline" 
-                          size="sm"
-                          className="flex-1 rounded-lg bg-transparent text-xs" 
-                          onClick={() => router.push("/")}
-                        >
-                          Edit
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="flex-1 rounded-lg bg-transparent text-xs"
-                          onClick={() => handlePreview(p)}
-                          aria-label={`Preview ${p.name}`}
-                        >
-                          <ExternalLink className="mr-1 size-3" />
-                          Preview
-                        </Button>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="flex-1 rounded-lg bg-transparent text-xs"
-                          onClick={() => handleExport(p)}
-                          aria-label={`Export ${p.name}`}
-                        >
-                          <Download className="mr-1 size-3" />
-                          Export HTML
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="rounded-lg bg-transparent text-xs text-red-600 hover:text-red-700 hover:bg-red-50"
-                          onClick={() => remove(p.id)}
-                          aria-label={`Delete ${p.name}`}
-                        >
-                          Delete
-                        </Button>
-                      </div>
+                    <div>
+                      <div className="font-semibold text-gray-900">Portfolio Template</div>
+                      <div className="text-sm text-gray-600">Professional portfolio website</div>
                     </div>
                   </div>
+                </Link>
+
+                <div className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:border-green-500 hover:bg-green-50 transition-colors cursor-pointer">
+                  <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center">
+                    <Plus className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <div className="font-semibold text-gray-900">Blank Canvas</div>
+                    <div className="text-sm text-gray-600">Build with Elementor editor</div>
+                  </div>
                 </div>
-              ))}
+
+                <div className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:border-orange-500 hover:bg-orange-50 transition-colors cursor-pointer">
+                  <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
+                    <Upload className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <div className="font-semibold text-gray-900">Import Design</div>
+                    <div className="text-sm text-gray-600">Upload your existing design</div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:border-purple-500 hover:bg-purple-50 transition-colors cursor-pointer">
+                  <div className="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center">
+                    <Layers className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <div className="font-semibold text-gray-900">View Templates</div>
+                    <div className="text-sm text-gray-600">Browse all available templates</div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div className="mt-4 text-center">
-              <Button variant="outline" className="rounded-lg bg-transparent font-medium" onClick={() => router.push("/")}>
-                View All Templates
+            {/* My Projects */}
+            <div className="bg-white rounded-xl border border-gray-200 p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-lg font-bold text-gray-900">My Projects</h2>
+                <div className="flex items-center gap-2">
+                  <button className="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200">
+                    All
+                  </button>
+                  <button className="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded-md">
+                    Published
+                  </button>
+                  <button className="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded-md">
+                    Drafts
+                  </button>
+                  <div className="ml-2 flex gap-1">
+                    <button className="p-1.5 hover:bg-gray-100 rounded">
+                      <Grid3x3 className="w-4 h-4 text-gray-600" />
+                    </button>
+                    <button className="p-1.5 hover:bg-gray-100 rounded">
+                      <List className="w-4 h-4 text-gray-600" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {projects.length > 0 ? (
+                <div className="space-y-4">
+                  {projects.map((project) => (
+                    <div key={project.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                      <div className="flex items-start gap-4">
+                        <div className="w-32 h-24 bg-gray-100 rounded-lg flex items-center justify-center">
+                          <Layout className="w-8 h-8 text-gray-400" />
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-start justify-between mb-2">
+                            <div>
+                              <h3 className="font-semibold text-gray-900">{project.name}</h3>
+                              <div className="flex items-center gap-2 mt-1">
+                                <span className="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded">
+                                  {project.template}
+                                </span>
+                                <span className="text-xs px-2 py-0.5 bg-green-100 text-green-700 rounded font-medium">
+                                  Published
+                                </span>
+                              </div>
+                            </div>
+                            <button 
+                              onClick={() => remove(project.id)}
+                              className="p-1 hover:bg-gray-100 rounded"
+                            >
+                              <Trash2 className="w-4 h-4 text-red-500" />
+                            </button>
+                          </div>
+                          <div className="flex items-center gap-2 text-sm text-gray-500 mb-3">
+                            <Calendar className="w-4 h-4" />
+                            <span>{new Date(project.updatedAt).toLocaleDateString()}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="gap-1.5 h-8"
+                              onClick={() => handlePreview(project)}
+                            >
+                              <Eye className="w-3.5 h-3.5" />
+                              Preview
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="gap-1.5 h-8"
+                              onClick={() => handleExport(project)}
+                            >
+                              <Download className="w-3.5 h-3.5" />
+                              Export
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  <button className="w-full py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">
+                    View All Projects
+                  </button>
+                </div>
+              ) : (
+                <div className="text-center py-12 text-gray-500">
+                  <Layout className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+                  <p>No projects yet. Create your first website!</p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Right Column - This Month and Upgrade */}
+          <div className="space-y-6">
+            {/* This Month Stats */}
+            <div className="bg-white rounded-xl border border-gray-200 p-6">
+              <h2 className="text-lg font-bold text-gray-900 mb-4">This Month</h2>
+              <div className="space-y-4">
+                <div>
+                  <div className="text-sm text-gray-600 mb-1">Websites Created</div>
+                  <div className="text-2xl font-bold text-gray-900">{projects.length}</div>
+                </div>
+                <div>
+                  <div className="text-sm text-gray-600 mb-1">Total Visitors</div>
+                  <div className="text-2xl font-bold text-gray-900">0</div>
+                </div>
+                <div>
+                  <div className="text-sm text-gray-600 mb-1">Conversion Rate</div>
+                  <div className="text-2xl font-bold text-gray-900">0%</div>
+                </div>
+                <div>
+                  <div className="text-sm text-gray-600 mb-1">Leads Generated</div>
+                  <div className="text-2xl font-bold text-gray-900">0</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Upgrade to Pro */}
+            <div className="bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl p-6 text-white">
+              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mb-4">
+                <Brain className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Upgrade to Pro</h3>
+              <p className="text-sm text-white/90 mb-4">Unlock advanced features</p>
+              <ul className="space-y-2 mb-6 text-sm">
+                <li className="flex items-center gap-2">
+                  <span className="text-white">•</span>
+                  <span>Unlimited websites</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-white">•</span>
+                  <span>AI content generation</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-white">•</span>
+                  <span>Advanced analytics</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-white">•</span>
+                  <span>Priority support</span>
+                </li>
+              </ul>
+              <Button className="w-full bg-white text-purple-600 hover:bg-gray-100">
+                Upgrade Now
               </Button>
             </div>
           </div>
-
-          <div className="rounded-xl border bg-white p-4">
-            <div className="rounded-xl bg-gradient-to-br from-fuchsia-500 to-rose-500 p-4 text-white">
-              <p className="text-sm font-semibold">Upgrade to Pro</p>
-              <ul className="mt-3 space-y-1 text-xs">
-                <li>• Unlimited websites</li>
-                <li>• AI content generation</li>
-                <li>• Advanced analytics</li>
-                <li>• Priority support</li>
-              </ul>
-              <Button className="mt-4 h-9 w-full rounded-lg bg-white text-black hover:opacity-90">Upgrade Now</Button>
-            </div>
-          </div>
-        </section>
+        </div>
       </div>
-    </main>
+    </div>
   )
 }
