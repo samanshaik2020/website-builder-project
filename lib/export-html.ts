@@ -37,6 +37,15 @@ export function generateHTMLExport(project: ProjectRecord): string {
     case "event":
       html = generateEventLandingHTML(getText, getImage, getButton)
       break
+    case "lead-generation":
+      html = generateLeadGenerationHTML(getText, getImage, getButton)
+      break
+    case "click-through":
+      html = generateClickThroughHTML(getText, getImage, getButton)
+      break
+    case "sales-landing":
+      html = generateSalesLandingHTML(getText, getImage, getButton)
+      break
     case "saas-pro":
       html = generateSaaSProHTML(getText, getImage, getButton, theme)
       break
@@ -889,20 +898,101 @@ function generatePortfolioProHTML(getText: GetText, getImage: GetImage, getButto
 
 function generateIPhoneProHTML(getText: GetText, getImage: GetImage, getButton: GetButton, theme?: string): string {
   // iPhone Pro templates have dark/premium themes
-  const isDark = theme?.includes('dark') || theme?.includes('neon') || theme?.includes('cyberpunk')
-  const bgClass = isDark ? 'bg-gradient-to-b from-slate-950 via-slate-900 to-black text-white' : 'bg-white text-gray-900'
+  // Theme IDs: "dark-gradient", "light-elegant", "neon-cyberpunk", "midnight-blue", "vibrant-gradient"
+  console.log('generateIPhoneProHTML called with theme:', theme)
+  
+  // Theme-specific styling
+  let bgClass = 'bg-gradient-to-b from-slate-950 via-slate-900 to-black text-white'
+  let headerBg = 'border-white/10 bg-black/40'
+  let titleClass = 'bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent'
+  let textHoverClass = 'hover:text-blue-400'
+  let buttonClass = 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700'
+  let buttonSecondary = 'bg-white/10 hover:bg-white/20 text-white border border-white/20'
+  let badgeClass = 'bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-400/30 text-blue-300'
+  let heroTitleClass = 'bg-gradient-to-b from-white via-white to-gray-400 bg-clip-text text-transparent'
+  let textColor = 'text-gray-300'
+  let textMuted = 'text-gray-400'
+  let cardBg = 'bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-white/10'
+  let accentColor = 'text-blue-400'
+  let sectionBg = 'bg-gradient-to-b from-transparent to-slate-950/50'
+  let isDark = true
+  
+  if (theme === 'vibrant-gradient') {
+    bgClass = 'bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 text-gray-900'
+    headerBg = 'border-orange-200 bg-white/80'
+    titleClass = 'text-gray-900'
+    textHoverClass = 'hover:text-orange-600'
+    buttonClass = 'bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700'
+    buttonSecondary = 'bg-white hover:bg-orange-50 text-gray-900 border border-orange-300'
+    badgeClass = 'bg-orange-100 border border-orange-300 text-orange-800'
+    heroTitleClass = 'text-gray-900'
+    textColor = 'text-gray-700'
+    textMuted = 'text-gray-600'
+    cardBg = 'bg-gradient-to-br from-yellow-100 to-orange-100 border border-orange-200'
+    accentColor = 'text-orange-600'
+    sectionBg = 'bg-gradient-to-b from-orange-50/50 to-amber-50'
+    isDark = false
+  } else if (theme === 'light-elegant') {
+    bgClass = 'bg-white text-gray-900'
+    headerBg = 'border-gray-200 bg-white'
+    titleClass = 'text-gray-900'
+    textHoverClass = 'hover:text-blue-600'
+    buttonClass = 'bg-blue-600 hover:bg-blue-700'
+    buttonSecondary = 'bg-gray-100 hover:bg-gray-200 text-gray-900 border border-gray-300'
+    badgeClass = 'bg-blue-50 border border-blue-200 text-blue-700'
+    heroTitleClass = 'text-gray-900'
+    textColor = 'text-gray-700'
+    textMuted = 'text-gray-600'
+    cardBg = 'bg-white border border-gray-200'
+    accentColor = 'text-blue-600'
+    sectionBg = 'bg-gray-50'
+    isDark = false
+  } else if (theme === 'neon-cyberpunk') {
+    bgClass = 'bg-gradient-to-b from-purple-950 via-fuchsia-950 to-black text-white'
+    headerBg = 'border-fuchsia-500/20 bg-black/60'
+    titleClass = 'bg-gradient-to-r from-fuchsia-400 to-cyan-400 bg-clip-text text-transparent'
+    textHoverClass = 'hover:text-fuchsia-400'
+    buttonClass = 'bg-gradient-to-r from-fuchsia-600 to-cyan-600 hover:from-fuchsia-700 hover:to-cyan-700'
+    buttonSecondary = 'bg-fuchsia-500/10 hover:bg-fuchsia-500/20 text-white border border-fuchsia-400/30'
+    badgeClass = 'bg-gradient-to-r from-fuchsia-500/20 to-cyan-500/20 border border-fuchsia-400/30 text-fuchsia-300'
+    heroTitleClass = 'bg-gradient-to-b from-white via-fuchsia-200 to-cyan-300 bg-clip-text text-transparent'
+    textColor = 'text-gray-300'
+    textMuted = 'text-gray-400'
+    cardBg = 'bg-gradient-to-br from-fuchsia-500/20 to-cyan-500/20 border border-fuchsia-400/20'
+    accentColor = 'text-fuchsia-400'
+    sectionBg = 'bg-gradient-to-b from-transparent to-purple-950/50'
+    isDark = true
+  } else if (theme === 'midnight-blue') {
+    bgClass = 'bg-gradient-to-b from-blue-950 via-slate-900 to-black text-white'
+    headerBg = 'border-blue-500/20 bg-black/50'
+    titleClass = 'bg-gradient-to-r from-blue-300 to-cyan-300 bg-clip-text text-transparent'
+    textHoverClass = 'hover:text-blue-400'
+    buttonClass = 'bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700'
+    buttonSecondary = 'bg-blue-500/10 hover:bg-blue-500/20 text-white border border-blue-400/30'
+    badgeClass = 'bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-400/30 text-blue-300'
+    heroTitleClass = 'bg-gradient-to-b from-white via-blue-200 to-cyan-300 bg-clip-text text-transparent'
+    textColor = 'text-gray-300'
+    textMuted = 'text-gray-400'
+    cardBg = 'bg-gradient-to-br from-blue-500/20 to-cyan-500/20 border border-blue-400/20'
+    accentColor = 'text-blue-400'
+    sectionBg = 'bg-gradient-to-b from-transparent to-blue-950/50'
+    isDark = true
+  }
+  // dark-gradient is the default (already set above)
+  
+  console.log('Theme:', theme, 'isDark:', isDark)
   
   return `
 <main class="${bgClass}">
   <!-- Navigation -->
-  <header class="border-b ${isDark ? 'border-white/10 bg-black/40' : 'border-gray-200 bg-white'} backdrop-blur-xl sticky top-0 z-50">
+  <header class="border-b ${headerBg} backdrop-blur-xl sticky top-0 z-50">
     <div class="mx-auto max-w-7xl px-8 py-4 flex items-center justify-between">
-      <h1 class="text-2xl font-bold ${isDark ? 'bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent' : 'text-gray-900'}">${escapeHtml(getText("iphone_pro_brand", "iPhone Pro"))}</h1>
+      <h1 class="text-2xl font-bold ${titleClass}">${escapeHtml(getText("iphone_pro_brand", "iPhone Pro"))}</h1>
       <nav class="hidden md:flex items-center gap-10 text-sm font-medium">
-        ${[0,1,2,3].map(i => `<span class="${isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'} transition-colors">${escapeHtml(getText(`iphone_pro_nav_${i}`, ["Overview","Tech Specs","Gallery","Compare"][i]))}</span>`).join("")}
+        ${[0,1,2,3].map(i => `<span class="${textHoverClass} transition-colors">${escapeHtml(getText(`iphone_pro_nav_${i}`, ["Overview","Tech Specs","Gallery","Compare"][i]))}</span>`).join("")}
       </nav>
       <div class="flex items-center gap-4">
-        <a href="${escapeHtml(getButton("iphone_pro_nav_preorder").href)}" class="${isDark ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700' : 'bg-blue-600 hover:bg-blue-700'} text-white px-6 py-2.5 rounded-full text-sm font-semibold shadow-lg">${escapeHtml(getButton("iphone_pro_nav_preorder").text)}</a>
+        <a href="${escapeHtml(getButton("iphone_pro_nav_preorder").href)}" class="${buttonClass} text-white px-6 py-2.5 rounded-full text-sm font-semibold shadow-lg">${escapeHtml(getButton("iphone_pro_nav_preorder").text)}</a>
       </div>
     </div>
   </header>
@@ -911,22 +1001,22 @@ function generateIPhoneProHTML(getText: GetText, getImage: GetImage, getButton: 
   <section class="relative overflow-hidden py-24 md:py-32">
     ${isDark ? '<div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/20 to-pink-600/20 blur-3xl"></div>' : ''}
     <div class="relative mx-auto max-w-7xl px-8 text-center">
-      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full ${isDark ? 'bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-400/30 text-blue-300' : 'bg-blue-50 border border-blue-200 text-blue-700'} text-sm font-semibold mb-8 backdrop-blur-sm">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full ${badgeClass} text-sm font-semibold mb-8 backdrop-blur-sm">
         ${escapeHtml(getText("iphone_pro_hero_badge", "✨ Introducing iPhone 15 Pro Max"))}
       </div>
-      <h2 class="text-6xl md:text-8xl font-black mb-6 tracking-tighter ${isDark ? 'bg-gradient-to-b from-white via-white to-gray-400 bg-clip-text text-transparent' : 'text-gray-900'}">
+      <h2 class="text-6xl md:text-8xl font-black mb-6 tracking-tighter ${heroTitleClass}">
         ${escapeHtml(getText("iphone_pro_hero_title", "Titanium. So strong. So light. So Pro."))}
       </h2>
-      <p class="text-xl md:text-2xl ${isDark ? 'text-gray-300' : 'text-gray-600'} mb-10 max-w-4xl mx-auto leading-relaxed">
+      <p class="text-xl md:text-2xl ${textColor} mb-10 max-w-4xl mx-auto leading-relaxed">
         ${escapeHtml(getText("iphone_pro_hero_subtitle", "Forged from aerospace-grade titanium with the most advanced camera system ever in an iPhone."))}
       </p>
       <div class="flex flex-col sm:flex-row gap-5 justify-center mb-8">
-        <a href="${escapeHtml(getButton("iphone_pro_hero_cta_primary").href)}" class="${isDark ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700' : 'bg-blue-600 hover:bg-blue-700'} text-white px-10 py-4 rounded-full text-lg font-semibold shadow-2xl transform hover:scale-105 transition-all">${escapeHtml(getButton("iphone_pro_hero_cta_primary").text)}</a>
-        <a href="${escapeHtml(getButton("iphone_pro_hero_cta_secondary").href)}" class="${isDark ? 'bg-white/10 hover:bg-white/20 text-white border border-white/20' : 'bg-gray-100 hover:bg-gray-200 text-gray-900 border border-gray-300'} px-10 py-4 rounded-full text-lg font-semibold backdrop-blur-sm transition-all">${escapeHtml(getButton("iphone_pro_hero_cta_secondary").text)}</a>
+        <a href="${escapeHtml(getButton("iphone_pro_hero_cta_primary").href)}" class="${buttonClass} text-white px-10 py-4 rounded-full text-lg font-semibold shadow-2xl transform hover:scale-105 transition-all">${escapeHtml(getButton("iphone_pro_hero_cta_primary").text)}</a>
+        <a href="${escapeHtml(getButton("iphone_pro_hero_cta_secondary").href)}" class="${buttonSecondary} px-10 py-4 rounded-full text-lg font-semibold backdrop-blur-sm transition-all">${escapeHtml(getButton("iphone_pro_hero_cta_secondary").text)}</a>
       </div>
-      <div class="flex items-center justify-center gap-8 text-base ${isDark ? 'text-gray-400' : 'text-gray-600'}">
+      <div class="flex items-center justify-center gap-8 text-base ${textMuted}">
         <span class="font-medium">${escapeHtml(getText("iphone_pro_hero_price", "From $1,199"))}</span>
-        <span class="${isDark ? 'text-gray-600' : 'text-gray-400'}">•</span>
+        <span class="${textMuted}">•</span>
         <span class="font-medium">${escapeHtml(getText("iphone_pro_hero_trade", "or $49.95/mo. for 24 mo."))}</span>
       </div>
     </div>
@@ -943,19 +1033,19 @@ function generateIPhoneProHTML(getText: GetText, getImage: GetImage, getButton: 
   </section>
 
   <!-- Features Section -->
-  <section class="py-24 ${isDark ? 'bg-gradient-to-b from-transparent to-slate-950/50' : 'bg-gray-50'}">
+  <section class="py-24 ${sectionBg}">
     <div class="mx-auto max-w-7xl px-8">
       <div class="text-center mb-20">
-        <p class="${isDark ? 'text-blue-400' : 'text-blue-600'} font-bold text-sm uppercase tracking-widest mb-4">${escapeHtml(getText("iphone_pro_features_eyebrow", "Revolutionary Technology"))}</p>
-        <h3 class="text-5xl md:text-6xl font-black mb-6 ${isDark ? 'bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent' : 'text-gray-900'}">${escapeHtml(getText("iphone_pro_features_title", "Engineered to perfection."))}</h3>
-        <p class="text-xl ${isDark ? 'text-gray-400' : 'text-gray-600'} max-w-3xl mx-auto">${escapeHtml(getText("iphone_pro_features_subtitle", "Every detail meticulously crafted to deliver an unprecedented mobile experience."))}</p>
+        <p class="${accentColor} font-bold text-sm uppercase tracking-widest mb-4">${escapeHtml(getText("iphone_pro_features_eyebrow", "Revolutionary Technology"))}</p>
+        <h3 class="text-5xl md:text-6xl font-black mb-6 ${heroTitleClass}">${escapeHtml(getText("iphone_pro_features_title", "Engineered to perfection."))}</h3>
+        <p class="text-xl ${textMuted} max-w-3xl mx-auto">${escapeHtml(getText("iphone_pro_features_subtitle", "Every detail meticulously crafted to deliver an unprecedented mobile experience."))}</p>
       </div>
       <div class="grid md:grid-cols-3 gap-8">
         ${[0,1,2].map(i => `
-          <div class="relative p-8 rounded-2xl ${isDark ? 'bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-white/10' : 'bg-white border border-gray-200'} backdrop-blur-sm hover:scale-105 transition-transform duration-300">
+          <div class="relative p-8 rounded-2xl ${cardBg} backdrop-blur-sm hover:scale-105 transition-transform duration-300">
             <div class="text-6xl mb-6">${escapeHtml(getText(`iphone_pro_feature_${i}_icon`, ["⚡","📸","🔋"][i]))}</div>
             <h4 class="text-2xl font-bold mb-4">${escapeHtml(getText(`iphone_pro_feature_${i}_title`, ["A18 Pro Chip","Pro Camera System","All-Day Battery"][i]))}</h4>
-            <p class="${isDark ? 'text-gray-300' : 'text-gray-600'} leading-relaxed">${escapeHtml(getText(`iphone_pro_feature_${i}_desc`, "Feature description"))}</p>
+            <p class="${textColor} leading-relaxed">${escapeHtml(getText(`iphone_pro_feature_${i}_desc`, "Feature description"))}</p>
           </div>
         `).join("")}
       </div>
@@ -1050,6 +1140,249 @@ function generateIPhoneProHTML(getText: GetText, getImage: GetImage, getButton: 
       <div class="pt-8 ${isDark ? 'border-t border-white/10' : 'border-t border-gray-200'} text-center text-sm ${isDark ? 'text-gray-500' : 'text-gray-600'}">
         <p>${escapeHtml(getText("iphone_pro_footer_copyright", "Copyright © 2025 Apple Inc. All rights reserved."))}</p>
       </div>
+    </div>
+  </footer>
+</main>
+  `
+}
+
+function generateLeadGenerationHTML(getText: GetText, getImage: GetImage, getButton: GetButton): string {
+  return `
+<main class="bg-background text-foreground">
+  <header class="border-b border-border">
+    <div class="mx-auto max-w-6xl px-4 py-5 flex items-center justify-between">
+      <h1 class="text-xl font-semibold">${escapeHtml(getText("lg-brand", "LeadFlow Pro"))}</h1>
+      <nav class="hidden md:flex items-center gap-6 text-sm">
+        ${[0, 1, 2].map((i) => `<span>${escapeHtml(getText(`lg-nav-${i}`, ["Features", "Benefits", "Testimonials"][i]))}</span>`).join("")}
+      </nav>
+    </div>
+  </header>
+
+  <section class="mx-auto max-w-6xl px-4 py-16">
+    <div class="grid gap-10 md:grid-cols-2 items-center">
+      <div class="flex flex-col gap-6">
+        <h2 class="text-4xl md:text-5xl font-bold text-balance">${escapeHtml(getText("lg-hero-title", "Get Your Free Marketing Strategy Guide"))}</h2>
+        <p class="text-lg text-muted-foreground leading-relaxed">${escapeHtml(getText("lg-hero-subtitle", "Download our comprehensive 50-page guide and learn proven strategies to grow your business by 300% in 12 months."))}</p>
+      </div>
+      <div class="rounded-xl border border-border p-8 bg-card shadow-lg">
+        <h3 class="text-2xl font-semibold mb-6">${escapeHtml(getText("lg-form-title", "Download Your Free Guide"))}</h3>
+        <form class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium mb-2">${escapeHtml(getText("lg-form-label-name", "Full Name"))}</label>
+            <input type="text" placeholder="John Doe" class="w-full px-4 py-2 rounded-md border border-input bg-background" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-2">${escapeHtml(getText("lg-form-label-email", "Email Address"))}</label>
+            <input type="email" placeholder="john@example.com" class="w-full px-4 py-2 rounded-md border border-input bg-background" />
+          </div>
+          <a href="${escapeHtml(getButton("lg-form-submit").href)}" class="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground w-full">${escapeHtml(getButton("lg-form-submit").text)}</a>
+          <p class="text-xs text-muted-foreground text-center">${escapeHtml(getText("lg-form-privacy", "We respect your privacy. Unsubscribe at any time."))}</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-card border-y border-border">
+    <div class="mx-auto max-w-6xl px-4 py-12">
+      <h4 class="text-center text-sm text-muted-foreground mb-8">${escapeHtml(getText("lg-social-title", "Trusted by over 10,000 businesses worldwide"))}</h4>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-8 items-center">
+        ${[1, 2, 3, 4].map((n) => `<img src="${escapeHtml(getImage(`lg-logo-${n}`, `/placeholder.svg?height=40&width=140&query=company%20logo%20${n}`))}" alt="Company ${n}" class="mx-auto h-10 w-auto opacity-70" />`).join("")}
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-16">
+    <h3 class="text-3xl font-bold mb-10 text-center">${escapeHtml(getText("lg-learn-title", "What You'll Learn Inside"))}</h3>
+    <div class="grid gap-6 md:grid-cols-3">
+      ${[0, 1, 2].map((i) => `
+        <article class="rounded-lg border border-border p-6 bg-card">
+          <img src="${escapeHtml(getImage(`lg-learn-icon-${i}`, `/placeholder.svg?height=48&width=48&query=icon%20${i + 1}`))}" alt="Feature ${i + 1}" class="h-12 w-12 mb-4" />
+          <h4 class="text-xl font-semibold mb-3">${escapeHtml(getText(`lg-learn-heading-${i}`, `Chapter ${i + 1}: Key Strategy`))}</h4>
+          <p class="text-muted-foreground">${escapeHtml(getText(`lg-learn-desc-${i}`, "Discover proven tactics and actionable insights."))}</p>
+        </article>
+      `).join("")}
+    </div>
+  </section>
+
+  <section class="bg-primary text-primary-foreground">
+    <div class="mx-auto max-w-4xl px-4 py-16 text-center">
+      <h3 class="text-3xl md:text-4xl font-bold mb-4">${escapeHtml(getText("lg-cta-title", "Ready to Transform Your Marketing?"))}</h3>
+      <p class="text-lg mb-8 opacity-90">${escapeHtml(getText("lg-cta-subtitle", "Join thousands of marketers who have already downloaded this guide"))}</p>
+      <a href="${escapeHtml(getButton("lg-cta-button").href)}" class="inline-flex items-center justify-center rounded-md bg-background text-foreground px-6 py-3 text-sm font-medium hover:opacity-90">${escapeHtml(getButton("lg-cta-button").text)}</a>
+    </div>
+  </section>
+
+  <footer class="border-t border-border">
+    <div class="mx-auto max-w-6xl px-4 py-8 text-center">
+      <p class="text-sm text-muted-foreground">${escapeHtml(getText("lg-footer", "© 2025 LeadFlow Pro. All rights reserved."))}</p>
+    </div>
+  </footer>
+</main>
+  `
+}
+
+function generateClickThroughHTML(getText: GetText, getImage: GetImage, getButton: GetButton): string {
+  return `
+<main class="bg-background text-foreground">
+  <header class="border-b border-border">
+    <div class="mx-auto max-w-6xl px-4 py-5 flex items-center justify-between">
+      <h1 class="text-xl font-semibold">${escapeHtml(getText("ct-brand", "CloudSync Pro"))}</h1>
+      <a href="${escapeHtml(getButton("ct-header-cta").href)}" class="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground">${escapeHtml(getButton("ct-header-cta").text)}</a>
+    </div>
+  </header>
+
+  <section class="mx-auto max-w-6xl px-4 py-20">
+    <div class="text-center max-w-4xl mx-auto">
+      <span class="inline-block px-4 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">${escapeHtml(getText("ct-hero-badge", "🚀 New: AI-Powered Sync Technology"))}</span>
+      <h2 class="text-4xl md:text-6xl font-bold mb-6 text-balance">${escapeHtml(getText("ct-hero-title", "Sync Your Files Across All Devices Instantly"))}</h2>
+      <p class="text-xl text-muted-foreground mb-8 text-balance">${escapeHtml(getText("ct-hero-subtitle", "Experience lightning-fast file synchronization with military-grade encryption."))}</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+        <a href="${escapeHtml(getButton("ct-hero-cta-primary").href)}" class="inline-flex items-center justify-center rounded-md bg-primary px-8 py-6 text-lg font-medium text-primary-foreground">${escapeHtml(getButton("ct-hero-cta-primary").text)}</a>
+        <a href="${escapeHtml(getButton("ct-hero-cta-secondary").href)}" class="inline-flex items-center justify-center rounded-md bg-secondary px-8 py-6 text-lg font-medium text-secondary-foreground">${escapeHtml(getButton("ct-hero-cta-secondary").text)}</a>
+      </div>
+      <p class="text-sm text-muted-foreground">${escapeHtml(getText("ct-hero-note", "No credit card required • Cancel anytime • 5GB free storage"))}</p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-12">
+    <img src="${escapeHtml(getImage("ct-product-preview", "/placeholder.svg?height=600&width=1200&query=dashboard%20preview"))}" alt="Product Dashboard" class="w-full rounded-xl border border-border shadow-2xl" />
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-16">
+    <h3 class="text-3xl font-bold mb-12 text-center">${escapeHtml(getText("ct-features-title", "Everything You Need in One Platform"))}</h3>
+    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+      ${[0, 1, 2, 3].map((i) => `
+        <article class="text-center">
+          <img src="${escapeHtml(getImage(`ct-feature-icon-${i}`, `/placeholder.svg?height=64&width=64&query=feature%20icon%20${i + 1}`))}" alt="Feature ${i + 1}" class="h-16 w-16 mx-auto mb-4" />
+          <h4 class="text-lg font-semibold mb-2">${escapeHtml(getText(`ct-feature-title-${i}`, `Feature ${i + 1}`))}</h4>
+          <p class="text-sm text-muted-foreground">${escapeHtml(getText(`ct-feature-desc-${i}`, "Brief description of this powerful feature."))}</p>
+        </article>
+      `).join("")}
+    </div>
+  </section>
+
+  <section class="bg-card border-y border-border">
+    <div class="mx-auto max-w-6xl px-4 py-16">
+      <h3 class="text-3xl font-bold mb-12 text-center">${escapeHtml(getText("ct-how-title", "Get Started in 3 Simple Steps"))}</h3>
+      <div class="grid gap-8 md:grid-cols-3">
+        ${[1, 2, 3].map((n) => `
+          <article class="text-center">
+            <div class="h-16 w-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold mb-4 mx-auto">${n}</div>
+            <h4 class="text-xl font-semibold mb-3">${escapeHtml(getText(`ct-step-title-${n}`, `Step ${n} Title`))}</h4>
+            <p class="text-muted-foreground">${escapeHtml(getText(`ct-step-desc-${n}`, "Clear explanation of what happens in this step."))}</p>
+          </article>
+        `).join("")}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-primary text-primary-foreground">
+    <div class="mx-auto max-w-4xl px-4 py-20 text-center">
+      <h3 class="text-4xl font-bold mb-6">${escapeHtml(getText("ct-final-title", "Ready to Experience the Difference?"))}</h3>
+      <p class="text-xl mb-8 opacity-90">${escapeHtml(getText("ct-final-subtitle", "Join over 100,000 users who trust CloudSync Pro"))}</p>
+      <a href="${escapeHtml(getButton("ct-final-cta").href)}" class="inline-flex items-center justify-center rounded-md bg-background text-foreground px-10 py-6 text-lg font-medium hover:opacity-90">${escapeHtml(getButton("ct-final-cta").text)}</a>
+    </div>
+  </section>
+
+  <footer class="border-t border-border">
+    <div class="mx-auto max-w-6xl px-4 py-8 text-center">
+      <p class="text-sm text-muted-foreground">${escapeHtml(getText("ct-footer", "© 2025 CloudSync Pro. All rights reserved."))}</p>
+    </div>
+  </footer>
+</main>
+  `
+}
+
+function generateSalesLandingHTML(getText: GetText, getImage: GetImage, getButton: GetButton): string {
+  return `
+<main class="bg-background text-foreground">
+  <header class="border-b border-border">
+    <div class="mx-auto max-w-6xl px-4 py-5 flex items-center justify-between">
+      <h1 class="text-xl font-semibold">${escapeHtml(getText("sl-brand", "ProFitness Elite"))}</h1>
+      <div class="flex items-center gap-4">
+        <span class="hidden md:block text-sm font-medium">${escapeHtml(getText("sl-phone", "📞 1-800-FIT-ELITE"))}</span>
+        <a href="${escapeHtml(getButton("sl-header-cta").href)}" class="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground">${escapeHtml(getButton("sl-header-cta").text)}</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="bg-gradient-to-br from-primary/10 to-primary/5">
+    <div class="mx-auto max-w-6xl px-4 py-16">
+      <div class="grid gap-10 md:grid-cols-2 items-center">
+        <div class="flex flex-col gap-6">
+          <span class="inline-block w-fit px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-bold">${escapeHtml(getText("sl-hero-badge", "LIMITED TIME: 50% OFF + FREE SHIPPING"))}</span>
+          <h2 class="text-4xl md:text-5xl font-bold text-balance">${escapeHtml(getText("sl-hero-title", "Transform Your Body in Just 30 Days"))}</h2>
+          <p class="text-lg text-muted-foreground leading-relaxed">${escapeHtml(getText("sl-hero-subtitle", "The complete home fitness system that delivers professional gym results."))}</p>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="${escapeHtml(getButton("sl-hero-cta").href)}" class="inline-flex items-center justify-center rounded-md bg-primary px-8 py-6 text-lg font-medium text-primary-foreground">${escapeHtml(getButton("sl-hero-cta").text)}</a>
+            <div class="flex flex-col justify-center">
+              <p class="text-sm text-muted-foreground line-through">${escapeHtml(getText("sl-price-strike", "Was $199"))}</p>
+              <p class="text-2xl font-bold text-primary">${escapeHtml(getText("sl-price-now", "Now $99"))}</p>
+            </div>
+          </div>
+        </div>
+        <img src="${escapeHtml(getImage("sl-hero-image", "/placeholder.svg?height=600&width=600&query=fitness%20product"))}" alt="Product" class="w-full rounded-lg shadow-2xl" />
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-primary text-primary-foreground">
+    <div class="mx-auto max-w-6xl px-4 py-4 text-center">
+      <p class="font-semibold">${escapeHtml(getText("sl-urgency", "⏰ HURRY! Offer ends in 24 hours. Only 47 spots left at this price!"))}</p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-16">
+    <h3 class="text-3xl font-bold mb-8 text-center">${escapeHtml(getText("sl-problem-title", "Tired of Expensive Gyms That Don't Deliver Results?"))}</h3>
+    <div class="grid gap-6 md:grid-cols-3">
+      ${[0, 1, 2].map((i) => `
+        <article class="rounded-lg border border-primary/20 p-6 bg-primary/5">
+          <h4 class="text-xl font-semibold mb-3 text-primary">${escapeHtml(getText(`sl-solution-${i}`, `✓ Solution ${i + 1}`))}</h4>
+          <p class="text-muted-foreground">${escapeHtml(getText(`sl-solution-desc-${i}`, "How your product specifically addresses and solves this problem."))}</p>
+        </article>
+      `).join("")}
+    </div>
+  </section>
+
+  <section class="bg-card border-y border-border">
+    <div class="mx-auto max-w-6xl px-4 py-16">
+      <h3 class="text-3xl font-bold mb-12 text-center">${escapeHtml(getText("sl-results-title", "Real People, Real Results"))}</h3>
+      <div class="grid gap-8 md:grid-cols-3">
+        ${[1, 2, 3].map((n) => `
+          <article class="rounded-lg border border-border p-6 bg-background">
+            <img src="${escapeHtml(getImage(`sl-result-before-after-${n}`, `/placeholder.svg?height=300&width=400&query=before%20after%20${n}`))}" alt="Result ${n}" class="w-full rounded-lg mb-4" />
+            <div class="flex items-center gap-3 mb-3">
+              <img src="${escapeHtml(getImage(`sl-result-avatar-${n}`, `/placeholder.svg?height=48&width=48&query=avatar%20${n}`))}" alt="Customer ${n}" class="h-12 w-12 rounded-full" />
+              <div>
+                <p class="font-semibold">${escapeHtml(getText(`sl-result-name-${n}`, "Sarah M."))}</p>
+                <p class="text-sm text-primary font-medium">${escapeHtml(getText(`sl-result-stat-${n}`, "Lost 25 lbs in 30 days"))}</p>
+              </div>
+            </div>
+            <blockquote class="text-sm text-pretty">${escapeHtml(getText(`sl-result-quote-${n}`, "I couldn't believe the results! This program changed my life."))}</blockquote>
+          </article>
+        `).join("")}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-gradient-to-br from-primary to-primary/80 text-primary-foreground">
+    <div class="mx-auto max-w-4xl px-4 py-20 text-center">
+      <h3 class="text-4xl md:text-5xl font-bold mb-6">${escapeHtml(getText("sl-final-title", "Don't Miss This Limited-Time Offer!"))}</h3>
+      <p class="text-xl mb-8 opacity-90">${escapeHtml(getText("sl-final-subtitle", "Get 50% OFF + Free Shipping + Bonus Coaching Session"))}</p>
+      <div class="bg-background/10 rounded-xl p-8 mb-8 backdrop-blur-sm">
+        <div class="flex justify-center items-baseline gap-4 mb-4">
+          <span class="text-2xl line-through opacity-70">${escapeHtml(getText("sl-final-price-was", "$199"))}</span>
+          <span class="text-6xl font-bold">${escapeHtml(getText("sl-final-price-now", "$99"))}</span>
+        </div>
+        <p class="text-lg font-semibold">${escapeHtml(getText("sl-final-savings", "You Save $100 Today!"))}</p>
+      </div>
+      <a href="${escapeHtml(getButton("sl-final-cta").href)}" class="inline-flex items-center justify-center rounded-md bg-background text-foreground px-12 py-8 text-xl font-medium hover:opacity-90">${escapeHtml(getButton("sl-final-cta").text)}</a>
+    </div>
+  </section>
+
+  <footer class="border-t border-border">
+    <div class="mx-auto max-w-6xl px-4 py-8 text-center">
+      <p class="text-sm text-muted-foreground">${escapeHtml(getText("sl-footer", "© 2025 ProFitness Elite. All rights reserved."))}</p>
     </div>
   </footer>
 </main>

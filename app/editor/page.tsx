@@ -16,6 +16,9 @@ import { ProjectOverviewTemplate } from "@/components/templates/normal/project-o
 import { PersonalProfileTemplate } from "@/components/templates/normal/personal-profile-template"
 import { EventLandingTemplate } from "@/components/templates/normal/event-landing-template"
 import { IPhoneProductTemplate } from "@/components/templates/normal/iphone-product-template"
+import { LeadGenerationTemplate } from "@/components/templates/normal/lead-generation-template"
+import { ClickThroughTemplate } from "@/components/templates/normal/click-through-template"
+import { SalesLandingTemplate } from "@/components/templates/normal/sales-landing-template"
 // import { AgencyProTemplate } from "@/components/templates/pro/agency-pro-template"
 import { SAAS_PRO_THEMES, type SaaSProThemeId } from "@/components/templates/pro/saas-pro"
 import { PortfolioProTemplatePro } from "@/components/templates/pro/portfolio-pro-template"
@@ -31,6 +34,9 @@ type TemplateId =
   | "personal-profile"
   | "event"
   | "iphone-product"
+  | "lead-generation"
+  | "click-through"
+  | "sales-landing"
   | "agency-pro"
   | "saas-pro"
   | "portfolio-pro"
@@ -180,6 +186,33 @@ function TemplateModal({
       desc: "Clean, minimal product landing page inspired by Apple's design language",
       category: "SaaS",
       tags: ["Product", "Clean", "Minimal"],
+      free: true,
+    },
+    {
+      id: "lead-generation",
+      title: "Lead Generation Landing",
+      imgAlt: "Lead generation template preview",
+      desc: "Capture leads with forms, benefits, and social proof sections",
+      category: "SaaS",
+      tags: ["Lead Capture", "Forms", "Conversion"],
+      free: true,
+    },
+    {
+      id: "click-through",
+      title: "Click-Through Landing",
+      imgAlt: "Click-through template preview",
+      desc: "Drive clicks with compelling features, benefits, and clear CTAs",
+      category: "SaaS",
+      tags: ["CTA", "Features", "Benefits"],
+      free: true,
+    },
+    {
+      id: "sales-landing",
+      title: "Sales Landing Page",
+      imgAlt: "Sales landing template preview",
+      desc: "High-converting sales page with urgency, testimonials, and guarantees",
+      category: "SaaS",
+      tags: ["Sales", "Urgency", "Conversion"],
       free: true,
     },
     {
@@ -544,6 +577,7 @@ export default function EditorPage() {
     const params = new URLSearchParams(window.location.search)
     const urlTemplate = params.get('template') as TemplateId | null
     const urlTheme = params.get('theme') as SaaSProThemeId | IPhoneProThemeId | null
+    const shouldLoadProject = params.get('loadProject') === 'true'
     
     if (urlTemplate) {
       setTemplate(urlTemplate)
@@ -551,6 +585,86 @@ export default function EditorPage() {
         setSelectedThemeId(urlTheme)
       }
       setModalOpen(false)
+      
+      // Load project data if requested
+      if (shouldLoadProject) {
+        const projectDataStr = localStorage.getItem('editor-project-data')
+        if (projectDataStr) {
+          try {
+            const projectData = JSON.parse(projectDataStr)
+            console.log('Loading project data:', projectData)
+            console.log('Template:', projectData.template, 'Theme:', projectData.theme)
+            
+            // Wait for template to render, then populate data
+            // Use multiple attempts to ensure DOM is ready
+            let attempts = 0
+            const maxAttempts = 5
+            const loadInterval = setInterval(() => {
+              attempts++
+              
+              // Check if template has rendered by looking for data-eid elements
+              const elements = document.querySelectorAll('[data-eid]')
+              if (elements.length > 0 || attempts >= maxAttempts) {
+                clearInterval(loadInterval)
+                
+                console.log(`Loading project data (attempt ${attempts}, found ${elements.length} elements)`)
+                
+                // Populate texts
+                if (projectData.data?.texts) {
+                  let textCount = 0
+                  Object.entries(projectData.data.texts).forEach(([id, text]) => {
+                    const element = document.querySelector(`[data-eid="${id}"]`)
+                    if (element && typeof text === 'string') {
+                      element.textContent = text
+                      textCount++
+                    }
+                  })
+                  console.log(`Populated ${textCount} text elements`)
+                }
+                
+                // Populate images
+                if (projectData.data?.images) {
+                  const imageUpdates: Record<string, string> = {}
+                  let imageCount = 0
+                  Object.entries(projectData.data.images).forEach(([id, src]) => {
+                    const img = document.querySelector(`img[data-eid="${id}"]`) as HTMLImageElement
+                    if (img && typeof src === 'string') {
+                      img.setAttribute('src', src)
+                      imageUpdates[id] = src
+                      imageCount++
+                    }
+                  })
+                  // Cache all images at once
+                  if (Object.keys(imageUpdates).length > 0) {
+                    setImageCache(prev => ({ ...prev, ...imageUpdates }))
+                  }
+                  console.log(`Populated ${imageCount} images`)
+                }
+                
+                // Populate buttons
+                if (projectData.data?.buttons) {
+                  let buttonCount = 0
+                  Object.entries(projectData.data.buttons).forEach(([id, btnData]: [string, any]) => {
+                    const btn = document.querySelector(`a[data-eid="${id}"]`) as HTMLAnchorElement
+                    if (btn && btnData) {
+                      if (btnData.text) btn.textContent = btnData.text
+                      if (btnData.href) btn.setAttribute('href', btnData.href)
+                      buttonCount++
+                    }
+                  })
+                  console.log(`Populated ${buttonCount} buttons`)
+                }
+                
+                console.log('✅ Project data loaded successfully')
+                // Clean up localStorage
+                localStorage.removeItem('editor-project-data')
+              }
+            }, 300) // Check every 300ms, up to 5 times (1.5 seconds total)
+          } catch (error) {
+            console.error('Error loading project data:', error)
+          }
+        }
+      }
     } else {
       // Try to restore from localStorage
       const savedTemplate = localStorage.getItem('editor-template') as TemplateId | null
@@ -723,6 +837,8 @@ export default function EditorPage() {
         texts["po-title"] ||
         texts["pp-name"] ||
         texts["el-title"] ||
+        texts["lg-hero-title"] ||
+        texts["ct-hero-title"] ||
         "Untitled Website"
 
       const project: ProjectRecord = {
@@ -781,6 +897,12 @@ export default function EditorPage() {
         return <EventLandingTemplate editable={!preview} openInspector={openInspector} />
       case "iphone-product":
         return <IPhoneProductTemplate editable={!preview} openInspector={openInspector} />
+      case "lead-generation":
+        return <LeadGenerationTemplate editable={!preview} openInspector={openInspector} />
+      case "click-through":
+        return <ClickThroughTemplate editable={!preview} openInspector={openInspector} />
+      case "sales-landing":
+        return <SalesLandingTemplate editable={!preview} openInspector={openInspector} />
       case "agency-pro":
         // return <AgencyProTemplate editable={!preview} openInspector={openInspector} />
         return <div className="text-center p-8"><p className="text-lg">Agency Pro template coming soon...</p></div>

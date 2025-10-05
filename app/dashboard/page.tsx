@@ -20,7 +20,8 @@ import {
   Grid3x3,
   List,
   Download,
-  ExternalLink
+  ExternalLink,
+  Edit
 } from "lucide-react"
 import Link from "next/link"
 import { useProjects } from "@/hooks/use-projects"
@@ -48,6 +49,20 @@ export default function DashboardPage() {
     const blob = new Blob([html], { type: "text/html" })
     const url = URL.createObjectURL(blob)
     window.open(url, "_blank")
+  }
+
+  const handleEdit = (project: ProjectRecord) => {
+    // Save project to localStorage for editor to load
+    localStorage.setItem('editor-project-data', JSON.stringify(project))
+    
+    // Navigate to editor with template and theme parameters
+    const params = new URLSearchParams()
+    params.set('template', project.template)
+    if (project.theme) {
+      params.set('theme', project.theme)
+    }
+    params.set('loadProject', 'true')
+    window.location.href = `/editor?${params.toString()}`
   }
 
   return (
@@ -293,6 +308,15 @@ export default function DashboardPage() {
                             <span>{new Date(project.updatedAt).toLocaleDateString()}</span>
                           </div>
                           <div className="flex items-center gap-2">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="gap-1.5 h-8"
+                              onClick={() => handleEdit(project)}
+                            >
+                              <Edit className="w-3.5 h-3.5" />
+                              Edit
+                            </Button>
                             <Button
                               size="sm"
                               variant="outline"
