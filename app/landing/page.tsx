@@ -13,7 +13,7 @@ export default function LandingPage() {
           <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl">
             <Brain className="w-6 h-6 text-white" />
           </div>
-          <span className="text-2xl font-bold text-gray-900">SiteBuilder AI</span>
+          <span className="text-2xl font-bold text-gray-900">Squpage AI</span>
         </div>
         
         <div className="flex items-center gap-4">
@@ -42,17 +42,16 @@ export default function LandingPage() {
           <h1 className="text-5xl md:text-7xl font-black text-gray-900 mb-6 leading-tight">
             Build Stunning Websites with{" "}
             <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-              AI Magic
+              Squpage
             </span>
           </h1>
-          
           <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed">
             Transform your ideas into professional websites in minutes. Our AI generates 
             beautiful, responsive designs tailored to your vision.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
-            <Link href="/editor">
+            <Link href="/auth/signup?redirect=/dashboard">
               <Button size="lg" className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-8 py-4 text-lg font-semibold group">
                 Start Building Free
                 <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -206,7 +205,7 @@ export default function LandingPage() {
           <p className="text-xl text-blue-100 mb-12 max-w-2xl mx-auto">
             Join thousands of creators who are already building amazing websites with AI.
           </p>
-          <Link href="/editor">
+          <Link href="/auth/signup?redirect=/dashboard">
             <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-50 px-12 py-6 text-xl font-semibold">
               Start Building Now - It's Free
             </Button>
@@ -221,10 +220,10 @@ export default function LandingPage() {
             <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl">
               <Brain className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-bold text-white">SiteBuilder AI</span>
+            <span className="text-2xl font-bold text-white">Squpage AI</span>
           </div>
           <p className="text-gray-400">
-            © 2024 SiteBuilder AI. All rights reserved. Built with ❤️ and AI.
+            © 2025 Squpage AI. All rights reserved. Built with ❤️ and AI.
           </p>
         </div>
       </footer>

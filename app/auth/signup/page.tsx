@@ -77,7 +77,7 @@ export default function SignUpPage() {
                 <div className="p-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl">
                   <Brain className="w-8 h-8 text-white" />
                 </div>
-                <span className="text-2xl font-bold text-gray-900">SiteBuilder AI</span>
+                <span className="text-2xl font-bold text-gray-900">Squpage</span>
               </div>
               <h1 className="text-3xl font-bold text-gray-900 mb-2">Create Account</h1>
               <p className="text-gray-600">Start building amazing websites today</p>

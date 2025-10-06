@@ -75,7 +75,7 @@ function EditorHeader({
           className="rounded-md px-2 py-1 text-sm font-semibold tracking-wide"
           style={{ background: "color-mix(in oklab, var(--sb-text) 10%, var(--sb-header))" }}
         >
-          {"SiteBuilder"}
+          {"Squpage"}
         </div>
         <Button
           type="button"
@@ -128,6 +128,7 @@ function TemplateModal({
   const cards: Array<{
     id: TemplateId
     title: string
+    imgSrc: string
     imgAlt: string
     desc: string
     category: "Portfolio" | "SaaS" | "Profile" | "Event" | "Agency" | "Ecommerce"
@@ -137,6 +138,7 @@ function TemplateModal({
     {
       id: "portfolio",
       title: "Portfolio Website",
+      imgSrc: "/portfolio.png",
       imgAlt: "Portfolio template preview",
       desc: "Professional portfolio showcasing projects, skills, and experience",
       category: "Portfolio",
@@ -146,6 +148,7 @@ function TemplateModal({
     {
       id: "saas-landing",
       title: "SaaS Landing Page",
+      imgSrc: "/saas landing page.png",
       imgAlt: "SaaS landing template preview",
       desc: "High-converting product marketing page for your startup",
       category: "SaaS",
@@ -155,6 +158,7 @@ function TemplateModal({
     {
       id: "project-overview",
       title: "Project Overview",
+      imgSrc: "/project-overview.png",
       imgAlt: "Project overview template preview",
       desc: "Case-study layout to present goals, process, and outcomes",
       category: "Portfolio",
@@ -164,6 +168,7 @@ function TemplateModal({
     {
       id: "personal-profile",
       title: "Personal Profile",
+      imgSrc: "/personal-profile.png",
       imgAlt: "Personal profile template preview",
       desc: "Simple bio page with links and social profiles",
       category: "Profile",
@@ -173,6 +178,7 @@ function TemplateModal({
     {
       id: "event",
       title: "Event Landing Page",
+      imgSrc: "/event-landing-page.png",
       imgAlt: "Event template preview",
       desc: "Event page with countdown, details, map and RSVP form",
       category: "Event",
@@ -182,6 +188,7 @@ function TemplateModal({
     {
       id: "iphone-product",
       title: "iPhone Product Landing",
+      imgSrc: "/iphone landing page.png",
       imgAlt: "iPhone product template preview",
       desc: "Clean, minimal product landing page inspired by Apple's design language",
       category: "SaaS",
@@ -191,6 +198,7 @@ function TemplateModal({
     {
       id: "lead-generation",
       title: "Lead Generation Landing",
+      imgSrc: "/Lead Generation Landing.png",
       imgAlt: "Lead generation template preview",
       desc: "Capture leads with forms, benefits, and social proof sections",
       category: "SaaS",
@@ -200,6 +208,7 @@ function TemplateModal({
     {
       id: "click-through",
       title: "Click-Through Landing",
+      imgSrc: "/Click-Through Landing.png",
       imgAlt: "Click-through template preview",
       desc: "Drive clicks with compelling features, benefits, and clear CTAs",
       category: "SaaS",
@@ -209,6 +218,7 @@ function TemplateModal({
     {
       id: "sales-landing",
       title: "Sales Landing Page",
+      imgSrc: "/Sales Landing Page.png",
       imgAlt: "Sales landing template preview",
       desc: "High-converting sales page with urgency, testimonials, and guarantees",
       category: "SaaS",
@@ -218,6 +228,7 @@ function TemplateModal({
     {
       id: "agency-pro",
       title: "Agency Pro",
+      imgSrc: "/template-preview.jpg",
       imgAlt: "Agency Pro template preview",
       desc: "Full‑service agency with enhanced sections, pricing, case studies, and blog.",
       category: "Agency",
@@ -227,6 +238,7 @@ function TemplateModal({
     {
       id: "saas-pro",
       title: "SaaS Pro",
+      imgSrc: "/saas landing page.png",
       imgAlt: "SaaS Pro template preview",
       desc: "Premium SaaS marketing with advanced sections and testimonials.",
       category: "SaaS",
@@ -236,6 +248,7 @@ function TemplateModal({
     {
       id: "portfolio-pro",
       title: "Portfolio Pro",
+      imgSrc: "/portfolio.png",
       imgAlt: "Portfolio Pro template preview",
       desc: "Advanced portfolio with multiple themes, AI-powered content, and premium features.",
       category: "Portfolio",
@@ -245,6 +258,7 @@ function TemplateModal({
     {
       id: "iphone-pro",
       title: "iPhone Pro Landing",
+      imgSrc: "/iphone landing page.png",
       imgAlt: "iPhone Pro template preview",
       desc: "Premium dark-themed product landing with gradients, animations, and stunning visuals.",
       category: "SaaS",
@@ -254,6 +268,7 @@ function TemplateModal({
     {
       id: "ecommerce-pro",
       title: "Ecommerce Pro",
+      imgSrc: "/template-preview.jpg",
       imgAlt: "Ecommerce Pro template preview",
       desc: "Storefront with product grid, feature highlights, and conversion CTAs.",
       category: "Ecommerce",
@@ -286,7 +301,7 @@ function TemplateModal({
             {"← Back to Dashboard"}
           </a>
           <div aria-label="SiteBuilder" className="rounded-md bg-black/5 px-3 py-1.5 text-sm font-semibold">
-            {"SiteBuilder"}
+            {"Squpage"}
           </div>
         </div>
 
@@ -334,7 +349,7 @@ function TemplateModal({
         <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((c) => (
             <div key={c.id} className="flex flex-col overflow-hidden rounded-xl border bg-white shadow-sm">
-              <img src="/template-preview.jpg" alt={c.imgAlt} className="h-48 w-full object-cover" />
+              <img src={c.imgSrc} alt={c.imgAlt} className="h-48 w-full object-cover" />
               <div className="flex flex-1 flex-col p-4">
                 <div className="mb-3 flex items-start justify-between gap-3">
                   <div>

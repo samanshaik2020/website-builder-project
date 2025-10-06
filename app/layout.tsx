@@ -5,7 +5,7 @@ import "./globals.css"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "SiteBuilder AI - Create Stunning Websites with AI",
+  title: "Squpage - AI Website Builder",
   description: "Transform your ideas into professional websites in minutes with our AI-powered website builder. No coding required.",
 }
 
