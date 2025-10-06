@@ -8,6 +8,11 @@ import type { ProjectRecord } from "@/components/lib/projects-store"
 export function generateHTMLExport(project: ProjectRecord): string {
   const { template, data, name, theme } = project
   const { texts, images, buttons } = data
+  
+  console.log('🎨 generateHTMLExport called:')
+  console.log('  Template:', template)
+  console.log('  Theme:', theme)
+  console.log('  Project:', project)
 
   // Helper to get text content by ID
   const getText = (id: string, fallback = "") => texts[id] || fallback
@@ -128,7 +133,7 @@ type GetButton = (id: string) => { href: string; text: string }
 /**
  * Get theme-specific CSS classes for SaaS Pro templates
  */
-function getThemeStyles(theme: string) {
+function getSaaSProThemeStyles(theme: string) {
   const themes: Record<string, any> = {
     "modern-minimal": {
       mainBg: "bg-white",
@@ -138,6 +143,9 @@ function getThemeStyles(theme: string) {
       heroBg: "bg-white",
       primaryBtn: "bg-gray-900 text-white hover:bg-gray-800",
       secondaryBtn: "bg-gray-100 text-gray-900 hover:bg-gray-200",
+      fontWeight: "font-normal",
+      cardBg: "bg-card",
+      cardBorder: "border-border",
     },
     "corporate-blue": {
       mainBg: "bg-slate-50",
@@ -147,6 +155,9 @@ function getThemeStyles(theme: string) {
       heroBg: "bg-gradient-to-br from-blue-50 to-slate-100",
       primaryBtn: "bg-blue-600 text-white hover:bg-blue-700 shadow-lg",
       secondaryBtn: "bg-white text-blue-600 border-2 border-blue-600 hover:bg-blue-50",
+      fontWeight: "font-normal",
+      cardBg: "bg-white",
+      cardBorder: "border-blue-200",
     },
     "vibrant-playful": {
       mainBg: "bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50",
@@ -156,6 +167,9 @@ function getThemeStyles(theme: string) {
       heroBg: "bg-gradient-to-r from-pink-100 via-purple-100 to-blue-100",
       primaryBtn: "bg-gradient-to-r from-pink-500 to-purple-600 text-white hover:from-pink-600 hover:to-purple-700 shadow-xl",
       secondaryBtn: "bg-white text-purple-600 border-2 border-purple-400 hover:bg-purple-50",
+      fontWeight: "font-normal",
+      cardBg: "bg-white",
+      cardBorder: "border-purple-200",
     },
     "elegant-dark": {
       mainBg: "bg-gray-900",
@@ -165,6 +179,9 @@ function getThemeStyles(theme: string) {
       heroBg: "bg-gradient-to-br from-gray-900 via-gray-800 to-black",
       primaryBtn: "bg-white text-black hover:bg-gray-200",
       secondaryBtn: "bg-gray-800 text-white border border-gray-700 hover:bg-gray-700",
+      fontWeight: "font-normal",
+      cardBg: "bg-gray-800",
+      cardBorder: "border-gray-700",
     },
     "creative-bold": {
       mainBg: "bg-black",
@@ -174,19 +191,89 @@ function getThemeStyles(theme: string) {
       heroBg: "bg-gradient-to-br from-black via-gray-900 to-black",
       primaryBtn: "bg-yellow-400 text-black hover:bg-yellow-500 font-bold shadow-2xl",
       secondaryBtn: "bg-transparent text-yellow-400 border-2 border-yellow-400 hover:bg-yellow-400 hover:text-black",
+      fontWeight: "font-bold",
+      cardBg: "bg-gray-900",
+      cardBorder: "border-yellow-400",
     },
     "nature-calm": {
-      mainBg: "bg-green-50",
-      mainText: "text-green-900",
-      headerBg: "bg-white/95 backdrop-blur border-b border-green-200 shadow-sm",
-      headerText: "text-green-900",
-      heroBg: "bg-gradient-to-br from-green-50 to-teal-50",
-      primaryBtn: "bg-green-600 text-white hover:bg-green-700 shadow-lg",
-      secondaryBtn: "bg-white text-green-600 border-2 border-green-500 hover:bg-green-50",
+      mainBg: "bg-emerald-50",
+      mainText: "text-emerald-950",
+      headerBg: "bg-white/90 backdrop-blur border-b-2 border-emerald-200",
+      headerText: "text-emerald-800",
+      heroBg: "bg-emerald-50",
+      primaryBtn: "bg-black text-white hover:bg-gray-800 font-light",
+      secondaryBtn: "bg-white text-black border border-gray-300 hover:bg-gray-50 font-light",
+      fontWeight: "font-light",
+      cardBg: "bg-white",
+      cardBorder: "border-gray-200",
     },
   }
   
   return themes[theme] || themes["modern-minimal"]
+}
+
+/**
+ * Get theme-specific CSS classes for Portfolio Pro templates
+ */
+function getPortfolioProThemeStyles(theme: string) {
+  const themes: Record<string, any> = {
+    "default": {
+      mainBg: "bg-white",
+      mainText: "text-gray-900",
+      headerBg: "bg-white/95 backdrop-blur border-b border-gray-200",
+      headerText: "text-gray-900",
+      heroBg: "bg-white",
+      primaryBtn: "bg-blue-600 text-white hover:bg-blue-700",
+      secondaryBtn: "bg-gray-100 text-gray-900 hover:bg-gray-200",
+    },
+    "creative-artist": {
+      mainBg: "bg-gradient-to-br from-pink-50 via-orange-50 to-purple-50",
+      mainText: "text-gray-900",
+      headerBg: "bg-white/90 backdrop-blur-lg border-b-2 border-pink-300",
+      headerText: "text-pink-900",
+      heroBg: "bg-gradient-to-r from-pink-100 via-orange-100 to-purple-100",
+      primaryBtn: "bg-gradient-to-r from-pink-500 to-orange-500 text-white hover:from-pink-600 hover:to-orange-600 shadow-xl",
+      secondaryBtn: "bg-white text-pink-600 border-2 border-pink-400 hover:bg-pink-50",
+    },
+    "tech-minimal": {
+      mainBg: "bg-gray-50",
+      mainText: "text-gray-900",
+      headerBg: "bg-white border-b border-gray-200",
+      headerText: "text-gray-900",
+      heroBg: "bg-gray-50",
+      primaryBtn: "bg-blue-600 text-white hover:bg-blue-700",
+      secondaryBtn: "bg-white text-gray-900 border border-gray-300 hover:bg-gray-100",
+    },
+    "luxury-elegant": {
+      mainBg: "bg-gradient-to-b from-black via-gray-900 to-black",
+      mainText: "text-white",
+      headerBg: "bg-black/95 backdrop-blur border-b border-amber-600/30",
+      headerText: "text-white",
+      heroBg: "bg-gradient-to-br from-black via-gray-900 to-black",
+      primaryBtn: "bg-gradient-to-r from-amber-600 to-yellow-600 text-black hover:from-amber-700 hover:to-yellow-700 font-semibold shadow-xl shadow-amber-600/30",
+      secondaryBtn: "bg-transparent text-amber-600 border-2 border-amber-600 hover:bg-amber-600 hover:text-black",
+    },
+    "nature-organic": {
+      mainBg: "bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50",
+      mainText: "text-green-900",
+      headerBg: "bg-white/95 backdrop-blur border-b border-green-300",
+      headerText: "text-green-900",
+      heroBg: "bg-gradient-to-br from-green-50 to-emerald-50",
+      primaryBtn: "bg-green-600 text-white hover:bg-green-700 shadow-lg",
+      secondaryBtn: "bg-white text-green-600 border-2 border-green-500 hover:bg-green-50",
+    },
+    "cyberpunk-futuristic": {
+      mainBg: "bg-black",
+      mainText: "text-white",
+      headerBg: "bg-black/95 backdrop-blur border-b-2 border-cyan-400",
+      headerText: "text-cyan-400",
+      heroBg: "bg-gradient-to-br from-black via-gray-900 to-black",
+      primaryBtn: "bg-gradient-to-r from-cyan-500 to-pink-500 text-black hover:from-cyan-600 hover:to-pink-600 font-bold shadow-xl shadow-cyan-500/30",
+      secondaryBtn: "bg-transparent text-cyan-400 border-2 border-cyan-400 hover:bg-cyan-400 hover:text-black",
+    },
+  }
+  
+  return themes[theme] || themes["default"]
 }
 
 function generatePortfolioHTML(getText: GetText, getImage: GetImage, getButton: GetButton): string {
@@ -657,20 +744,20 @@ function generateEventLandingHTML(getText: GetText, getImage: GetImage, getButto
 }
 
 function generateSaaSProHTML(getText: GetText, getImage: GetImage, getButton: GetButton, theme?: string): string {
-  const t = getThemeStyles(theme || "modern-minimal")
+  const t = getSaaSProThemeStyles(theme || "modern-minimal")
   
   return `
 <main class="${t.mainBg} ${t.mainText}">
   <!-- Navigation -->
   <header class="sticky top-0 z-40 ${t.headerBg}">
     <div class="mx-auto max-w-7xl px-4 py-4 flex items-center justify-between">
-      <h1 class="text-xl font-bold ${t.headerText}">${escapeHtml(getText("saas_pro_brand", "InnovatePro"))}</h1>
-      <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
-        ${[1,2,3,4,5].map(n => `<span>${escapeHtml(getText(`saas_pro_nav_${n}`, ["Features","Solutions","Pricing","Resources","Company"][n-1]))}</span>`).join("")}
+      <h1 class="text-xl font-semibold ${t.headerText}">${escapeHtml(getText("saas_pro_brand", "InnovatePro"))}</h1>
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-emerald-700">
+        ${[1,2,3,4,5].map(n => `<span class="hover:text-emerald-600 transition-colors">${escapeHtml(getText(`saas_pro_nav_${n}`, ["Features","Solutions","Pricing","Resources","Company"][n-1]))}</span>`).join("")}
       </nav>
       <div class="flex items-center gap-3">
         <a href="${escapeHtml(getButton("saas_pro_nav_signin").href)}" class="hidden md:inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium ${t.secondaryBtn}">${escapeHtml(getButton("saas_pro_nav_signin").text)}</a>
-        <a href="${escapeHtml(getButton("saas_pro_nav_cta").href)}" class="inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium ${t.primaryBtn}">${escapeHtml(getButton("saas_pro_nav_cta").text)}</a>
+        <a href="${escapeHtml(getButton("saas_pro_nav_cta").href)}" class="inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-semibold ${t.primaryBtn}">${escapeHtml(getButton("saas_pro_nav_cta").text)}</a>
       </div>
     </div>
   </header>
@@ -678,60 +765,60 @@ function generateSaaSProHTML(getText: GetText, getImage: GetImage, getButton: Ge
   <!-- Hero Section -->
   <section class="mx-auto max-w-7xl px-4 py-20 md:py-28 ${t.heroBg}">
     <div class="text-center max-w-4xl mx-auto">
-      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-opacity-20 ${t.primaryBtn} text-sm font-medium mb-6">${escapeHtml(getText("saas_pro_hero_badge", "✨ New: AI-Powered Analytics Dashboard"))}</div>
-      <h2 class="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6">${escapeHtml(getText("saas_pro_hero_headline", "Transform Your Business with Intelligent Automation"))}</h2>
-      <p class="text-lg md:text-xl opacity-80 mb-8 leading-relaxed max-w-3xl mx-auto">${escapeHtml(getText("saas_pro_hero_subheadline", "Streamline operations, boost productivity, and scale effortlessly"))}</p>
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-300 text-gray-600 text-xs ${t.fontWeight} mb-6">${escapeHtml(getText("saas_pro_hero_badge", "✨ New: AI-Powered Analytics Dashboard"))}</div>
+      <h2 class="text-5xl md:text-7xl lg:text-8xl ${t.fontWeight} tracking-tight mb-6 leading-none">${escapeHtml(getText("saas_pro_hero_headline", "Transform Your Business with Intelligent Automation"))}</h2>
+      <p class="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed max-w-3xl mx-auto ${t.fontWeight}">${escapeHtml(getText("saas_pro_hero_subheadline", "Streamline operations, boost productivity, and scale effortlessly"))}</p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center mb-6">
-        <a href="${escapeHtml(getButton("saas_pro_hero_cta_primary").href)}" class="inline-flex items-center justify-center rounded-md px-8 py-6 text-base font-medium ${t.primaryBtn}">${escapeHtml(getButton("saas_pro_hero_cta_primary").text)}</a>
-        <a href="${escapeHtml(getButton("saas_pro_hero_cta_secondary").href)}" class="inline-flex items-center justify-center rounded-md px-8 py-6 text-base font-medium ${t.secondaryBtn}">${escapeHtml(getButton("saas_pro_hero_cta_secondary").text)}</a>
+        <a href="${escapeHtml(getButton("saas_pro_hero_cta_primary").href)}" class="inline-flex items-center justify-center rounded-md px-8 py-4 text-base ${t.primaryBtn}">${escapeHtml(getButton("saas_pro_hero_cta_primary").text)}</a>
+        <a href="${escapeHtml(getButton("saas_pro_hero_cta_secondary").href)}" class="inline-flex items-center justify-center rounded-md px-8 py-4 text-base ${t.secondaryBtn}">${escapeHtml(getButton("saas_pro_hero_cta_secondary").text)}</a>
       </div>
-      <p class="text-sm opacity-70">${escapeHtml(getText("saas_pro_hero_note", "No credit card required • Free 14-day trial"))}</p>
+      <p class="text-xs text-gray-500 ${t.fontWeight}">${escapeHtml(getText("saas_pro_hero_note", "No credit card required • Free 14-day trial"))}</p>
     </div>
-    <div class="mt-16 relative">
-      <img src="${escapeHtml(getImage("saas_pro_hero_image", "/abstract-product-screenshot.jpg"))}" alt="Product dashboard" class="w-full max-w-5xl mx-auto rounded-xl shadow-2xl border border-gray-200" />
+    <div class="mt-20 relative">
+      <img src="${escapeHtml(getImage("saas_pro_hero_image", "/abstract-product-screenshot.jpg"))}" alt="Product dashboard" class="w-full max-w-5xl mx-auto rounded-lg shadow-2xl border border-gray-200" />
     </div>
   </section>
 
   <!-- Social Proof / Logos -->
-  <section class="border-y border-opacity-20 py-12 bg-opacity-30">
+  <section class="border-y ${t.cardBorder} bg-gray-50 py-12">
     <div class="mx-auto max-w-7xl px-4">
-      <p class="text-center text-sm font-medium opacity-60 mb-8">${escapeHtml(getText("saas_pro_logos_heading", "Trusted by industry-leading companies worldwide"))}</p>
+      <p class="text-center text-xs ${t.fontWeight} text-gray-500 mb-8 uppercase tracking-widest">${escapeHtml(getText("saas_pro_logos_heading", "Trusted by industry-leading companies worldwide"))}</p>
       <div class="grid grid-cols-2 md:grid-cols-5 gap-8 items-center">
-        ${[1,2,3,4,5].map(n => `<img src="${escapeHtml(getImage(`saas_pro_logo_${n}`, `/placeholder.svg?height=40&width=140&query=logo%20${n}`))}" alt="Partner ${n}" class="mx-auto h-8 md:h-10 w-auto opacity-60" />`).join("")}
+        ${[1,2,3,4,5].map(n => `<img src="${escapeHtml(getImage(`saas_pro_logo_${n}`, `/placeholder.svg?height=40&width=140&query=logo%20${n}`))}" alt="Partner ${n}" class="mx-auto h-8 md:h-10 w-auto opacity-40 hover:opacity-100 transition-opacity grayscale" />`).join("")}
       </div>
     </div>
   </section>
 
   <!-- Features Grid -->
-  <section class="mx-auto max-w-7xl px-4 py-20 md:py-28">
-    <div class="text-center max-w-3xl mx-auto mb-16">
-      <p class="font-semibold text-sm uppercase tracking-wider mb-3 opacity-80">${escapeHtml(getText("saas_pro_features_eyebrow", "Powerful Features"))}</p>
-      <h3 class="text-3xl md:text-5xl font-bold mb-4">${escapeHtml(getText("saas_pro_features_headline", "Everything You Need to Succeed"))}</h3>
-      <p class="text-lg opacity-70">${escapeHtml(getText("saas_pro_features_subheadline", "Our comprehensive suite of tools helps you work smarter"))}</p>
+  <section class="mx-auto max-w-7xl px-4 py-24 md:py-32">
+    <div class="text-center max-w-3xl mx-auto mb-20">
+      <p class="text-gray-500 ${t.fontWeight} text-xs uppercase tracking-widest mb-3">${escapeHtml(getText("saas_pro_features_eyebrow", "Powerful Features"))}</p>
+      <h3 class="text-4xl md:text-6xl ${t.fontWeight} mb-4">${escapeHtml(getText("saas_pro_features_headline", "Everything You Need to Succeed"))}</h3>
+      <p class="text-lg text-gray-600 ${t.fontWeight}">${escapeHtml(getText("saas_pro_features_subheadline", "Our comprehensive suite of tools helps you work smarter"))}</p>
     </div>
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
       ${[1,2,3,4,5,6].map(n => `
-        <div class="p-6 rounded-xl border border-opacity-20 hover:shadow-lg transition-shadow">
-          <div class="w-12 h-12 rounded-lg bg-opacity-10 flex items-center justify-center mb-4 text-2xl">${escapeHtml(getText(`saas_pro_feature_${n}_icon`, ["⚡","🎯","🔒","📊","🚀","💡"][n-1]))}</div>
-          <h4 class="text-xl font-semibold mb-2">${escapeHtml(getText(`saas_pro_feature_${n}_title`, ["Lightning Fast","Precision Targeting","Bank-Grade Security","Advanced Analytics","Seamless Integrations","Smart Automation"][n-1]))}</h4>
-          <p class="opacity-70 leading-relaxed">${escapeHtml(getText(`saas_pro_feature_${n}_description`, "Feature description"))}</p>
+        <div class="group">
+          <div class="w-12 h-12 rounded-full border ${t.cardBorder} flex items-center justify-center mb-4 group-hover:border-black transition-colors">${escapeHtml(getText(`saas_pro_feature_${n}_icon`, ["⚡","🎯","🔒","📊","🚀","💡"][n-1]))}</div>
+          <h4 class="text-xl ${t.fontWeight} mb-2">${escapeHtml(getText(`saas_pro_feature_${n}_title`, ["Lightning Fast","Precision Targeting","Bank-Grade Security","Advanced Analytics","Seamless Integrations","Smart Automation"][n-1]))}</h4>
+          <p class="text-gray-600 leading-relaxed ${t.fontWeight} text-sm">${escapeHtml(getText(`saas_pro_feature_${n}_description`, "Feature description"))}</p>
         </div>
       `).join("")}
     </div>
   </section>
 
   <!-- Stats / Metrics -->
-  <section class="border-y border-opacity-20 py-20 bg-opacity-30">
+  <section class="border-y ${t.cardBorder} bg-gray-50 py-20">
     <div class="mx-auto max-w-7xl px-4">
-      <div class="text-center mb-12">
-        <h3 class="text-3xl md:text-4xl font-bold mb-4">${escapeHtml(getText("saas_pro_stats_headline", "Results That Speak for Themselves"))}</h3>
-        <p class="text-lg opacity-70">${escapeHtml(getText("saas_pro_stats_subheadline", "Join thousands of businesses seeing improvements"))}</p>
+      <div class="text-center mb-16">
+        <h3 class="text-4xl md:text-5xl ${t.fontWeight} mb-4">${escapeHtml(getText("saas_pro_stats_headline", "Results That Speak for Themselves"))}</h3>
+        <p class="text-lg text-gray-600 ${t.fontWeight}">${escapeHtml(getText("saas_pro_stats_subheadline", "Join thousands of businesses seeing improvements"))}</p>
       </div>
-      <div class="grid md:grid-cols-4 gap-8">
+      <div class="grid md:grid-cols-4 gap-12">
         ${[1,2,3,4].map(i => `
           <div class="text-center">
-            <p class="text-4xl md:text-5xl font-bold mb-2">${escapeHtml(getText(`saas_pro_stat_${i}_number`, ["10K+","99.9%","4.9/5","24/7"][i-1]))}</p>
-            <p class="opacity-70 font-medium">${escapeHtml(getText(`saas_pro_stat_${i}_label`, ["Active Users","Uptime SLA","Customer Rating","Support"][i-1]))}</p>
+            <p class="text-5xl md:text-6xl ${t.fontWeight} mb-2">${escapeHtml(getText(`saas_pro_stat_${i}_number`, ["10K+","99.9%","4.9/5","24/7"][i-1]))}</p>
+            <p class="text-gray-600 ${t.fontWeight} text-sm">${escapeHtml(getText(`saas_pro_stat_${i}_label`, ["Active Users","Uptime SLA","Customer Rating","Support"][i-1]))}</p>
           </div>
         `).join("")}
       </div>
@@ -739,21 +826,21 @@ function generateSaaSProHTML(getText: GetText, getImage: GetImage, getButton: Ge
   </section>
 
   <!-- Testimonials -->
-  <section class="mx-auto max-w-7xl px-4 py-20 md:py-28">
-    <div class="text-center mb-16">
-      <p class="font-semibold text-sm uppercase tracking-wider mb-3 opacity-80">${escapeHtml(getText("saas_pro_testimonials_eyebrow", "Testimonials"))}</p>
-      <h3 class="text-3xl md:text-5xl font-bold">${escapeHtml(getText("saas_pro_testimonials_headline", "Loved by Teams Everywhere"))}</h3>
+  <section class="mx-auto max-w-7xl px-4 py-24 md:py-32">
+    <div class="text-center mb-20">
+      <p class="text-gray-500 ${t.fontWeight} text-xs uppercase tracking-widest mb-3">${escapeHtml(getText("saas_pro_testimonials_eyebrow", "Testimonials"))}</p>
+      <h3 class="text-4xl md:text-6xl ${t.fontWeight}">${escapeHtml(getText("saas_pro_testimonials_headline", "Loved by Teams Everywhere"))}</h3>
     </div>
     <div class="grid md:grid-cols-3 gap-8">
       ${[1,2,3].map(n => `
-        <div class="p-6 rounded-xl border border-opacity-20">
-          <div class="flex items-center gap-1 mb-4 text-yellow-500">${escapeHtml(getText(`saas_pro_testimonial_${n}_rating`, "⭐⭐⭐⭐⭐"))}</div>
-          <p class="text-lg mb-6 leading-relaxed">${escapeHtml(getText(`saas_pro_testimonial_${n}_quote`, "Great product!"))}</p>
+        <div class="p-8 border ${t.cardBorder} ${t.cardBg}">
+          <div class="flex items-center gap-1 mb-4 text-gray-400 text-sm">${escapeHtml(getText(`saas_pro_testimonial_${n}_rating`, "⭐⭐⭐⭐⭐"))}</div>
+          <p class="text-base mb-6 leading-relaxed ${t.fontWeight}">${escapeHtml(getText(`saas_pro_testimonial_${n}_quote`, "Great product!"))}</p>
           <div class="flex items-center gap-3">
-            <img src="${escapeHtml(getImage(`saas_pro_testimonial_${n}_avatar`, `/placeholder.svg?height=48&width=48&query=avatar%20${n}`))}" alt="Customer ${n}" class="w-12 h-12 rounded-full" />
+            <img src="${escapeHtml(getImage(`saas_pro_testimonial_${n}_avatar`, `/placeholder.svg?height=48&width=48&query=avatar%20${n}`))}" alt="Customer ${n}" class="w-12 h-12 rounded-full border ${t.cardBorder}" />
             <div>
-              <p class="font-semibold">${escapeHtml(getText(`saas_pro_testimonial_${n}_name`, `Customer ${n}`))}</p>
-              <p class="text-sm opacity-70">${escapeHtml(getText(`saas_pro_testimonial_${n}_title`, "Title"))}</p>
+              <p class="${t.fontWeight}">${escapeHtml(getText(`saas_pro_testimonial_${n}_name`, `Customer ${n}`))}</p>
+              <p class="text-xs text-gray-500 ${t.fontWeight}">${escapeHtml(getText(`saas_pro_testimonial_${n}_title`, "Title"))}</p>
             </div>
           </div>
         </div>
@@ -762,25 +849,25 @@ function generateSaaSProHTML(getText: GetText, getImage: GetImage, getButton: Ge
   </section>
 
   <!-- Pricing -->
-  <section class="mx-auto max-w-7xl px-4 py-20 md:py-28 border-t border-opacity-20">
-    <div class="text-center mb-16">
-      <p class="font-semibold text-sm uppercase tracking-wider mb-3 opacity-80">${escapeHtml(getText("saas_pro_pricing_eyebrow", "Pricing"))}</p>
-      <h3 class="text-3xl md:text-5xl font-bold mb-4">${escapeHtml(getText("saas_pro_pricing_headline", "Simple, Transparent Pricing"))}</h3>
-      <p class="text-lg opacity-70">${escapeHtml(getText("saas_pro_pricing_subheadline", "Choose the plan that fits your needs"))}</p>
+  <section class="mx-auto max-w-7xl px-4 py-24 md:py-32 border-t ${t.cardBorder}">
+    <div class="text-center mb-20">
+      <p class="text-gray-500 ${t.fontWeight} text-xs uppercase tracking-widest mb-3">${escapeHtml(getText("saas_pro_pricing_eyebrow", "Pricing"))}</p>
+      <h3 class="text-4xl md:text-6xl ${t.fontWeight} mb-4">${escapeHtml(getText("saas_pro_pricing_headline", "Simple, Transparent Pricing"))}</h3>
+      <p class="text-lg text-gray-600 ${t.fontWeight}">${escapeHtml(getText("saas_pro_pricing_subheadline", "Choose the plan that fits your needs"))}</p>
     </div>
     <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
       ${[1,2,3].map(i => `
-        <div class="relative p-8 rounded-2xl border border-opacity-20 ${i===2?'shadow-xl scale-105':''}">
-          ${i===2?`<div class="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 ${t.primaryBtn} text-sm font-semibold rounded-full">${escapeHtml(getText(`saas_pro_pricing_${i}_badge`, "Most Popular"))}</div>`:''}
-          <p class="text-xl font-semibold mb-2">${escapeHtml(getText(`saas_pro_pricing_${i}_name`, ["Starter","Professional","Enterprise"][i-1]))}</p>
+        <div class="relative p-8 border ${i===2?'border-black bg-gray-50':''+t.cardBorder+' '+t.cardBg}">
+          ${i===2?`<div class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-black text-white text-xs ${t.fontWeight}">${escapeHtml(getText(`saas_pro_pricing_${i}_badge`, "Most Popular"))}</div>`:''}
+          <p class="text-xl ${t.fontWeight} mb-2">${escapeHtml(getText(`saas_pro_pricing_${i}_name`, ["Starter","Professional","Enterprise"][i-1]))}</p>
           <div class="mb-6">
-            <span class="text-4xl font-bold">${escapeHtml(getText(`saas_pro_pricing_${i}_price`, ["$29","$79","$199"][i-1]))}</span>
-            <span class="opacity-70">${escapeHtml(getText(`saas_pro_pricing_${i}_period`, "/month"))}</span>
+            <span class="text-5xl ${t.fontWeight}">${escapeHtml(getText(`saas_pro_pricing_${i}_price`, ["$29","$79","$199"][i-1]))}</span>
+            <span class="text-gray-500 ${t.fontWeight} text-sm">${escapeHtml(getText(`saas_pro_pricing_${i}_period`, "/month"))}</span>
           </div>
-          <p class="text-sm opacity-70 mb-6">${escapeHtml(getText(`saas_pro_pricing_${i}_description`, "Plan description"))}</p>
-          <a href="${escapeHtml(getButton(`saas_pro_pricing_${i}_cta`).href)}" class="block w-full text-center rounded-md px-4 py-3 mb-6 ${i===2?t.primaryBtn:t.secondaryBtn}">${escapeHtml(getButton(`saas_pro_pricing_${i}_cta`).text)}</a>
+          <p class="text-xs text-gray-600 mb-6 ${t.fontWeight}">${escapeHtml(getText(`saas_pro_pricing_${i}_description`, "Plan description"))}</p>
+          <a href="${escapeHtml(getButton(`saas_pro_pricing_${i}_cta`).href)}" class="block w-full text-center rounded-md px-4 py-3 mb-6 ${i===2?'bg-black text-white hover:bg-gray-800 '+t.fontWeight:'bg-white text-black border '+t.cardBorder+' hover:bg-gray-50 '+t.fontWeight}">${escapeHtml(getButton(`saas_pro_pricing_${i}_cta`).text)}</a>
           <div class="space-y-3">
-            ${[1,2,3,4,5].map(f => `<div class="flex items-start gap-2"><span class="mt-0.5">✓</span><p class="text-sm">${escapeHtml(getText(`saas_pro_pricing_${i}_feature_${f}`, `Feature ${f}`))}</p></div>`).join("")}
+            ${[1,2,3,4,5].map(f => `<div class="flex items-start gap-2"><span class="text-black mt-0.5">✓</span><p class="text-xs ${t.fontWeight}">${escapeHtml(getText(`saas_pro_pricing_${i}_feature_${f}`, `Feature ${f}`))}</p></div>`).join("")}
           </div>
         </div>
       `).join("")}
@@ -788,38 +875,38 @@ function generateSaaSProHTML(getText: GetText, getImage: GetImage, getButton: Ge
   </section>
 
   <!-- CTA Section -->
-  <section class="mx-auto max-w-7xl px-4 py-20 md:py-28">
-    <div class="rounded-3xl ${t.primaryBtn} p-12 md:p-16 text-center">
-      <h3 class="text-3xl md:text-5xl font-bold mb-4">${escapeHtml(getText("saas_pro_cta_headline", "Ready to Transform Your Workflow?"))}</h3>
-      <p class="text-lg md:text-xl opacity-90 mb-8 max-w-2xl mx-auto">${escapeHtml(getText("saas_pro_cta_subheadline", "Join over 10,000 teams who have made the switch"))}</p>
+  <section class="mx-auto max-w-7xl px-4 py-24 md:py-32">
+    <div class="border ${t.cardBorder} p-16 text-center bg-gray-50">
+      <h3 class="text-4xl md:text-6xl ${t.fontWeight} mb-4">${escapeHtml(getText("saas_pro_cta_headline", "Ready to Transform Your Workflow?"))}</h3>
+      <p class="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto ${t.fontWeight}">${escapeHtml(getText("saas_pro_cta_subheadline", "Join over 10,000 teams who have made the switch"))}</p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="${escapeHtml(getButton("saas_pro_cta_primary").href)}" class="inline-flex items-center justify-center rounded-md px-8 py-6 text-base font-medium ${t.secondaryBtn}">${escapeHtml(getButton("saas_pro_cta_primary").text)}</a>
-        <a href="${escapeHtml(getButton("saas_pro_cta_secondary").href)}" class="inline-flex items-center justify-center rounded-md px-8 py-6 text-base font-medium border-2 border-opacity-20">${escapeHtml(getButton("saas_pro_cta_secondary").text)}</a>
+        <a href="${escapeHtml(getButton("saas_pro_cta_primary").href)}" class="inline-flex items-center justify-center rounded-md px-8 py-4 text-base ${t.primaryBtn}">${escapeHtml(getButton("saas_pro_cta_primary").text)}</a>
+        <a href="${escapeHtml(getButton("saas_pro_cta_secondary").href)}" class="inline-flex items-center justify-center rounded-md px-8 py-4 text-base ${t.secondaryBtn}">${escapeHtml(getButton("saas_pro_cta_secondary").text)}</a>
       </div>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="border-t border-opacity-20 py-12 bg-opacity-30">
+  <footer class="border-t ${t.cardBorder} ${t.cardBg} py-12">
     <div class="mx-auto max-w-7xl px-4">
       <div class="grid md:grid-cols-5 gap-8 mb-8">
         <div class="md:col-span-2">
-          <h5 class="text-lg font-bold mb-3">${escapeHtml(getText("saas_pro_footer_brand", "InnovatePro"))}</h5>
-          <p class="text-sm opacity-70 mb-4 max-w-xs">${escapeHtml(getText("saas_pro_footer_tagline", "Empowering businesses with intelligent automation"))}</p>
+          <h5 class="text-lg ${t.fontWeight} mb-3">${escapeHtml(getText("saas_pro_footer_brand", "InnovatePro"))}</h5>
+          <p class="text-xs text-gray-600 mb-4 max-w-xs ${t.fontWeight}">${escapeHtml(getText("saas_pro_footer_tagline", "Empowering businesses with intelligent automation"))}</p>
         </div>
         ${[1,2,3].map(col => `
           <div>
-            <p class="font-semibold mb-3">${escapeHtml(getText(`saas_pro_footer_col_${col}_title`, ["Product","Company","Support"][col-1]))}</p>
+            <p class="${t.fontWeight} mb-3 text-sm">${escapeHtml(getText(`saas_pro_footer_col_${col}_title`, ["Product","Company","Support"][col-1]))}</p>
             <div class="space-y-2">
-              ${[1,2,3,4].map(link => `<p class="text-sm opacity-70">${escapeHtml(getText(`saas_pro_footer_col_${col}_link_${link}`, `Link ${link}`))}</p>`).join("")}
+              ${[1,2,3,4].map(link => `<p class="text-xs text-gray-600 hover:text-black ${t.fontWeight} transition-colors">${escapeHtml(getText(`saas_pro_footer_col_${col}_link_${link}`, `Link ${link}`))}</p>`).join("")}
             </div>
           </div>
         `).join("")}
       </div>
-      <div class="pt-8 border-t border-opacity-20 flex flex-col md:flex-row justify-between items-center gap-4">
-        <p class="text-sm opacity-70">${escapeHtml(getText("saas_pro_footer_copyright", "© 2025 InnovatePro. All rights reserved."))}</p>
+      <div class="pt-8 border-t ${t.cardBorder} flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-xs text-gray-500 ${t.fontWeight}">${escapeHtml(getText("saas_pro_footer_copyright", "© 2025 InnovatePro. All rights reserved."))}</p>
         <div class="flex gap-6">
-          ${[1,2,3].map(i => `<span class="text-sm opacity-70">${escapeHtml(getText(`saas_pro_footer_legal_${i}`, ["Privacy","Terms","Cookies"][i-1]))}</span>`).join("")}
+          ${[1,2,3].map(i => `<span class="text-xs text-gray-500 hover:text-black ${t.fontWeight} transition-colors">${escapeHtml(getText(`saas_pro_footer_legal_${i}`, ["Privacy","Terms","Cookies"][i-1]))}</span>`).join("")}
         </div>
       </div>
     </div>
@@ -829,8 +916,8 @@ function generateSaaSProHTML(getText: GetText, getImage: GetImage, getButton: Ge
 }
 
 function generatePortfolioProHTML(getText: GetText, getImage: GetImage, getButton: GetButton, theme?: string): string {
-  // Portfolio Pro uses similar theme system as SaaS Pro
-  const t = getThemeStyles(theme || "modern-minimal")
+  // Portfolio Pro has its own theme system
+  const t = getPortfolioProThemeStyles(theme || "default")
   
   return `
 <main class="${t.mainBg} ${t.mainText}">
@@ -897,8 +984,8 @@ function generatePortfolioProHTML(getText: GetText, getImage: GetImage, getButto
 }
 
 function generateIPhoneProHTML(getText: GetText, getImage: GetImage, getButton: GetButton, theme?: string): string {
-  // iPhone Pro templates have dark/premium themes
-  // Theme IDs: "dark-gradient", "light-elegant", "neon-cyberpunk", "midnight-blue", "vibrant-gradient"
+  // iPhone Pro templates have 6 premium themes
+  // Theme IDs: "dark-gradient", "light-elegant", "neon-cyberpunk", "luxury-gold", "minimalist-tech", "vibrant-gradient"
   console.log('generateIPhoneProHTML called with theme:', theme)
   
   // Theme-specific styling
@@ -916,22 +1003,55 @@ function generateIPhoneProHTML(getText: GetText, getImage: GetImage, getButton: 
   let accentColor = 'text-blue-400'
   let sectionBg = 'bg-gradient-to-b from-transparent to-slate-950/50'
   let isDark = true
+  // Font and style specific
+  let brandFontWeight = 'font-bold'
+  let brandFontFamily = ''
+  let badgeFontWeight = 'font-semibold'
+  let badgeRounded = 'rounded-full'
+  let buttonRounded = 'rounded-full'
+  let buttonFontWeight = 'font-semibold'
+  let buttonShadow = 'shadow-lg shadow-blue-500/30'
+  let heroTitleFontWeight = 'font-black'
+  let heroSubtitleFontWeight = ''
+  let imageBorder = 'border border-white/10'
+  let imageShadow = 'shadow-2xl shadow-blue-500/20'
+  let imageRounded = 'rounded-3xl'
+  let featureCardBgs = ['bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-white/10', 'bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-white/10', 'bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-white/10']
+  let featureCardRounded = 'rounded-2xl'
+  let featureTitleColor = ''
   
   if (theme === 'vibrant-gradient') {
-    bgClass = 'bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 text-gray-900'
-    headerBg = 'border-orange-200 bg-white/80'
-    titleClass = 'text-gray-900'
-    textHoverClass = 'hover:text-orange-600'
-    buttonClass = 'bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700'
-    buttonSecondary = 'bg-white hover:bg-orange-50 text-gray-900 border border-orange-300'
-    badgeClass = 'bg-orange-100 border border-orange-300 text-orange-800'
-    heroTitleClass = 'text-gray-900'
+    bgClass = 'bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 text-gray-900'
+    headerBg = 'border-white/50 bg-white/70'
+    titleClass = 'bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 bg-clip-text text-transparent'
+    textHoverClass = 'hover:text-purple-600'
+    buttonClass = 'bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 hover:from-pink-600 hover:via-purple-600 hover:to-blue-600'
+    buttonSecondary = 'bg-white hover:bg-purple-50 text-purple-700 border-2 border-purple-300'
+    badgeClass = 'bg-gradient-to-r from-pink-100 to-purple-100 border-2 border-purple-300 text-purple-700'
+    heroTitleClass = 'bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 bg-clip-text text-transparent'
     textColor = 'text-gray-700'
-    textMuted = 'text-gray-600'
-    cardBg = 'bg-gradient-to-br from-yellow-100 to-orange-100 border border-orange-200'
-    accentColor = 'text-orange-600'
-    sectionBg = 'bg-gradient-to-b from-orange-50/50 to-amber-50'
+    textMuted = 'text-purple-700'
+    cardBg = 'bg-gradient-to-br from-pink-100/50 via-purple-100/50 to-blue-100/50 border-2 border-purple-200'
+    accentColor = 'text-purple-600'
+    sectionBg = 'bg-white'
     isDark = false
+    // Fonts & styles
+    brandFontWeight = 'font-black'
+    badgeFontWeight = 'font-bold'
+    buttonFontWeight = 'font-bold'
+    buttonShadow = 'shadow-lg shadow-purple-500/30'
+    heroTitleFontWeight = 'font-black'
+    heroSubtitleFontWeight = 'font-semibold'
+    imageBorder = 'border-4 border-purple-200'
+    imageShadow = 'shadow-2xl shadow-purple-500/20'
+    imageRounded = 'rounded-3xl'
+    featureCardBgs = [
+      'bg-gradient-to-br from-yellow-200 to-yellow-300 shadow-xl shadow-yellow-300/30',
+      'bg-gradient-to-br from-pink-200 to-pink-300 shadow-xl shadow-pink-300/30',
+      'bg-gradient-to-br from-cyan-200 to-teal-300 shadow-xl shadow-cyan-300/30'
+    ]
+    featureCardRounded = 'rounded-3xl'
+    featureTitleColor = 'text-gray-900'
   } else if (theme === 'light-elegant') {
     bgClass = 'bg-white text-gray-900'
     headerBg = 'border-gray-200 bg-white'
@@ -947,36 +1067,94 @@ function generateIPhoneProHTML(getText: GetText, getImage: GetImage, getButton: 
     accentColor = 'text-blue-600'
     sectionBg = 'bg-gray-50'
     isDark = false
+    // Fonts & styles
+    brandFontWeight = 'font-bold'
+    badgeFontWeight = 'font-semibold'
+    buttonFontWeight = 'font-semibold'
+    buttonShadow = 'shadow-lg'
+    heroTitleFontWeight = 'font-black'
+    imageBorder = 'border border-gray-200'
+    imageShadow = 'shadow-2xl'
+    imageRounded = 'rounded-3xl'
   } else if (theme === 'neon-cyberpunk') {
-    bgClass = 'bg-gradient-to-b from-purple-950 via-fuchsia-950 to-black text-white'
-    headerBg = 'border-fuchsia-500/20 bg-black/60'
-    titleClass = 'bg-gradient-to-r from-fuchsia-400 to-cyan-400 bg-clip-text text-transparent'
-    textHoverClass = 'hover:text-fuchsia-400'
-    buttonClass = 'bg-gradient-to-r from-fuchsia-600 to-cyan-600 hover:from-fuchsia-700 hover:to-cyan-700'
-    buttonSecondary = 'bg-fuchsia-500/10 hover:bg-fuchsia-500/20 text-white border border-fuchsia-400/30'
-    badgeClass = 'bg-gradient-to-r from-fuchsia-500/20 to-cyan-500/20 border border-fuchsia-400/30 text-fuchsia-300'
-    heroTitleClass = 'bg-gradient-to-b from-white via-fuchsia-200 to-cyan-300 bg-clip-text text-transparent'
+    bgClass = 'bg-black text-white'
+    headerBg = 'border-cyan-500/30 bg-black/90'
+    titleClass = 'bg-gradient-to-r from-cyan-400 via-pink-500 to-purple-500 bg-clip-text text-transparent'
+    textHoverClass = 'hover:text-pink-500'
+    buttonClass = 'bg-gradient-to-r from-cyan-500 to-pink-500 hover:from-cyan-600 hover:to-pink-600 text-black border-2 border-cyan-400'
+    buttonSecondary = 'bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 border-2 border-cyan-400'
+    badgeClass = 'bg-gradient-to-r from-cyan-500/20 to-pink-500/20 border-2 border-cyan-400 text-cyan-300'
+    heroTitleClass = 'bg-gradient-to-r from-cyan-400 via-pink-500 to-purple-500 bg-clip-text text-transparent'
     textColor = 'text-gray-300'
-    textMuted = 'text-gray-400'
-    cardBg = 'bg-gradient-to-br from-fuchsia-500/20 to-cyan-500/20 border border-fuchsia-400/20'
-    accentColor = 'text-fuchsia-400'
-    sectionBg = 'bg-gradient-to-b from-transparent to-purple-950/50'
+    textMuted = 'text-cyan-400'
+    cardBg = 'bg-gradient-to-br from-cyan-500/20 to-pink-500/20 border-2 border-cyan-400/50'
+    accentColor = 'text-cyan-400'
+    sectionBg = 'bg-gradient-to-b from-black via-purple-950/20 to-black'
     isDark = true
-  } else if (theme === 'midnight-blue') {
-    bgClass = 'bg-gradient-to-b from-blue-950 via-slate-900 to-black text-white'
-    headerBg = 'border-blue-500/20 bg-black/50'
-    titleClass = 'bg-gradient-to-r from-blue-300 to-cyan-300 bg-clip-text text-transparent'
-    textHoverClass = 'hover:text-blue-400'
-    buttonClass = 'bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700'
-    buttonSecondary = 'bg-blue-500/10 hover:bg-blue-500/20 text-white border border-blue-400/30'
-    badgeClass = 'bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-400/30 text-blue-300'
-    heroTitleClass = 'bg-gradient-to-b from-white via-blue-200 to-cyan-300 bg-clip-text text-transparent'
-    textColor = 'text-gray-300'
-    textMuted = 'text-gray-400'
-    cardBg = 'bg-gradient-to-br from-blue-500/20 to-cyan-500/20 border border-blue-400/20'
-    accentColor = 'text-blue-400'
-    sectionBg = 'bg-gradient-to-b from-transparent to-blue-950/50'
-    isDark = true
+    // Fonts & styles
+    brandFontWeight = 'font-black'
+    badgeFontWeight = 'font-black'
+    buttonFontWeight = 'font-black'
+    buttonShadow = 'shadow-lg shadow-pink-500/50'
+    buttonRounded = 'rounded-md'
+    badgeRounded = 'rounded-md'
+    heroTitleFontWeight = 'font-black'
+    imageBorder = 'border-2 border-cyan-400/50'
+    imageShadow = 'shadow-2xl shadow-cyan-500/30'
+    imageRounded = 'rounded-2xl'
+  } else if (theme === 'luxury-gold') {
+    bgClass = 'bg-gradient-to-b from-amber-50 via-white to-amber-50 text-gray-900'
+    headerBg = 'border-amber-200 bg-white/95'
+    titleClass = 'bg-gradient-to-r from-amber-600 to-yellow-600 bg-clip-text text-transparent'
+    textHoverClass = 'hover:text-amber-700'
+    buttonClass = 'bg-gradient-to-r from-amber-600 to-yellow-600 hover:from-amber-700 hover:to-yellow-700'
+    buttonSecondary = 'bg-white hover:bg-amber-50 text-amber-800 border-2 border-amber-300'
+    badgeClass = 'bg-gradient-to-r from-amber-100 to-yellow-100 border border-amber-300 text-amber-800'
+    heroTitleClass = 'bg-gradient-to-r from-amber-700 via-yellow-600 to-amber-700 bg-clip-text text-transparent'
+    textColor = 'text-gray-600'
+    textMuted = 'text-amber-700'
+    cardBg = 'bg-gradient-to-br from-amber-50 to-yellow-50 border-2 border-amber-200'
+    accentColor = 'text-amber-700'
+    sectionBg = 'bg-gradient-to-br from-amber-100/50 via-yellow-50/50 to-amber-100/50'
+    isDark = false
+    // Fonts & styles
+    brandFontWeight = 'font-bold'
+    brandFontFamily = 'font-serif'
+    badgeFontWeight = 'font-semibold'
+    buttonFontWeight = 'font-semibold'
+    buttonShadow = 'shadow-lg shadow-amber-600/30'
+    heroTitleFontWeight = 'font-black'
+    heroSubtitleFontWeight = ''
+    imageBorder = 'border-2 border-amber-200'
+    imageShadow = 'shadow-2xl shadow-amber-500/20'
+    imageRounded = 'rounded-3xl'
+  } else if (theme === 'minimalist-tech') {
+    bgClass = 'bg-white text-black'
+    headerBg = 'border-black/10 bg-white'
+    titleClass = 'text-black'
+    textHoverClass = 'hover:opacity-60'
+    buttonClass = 'bg-black hover:bg-black/80 text-white'
+    buttonSecondary = 'bg-white hover:bg-black/5 text-black border-2 border-black/20'
+    badgeClass = 'border border-black/20 text-black/60'
+    heroTitleClass = 'text-black'
+    textColor = 'text-black/60'
+    textMuted = 'text-black/40'
+    cardBg = 'bg-black/5 border border-black/10'
+    accentColor = 'text-black'
+    sectionBg = 'bg-black/5'
+    isDark = false
+    // Fonts & styles
+    brandFontWeight = 'font-medium'
+    badgeFontWeight = 'font-medium'
+    buttonFontWeight = 'font-medium'
+    buttonShadow = ''
+    buttonRounded = 'rounded-none'
+    badgeRounded = ''
+    heroTitleFontWeight = 'font-light'
+    heroSubtitleFontWeight = 'font-light'
+    imageBorder = 'border border-black/10'
+    imageShadow = 'shadow-xl'
+    imageRounded = 'rounded-lg'
   }
   // dark-gradient is the default (already set above)
   
@@ -987,12 +1165,12 @@ function generateIPhoneProHTML(getText: GetText, getImage: GetImage, getButton: 
   <!-- Navigation -->
   <header class="border-b ${headerBg} backdrop-blur-xl sticky top-0 z-50">
     <div class="mx-auto max-w-7xl px-8 py-4 flex items-center justify-between">
-      <h1 class="text-2xl font-bold ${titleClass}">${escapeHtml(getText("iphone_pro_brand", "iPhone Pro"))}</h1>
+      <h1 class="text-2xl ${brandFontWeight} ${brandFontFamily} ${titleClass}">${escapeHtml(getText("iphone_pro_brand", "iPhone Pro"))}</h1>
       <nav class="hidden md:flex items-center gap-10 text-sm font-medium">
         ${[0,1,2,3].map(i => `<span class="${textHoverClass} transition-colors">${escapeHtml(getText(`iphone_pro_nav_${i}`, ["Overview","Tech Specs","Gallery","Compare"][i]))}</span>`).join("")}
       </nav>
       <div class="flex items-center gap-4">
-        <a href="${escapeHtml(getButton("iphone_pro_nav_preorder").href)}" class="${buttonClass} text-white px-6 py-2.5 rounded-full text-sm font-semibold shadow-lg">${escapeHtml(getButton("iphone_pro_nav_preorder").text)}</a>
+        <a href="${escapeHtml(getButton("iphone_pro_nav_preorder").href)}" class="${buttonClass} text-white px-6 py-2.5 ${buttonRounded} text-sm ${buttonFontWeight} ${buttonShadow}">${escapeHtml(getButton("iphone_pro_nav_preorder").text)}</a>
       </div>
     </div>
   </header>
@@ -1001,18 +1179,18 @@ function generateIPhoneProHTML(getText: GetText, getImage: GetImage, getButton: 
   <section class="relative overflow-hidden py-24 md:py-32">
     ${isDark ? '<div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/20 to-pink-600/20 blur-3xl"></div>' : ''}
     <div class="relative mx-auto max-w-7xl px-8 text-center">
-      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full ${badgeClass} text-sm font-semibold mb-8 backdrop-blur-sm">
+      <div class="inline-flex items-center gap-2 px-4 py-2 ${badgeRounded} ${badgeClass} text-sm ${badgeFontWeight} mb-8 backdrop-blur-sm">
         ${escapeHtml(getText("iphone_pro_hero_badge", "✨ Introducing iPhone 15 Pro Max"))}
       </div>
-      <h2 class="text-6xl md:text-8xl font-black mb-6 tracking-tighter ${heroTitleClass}">
+      <h2 class="text-6xl md:text-8xl ${heroTitleFontWeight} mb-6 tracking-tighter ${heroTitleClass}">
         ${escapeHtml(getText("iphone_pro_hero_title", "Titanium. So strong. So light. So Pro."))}
       </h2>
-      <p class="text-xl md:text-2xl ${textColor} mb-10 max-w-4xl mx-auto leading-relaxed">
+      <p class="text-xl md:text-2xl ${textColor} ${heroSubtitleFontWeight} mb-10 max-w-4xl mx-auto leading-relaxed">
         ${escapeHtml(getText("iphone_pro_hero_subtitle", "Forged from aerospace-grade titanium with the most advanced camera system ever in an iPhone."))}
       </p>
       <div class="flex flex-col sm:flex-row gap-5 justify-center mb-8">
-        <a href="${escapeHtml(getButton("iphone_pro_hero_cta_primary").href)}" class="${buttonClass} text-white px-10 py-4 rounded-full text-lg font-semibold shadow-2xl transform hover:scale-105 transition-all">${escapeHtml(getButton("iphone_pro_hero_cta_primary").text)}</a>
-        <a href="${escapeHtml(getButton("iphone_pro_hero_cta_secondary").href)}" class="${buttonSecondary} px-10 py-4 rounded-full text-lg font-semibold backdrop-blur-sm transition-all">${escapeHtml(getButton("iphone_pro_hero_cta_secondary").text)}</a>
+        <a href="${escapeHtml(getButton("iphone_pro_hero_cta_primary").href)}" class="${buttonClass} text-white px-10 py-4 ${buttonRounded} text-lg ${buttonFontWeight} ${buttonShadow} transform hover:scale-105 transition-all">${escapeHtml(getButton("iphone_pro_hero_cta_primary").text)}</a>
+        <a href="${escapeHtml(getButton("iphone_pro_hero_cta_secondary").href)}" class="${buttonSecondary} px-10 py-4 ${buttonRounded} text-lg ${buttonFontWeight} backdrop-blur-sm transition-all">${escapeHtml(getButton("iphone_pro_hero_cta_secondary").text)}</a>
       </div>
       <div class="flex items-center justify-center gap-8 text-base ${textMuted}">
         <span class="font-medium">${escapeHtml(getText("iphone_pro_hero_price", "From $1,199"))}</span>
@@ -1025,7 +1203,7 @@ function generateIPhoneProHTML(getText: GetText, getImage: GetImage, getButton: 
   <!-- Product Showcase -->
   <section class="py-20 relative">
     <div class="mx-auto max-w-7xl px-8">
-      <div class="relative rounded-3xl overflow-hidden ${isDark ? 'border border-white/10 shadow-2xl shadow-blue-500/20' : 'border border-gray-200 shadow-2xl'}">
+      <div class="relative ${imageRounded} overflow-hidden ${imageBorder} ${imageShadow}">
         <img src="${escapeHtml(getImage("iphone_pro_showcase_image", "/placeholder.svg?height=800&width=1400&query=iphone"))}" alt="iPhone Pro showcase" class="w-full h-auto" />
         ${isDark ? '<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>' : ''}
       </div>
@@ -1042,9 +1220,9 @@ function generateIPhoneProHTML(getText: GetText, getImage: GetImage, getButton: 
       </div>
       <div class="grid md:grid-cols-3 gap-8">
         ${[0,1,2].map(i => `
-          <div class="relative p-8 rounded-2xl ${cardBg} backdrop-blur-sm hover:scale-105 transition-transform duration-300">
+          <div class="relative p-8 ${featureCardRounded} ${featureCardBgs[i]} backdrop-blur-sm hover:scale-105 transition-transform duration-300">
             <div class="text-6xl mb-6">${escapeHtml(getText(`iphone_pro_feature_${i}_icon`, ["⚡","📸","🔋"][i]))}</div>
-            <h4 class="text-2xl font-bold mb-4">${escapeHtml(getText(`iphone_pro_feature_${i}_title`, ["A18 Pro Chip","Pro Camera System","All-Day Battery"][i]))}</h4>
+            <h4 class="text-2xl font-bold mb-4 ${featureTitleColor}">${escapeHtml(getText(`iphone_pro_feature_${i}_title`, ["A18 Pro Chip","Pro Camera System","All-Day Battery"][i]))}</h4>
             <p class="${textColor} leading-relaxed">${escapeHtml(getText(`iphone_pro_feature_${i}_desc`, "Feature description"))}</p>
           </div>
         `).join("")}

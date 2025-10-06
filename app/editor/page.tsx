@@ -841,16 +841,22 @@ export default function EditorPage() {
         texts["ct-hero-title"] ||
         "Untitled Website"
 
+      const themeToSave = (template === "saas-pro" || template === "portfolio-pro" || template === "iphone-pro") ? selectedThemeId || undefined : undefined
+      
       const project: ProjectRecord = {
         id: `p_${Date.now()}`,
         name: titleCandidate,
         template: template || "unknown",
-        theme: (template === "saas-pro" || template === "portfolio-pro" || template === "iphone-pro") ? selectedThemeId || undefined : undefined,
+        theme: themeToSave,
         updatedAt: Date.now(),
         data: { texts, images, buttons },
       }
 
-      console.log("[v0] Publishing payload:", project)
+      console.log("[v0] Publishing payload:")
+      console.log("  Template:", template)
+      console.log("  Selected Theme ID:", selectedThemeId)
+      console.log("  Theme to save:", themeToSave)
+      console.log("  Full project:", project)
       saveProject(project)
 
       // Enhanced saving experience with realistic timing
