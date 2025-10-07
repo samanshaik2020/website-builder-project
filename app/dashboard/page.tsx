@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { 
@@ -21,17 +22,51 @@ import {
   List,
   Download,
   ExternalLink,
-  Edit
+  Edit,
+  Lock,
+  Share2
 } from "lucide-react"
 import Link from "next/link"
 import { useProjects } from "@/hooks/use-projects"
 import { generateHTMLExport } from "@/lib/export-html"
 import type { ProjectRecord } from "@/components/lib/projects-store"
+import { useSubscription } from "@/hooks/use-subscription"
+import { canExport, getPlanById } from "@/lib/pricing-plans"
+import { useRouter } from "next/navigation"
+import { toast } from "sonner"
+import { ShareLinkDialog } from "@/components/share-link-dialog"
 
 export default function DashboardPage() {
   const { projects, remove } = useProjects()
+  const { subscription, isLoaded } = useSubscription()
+  const router = useRouter()
+  const currentPlan = getPlanById(subscription.plan)
+  const [shareDialogOpen, setShareDialogOpen] = useState(false)
+  const [selectedProject, setSelectedProject] = useState<ProjectRecord | null>(null)
+
+  // Prevent hydration errors by not rendering subscription-dependent content until loaded
+  if (!isLoaded) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    )
+  }
 
   const handleExport = (project: ProjectRecord) => {
+    // Check if user's plan allows export
+    if (!canExport(subscription.plan)) {
+      toast.error("Export Feature Locked", {
+        description: "Export is only available on Professional and Unlimited plans. Upgrade to export your websites.",
+        duration: 5000,
+      })
+      setTimeout(() => router.push("/pricing"), 1500)
+      return
+    }
+    
     const html = generateHTMLExport(project)
     const blob = new Blob([html], { type: "text/html" })
     const url = URL.createObjectURL(blob)
@@ -42,6 +77,11 @@ export default function DashboardPage() {
     a.click()
     document.body.removeChild(a)
     URL.revokeObjectURL(url)
+    
+    toast.success("Export Successful!", {
+      description: `${project.name} has been exported as HTML.`,
+      duration: 3000,
+    })
   }
 
   const handlePreview = (project: ProjectRecord) => {
@@ -63,6 +103,11 @@ export default function DashboardPage() {
     }
     params.set('loadProject', 'true')
     window.location.href = `/editor?${params.toString()}`
+  }
+
+  const handleShare = (project: ProjectRecord) => {
+    setSelectedProject(project)
+    setShareDialogOpen(true)
   }
 
   return (
@@ -115,8 +160,23 @@ export default function DashboardPage() {
       <div className="max-w-[1400px] mx-auto p-6">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome back!</h1>
-          <p className="text-gray-600">Here's what's happening with your websites today.</p>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome back!</h1>
+              <p className="text-gray-600">Here's what's happening with your websites today.</p>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="bg-white rounded-lg border border-gray-200 px-4 py-2">
+                <div className="text-xs text-gray-600">Current Plan</div>
+                <div className="text-sm font-semibold text-purple-600 uppercase">{subscription.plan}</div>
+              </div>
+              <Link href="/pricing">
+                <Button variant="outline" className="gap-2">
+                  View Plans
+                </Button>
+              </Link>
+            </div>
+          </div>
         </div>
 
         {/* Action Buttons */}
@@ -330,9 +390,22 @@ export default function DashboardPage() {
                               size="sm"
                               variant="outline"
                               className="gap-1.5 h-8"
+                              onClick={() => handleShare(project)}
+                            >
+                              <Share2 className="w-3.5 h-3.5" />
+                              Share
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className={`gap-1.5 h-8 ${!currentPlan.limits.canExport ? "opacity-60" : ""}`}
                               onClick={() => handleExport(project)}
                             >
-                              <Download className="w-3.5 h-3.5" />
+                              {!currentPlan.limits.canExport ? (
+                                <Lock className="w-3.5 h-3.5" />
+                              ) : (
+                                <Download className="w-3.5 h-3.5" />
+                              )}
                               Export
                             </Button>
                           </div>
@@ -378,38 +451,113 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            {/* Upgrade to Pro */}
-            <div className="bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl p-6 text-white">
-              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mb-4">
-                <Brain className="w-6 h-6 text-white" />
+            {/* Plan Limits & Upgrade */}
+            <div className="bg-white rounded-xl border border-gray-200 p-6">
+              <h2 className="text-lg font-bold text-gray-900 mb-4">Your Plan Limits</h2>
+              <div className="space-y-4">
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-gray-600">Normal Templates</span>
+                    <span className="text-sm font-semibold text-gray-900">
+                      {projects.filter(p => !["agency-pro", "saas-pro", "portfolio-pro", "iphone-pro", "ecommerce-pro"].includes(p.template)).length} / {currentPlan.limits.normalTemplates === "unlimited" ? "∞" : currentPlan.limits.normalTemplates}
+                    </span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div 
+                      className="bg-blue-600 h-2 rounded-full" 
+                      style={{ 
+                        width: currentPlan.limits.normalTemplates === "unlimited" 
+                          ? "100%" 
+                          : `${Math.min((projects.filter(p => !["agency-pro", "saas-pro", "portfolio-pro", "iphone-pro", "ecommerce-pro"].includes(p.template)).length / (currentPlan.limits.normalTemplates as number)) * 100, 100)}%` 
+                      }}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-gray-600">Pro Templates</span>
+                    <span className="text-sm font-semibold text-gray-900">
+                      {projects.filter(p => ["agency-pro", "saas-pro", "portfolio-pro", "iphone-pro", "ecommerce-pro"].includes(p.template)).length} / {currentPlan.limits.proTemplates === Infinity ? "∞" : currentPlan.limits.proTemplates}
+                    </span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div 
+                      className="bg-purple-600 h-2 rounded-full" 
+                      style={{ 
+                        width: currentPlan.limits.proTemplates === Infinity 
+                          ? "100%" 
+                          : `${Math.min((projects.filter(p => ["agency-pro", "saas-pro", "portfolio-pro", "iphone-pro", "ecommerce-pro"].includes(p.template)).length / currentPlan.limits.proTemplates) * 100, 100)}%` 
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="pt-2 border-t border-gray-200">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-600">Export to HTML</span>
+                    <span className={`text-sm font-semibold ${currentPlan.limits.canExport ? "text-green-600" : "text-red-600"}`}>
+                      {currentPlan.limits.canExport ? "Enabled" : "Disabled"}
+                    </span>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-xl font-bold mb-2">Upgrade to Pro</h3>
-              <p className="text-sm text-white/90 mb-4">Unlock advanced features</p>
-              <ul className="space-y-2 mb-6 text-sm">
-                <li className="flex items-center gap-2">
-                  <span className="text-white">•</span>
-                  <span>Unlimited websites</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-white">•</span>
-                  <span>AI content generation</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-white">•</span>
-                  <span>Advanced analytics</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-white">•</span>
-                  <span>Priority support</span>
-                </li>
-              </ul>
-              <Button className="w-full bg-white text-purple-600 hover:bg-gray-100">
-                Upgrade Now
-              </Button>
             </div>
+
+            {subscription.plan !== "unlimited" && (
+              <div className="bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl p-6 text-white">
+                <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mb-4">
+                  <Brain className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="text-xl font-bold mb-2">
+                  {subscription.plan === "free" ? "Upgrade to Pro" : "Upgrade Your Plan"}
+                </h3>
+                <p className="text-sm text-white/90 mb-4">Unlock more features and templates</p>
+                <ul className="space-y-2 mb-6 text-sm">
+                  {subscription.plan === "free" && (
+                    <>
+                      <li className="flex items-center gap-2">
+                        <span className="text-white">•</span>
+                        <span>Unlimited normal templates</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="text-white">•</span>
+                        <span>Access to pro templates</span>
+                      </li>
+                    </>
+                  )}
+                  {(subscription.plan === "free" || subscription.plan === "starter") && (
+                    <li className="flex items-center gap-2">
+                      <span className="text-white">•</span>
+                      <span>Export to HTML</span>
+                    </li>
+                  )}
+                  <li className="flex items-center gap-2">
+                    <span className="text-white">•</span>
+                    <span>AI content generation</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-white">•</span>
+                    <span>Priority support</span>
+                  </li>
+                </ul>
+                <Link href="/pricing">
+                  <Button className="w-full bg-white text-purple-600 hover:bg-gray-100">
+                    View All Plans
+                  </Button>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>
+
+      {/* Share Link Dialog */}
+      {selectedProject && (
+        <ShareLinkDialog
+          project={selectedProject}
+          open={shareDialogOpen}
+          onOpenChange={setShareDialogOpen}
+        />
+      )}
     </div>
   )
 }

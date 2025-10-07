@@ -48,7 +48,7 @@ export function SaaSProElegantDark(props: TemplateProps) {
       {/* Hero Section */}
       <section className="mx-auto max-w-7xl px-4 py-24 md:py-32">
         <div className="text-center max-w-4xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gray-300 text-gray-600 text-xs font-light mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-400 text-xs font-light mb-6">
             <EditableText id="saas_pro_hero_badge" editable={editable} {...props}>
               ✨ New: AI-Powered Analytics Dashboard
             </EditableText>
@@ -56,7 +56,7 @@ export function SaaSProElegantDark(props: TemplateProps) {
           <EditableText
             id="saas_pro_hero_headline"
             as="h2"
-            className="text-5xl md:text-7xl lg:text-8xl font-light tracking-tight mb-6 leading-none"
+            className="text-5xl md:text-7xl lg:text-8xl font-light tracking-tight mb-6 leading-none text-zinc-100"
             editable={editable}
             {...props}
           >
@@ -64,7 +64,7 @@ export function SaaSProElegantDark(props: TemplateProps) {
           </EditableText>
           <EditableText
             id="saas_pro_hero_subheadline"
-            className="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed max-w-3xl mx-auto font-light"
+            className="text-lg md:text-xl text-zinc-400 mb-8 leading-relaxed max-w-3xl mx-auto font-light"
             editable={editable}
             {...props}
           >
@@ -73,7 +73,7 @@ export function SaaSProElegantDark(props: TemplateProps) {
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
             <EditableButton 
               id="saas_pro_hero_cta_primary" 
-              className="text-base px-8 py-4 h-auto bg-black text-white hover:bg-gray-800 font-light"
+              className="text-base px-8 py-4 h-auto bg-gradient-to-r from-amber-500 to-amber-600 text-zinc-950 hover:from-amber-400 hover:to-amber-500 font-semibold shadow-lg shadow-amber-500/20"
               editable={editable} 
               {...props}
             >
@@ -81,7 +81,7 @@ export function SaaSProElegantDark(props: TemplateProps) {
             </EditableButton>
             <EditableButton
               id="saas_pro_hero_cta_secondary"
-              className="text-base px-8 py-4 h-auto bg-white text-black border border-gray-300 hover:bg-gray-50 font-light"
+              className="text-base px-8 py-4 h-auto bg-transparent text-amber-400 border border-amber-500/30 hover:bg-amber-500/10 font-light"
               editable={editable}
               {...props}
             >
@@ -90,7 +90,7 @@ export function SaaSProElegantDark(props: TemplateProps) {
           </div>
           <EditableText 
             id="saas_pro_hero_note" 
-            className="text-xs text-gray-500 font-light"
+            className="text-xs text-zinc-500 font-light"
             editable={editable} 
             {...props}
           >
@@ -102,7 +102,7 @@ export function SaaSProElegantDark(props: TemplateProps) {
             id="saas_pro_hero_image"
             src="/abstract-product-screenshot.jpg"
             alt="Product dashboard preview"
-            className="w-full max-w-5xl mx-auto rounded-lg shadow-2xl border border-gray-200"
+            className="w-full max-w-5xl mx-auto rounded-lg shadow-2xl border border-amber-500/20"
             editable={editable}
             {...props}
           />
@@ -110,11 +110,11 @@ export function SaaSProElegantDark(props: TemplateProps) {
       </section>
 
       {/* Social Proof / Logos */}
-      <section className="border-y border-gray-200 bg-gray-50 py-12">
+      <section className="border-y border-amber-500/20 bg-zinc-900 py-12">
         <div className="mx-auto max-w-7xl px-4">
           <EditableText
             id="saas_pro_logos_heading"
-            className="text-center text-xs font-light text-gray-500 mb-8 uppercase tracking-widest"
+            className="text-center text-xs font-light text-zinc-500 mb-8 uppercase tracking-widest"
             editable={editable}
             {...props}
           >
@@ -141,7 +141,7 @@ export function SaaSProElegantDark(props: TemplateProps) {
         <div className="text-center max-w-3xl mx-auto mb-20">
           <EditableText
             id="saas_pro_features_eyebrow"
-            className="text-gray-500 font-light text-xs uppercase tracking-widest mb-3"
+            className="text-amber-400 font-light text-xs uppercase tracking-widest mb-3"
             editable={editable}
             {...props}
           >
@@ -150,7 +150,7 @@ export function SaaSProElegantDark(props: TemplateProps) {
           <EditableText
             id="saas_pro_features_headline"
             as="h3"
-            className="text-4xl md:text-6xl font-light mb-4"
+            className="text-4xl md:text-6xl font-light mb-4 text-zinc-100"
             editable={editable}
             {...props}
           >
@@ -158,7 +158,7 @@ export function SaaSProElegantDark(props: TemplateProps) {
           </EditableText>
           <EditableText
             id="saas_pro_features_subheadline"
-            className="text-lg text-gray-600 font-light"
+            className="text-lg text-zinc-400 font-light"
             editable={editable}
             {...props}
           >
@@ -169,7 +169,7 @@ export function SaaSProElegantDark(props: TemplateProps) {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
           {[1, 2, 3, 4, 5, 6].map((n) => (
             <div key={n} className="group">
-              <div className="w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center mb-4 group-hover:border-black transition-colors">
+              <div className="w-12 h-12 rounded-full border border-amber-500/30 bg-amber-500/10 flex items-center justify-center mb-4 group-hover:border-amber-500 transition-colors">
                 <EditableText 
                   id={`saas_pro_feature_${n}_icon`} 
                   className="text-2xl"
@@ -182,7 +182,7 @@ export function SaaSProElegantDark(props: TemplateProps) {
               <EditableText
                 id={`saas_pro_feature_${n}_title`}
                 as="h4"
-                className="text-xl font-light mb-2"
+                className="text-xl font-light mb-2 text-zinc-100"
                 editable={editable}
                 {...props}
               >
@@ -195,7 +195,7 @@ export function SaaSProElegantDark(props: TemplateProps) {
               </EditableText>
               <EditableText
                 id={`saas_pro_feature_${n}_description`}
-                className="text-gray-600 leading-relaxed font-light text-sm"
+                className="text-zinc-400 leading-relaxed font-light text-sm"
                 editable={editable}
                 {...props}
               >
@@ -212,13 +212,13 @@ export function SaaSProElegantDark(props: TemplateProps) {
       </section>
 
       {/* Stats / Metrics Section */}
-      <section className="border-y border-gray-200 bg-gray-50 py-20">
+      <section className="border-y border-amber-500/20 bg-zinc-900 py-20">
         <div className="mx-auto max-w-7xl px-4">
           <div className="text-center mb-16">
             <EditableText
               id="saas_pro_stats_headline"
               as="h3"
-              className="text-4xl md:text-5xl font-light mb-4"
+              className="text-4xl md:text-5xl font-light mb-4 text-zinc-100"
               editable={editable}
               {...props}
             >
@@ -226,7 +226,7 @@ export function SaaSProElegantDark(props: TemplateProps) {
             </EditableText>
             <EditableText
               id="saas_pro_stats_subheadline"
-              className="text-lg text-gray-600 font-light"
+              className="text-lg text-zinc-400 font-light"
               editable={editable}
               {...props}
             >
@@ -243,7 +243,7 @@ export function SaaSProElegantDark(props: TemplateProps) {
               <div key={i} className="text-center">
                 <EditableText
                   id={`saas_pro_stat_${i + 1}_number`}
-                  className="text-5xl md:text-6xl font-light mb-2"
+                  className="text-5xl md:text-6xl font-light mb-2 text-amber-400"
                   editable={editable}
                   {...props}
                 >
@@ -251,7 +251,7 @@ export function SaaSProElegantDark(props: TemplateProps) {
                 </EditableText>
                 <EditableText
                   id={`saas_pro_stat_${i + 1}_label`}
-                  className="text-gray-600 font-light text-sm"
+                  className="text-zinc-400 font-light text-sm"
                   editable={editable}
                   {...props}
                 >
@@ -268,7 +268,7 @@ export function SaaSProElegantDark(props: TemplateProps) {
         <div className="text-center mb-20">
           <EditableText
             id="saas_pro_testimonials_eyebrow"
-            className="text-gray-500 font-light text-xs uppercase tracking-widest mb-3"
+            className="text-amber-400 font-light text-xs uppercase tracking-widest mb-3"
             editable={editable}
             {...props}
           >
@@ -277,7 +277,7 @@ export function SaaSProElegantDark(props: TemplateProps) {
           <EditableText
             id="saas_pro_testimonials_headline"
             as="h3"
-            className="text-4xl md:text-6xl font-light"
+            className="text-4xl md:text-6xl font-light text-zinc-100"
             editable={editable}
             {...props}
           >
@@ -287,15 +287,15 @@ export function SaaSProElegantDark(props: TemplateProps) {
 
         <div className="grid md:grid-cols-3 gap-8">
           {[1, 2, 3].map((n) => (
-            <div key={n} className="p-8 border border-gray-200 bg-white">
-              <div className="flex items-center gap-1 mb-4 text-gray-400 text-sm">
+            <div key={n} className="p-8 border border-amber-500/20 bg-zinc-900">
+              <div className="flex items-center gap-1 mb-4 text-amber-400 text-sm">
                 <EditableText id={`saas_pro_testimonial_${n}_rating`} editable={editable} {...props}>
                   ⭐⭐⭐⭐⭐
                 </EditableText>
               </div>
               <EditableText
                 id={`saas_pro_testimonial_${n}_quote`}
-                className="text-base mb-6 leading-relaxed font-light"
+                className="text-base mb-6 leading-relaxed font-light text-zinc-300"
                 editable={editable}
                 {...props}
               >
@@ -308,14 +308,14 @@ export function SaaSProElegantDark(props: TemplateProps) {
                   id={`saas_pro_testimonial_${n}_avatar`}
                   src={`/placeholder.svg?height=48&width=48&query=avatar%20${n}`}
                   alt={`Customer ${n}`}
-                  className="w-12 h-12 rounded-full border border-gray-200"
+                  className="w-12 h-12 rounded-full border border-amber-500/30"
                   editable={editable}
                   {...props}
                 />
                 <div>
                   <EditableText
                     id={`saas_pro_testimonial_${n}_name`}
-                    className="font-light"
+                    className="font-light text-zinc-100"
                     editable={editable}
                     {...props}
                   >
@@ -323,7 +323,7 @@ export function SaaSProElegantDark(props: TemplateProps) {
                   </EditableText>
                   <EditableText
                     id={`saas_pro_testimonial_${n}_title`}
-                    className="text-xs text-gray-500 font-light"
+                    className="text-xs text-zinc-500 font-light"
                     editable={editable}
                     {...props}
                   >
@@ -337,11 +337,11 @@ export function SaaSProElegantDark(props: TemplateProps) {
       </section>
 
       {/* Pricing Section */}
-      <section className="mx-auto max-w-7xl px-4 py-24 md:py-32 border-t border-gray-200">
+      <section className="mx-auto max-w-7xl px-4 py-24 md:py-32 border-t border-amber-500/20">
         <div className="text-center mb-20">
           <EditableText
             id="saas_pro_pricing_eyebrow"
-            className="text-gray-500 font-light text-xs uppercase tracking-widest mb-3"
+            className="text-amber-400 font-light text-xs uppercase tracking-widest mb-3"
             editable={editable}
             {...props}
           >
@@ -350,7 +350,7 @@ export function SaaSProElegantDark(props: TemplateProps) {
           <EditableText
             id="saas_pro_pricing_headline"
             as="h3"
-            className="text-4xl md:text-6xl font-light mb-4"
+            className="text-4xl md:text-6xl font-light mb-4 text-zinc-100"
             editable={editable}
             {...props}
           >
@@ -358,7 +358,7 @@ export function SaaSProElegantDark(props: TemplateProps) {
           </EditableText>
           <EditableText
             id="saas_pro_pricing_subheadline"
-            className="text-lg text-gray-600 font-light"
+            className="text-lg text-zinc-400 font-light"
             editable={editable}
             {...props}
           >
@@ -375,11 +375,11 @@ export function SaaSProElegantDark(props: TemplateProps) {
             <div 
               key={i} 
               className={`relative p-8 border ${
-                plan.popular ? 'border-black bg-gray-50' : 'border-gray-200 bg-white'
+                plan.popular ? 'border-amber-500 bg-zinc-900 shadow-xl shadow-amber-500/10' : 'border-amber-500/20 bg-zinc-900'
               }`}
             >
               {plan.popular && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-black text-white text-xs font-light">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-amber-500 to-amber-600 text-zinc-950 text-xs font-semibold">
                   <EditableText id={`saas_pro_pricing_${i + 1}_badge`} editable={editable} {...props}>
                     Most Popular
                   </EditableText>
@@ -387,7 +387,7 @@ export function SaaSProElegantDark(props: TemplateProps) {
               )}
               <EditableText
                 id={`saas_pro_pricing_${i + 1}_name`}
-                className="text-xl font-light mb-2"
+                className="text-xl font-light mb-2 text-zinc-100"
                 editable={editable}
                 {...props}
               >
@@ -396,7 +396,7 @@ export function SaaSProElegantDark(props: TemplateProps) {
               <div className="mb-6">
                 <EditableText
                   id={`saas_pro_pricing_${i + 1}_price`}
-                  className="text-5xl font-light"
+                  className="text-5xl font-light text-zinc-100"
                   editable={editable}
                   {...props}
                 >
@@ -404,7 +404,7 @@ export function SaaSProElegantDark(props: TemplateProps) {
                 </EditableText>
                 <EditableText
                   id={`saas_pro_pricing_${i + 1}_period`}
-                  className="text-gray-500 font-light text-sm"
+                  className="text-zinc-500 font-light text-sm"
                   editable={editable}
                   {...props}
                 >
@@ -413,7 +413,7 @@ export function SaaSProElegantDark(props: TemplateProps) {
               </div>
               <EditableText
                 id={`saas_pro_pricing_${i + 1}_description`}
-                className="text-xs text-gray-600 mb-6 font-light"
+                className="text-xs text-zinc-400 mb-6 font-light"
                 editable={editable}
                 {...props}
               >
@@ -423,7 +423,7 @@ export function SaaSProElegantDark(props: TemplateProps) {
               </EditableText>
               <EditableButton 
                 id={`saas_pro_pricing_${i + 1}_cta`} 
-                className={`w-full mb-6 font-light ${plan.popular ? 'bg-black text-white hover:bg-gray-800' : 'bg-white text-black border border-gray-300 hover:bg-gray-50'}`}
+                className={`w-full mb-6 font-semibold ${plan.popular ? 'bg-gradient-to-r from-amber-500 to-amber-600 text-zinc-950 hover:from-amber-400 hover:to-amber-500 shadow-lg shadow-amber-500/20' : 'bg-transparent text-amber-400 border border-amber-500/30 hover:bg-amber-500/10'}`}
                 editable={editable} 
                 {...props}
               >
@@ -432,10 +432,10 @@ export function SaaSProElegantDark(props: TemplateProps) {
               <div className="space-y-3">
                 {[1, 2, 3, 4, 5].map((feature) => (
                   <div key={feature} className="flex items-start gap-2">
-                    <span className="text-black mt-0.5">✓</span>
+                    <span className="text-amber-400 mt-0.5">✓</span>
                     <EditableText
                       id={`saas_pro_pricing_${i + 1}_feature_${feature}`}
-                      className="text-xs font-light"
+                      className="text-xs font-light text-zinc-300"
                       editable={editable}
                       {...props}
                     >
@@ -465,11 +465,11 @@ export function SaaSProElegantDark(props: TemplateProps) {
 
       {/* CTA Section */}
       <section className="mx-auto max-w-7xl px-4 py-24 md:py-32">
-        <div className="border border-gray-200 p-16 text-center bg-gray-50">
+        <div className="border border-amber-500/20 p-16 text-center bg-zinc-900">
           <EditableText
             id="saas_pro_cta_headline"
             as="h3"
-            className="text-4xl md:text-6xl font-light mb-4"
+            className="text-4xl md:text-6xl font-light mb-4 text-zinc-100"
             editable={editable}
             {...props}
           >
@@ -477,7 +477,7 @@ export function SaaSProElegantDark(props: TemplateProps) {
           </EditableText>
           <EditableText
             id="saas_pro_cta_subheadline"
-            className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto font-light"
+            className="text-lg md:text-xl text-zinc-400 mb-8 max-w-2xl mx-auto font-light"
             editable={editable}
             {...props}
           >
@@ -486,7 +486,7 @@ export function SaaSProElegantDark(props: TemplateProps) {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <EditableButton 
               id="saas_pro_cta_primary" 
-              className="text-base px-8 py-4 h-auto bg-black text-white hover:bg-gray-800 font-light"
+              className="text-base px-8 py-4 h-auto bg-gradient-to-r from-amber-500 to-amber-600 text-zinc-950 hover:from-amber-400 hover:to-amber-500 font-semibold shadow-lg shadow-amber-500/20"
               editable={editable} 
               {...props}
             >
@@ -494,7 +494,7 @@ export function SaaSProElegantDark(props: TemplateProps) {
             </EditableButton>
             <EditableButton
               id="saas_pro_cta_secondary"
-              className="text-base px-8 py-4 h-auto bg-white text-black border border-gray-300 hover:bg-gray-50 font-light"
+              className="text-base px-8 py-4 h-auto bg-transparent text-amber-400 border border-amber-500/30 hover:bg-amber-500/10 font-light"
               editable={editable}
               {...props}
             >
@@ -505,16 +505,16 @@ export function SaaSProElegantDark(props: TemplateProps) {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-gray-200 bg-white py-12">
+      <footer className="border-t border-amber-500/20 bg-zinc-950 py-12">
         <div className="mx-auto max-w-7xl px-4">
           <div className="grid md:grid-cols-5 gap-8 mb-8">
             <div className="md:col-span-2">
-              <EditableText id="saas_pro_footer_brand" as="h5" className="text-lg font-light mb-3" editable={editable} {...props}>
+              <EditableText id="saas_pro_footer_brand" as="h5" className="text-lg font-serif font-bold bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent mb-3" editable={editable} {...props}>
                 InnovatePro
               </EditableText>
               <EditableText
                 id="saas_pro_footer_tagline"
-                className="text-xs text-gray-600 mb-4 max-w-xs font-light"
+                className="text-xs text-zinc-500 mb-4 max-w-xs font-light"
                 editable={editable}
                 {...props}
               >
@@ -530,7 +530,7 @@ export function SaaSProElegantDark(props: TemplateProps) {
               <div key={colIdx}>
                 <EditableText
                   id={`saas_pro_footer_col_${colIdx + 1}_title`}
-                  className="font-light mb-3 text-sm"
+                  className="font-light mb-3 text-sm text-zinc-100"
                   editable={editable}
                   {...props}
                 >
@@ -541,7 +541,7 @@ export function SaaSProElegantDark(props: TemplateProps) {
                     <EditableText
                       key={linkIdx}
                       id={`saas_pro_footer_col_${colIdx + 1}_link_${linkIdx + 1}`}
-                      className="block text-xs text-gray-600 hover:text-black font-light transition-colors"
+                      className="block text-xs text-zinc-500 hover:text-amber-400 font-light transition-colors"
                       editable={editable}
                       {...props}
                     >
@@ -553,23 +553,23 @@ export function SaaSProElegantDark(props: TemplateProps) {
             ))}
           </div>
           
-          <div className="pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="pt-8 border-t border-amber-500/20 flex flex-col md:flex-row justify-between items-center gap-4">
             <EditableText
               id="saas_pro_footer_copyright"
-              className="text-xs text-gray-500 font-light"
+              className="text-xs text-zinc-500 font-light"
               editable={editable}
               {...props}
             >
               © 2025 InnovatePro. All rights reserved.
             </EditableText>
             <div className="flex gap-6">
-              <EditableText id="saas_pro_footer_legal_1" className="text-xs text-gray-500 hover:text-black font-light transition-colors" editable={editable} {...props}>
+              <EditableText id="saas_pro_footer_legal_1" className="text-xs text-zinc-500 hover:text-amber-400 font-light transition-colors" editable={editable} {...props}>
                 Privacy Policy
               </EditableText>
-              <EditableText id="saas_pro_footer_legal_2" className="text-xs text-gray-500 hover:text-black font-light transition-colors" editable={editable} {...props}>
+              <EditableText id="saas_pro_footer_legal_2" className="text-xs text-zinc-500 hover:text-amber-400 font-light transition-colors" editable={editable} {...props}>
                 Terms of Service
               </EditableText>
-              <EditableText id="saas_pro_footer_legal_3" className="text-xs text-gray-500 hover:text-black font-light transition-colors" editable={editable} {...props}>
+              <EditableText id="saas_pro_footer_legal_3" className="text-xs text-zinc-500 hover:text-amber-400 font-light transition-colors" editable={editable} {...props}>
                 Cookie Policy
               </EditableText>
             </div>

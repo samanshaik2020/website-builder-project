@@ -2,6 +2,7 @@
 
 import type React from "react"
 import { useCallback, useEffect, useMemo, useState } from "react"
+import { useRouter } from "next/navigation"
 import { Eye, Save, ArrowLeft } from "lucide-react"
 import { X } from "lucide-react"
 import { AIGenerationModal } from "@/components/ai-generation-modal"
@@ -25,7 +26,10 @@ import { PortfolioProTemplatePro } from "@/components/templates/pro/portfolio-pr
 import { IPHONE_PRO_THEMES, type IPhoneProThemeId } from "@/components/templates/pro/iphone-pro"
 import type { AITheme } from "@/components/ai-generation-modal"
 // import { EcommerceProTemplate } from "@/components/templates/pro/ecommerce-pro-template"
-import { saveProject, type ProjectRecord } from "@/components/lib/projects-store"
+import { saveProject, type ProjectRecord, getProjects } from "@/components/lib/projects-store"
+import { useSubscription } from "@/hooks/use-subscription"
+import { canCreateNormalTemplate, canCreateProTemplate, getPlanById } from "@/lib/pricing-plans"
+import { toast } from "sonner"
 
 type TemplateId =
   | "portfolio"
@@ -576,6 +580,8 @@ function EditElementPanel({
 }
 
 export default function EditorPage() {
+  const router = useRouter()
+  const { subscription, isLoaded } = useSubscription()
   const [template, setTemplate] = useState<TemplateId | null>(null)
   const [modalOpen, setModalOpen] = useState(true)
   const [aiModalOpen, setAiModalOpen] = useState(false)
@@ -719,18 +725,47 @@ export default function EditorPage() {
   const onSelectTemplate = useCallback((id: TemplateId) => {
     // Check if it's a Pro template
     const proTemplates: TemplateId[] = ["agency-pro", "saas-pro", "portfolio-pro", "iphone-pro", "ecommerce-pro"]
+    const projects = getProjects()
     
     if (proTemplates.includes(id)) {
+      // Check pro template limits
+      const proProjectCount = projects.filter(p => proTemplates.includes(p.template as TemplateId)).length
+      
+      if (!canCreateProTemplate(subscription.plan, proProjectCount)) {
+        const plan = getPlanById(subscription.plan)
+        const limit = plan.limits.proTemplates === Infinity ? "unlimited" : plan.limits.proTemplates
+        toast.error("Pro Template Limit Reached", {
+          description: `You've reached your limit of ${limit} pro templates. Upgrade your plan to create more.`,
+          duration: 5000,
+        })
+        setTimeout(() => router.push("/pricing"), 1500)
+        return
+      }
+      
       // Open AI generation modal for Pro templates
       setSelectedProTemplate(id)
       setModalOpen(false)
       setAiModalOpen(true)
     } else {
+      // Check normal template limits
+      const normalProjectCount = projects.filter(p => !proTemplates.includes(p.template as TemplateId)).length
+      
+      if (!canCreateNormalTemplate(subscription.plan, normalProjectCount)) {
+        const plan = getPlanById(subscription.plan)
+        const limit = plan.limits.normalTemplates === "unlimited" ? "unlimited" : plan.limits.normalTemplates
+        toast.error("Template Limit Reached", {
+          description: `You've reached your limit of ${limit} normal templates. Upgrade your plan to create more.`,
+          duration: 5000,
+        })
+        setTimeout(() => router.push("/pricing"), 1500)
+        return
+      }
+      
       // Regular templates - just select
       setTemplate(id)
       setModalOpen(false)
     }
-  }, [])
+  }, [subscription.plan, router])
 
   const onTogglePreview = useCallback(() => {
     setPreview((p) => !p)
@@ -805,7 +840,10 @@ export default function EditorPage() {
       console.log("AI content generated and populated successfully!", `Populated ${elements.length} elements`)
     } catch (error) {
       console.error("Error during AI generation:", error)
-      alert("Failed to generate content. Please try again.")
+      toast.error("AI Generation Failed", {
+        description: "Failed to generate content. Please try again.",
+        duration: 4000,
+      })
       setAiModalOpen(false)
       setModalOpen(true)
     }
@@ -878,11 +916,17 @@ export default function EditorPage() {
       await new Promise((r) => setTimeout(r, 800))
       
       setSaving(false)
-      alert("🎉 Saved & Published! Check the Dashboard to see your project.")
+      toast.success("Saved & Published!", {
+        description: "Your project has been saved successfully. Check the Dashboard to see it.",
+        duration: 4000,
+      })
     } catch (error) {
       console.error("Error saving project:", error)
       setSaving(false)
-      alert("❌ Failed to save project. Please try again.")
+      toast.error("Failed to Save", {
+        description: "Failed to save project. Please try again.",
+        duration: 4000,
+      })
     }
   }, [template, selectedThemeId])
 
