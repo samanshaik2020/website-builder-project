@@ -24,7 +24,11 @@ import {
   ExternalLink,
   Edit,
   Lock,
-  Share2
+  Share2,
+  LogOut,
+  User,
+  Settings,
+  ChevronDown
 } from "lucide-react"
 import Link from "next/link"
 import { useProjects } from "@/hooks/use-projects"
@@ -35,14 +39,50 @@ import { canExport, getPlanById } from "@/lib/pricing-plans"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { ShareLinkDialog } from "@/components/share-link-dialog"
+import { useAuth } from "@/contexts/auth-context"
+import { signOut } from "@/lib/supabase/auth"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 export default function DashboardPage() {
   const { projects, remove } = useProjects()
   const { subscription, isLoaded } = useSubscription()
+  const { user, profile } = useAuth()
   const router = useRouter()
   const currentPlan = getPlanById(subscription.plan)
   const [shareDialogOpen, setShareDialogOpen] = useState(false)
   const [selectedProject, setSelectedProject] = useState<ProjectRecord | null>(null)
+
+  const handleLogout = async () => {
+    try {
+      await signOut()
+      toast.success("Logged out successfully")
+      router.push("/auth/signin")
+    } catch (error: any) {
+      toast.error("Logout failed", {
+        description: error.message || "Could not log out. Please try again.",
+      })
+    }
+  }
+
+  const getUserInitials = (email: string | null | undefined) => {
+    if (!email) return "LU"
+    const parts = email.split("@")[0].split(".")
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[1][0]).toUpperCase()
+    }
+    return email.substring(0, 2).toUpperCase()
+  }
+
+  const displayEmail = profile?.email || user?.email || "user@example.com"
+  const displayName = profile?.fullName || user?.user_metadata?.full_name || "Local User"
+  const userInitials = getUserInitials(displayEmail)
 
   // Prevent hydration errors by not rendering subscription-dependent content until loaded
   if (!isLoaded) {
@@ -143,14 +183,49 @@ export default function DashboardPage() {
             <button className="p-2 hover:bg-gray-100 rounded-lg">
               <HelpCircle className="w-5 h-5 text-gray-600" />
             </button>
-            <div className="flex items-center gap-2 pl-4 border-l border-gray-200">
-              <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white text-sm font-medium">
-                LU
-              </div>
-              <div className="text-sm">
-                <div className="font-medium text-gray-900">Local User</div>
-                <div className="text-xs text-gray-500">user@example.com</div>
-              </div>
+            <div className="pl-4 border-l border-gray-200">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="flex items-center gap-2 hover:bg-gray-50 rounded-lg p-1.5 transition-colors">
+                    <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                      {userInitials}
+                    </div>
+                    <div className="text-sm text-left">
+                      <div className="font-medium text-gray-900">{displayName}</div>
+                      <div className="text-xs text-gray-500">{displayEmail}</div>
+                    </div>
+                    <ChevronDown className="w-4 h-4 text-gray-400" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuLabel>
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-medium leading-none">{displayName}</p>
+                      <p className="text-xs leading-none text-muted-foreground">
+                        {displayEmail}
+                      </p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard" className="cursor-pointer">
+                      <User className="mr-2 h-4 w-4" />
+                      <span>Dashboard</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/pricing" className="cursor-pointer">
+                      <Settings className="mr-2 h-4 w-4" />
+                      <span>Plans & Billing</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-red-600 focus:text-red-600">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Log out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </div>

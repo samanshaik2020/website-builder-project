@@ -4,18 +4,44 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Brain, Mail, Lock, ArrowLeft, Github, Chrome } from "lucide-react"
+import { Brain, Mail, Lock, ArrowLeft, Chrome } from "lucide-react"
 import Link from "next/link"
+import { signInWithEmail, signInWithGoogle } from "@/lib/supabase/auth"
+import { toast } from "sonner"
 
 export default function SignInPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [loading, setLoading] = useState(false)
   const router = useRouter()
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Redirect to dashboard
-    router.push("/dashboard")
+    setLoading(true)
+
+    try {
+      await signInWithEmail(email, password)
+      toast.success("Welcome back!", {
+        description: "You've successfully signed in.",
+      })
+      router.push("/dashboard")
+    } catch (error: any) {
+      toast.error("Sign in failed", {
+        description: error.message || "Invalid email or password. Please try again.",
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleGoogleSignIn = async () => {
+    try {
+      await signInWithGoogle()
+    } catch (error: any) {
+      toast.error("Google sign in failed", {
+        description: error.message || "Could not sign in with Google.",
+      })
+    }
   }
 
   return (
@@ -89,9 +115,10 @@ export default function SignInPage() {
 
             <Button
               type="submit"
+              disabled={loading}
               className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white py-3 text-lg font-semibold"
             >
-              Sign In
+              {loading ? "Signing in..." : "Sign In"}
             </Button>
           </form>
 
@@ -108,22 +135,15 @@ export default function SignInPage() {
           </div>
 
           {/* Social Login */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="w-full">
             <Button
               type="button"
+              onClick={handleGoogleSignIn}
               variant="outline"
-              className="border-gray-300 text-gray-700 hover:bg-gray-50 py-3"
-            >
-              <Github className="w-5 h-5 mr-2" />
-              GitHub
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              className="border-gray-300 text-gray-700 hover:bg-gray-50 py-3"
+              className="w-full border-gray-300 text-gray-700 hover:bg-gray-50 py-3"
             >
               <Chrome className="w-5 h-5 mr-2" />
-              Google
+              Continue with Google
             </Button>
           </div>
 
