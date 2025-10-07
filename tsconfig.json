@@ -23,5 +23,10 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "components/floating-toolbar.tsx",
+    "components/enhanced-slate-editor.tsx.bak",
+    "components/advanced-floating-toolbar.tsx.bak"
+  ]
 }

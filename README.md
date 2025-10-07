@@ -1,282 +1,170 @@
-// Types
-interface ThreeJSElements {
-  scene: THREE.Scene;
-  camera: THREE.PerspectiveCamera;
-  renderer: THREE.WebGLRenderer;
-  particlesMesh: THREE.Points;
-}
+# Squpage - AI-Powered Website Builder
 
-interface AnimationElements {
-  inputModal: HTMLElement;
-  loadingScreen: HTMLElement;
-  statusText: HTMLElement;
-  pageDescription: HTMLTextAreaElement;
-}
+Transform your ideas into professional websites in minutes with AI-powered design and an intuitive visual editor.
 
-type Theme = 'modern' | 'minimal' | 'bold' | 'professional' | 'creative' | 'dark';
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/YOUR_USERNAME/squpage)
 
-// Three.js Setup
-class ThreeJSBackground {
-  private scene: THREE.Scene;
-  private camera: THREE.PerspectiveCamera;
-  private renderer: THREE.WebGLRenderer;
-  private particlesMesh: THREE.Points;
+## Features
 
-  constructor(container: HTMLElement) {
-    this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(
-      75,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000
-    );
-    this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+- **AI Content Generation** - Generate website content using Google Gemini AI
+- **Multiple Templates** - Choose from portfolio, landing page, e-commerce, and more
+- **Theme System** - Modern, Minimal, Bold, Professional themes for each template
+- **Visual Editor** - Drag-and-drop interface with real-time editing
+- **Responsive Design** - All templates are mobile-friendly
+- **Project Management** - Save, edit, and manage multiple projects
+- **Export to HTML** - Download your website as standalone HTML
+- **Share Links** - Generate shareable links for your projects
+- **Authentication** - Secure user authentication with Supabase
+- **Pricing Plans** - Free, Starter, Professional, and Unlimited tiers
 
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
-    container.appendChild(this.renderer.domElement);
+## Quick Start
 
-    this.camera.position.z = 5;
+### Prerequisites
 
-    this.particlesMesh = this.createParticles();
-    this.scene.add(this.particlesMesh);
+- Node.js 18+ installed
+- Supabase account (for authentication)
+- Google Gemini API key (optional, for AI features)
 
-    this.animate();
-    this.setupResizeHandler();
-  }
+### Installation
 
-  private createParticles(): THREE.Points {
-    const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 500;
-    const posArray = new Float32Array(particlesCount * 3);
+1. **Clone the repository**
+```bash
+git clone https://github.com/YOUR_USERNAME/squpage.git
+cd squpage
+```
 
-    for (let i = 0; i < particlesCount * 3; i++) {
-      posArray[i] = (Math.random() - 0.5) * 15;
-    }
+2. **Install dependencies**
+```bash
+npm install --legacy-peer-deps
+```
 
-    particlesGeometry.setAttribute(
-      'position',
-      new THREE.BufferAttribute(posArray, 3)
-    );
+3. **Set up environment variables**
+```bash
+# Copy the example env file
+cp env.example .env.local
 
-    const particlesMaterial = new THREE.PointsMaterial({
-      size: 0.02,
-      color: 0x8b5cf6,
-      transparent: true,
-      opacity: 0.6,
-    });
+# Edit .env.local with your credentials
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_key
+NEXT_PUBLIC_GEMINI_API_KEY=your_gemini_key (optional)
+```
 
-    return new THREE.Points(particlesGeometry, particlesMaterial);
-  }
+4. **Set up Supabase database**
+- Run the SQL script in `lib/supabase/schema.sql` in your Supabase SQL editor
+- Configure authentication redirect URLs in Supabase dashboard
 
-  private animate = (): void => {
-    requestAnimationFrame(this.animate);
-    this.particlesMesh.rotation.y += 0.0005;
-    this.particlesMesh.rotation.x += 0.0002;
-    this.renderer.render(this.scene, this.camera);
-  };
+5. **Run the development server**
+```bash
+npm run dev
+```
 
-  private setupResizeHandler(): void {
-    window.addEventListener('resize', () => {
-      this.camera.aspect = window.innerWidth / window.innerHeight;
-      this.camera.updateProjectionMatrix();
-      this.renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-  }
-}
+Open [http://localhost:3000](http://localhost:3000) to see your app.
 
-// Page Builder Manager
-class PageBuilderManager {
-  private selectedTheme: Theme = 'modern';
-  private elements: AnimationElements;
-  private threeJS: ThreeJSBackground;
+## Tech Stack
 
-  constructor() {
-    this.elements = this.getElements();
-    this.threeJS = new ThreeJSBackground(
-      document.getElementById('canvas-container') as HTMLElement
-    );
-    this.init();
-  }
+- **Framework**: Next.js 15 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: Radix UI, shadcn/ui
+- **Authentication**: Supabase Auth
+- **Database**: Supabase (PostgreSQL)
+- **AI**: Google Gemini API
+- **Icons**: Lucide React
+- **Notifications**: Sonner
 
-  private getElements(): AnimationElements {
-    return {
-      inputModal: document.getElementById('inputModal') as HTMLElement,
-      loadingScreen: document.getElementById('loadingScreen') as HTMLElement,
-      statusText: document.querySelector('.status-text') as HTMLElement,
-      pageDescription: document.getElementById('pageDescription') as HTMLTextAreaElement,
-    };
-  }
+## Project Structure
 
-  private init(): void {
-    this.setupThemeSelection();
-    this.setupFormSubmission();
-    this.animateModalEntrance();
-  }
+```
+├── app/                    # Next.js app directory
+│   ├── auth/              # Authentication pages
+│   ├── dashboard/         # User dashboard
+│   ├── editor/            # Visual editor
+│   ├── landing/           # Landing page
+│   └── pricing/           # Pricing page
+├── components/            # React components
+│   ├── templates/         # Website templates
+│   ├── ui/               # UI components
+│   └── lib/              # Shared utilities
+├── contexts/             # React contexts
+├── hooks/                # Custom React hooks
+├── lib/                  # Utilities and configs
+│   ├── supabase/         # Supabase client & auth
+│   ├── export-html.ts    # HTML export logic
+│   └── gemini-api.ts     # AI integration
+└── public/               # Static assets
+```
 
-  private setupThemeSelection(): void {
-    const themeCards = document.querySelectorAll('.theme-card');
+## Available Templates
 
-    themeCards.forEach((card) => {
-      card.addEventListener('click', () => {
-        themeCards.forEach((c) => c.classList.remove('selected'));
-        card.classList.add('selected');
-        this.selectedTheme = (card as HTMLElement).dataset.theme as Theme;
-      });
-    });
-  }
+### Normal Templates (Free Tier)
+- **Portfolio** - Showcase your work
+- **Landing Page** - Product/service landing pages
+- **Blog** - Content-focused blog layout
 
-  private setupFormSubmission(): void {
-    const form = document.getElementById('pageForm') as HTMLFormElement;
+### Pro Templates (Paid Tiers)
+- **Agency Pro** - Professional agency website
+- **SaaS Pro** - SaaS product landing page
+- **Portfolio Pro** - Advanced portfolio with animations
+- **iPhone Pro** - Apple-style product showcase
+- **E-commerce Pro** - Online store template
 
-    form.addEventListener('submit', (e: Event) => {
-      e.preventDefault();
-      this.handleFormSubmit();
-    });
-  }
+## Theme System
 
-  private handleFormSubmit(): void {
-    const description = this.elements.pageDescription.value;
+Each template supports multiple themes:
+- **Modern** - Clean, contemporary design
+- **Minimal** - Simple, focused layouts
+- **Bold** - Vibrant, eye-catching styles
+- **Professional** - Corporate, business-ready
 
-    if (!description.trim()) {
-      return;
-    }
+## Environment Variables
 
-    // @ts-ignore - anime.js types
-    anime({
-      targets: this.elements.inputModal,
-      opacity: [1, 0],
-      scale: [1, 0.95],
-      duration: 400,
-      easing: 'easeInQuad',
-      complete: () => {
-        this.elements.inputModal.classList.add('hidden');
-        this.elements.loadingScreen.classList.add('active');
-        this.startLoadingAnimation();
-      },
-    });
-  }
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `NEXT_PUBLIC_SUPABASE_URL` | Yes | Your Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Yes | Your Supabase anonymous key |
+| `NEXT_PUBLIC_GEMINI_API_KEY` | No | Google Gemini API key for AI features |
 
-  private startLoadingAnimation(): void {
-    const statusTexts = [
-      'Analyzing your request...',
-      `Applying ${this.selectedTheme} theme...`,
-      'Generating layout...',
-      'Creating components...',
-      'Adding styling...',
-      'Finalizing design...',
-    ];
+## Deployment
 
-    let textIndex = 0;
+See [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md) for detailed deployment instructions.
 
-    setInterval(() => {
-      textIndex = (textIndex + 1) % statusTexts.length;
-      this.elements.statusText.textContent = statusTexts[textIndex];
-    }, 2000);
+### Quick Deploy to Vercel
 
-    this.animatePageElements();
-  }
+1. Push your code to GitHub
+2. Import your repository in Vercel
+3. Add environment variables
+4. Deploy!
 
-  private animatePageElements(): void {
-    // @ts-ignore - anime.js types
-    const timeline = anime.timeline({
-      easing: 'easeOutExpo',
-      duration: 800,
-    });
+The project includes a `vercel.json` configuration file for optimal deployment.
 
-    timeline
-      .add({
-        targets: '.header-block',
-        opacity: [0, 1],
-        translateY: [-20, 0],
-        scale: [0.95, 1],
-      })
-      .add(
-        {
-          targets: '.nav-block',
-          opacity: [0, 1],
-          translateX: [-30, 0],
-          scale: [0.9, 1],
-        },
-        '-=400'
-      )
-      .add(
-        {
-          targets: '.hero-block',
-          opacity: [0, 1],
-          translateY: [30, 0],
-          scale: [0.98, 1],
-        },
-        '-=400'
-      )
-      .add(
-        {
-          targets: '.card-1',
-          opacity: [0, 1],
-          translateY: [20, 0],
-          scale: [0.9, 1],
-        },
-        '-=200'
-      )
-      .add(
-        {
-          targets: '.card-2',
-          opacity: [0, 1],
-          translateY: [20, 0],
-          scale: [0.9, 1],
-        },
-        '-=600'
-      )
-      .add(
-        {
-          targets: '.card-3',
-          opacity: [0, 1],
-          translateY: [20, 0],
-          scale: [0.9, 1],
-        },
-        '-=600'
-      );
+## Development
 
-    // @ts-ignore - anime.js types
-    anime({
-      targets: '.element',
-      scale: [1, 1.01, 1],
-      duration: 2000,
-      loop: true,
-      delay: anime.stagger(200),
-      easing: 'easeInOutQuad',
-    });
+```bash
+# Run development server
+npm run dev
 
-    // @ts-ignore - anime.js types
-    anime({
-      targets: '.status-bar',
-      opacity: [0, 1],
-      translateY: [20, 0],
-      duration: 600,
-      delay: 400,
-      easing: 'easeOutQuad',
-    });
-  }
+# Build for production
+npm run build
 
-  private animateModalEntrance(): void {
-    // @ts-ignore - anime.js types
-    anime({
-      targets: this.elements.inputModal,
-      opacity: [0, 1],
-      scale: [0.9, 1],
-      duration: 600,
-      easing: 'easeOutQuad',
-    });
-  }
-}
+# Start production server
+npm start
 
-// Initialize when DOM is ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => {
-    new PageBuilderManager();
-  });
-} else {
-  new PageBuilderManager();
-}
+# Run linter
+npm run lint
+```
 
-// Export for module usage
-export { PageBuilderManager, ThreeJSBackground, Theme };
+## License
+
+This project is licensed under the MIT License.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Support
+
+For support, email support@squpage.com or open an issue on GitHub.
+
+---
+
+Built with ❤️ using Next.js and Supabase

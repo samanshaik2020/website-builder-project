@@ -1,10 +1,34 @@
 'use client'
 
 import React, { useCallback, useMemo, useState } from 'react'
-import { createEditor, Descendant, Editor, Transforms, Element as SlateElement } from 'slate'
+import { createEditor, Descendant, Editor, Transforms, Element as SlateElement, BaseEditor } from 'slate'
 import { Slate, Editable, withReact, ReactEditor, RenderElementProps, RenderLeafProps } from 'slate-react'
 import { withHistory } from 'slate-history'
+import { HistoryEditor } from 'slate-history'
 import { FloatingToolbar } from './floating-toolbar'
+
+// Extend Slate's type definitions
+type CustomElement = 
+  | { type: 'paragraph'; children: CustomText[] }
+  | { type: 'heading-one'; children: CustomText[] }
+  | { type: 'heading-two'; children: CustomText[] }
+  | { type: 'block-quote'; children: CustomText[] }
+
+type CustomText = { 
+  text: string
+  bold?: boolean
+  italic?: boolean
+  underline?: boolean
+  code?: boolean
+}
+
+declare module 'slate' {
+  interface CustomTypes {
+    Editor: BaseEditor & ReactEditor & HistoryEditor
+    Element: CustomElement
+    Text: CustomText
+  }
+}
 
 // Helper functions for formatting
 const isMarkActive = (editor: Editor, format: string) => {
