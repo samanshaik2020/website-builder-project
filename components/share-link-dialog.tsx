@@ -169,8 +169,8 @@ export function ShareLinkDialog({ project, open, onOpenChange }: ShareLinkDialog
                 <Check className="w-5 h-5" />
                 <span className="font-medium">Link Created Successfully!</span>
               </div>
-              <div className="flex items-center gap-2 p-2 bg-white dark:bg-gray-900 rounded border">
-                <code className="flex-1 text-sm break-all">{generatedLink}</code>
+              <div className="flex items-center gap-2 p-2 bg-white dark:bg-white rounded border">
+                <code className="flex-1 text-sm break-all text-gray-800 dark:text-gray-800">{generatedLink}</code>
               </div>
             </div>
 

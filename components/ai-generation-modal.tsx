@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
 import { cn } from "@/lib/utils"
-import { Sparkles, Wand2, Brain, Zap, Check } from "lucide-react"
+import { Sparkles, Wand2, Brain, Zap, Check, Cpu, Layers, Palette, Rocket } from "lucide-react"
 
 type Theme = {
   id: string
@@ -242,80 +242,162 @@ export function AIGenerationModal({ open, templateType, onClose, onGenerate }: A
 
   return (
     <Dialog open={open} onOpenChange={(isOpen) => !generating && !isOpen && onClose()}>
-      <DialogContent className="max-w-5xl max-h-[90vh] overflow-hidden p-0 gap-0 bg-white">
-        {/* Header Section - Light Theme */}
-        <div className="relative overflow-hidden border-b border-slate-200 bg-gradient-to-br from-slate-50 to-slate-100">
-          <DialogHeader className="relative px-6 py-8 text-center">
-            <div className="inline-flex items-center justify-center gap-3 mb-3 mx-auto">
-              <div className="relative">
-                <div className="absolute inset-0 bg-blue-500/10 rounded-xl blur-md"></div>
-                <div className="relative p-3 bg-white rounded-xl border-2 border-blue-500/20 shadow-sm">
-                  <Brain className="w-8 h-8 text-blue-600" />
-                </div>
+      <DialogContent className="max-w-6xl h-[85vh] overflow-hidden p-0 gap-0 bg-gradient-to-br from-slate-50 via-white to-blue-50/30 border-0 shadow-2xl">
+        {!generating ? (
+          // Main Form Layout - No Scroll, Single Page
+          <div className="h-full flex flex-col">
+            {/* Premium Header */}
+            <div className="relative overflow-hidden bg-gradient-to-r from-slate-900 via-blue-900 to-indigo-900 text-white">
+              {/* Animated Background Pattern */}
+              <div className="absolute inset-0 opacity-10">
+                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-400/20 to-purple-600/20"></div>
+                <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-radial from-blue-400/30 to-transparent rounded-full blur-3xl animate-pulse"></div>
+                <div className="absolute bottom-0 left-0 w-80 h-80 bg-gradient-radial from-purple-500/30 to-transparent rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
               </div>
-              <DialogTitle className="text-4xl font-bold text-slate-900 tracking-tight">
-                AI Page Generator
-              </DialogTitle>
-            </div>
-            <DialogDescription className="text-base text-slate-600 font-medium">
-              Create a complete <span className="font-bold text-blue-600">{templateType}</span> page with AI-powered content
-            </DialogDescription>
-          </DialogHeader>
-        </div>
-
-        {/* Scrollable Content */}
-        <div className="overflow-y-auto max-h-[calc(90vh-240px)] p-6">
-          {!generating ? (
-            <div className="space-y-6">
-              {/* Topic Input */}
-              <div>
-                <label className="flex items-center gap-2 text-sm font-bold text-slate-800 mb-3">
-                  <Wand2 className="w-4 h-4 text-blue-600" />
-                  What is your website about?
-                </label>
-                <div className="relative">
-                  <textarea
-                    value={topic}
-                    onChange={(e) => setTopic(e.target.value)}
-                    placeholder="Describe your website in detail... e.g., An innovative project management tool for creative agencies that helps teams collaborate in real-time, track progress, and deliver projects faster."
-                    className="w-full h-32 px-4 py-3 border-2 border-slate-200 rounded-xl bg-white text-slate-900 placeholder:text-slate-400 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm shadow-sm"
-                    disabled={generating}
-                  />
-                  <div className="absolute bottom-3 right-3 text-xs text-slate-400 font-medium bg-white/80 px-2 py-1 rounded">
-                    {topic.length} characters
+              
+              <DialogHeader className="relative px-8 py-6">
+                <div className="flex items-center justify-center gap-4 mb-2">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-blue-400/30 rounded-2xl blur-lg animate-pulse"></div>
+                    <div className="relative p-4 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl shadow-xl">
+                      <Brain className="w-10 h-10 text-white" />
+                    </div>
+                  </div>
+                  <div className="text-center">
+                    <DialogTitle className="text-4xl font-black tracking-tight bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
+                      AI Page Generator
+                    </DialogTitle>
+                    <DialogDescription className="text-blue-100 font-medium text-lg mt-1">
+                      Create a complete <span className="font-bold text-white">{templateType}</span> page with AI-powered content
+                    </DialogDescription>
                   </div>
                 </div>
-                <div className="mt-3 flex items-start gap-2 text-xs text-blue-700 bg-blue-50 p-3 rounded-lg border border-blue-100">
-                  <Sparkles className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
-                  <p>
-                    <span className="font-semibold">Pro tip:</span> The more specific you are, the better the AI can create tailored content.
-                  </p>
+              </DialogHeader>
+            </div>
+
+            {/* Main Content - Two Column Layout */}
+            <div className="flex-1 flex overflow-hidden">
+              {/* Left Column - Form */}
+              <div className="flex-1 p-8 space-y-8">
+                {/* Topic Input Section */}
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-2 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg">
+                      <Wand2 className="w-5 h-5 text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900">What is your website about?</h3>
+                  </div>
+                  
+                  <div className="relative group">
+                    <textarea
+                      value={topic}
+                      onChange={(e) => setTopic(e.target.value)}
+                      placeholder="Describe your website in detail... e.g., An innovative project management tool for creative agencies that helps teams collaborate in real-time, track progress, and deliver projects faster."
+                      className="w-full h-36 px-6 py-4 border-2 border-slate-200 rounded-2xl bg-white/80 backdrop-blur-sm text-slate-900 placeholder:text-slate-400 resize-none focus:outline-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-base shadow-lg group-hover:shadow-xl"
+                      disabled={generating}
+                    />
+                    <div className="absolute bottom-4 right-4 flex items-center gap-2">
+                      <div className="text-sm text-slate-500 font-medium bg-white/90 px-3 py-1 rounded-full border">
+                        {topic.length} chars
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-3 text-sm text-blue-800 bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-xl border border-blue-200/50">
+                    <Sparkles className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <div>
+                      <p className="font-semibold mb-1">Pro tip for better results:</p>
+                      <p className="text-blue-700">The more specific and detailed you are, the better the AI can create tailored, professional content that matches your vision.</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Theme Selection */}
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-2 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg">
+                      <Palette className="w-5 h-5 text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900">Choose your style & theme</h3>
+                  </div>
+                  
+                  <div className="grid grid-cols-3 gap-4">
+                    {themes.map((theme) => (
+                      <button
+                        key={theme.id}
+                        type="button"
+                        onClick={() => !generating && setSelectedTheme(theme)}
+                        disabled={generating}
+                        className={cn(
+                          "group relative p-5 rounded-2xl border-2 text-left transition-all duration-300 hover:scale-105",
+                          selectedTheme?.id === theme.id
+                            ? "border-blue-500 bg-gradient-to-br from-blue-50 to-indigo-50 shadow-xl ring-4 ring-blue-100 scale-105"
+                            : "border-slate-200 bg-white/80 backdrop-blur-sm hover:border-blue-300 hover:shadow-lg"
+                        )}
+                      >
+                        {/* Color Swatches */}
+                        <div className="flex gap-2 mb-4">
+                          {theme.colors.map((color, i) => (
+                            <div
+                              key={i}
+                              className="w-6 h-6 rounded-lg border-2 border-white shadow-md"
+                              style={{ backgroundColor: color }}
+                            />
+                          ))}
+                        </div>
+                        
+                        {/* Theme Info */}
+                        <h4 className="font-bold text-slate-900 mb-2 text-sm">{theme.name}</h4>
+                        <p className="text-xs text-slate-600 leading-relaxed">{theme.description}</p>
+                        
+                        {/* Selected Indicator */}
+                        {selectedTheme?.id === theme.id && (
+                          <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg animate-bounce">
+                            <Check className="w-4 h-4 text-white stroke-[3]" />
+                          </div>
+                        )}
+                        
+                        {/* Hover Effect */}
+                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
 
-              {/* Theme Selection */}
-              <div>
-                <label className="flex items-center gap-2 text-sm font-bold text-slate-800 mb-3">
-                  <Zap className="w-4 h-4 text-blue-600" />
-                  Choose your style & theme
-                </label>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                  {themes.map((theme) => (
-                    <button
-                      key={theme.id}
-                      type="button"
-                      onClick={() => !generating && setSelectedTheme(theme)}
-                      disabled={generating}
-                      className={cn(
-                        "group relative p-4 rounded-xl border-2 text-left transition-all duration-200",
-                        selectedTheme?.id === theme.id
-                          ? "border-blue-500 bg-gradient-to-br from-blue-50 to-indigo-50 shadow-lg ring-2 ring-blue-100"
-                          : "border-slate-200 bg-white hover:border-blue-300 hover:shadow-md"
-                      )}
-                    >
-                      {/* Color Swatches */}
-                      <div className="flex gap-1.5 mb-3">
-                        {theme.colors.map((color, i) => (
+              {/* Right Column - Preview & Features */}
+              <div className="w-80 bg-gradient-to-b from-slate-100 to-slate-50 border-l border-slate-200 p-6 space-y-6">
+                {/* AI Features */}
+                <div className="space-y-4">
+                  <h4 className="font-bold text-slate-900 text-lg mb-4">What you'll get:</h4>
+                  
+                  <div className="space-y-3">
+                    {[
+                      { icon: Cpu, title: "AI-Generated Content", desc: "Professional copy tailored to your business" },
+                      { icon: Layers, title: "Complete Layout", desc: "Fully structured sections and components" },
+                      { icon: Palette, title: "Custom Styling", desc: "Theme-matched colors and typography" },
+                      { icon: Rocket, title: "Ready to Deploy", desc: "Production-ready code in seconds" }
+                    ].map((feature, i) => (
+                      <div key={i} className="flex gap-3 p-3 bg-white/60 rounded-xl border border-slate-200/50 backdrop-blur-sm">
+                        <div className="p-2 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex-shrink-0">
+                          <feature.icon className="w-4 h-4 text-white" />
+                        </div>
+                        <div>
+                          <h5 className="font-semibold text-slate-900 text-sm">{feature.title}</h5>
+                          <p className="text-xs text-slate-600 leading-relaxed">{feature.desc}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Theme Preview */}
+                {selectedTheme && (
+                  <div className="space-y-3">
+                    <h4 className="font-bold text-slate-900 text-lg">Selected Theme:</h4>
+                    <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
+                      <div className="flex gap-2 mb-3">
+                        {selectedTheme.colors.map((color, i) => (
                           <div
                             key={i}
                             className="w-8 h-8 rounded-lg border-2 border-white shadow-sm"
@@ -323,160 +405,171 @@ export function AIGenerationModal({ open, templateType, onClose, onGenerate }: A
                           />
                         ))}
                       </div>
-                      
-                      {/* Theme Info */}
-                      <h4 className="font-bold text-slate-900 mb-1 text-sm">{theme.name}</h4>
-                      <p className="text-xs text-slate-600 leading-snug">{theme.description}</p>
-                      
-                      {/* Selected Indicator */}
-                      {selectedTheme?.id === theme.id && (
-                        <div className="absolute -top-2 -right-2 w-7 h-7 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
-                          <Check className="w-4 h-4 text-white stroke-[3]" />
-                        </div>
-                      )}
-                    </button>
-                  ))}
-                </div>
+                      <h5 className="font-bold text-slate-900 mb-1">{selectedTheme.name}</h5>
+                      <p className="text-sm text-slate-600 mb-2">{selectedTheme.description}</p>
+                      <p className="text-xs text-blue-600 font-medium">Tone: {selectedTheme.tone}</p>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
-          ) : (
-            // Clean Loading State - Light Theme
-            <div className="py-16 px-6 text-center relative">
-              {/* Simple Loading Animation */}
-              <div className="relative inline-block mb-8">
-                <div className="w-32 h-32 relative">
-                  {/* Outer rotating ring */}
-                  <div className="absolute inset-0 rounded-full border-4 border-slate-100"></div>
+
+            {/* Action Footer */}
+            <div className="border-t border-slate-200 bg-white/80 backdrop-blur-sm p-6">
+              <div className="flex gap-4">
+                <Button
+                  onClick={onClose}
+                  variant="outline"
+                  className="px-8 h-12 font-semibold border-slate-300 text-slate-700 hover:bg-slate-50 rounded-xl"
+                  disabled={generating}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={handleGenerate}
+                  disabled={!topic.trim() || !selectedTheme || generating}
+                  className="flex-1 h-12 font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:via-indigo-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all gap-3 disabled:opacity-50 disabled:cursor-not-allowed group rounded-xl text-lg"
+                >
+                  <Sparkles className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+                  Generate My Professional Website
+                  <Rocket className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        ) : (
+          // Professional Loading State - Full Screen
+          <div className="h-full flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900">
+            {/* Animated Background */}
+            <div className="absolute inset-0">
+              <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-400/10 to-purple-600/10"></div>
+              {[...Array(20)].map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute w-2 h-2 bg-blue-400/30 rounded-full animate-pulse"
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                    animationDelay: `${Math.random() * 3}s`,
+                    animationDuration: `${2 + Math.random() * 2}s`
+                  }}
+                />
+              ))}
+            </div>
+
+            <div className="relative text-center text-white z-10 max-w-2xl mx-auto px-8">
+              {/* Main Loading Animation */}
+              <div className="relative inline-block mb-12">
+                <div className="w-48 h-48 relative">
+                  {/* Multiple rotating rings */}
+                  <div className="absolute inset-0 rounded-full border-4 border-white/10"></div>
                   <div 
-                    className="absolute inset-0 rounded-full border-4 border-transparent border-t-blue-500 border-r-blue-400 animate-spin"
-                    style={{ animationDuration: '1.5s' }}
+                    className="absolute inset-2 rounded-full border-4 border-transparent border-t-blue-400 border-r-purple-400 animate-spin"
+                    style={{ animationDuration: '2s' }}
+                  ></div>
+                  <div 
+                    className="absolute inset-6 rounded-full border-3 border-transparent border-t-indigo-400 border-l-pink-400 animate-spin"
+                    style={{ animationDuration: '1.5s', animationDirection: 'reverse' }}
                   ></div>
                   
                   {/* Progress circle */}
-                  <svg className="w-full h-full -rotate-90 absolute inset-0" viewBox="0 0 128 128">
+                  <svg className="w-full h-full -rotate-90 absolute inset-0" viewBox="0 0 192 192">
                     <circle
-                      cx="64"
-                      cy="64"
-                      r="56"
+                      cx="96"
+                      cy="96"
+                      r="88"
                       fill="none"
                       stroke="currentColor"
-                      strokeWidth="4"
-                      className="text-slate-100"
+                      strokeWidth="3"
+                      className="text-white/20"
                     />
                     <circle
-                      cx="64"
-                      cy="64"
-                      r="56"
+                      cx="96"
+                      cy="96"
+                      r="88"
                       fill="none"
-                      stroke="url(#progressGradient)"
-                      strokeWidth="4"
+                      stroke="url(#loadingGradient)"
+                      strokeWidth="3"
                       strokeLinecap="round"
-                      strokeDasharray={`${(progress / 100) * 352} 352`}
-                      className="transition-all duration-500 ease-out"
+                      strokeDasharray={`${(progress / 100) * 553} 553`}
+                      className="transition-all duration-700 ease-out"
                     />
                     <defs>
-                      <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#3b82f6" />
-                        <stop offset="100%" stopColor="#2563eb" />
+                      <linearGradient id="loadingGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#60a5fa" />
+                        <stop offset="50%" stopColor="#a855f7" />
+                        <stop offset="100%" stopColor="#ec4899" />
                       </linearGradient>
                     </defs>
                   </svg>
                   
-                  {/* Center icon */}
+                  {/* Center content */}
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="relative p-5 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full shadow-lg">
-                      <Brain 
-                        className="w-10 h-10 text-white" 
-                        style={{
-                          animation: 'pulse 2s ease-in-out infinite'
-                        }}
-                      />
+                    <div className="text-center">
+                      <div className="relative p-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full shadow-2xl mb-4">
+                        <Brain 
+                          className="w-16 h-16 text-white" 
+                          style={{
+                            animation: 'pulse 2s ease-in-out infinite'
+                          }}
+                        />
+                      </div>
+                      <div className="text-4xl font-black tabular-nums bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                        {Math.round(progress)}%
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
               
               {/* Status Display */}
-              <div className="space-y-4 mb-8">
-                <h3 className="text-2xl font-bold text-slate-900">
+              <div className="space-y-6">
+                <h2 className="text-4xl font-black bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
                   {status}
-                </h3>
+                </h2>
                 
-                {/* Step indicators */}
-                <div className="flex items-center justify-center gap-2 mt-4">
-                  {[...Array(6)].map((_, i) => (
+                {/* Enhanced step indicators */}
+                <div className="flex items-center justify-center gap-3">
+                  {[
+                    { icon: Brain, label: "Analyzing" },
+                    { icon: Palette, label: "Theming" },
+                    { icon: Layers, label: "Layout" },
+                    { icon: Cpu, label: "Content" },
+                    { icon: Sparkles, label: "Styling" },
+                    { icon: Rocket, label: "Finalizing" }
+                  ].map((step, i) => (
                     <div
                       key={i}
-                      className={`h-1.5 rounded-full transition-all duration-500 ${
-                        i <= currentStep 
-                          ? 'w-8 bg-blue-500' 
-                          : 'w-4 bg-slate-200'
+                      className={`flex flex-col items-center gap-2 transition-all duration-500 ${
+                        i <= currentStep ? 'opacity-100 scale-100' : 'opacity-40 scale-90'
                       }`}
-                    />
+                    >
+                      <div className={`p-3 rounded-full transition-all duration-500 ${
+                        i <= currentStep 
+                          ? 'bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg' 
+                          : 'bg-white/20'
+                      }`}>
+                        <step.icon className="w-5 h-5 text-white" />
+                      </div>
+                      <span className="text-xs font-medium text-white/80">{step.label}</span>
+                    </div>
                   ))}
                 </div>
                 
-                <p className="text-sm text-slate-600 font-medium">
-                  AI is crafting your perfect website
+                <p className="text-xl text-blue-100 font-medium">
+                  AI is crafting your professional website experience
                 </p>
               </div>
-              
-              {/* Progress Bar */}
-              <div className="max-w-md mx-auto">
-                <div className="flex justify-between text-sm font-semibold text-slate-700 mb-2">
-                  <span>Generation Progress</span>
-                  <span className="tabular-nums">{Math.round(progress)}%</span>
-                </div>
-                <div className="relative h-2.5 bg-slate-100 rounded-full overflow-hidden">
-                  <div 
-                    className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full transition-all duration-500 ease-out"
-                    style={{ width: `${progress}%` }}
-                  >
-                    {/* Shine effect */}
-                    <div 
-                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent"
-                      style={{
-                        animation: 'shine 2s ease-in-out infinite'
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* CSS Animations */}
-              <style jsx>{`
-                @keyframes shine {
-                  0% { transform: translateX(-100%); }
-                  100% { transform: translateX(200%); }
-                }
-              `}</style>
             </div>
-          )}
-        </div>
 
-        {/* Footer with Action Buttons */}
-        {!generating && (
-          <DialogFooter className="border-t border-slate-200 p-6 bg-white">
-            <div className="flex gap-3 w-full">
-              <Button
-                onClick={onClose}
-                variant="outline"
-                className="flex-1 h-11 font-semibold border-slate-300 text-slate-700 hover:bg-slate-50"
-                disabled={generating}
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={handleGenerate}
-                disabled={!topic.trim() || !selectedTheme || generating}
-                className="flex-1 h-11 font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-md hover:shadow-lg transition-all gap-2 disabled:opacity-50 disabled:cursor-not-allowed group"
-              >
-                <Sparkles className="w-4 h-4 group-hover:rotate-12 transition-transform" />
-                Generate My Website
-                <Zap className="w-4 h-4 group-hover:-rotate-12 transition-transform" />
-              </Button>
-            </div>
-          </DialogFooter>
+            {/* Floating particles animation */}
+            <style jsx>{`
+              @keyframes float {
+                0%, 100% { transform: translateY(0px) rotate(0deg); }
+                50% { transform: translateY(-20px) rotate(180deg); }
+              }
+            `}</style>
+          </div>
         )}
       </DialogContent>
     </Dialog>
