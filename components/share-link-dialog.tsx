@@ -69,7 +69,8 @@ export function ShareLinkDialog({ project, open, onOpenChange }: ShareLinkDialog
     setLoading(true)
     try {
       const link = create(project.id, customSlug, expiryDays)
-      const fullUrl = `${window.location.origin}/share/${link.customSlug}`
+      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin
+      const fullUrl = `${baseUrl}/share/${link.customSlug}`
       setGeneratedLink(fullUrl)
       
       toast.success("Shareable Link Created!", {
@@ -125,7 +126,7 @@ export function ShareLinkDialog({ project, open, onOpenChange }: ShareLinkDialog
               <label htmlFor="custom-slug" className="text-sm font-medium">Custom URL</label>
               <div className="flex items-center gap-2">
                 <span className="text-sm text-muted-foreground whitespace-nowrap">
-                  {window.location.origin}/share/
+                  {process.env.NEXT_PUBLIC_APP_URL || window.location.origin}/share/
                 </span>
                 <Input
                   id="custom-slug"

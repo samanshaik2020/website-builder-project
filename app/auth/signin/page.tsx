@@ -24,12 +24,12 @@ export default function SignInPage() {
       toast.success("Welcome back!", {
         description: "You've successfully signed in.",
       })
-      router.push("/dashboard")
+      // Use window.location for a full page reload to ensure session is properly set
+      window.location.href = "/dashboard"
     } catch (error: any) {
       toast.error("Sign in failed", {
         description: error.message || "Invalid email or password. Please try again.",
       })
-    } finally {
       setLoading(false)
     }
   }

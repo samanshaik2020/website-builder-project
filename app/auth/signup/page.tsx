@@ -43,12 +43,12 @@ export default function SignUpPage() {
       toast.success("Account created!", {
         description: "Please check your email to verify your account.",
       })
-      router.push("/dashboard")
+      // Use window.location for a full page reload to ensure session is properly set
+      window.location.href = "/dashboard"
     } catch (error: any) {
       toast.error("Sign up failed", {
         description: error.message || "Could not create account. Please try again.",
       })
-    } finally {
       setLoading(false)
     }
   }

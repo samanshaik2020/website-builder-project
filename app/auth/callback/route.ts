@@ -30,7 +30,9 @@ export async function GET(request: NextRequest) {
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     
     if (!error) {
-      return NextResponse.redirect(new URL(next, request.url))
+      // Use absolute URL for redirect to ensure it works with custom domains
+      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || requestUrl.origin
+      return NextResponse.redirect(new URL(next, baseUrl))
     }
   }
 

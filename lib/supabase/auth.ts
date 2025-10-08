@@ -40,10 +40,11 @@ export async function signInWithEmail(email: string, password: string) {
 
 // Sign in with Google OAuth
 export async function signInWithGoogle() {
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: `${window.location.origin}/auth/callback`,
+      redirectTo: `${baseUrl}/auth/callback`,
       queryParams: {
         access_type: 'offline',
         prompt: 'consent',
