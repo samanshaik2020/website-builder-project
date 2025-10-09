@@ -242,32 +242,24 @@ export function AIGenerationModal({ open, templateType, onClose, onGenerate }: A
 
   return (
     <Dialog open={open} onOpenChange={(isOpen) => !generating && !isOpen && onClose()}>
-      <DialogContent className="max-w-6xl h-[85vh] overflow-hidden p-0 gap-0 bg-gradient-to-br from-slate-50 via-white to-blue-50/30 border-0 shadow-2xl">
+      <DialogContent className="max-w-6xl h-[85vh] overflow-hidden p-0 gap-0 bg-white border border-slate-200 shadow-2xl">
         {!generating ? (
           // Main Form Layout - No Scroll, Single Page
           <div className="h-full flex flex-col">
             {/* Premium Header */}
-            <div className="relative overflow-hidden bg-gradient-to-r from-slate-900 via-blue-900 to-indigo-900 text-white">
-              {/* Animated Background Pattern */}
-              <div className="absolute inset-0 opacity-10">
-                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-400/20 to-purple-600/20"></div>
-                <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-radial from-blue-400/30 to-transparent rounded-full blur-3xl animate-pulse"></div>
-                <div className="absolute bottom-0 left-0 w-80 h-80 bg-gradient-radial from-purple-500/30 to-transparent rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-              </div>
-              
+            <div className="relative overflow-hidden bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 text-white border-b border-blue-200">
               <DialogHeader className="relative px-8 py-6">
                 <div className="flex items-center justify-center gap-4 mb-2">
                   <div className="relative">
-                    <div className="absolute inset-0 bg-blue-400/30 rounded-2xl blur-lg animate-pulse"></div>
-                    <div className="relative p-4 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl shadow-xl">
-                      <Brain className="w-10 h-10 text-white" />
+                    <div className="relative p-3 bg-white/20 backdrop-blur-sm rounded-xl shadow-lg">
+                      <Brain className="w-8 h-8 text-white" />
                     </div>
                   </div>
                   <div className="text-center">
-                    <DialogTitle className="text-4xl font-black tracking-tight bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
+                    <DialogTitle className="text-3xl font-bold tracking-tight text-white">
                       AI Page Generator
                     </DialogTitle>
-                    <DialogDescription className="text-blue-100 font-medium text-lg mt-1">
+                    <DialogDescription className="text-white/90 font-medium text-base mt-1">
                       Create a complete <span className="font-bold text-white">{templateType}</span> page with AI-powered content
                     </DialogDescription>
                   </div>
@@ -276,9 +268,9 @@ export function AIGenerationModal({ open, templateType, onClose, onGenerate }: A
             </div>
 
             {/* Main Content - Two Column Layout */}
-            <div className="flex-1 flex overflow-hidden">
+            <div className="flex-1 flex overflow-y-auto">
               {/* Left Column - Form */}
-              <div className="flex-1 p-8 space-y-8">
+              <div className="flex-1 p-8 space-y-6 overflow-y-auto">
                 {/* Topic Input Section */}
                 <div className="space-y-4">
                   <div className="flex items-center gap-3 mb-4">
@@ -366,7 +358,7 @@ export function AIGenerationModal({ open, templateType, onClose, onGenerate }: A
               </div>
 
               {/* Right Column - Preview & Features */}
-              <div className="w-80 bg-gradient-to-b from-slate-100 to-slate-50 border-l border-slate-200 p-6 space-y-6">
+              <div className="w-80 bg-gradient-to-b from-blue-50 to-indigo-50 border-l border-slate-200 p-6 space-y-6 overflow-y-auto">
                 {/* AI Features */}
                 <div className="space-y-4">
                   <h4 className="font-bold text-slate-900 text-lg mb-4">What you'll get:</h4>
@@ -439,14 +431,14 @@ export function AIGenerationModal({ open, templateType, onClose, onGenerate }: A
           </div>
         ) : (
           // Professional Loading State - Full Screen
-          <div className="h-full flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900">
+          <div className="h-full flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
             {/* Animated Background */}
             <div className="absolute inset-0">
-              <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-400/10 to-purple-600/10"></div>
-              {[...Array(20)].map((_, i) => (
+              <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-100/30 to-purple-100/30"></div>
+              {[...Array(15)].map((_, i) => (
                 <div
                   key={i}
-                  className="absolute w-2 h-2 bg-blue-400/30 rounded-full animate-pulse"
+                  className="absolute w-2 h-2 bg-blue-400/20 rounded-full animate-pulse"
                   style={{
                     left: `${Math.random() * 100}%`,
                     top: `${Math.random() * 100}%`,
@@ -457,48 +449,37 @@ export function AIGenerationModal({ open, templateType, onClose, onGenerate }: A
               ))}
             </div>
 
-            <div className="relative text-center text-white z-10 max-w-2xl mx-auto px-8">
+            <div className="relative text-center z-10 max-w-2xl mx-auto px-8">
               {/* Main Loading Animation */}
-              <div className="relative inline-block mb-12">
-                <div className="w-48 h-48 relative">
-                  {/* Multiple rotating rings */}
-                  <div className="absolute inset-0 rounded-full border-4 border-white/10"></div>
-                  <div 
-                    className="absolute inset-2 rounded-full border-4 border-transparent border-t-blue-400 border-r-purple-400 animate-spin"
-                    style={{ animationDuration: '2s' }}
-                  ></div>
-                  <div 
-                    className="absolute inset-6 rounded-full border-3 border-transparent border-t-indigo-400 border-l-pink-400 animate-spin"
-                    style={{ animationDuration: '1.5s', animationDirection: 'reverse' }}
-                  ></div>
-                  
+              <div className="relative inline-block mb-10">
+                <div className="w-40 h-40 relative">
                   {/* Progress circle */}
-                  <svg className="w-full h-full -rotate-90 absolute inset-0" viewBox="0 0 192 192">
+                  <svg className="w-full h-full -rotate-90 absolute inset-0" viewBox="0 0 160 160">
                     <circle
-                      cx="96"
-                      cy="96"
-                      r="88"
+                      cx="80"
+                      cy="80"
+                      r="72"
                       fill="none"
                       stroke="currentColor"
-                      strokeWidth="3"
-                      className="text-white/20"
+                      strokeWidth="4"
+                      className="text-blue-200"
                     />
                     <circle
-                      cx="96"
-                      cy="96"
-                      r="88"
+                      cx="80"
+                      cy="80"
+                      r="72"
                       fill="none"
                       stroke="url(#loadingGradient)"
-                      strokeWidth="3"
+                      strokeWidth="4"
                       strokeLinecap="round"
-                      strokeDasharray={`${(progress / 100) * 553} 553`}
-                      className="transition-all duration-700 ease-out"
+                      strokeDasharray={`${(progress / 100) * 452} 452`}
+                      className="transition-all duration-500 ease-out"
                     />
                     <defs>
                       <linearGradient id="loadingGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#60a5fa" />
-                        <stop offset="50%" stopColor="#a855f7" />
-                        <stop offset="100%" stopColor="#ec4899" />
+                        <stop offset="0%" stopColor="#3B82F6" />
+                        <stop offset="50%" stopColor="#8B5CF6" />
+                        <stop offset="100%" stopColor="#A855F7" />
                       </linearGradient>
                     </defs>
                   </svg>
@@ -506,15 +487,15 @@ export function AIGenerationModal({ open, templateType, onClose, onGenerate }: A
                   {/* Center content */}
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="text-center">
-                      <div className="relative p-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full shadow-2xl mb-4">
+                      <div className="relative p-5 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full shadow-lg mb-3">
                         <Brain 
-                          className="w-16 h-16 text-white" 
+                          className="w-12 h-12 text-white" 
                           style={{
                             animation: 'pulse 2s ease-in-out infinite'
                           }}
                         />
                       </div>
-                      <div className="text-4xl font-black tabular-nums bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                      <div className="text-3xl font-bold tabular-nums text-blue-600">
                         {Math.round(progress)}%
                       </div>
                     </div>
@@ -524,12 +505,12 @@ export function AIGenerationModal({ open, templateType, onClose, onGenerate }: A
               
               {/* Status Display */}
               <div className="space-y-6">
-                <h2 className="text-4xl font-black bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
+                <h2 className="text-3xl font-bold text-slate-800">
                   {status}
                 </h2>
                 
                 {/* Enhanced step indicators */}
-                <div className="flex items-center justify-center gap-3">
+                <div className="flex items-center justify-center gap-2">
                   {[
                     { icon: Brain, label: "Analyzing" },
                     { icon: Palette, label: "Theming" },
@@ -541,22 +522,22 @@ export function AIGenerationModal({ open, templateType, onClose, onGenerate }: A
                     <div
                       key={i}
                       className={`flex flex-col items-center gap-2 transition-all duration-500 ${
-                        i <= currentStep ? 'opacity-100 scale-100' : 'opacity-40 scale-90'
+                        i <= currentStep ? 'opacity-100 scale-100' : 'opacity-30 scale-90'
                       }`}
                     >
-                      <div className={`p-3 rounded-full transition-all duration-500 ${
+                      <div className={`p-2.5 rounded-full transition-all duration-500 ${
                         i <= currentStep 
-                          ? 'bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg' 
-                          : 'bg-white/20'
+                          ? 'bg-gradient-to-br from-blue-500 to-purple-600 shadow-md' 
+                          : 'bg-slate-200'
                       }`}>
-                        <step.icon className="w-5 h-5 text-white" />
+                        <step.icon className="w-4 h-4 text-white" />
                       </div>
-                      <span className="text-xs font-medium text-white/80">{step.label}</span>
+                      <span className="text-xs font-medium text-slate-600">{step.label}</span>
                     </div>
                   ))}
                 </div>
                 
-                <p className="text-xl text-blue-100 font-medium">
+                <p className="text-lg text-slate-600 font-medium">
                   AI is crafting your professional website experience
                 </p>
               </div>
