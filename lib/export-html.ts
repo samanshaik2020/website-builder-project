@@ -3,6 +3,11 @@
 import type { ProjectRecord } from "@/components/lib/projects-store"
 import { generateKetoBarHTML } from "./export-html-keto"
 import { generateBananaMilkHTML } from "./export-html-banana-milk"
+import { generateCampaignMonitorHTML } from "./export-html-campaign-monitor"
+import { generateBlowLtdHTML } from "./export-html-blow-ltd"
+import { generateBePatientsHTML } from "./export-html-be-patients"
+import { generateOutlierApparelHTML } from "./export-html-outlier-apparel"
+import { generateBranchFurnitureHTML } from "./export-html-branch-furniture"
 
 /**
  * Generates a standalone HTML file from a saved project
@@ -10,7 +15,7 @@ import { generateBananaMilkHTML } from "./export-html-banana-milk"
 export function generateHTMLExport(project: ProjectRecord): string {
   const { template, data, name, theme } = project
   const { texts, images, buttons } = data
-  
+
   console.log('🎨 generateHTMLExport called:')
   console.log('  Template:', template)
   console.log('  Theme:', theme)
@@ -70,6 +75,21 @@ export function generateHTMLExport(project: ProjectRecord): string {
       break
     case "banana-milk":
       html = generateBananaMilkHTML(getText, getImage, getButton)
+      break
+    case "campaign-monitor":
+      html = generateCampaignMonitorHTML(getText, getImage, getButton)
+      break
+    case "blow-ltd":
+      html = generateBlowLtdHTML(getText, getImage, getButton)
+      break
+    case "be-patients":
+      html = generateBePatientsHTML(getText, getImage, getButton)
+      break
+    case "outlier-apparel":
+      html = generateOutlierApparelHTML(getText, getImage, getButton)
+      break
+    case "branch-furniture":
+      html = generateBranchFurnitureHTML(getText, getImage, getButton)
       break
     default:
       html = generateGenericHTML(getText, getImage, getButton, name)
@@ -219,7 +239,7 @@ function getSaaSProThemeStyles(theme: string) {
       cardBorder: "border-gray-200",
     },
   }
-  
+
   return themes[theme] || themes["modern-minimal"]
 }
 
@@ -283,7 +303,7 @@ function getPortfolioProThemeStyles(theme: string) {
       secondaryBtn: "bg-transparent text-cyan-400 border-2 border-cyan-400 hover:bg-cyan-400 hover:text-black",
     },
   }
-  
+
   return themes[theme] || themes["default"]
 }
 
@@ -322,8 +342,8 @@ function generatePortfolioHTML(getText: GetText, getImage: GetImage, getButton: 
       <h3 class="text-xl font-semibold mb-3">${escapeHtml(getText("pt-skills-title", "Skills"))}</h3>
       <div class="grid grid-cols-2 gap-3 text-sm">
         ${["React", "Next.js", "Tailwind", "Figma", "TypeScript", "Accessibility"]
-          .map((s, i) => `<div class="rounded-lg bg-background p-3">${escapeHtml(getText(`pt-skill-${i}`, s))}</div>`)
-          .join("")}
+      .map((s, i) => `<div class="rounded-lg bg-background p-3">${escapeHtml(getText(`pt-skill-${i}`, s))}</div>`)
+      .join("")}
       </div>
     </div>
   </section>
@@ -756,7 +776,7 @@ function generateEventLandingHTML(getText: GetText, getImage: GetImage, getButto
 
 function generateSaaSProHTML(getText: GetText, getImage: GetImage, getButton: GetButton, theme?: string): string {
   const t = getSaaSProThemeStyles(theme || "modern-minimal")
-  
+
   return `
 <main class="${t.mainBg} ${t.mainText}">
   <!-- Navigation -->
@@ -764,7 +784,7 @@ function generateSaaSProHTML(getText: GetText, getImage: GetImage, getButton: Ge
     <div class="mx-auto max-w-7xl px-4 py-4 flex items-center justify-between">
       <h1 class="text-xl font-semibold ${t.headerText}">${escapeHtml(getText("saas_pro_brand", "InnovatePro"))}</h1>
       <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-emerald-700">
-        ${[1,2,3,4,5].map(n => `<span class="hover:text-emerald-600 transition-colors">${escapeHtml(getText(`saas_pro_nav_${n}`, ["Features","Solutions","Pricing","Resources","Company"][n-1]))}</span>`).join("")}
+        ${[1, 2, 3, 4, 5].map(n => `<span class="hover:text-emerald-600 transition-colors">${escapeHtml(getText(`saas_pro_nav_${n}`, ["Features", "Solutions", "Pricing", "Resources", "Company"][n - 1]))}</span>`).join("")}
       </nav>
       <div class="flex items-center gap-3">
         <a href="${escapeHtml(getButton("saas_pro_nav_signin").href)}" class="hidden md:inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium ${t.secondaryBtn}">${escapeHtml(getButton("saas_pro_nav_signin").text)}</a>
@@ -795,7 +815,7 @@ function generateSaaSProHTML(getText: GetText, getImage: GetImage, getButton: Ge
     <div class="mx-auto max-w-7xl px-4">
       <p class="text-center text-xs ${t.fontWeight} text-gray-500 mb-8 uppercase tracking-widest">${escapeHtml(getText("saas_pro_logos_heading", "Trusted by industry-leading companies worldwide"))}</p>
       <div class="grid grid-cols-2 md:grid-cols-5 gap-8 items-center">
-        ${[1,2,3,4,5].map(n => `<img src="${escapeHtml(getImage(`saas_pro_logo_${n}`, `/placeholder.svg?height=40&width=140&query=logo%20${n}`))}" alt="Partner ${n}" class="mx-auto h-8 md:h-10 w-auto opacity-40 hover:opacity-100 transition-opacity grayscale" />`).join("")}
+        ${[1, 2, 3, 4, 5].map(n => `<img src="${escapeHtml(getImage(`saas_pro_logo_${n}`, `/placeholder.svg?height=40&width=140&query=logo%20${n}`))}" alt="Partner ${n}" class="mx-auto h-8 md:h-10 w-auto opacity-40 hover:opacity-100 transition-opacity grayscale" />`).join("")}
       </div>
     </div>
   </section>
@@ -808,10 +828,10 @@ function generateSaaSProHTML(getText: GetText, getImage: GetImage, getButton: Ge
       <p class="text-lg text-gray-600 ${t.fontWeight}">${escapeHtml(getText("saas_pro_features_subheadline", "Our comprehensive suite of tools helps you work smarter"))}</p>
     </div>
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
-      ${[1,2,3,4,5,6].map(n => `
+      ${[1, 2, 3, 4, 5, 6].map(n => `
         <div class="group">
-          <div class="w-12 h-12 rounded-full border ${t.cardBorder} flex items-center justify-center mb-4 group-hover:border-black transition-colors">${escapeHtml(getText(`saas_pro_feature_${n}_icon`, ["⚡","🎯","🔒","📊","🚀","💡"][n-1]))}</div>
-          <h4 class="text-xl ${t.fontWeight} mb-2">${escapeHtml(getText(`saas_pro_feature_${n}_title`, ["Lightning Fast","Precision Targeting","Bank-Grade Security","Advanced Analytics","Seamless Integrations","Smart Automation"][n-1]))}</h4>
+          <div class="w-12 h-12 rounded-full border ${t.cardBorder} flex items-center justify-center mb-4 group-hover:border-black transition-colors">${escapeHtml(getText(`saas_pro_feature_${n}_icon`, ["⚡", "🎯", "🔒", "📊", "🚀", "💡"][n - 1]))}</div>
+          <h4 class="text-xl ${t.fontWeight} mb-2">${escapeHtml(getText(`saas_pro_feature_${n}_title`, ["Lightning Fast", "Precision Targeting", "Bank-Grade Security", "Advanced Analytics", "Seamless Integrations", "Smart Automation"][n - 1]))}</h4>
           <p class="text-gray-600 leading-relaxed ${t.fontWeight} text-sm">${escapeHtml(getText(`saas_pro_feature_${n}_description`, "Feature description"))}</p>
         </div>
       `).join("")}
@@ -826,10 +846,10 @@ function generateSaaSProHTML(getText: GetText, getImage: GetImage, getButton: Ge
         <p class="text-lg text-gray-600 ${t.fontWeight}">${escapeHtml(getText("saas_pro_stats_subheadline", "Join thousands of businesses seeing improvements"))}</p>
       </div>
       <div class="grid md:grid-cols-4 gap-12">
-        ${[1,2,3,4].map(i => `
+        ${[1, 2, 3, 4].map(i => `
           <div class="text-center">
-            <p class="text-5xl md:text-6xl ${t.fontWeight} mb-2">${escapeHtml(getText(`saas_pro_stat_${i}_number`, ["10K+","99.9%","4.9/5","24/7"][i-1]))}</p>
-            <p class="text-gray-600 ${t.fontWeight} text-sm">${escapeHtml(getText(`saas_pro_stat_${i}_label`, ["Active Users","Uptime SLA","Customer Rating","Support"][i-1]))}</p>
+            <p class="text-5xl md:text-6xl ${t.fontWeight} mb-2">${escapeHtml(getText(`saas_pro_stat_${i}_number`, ["10K+", "99.9%", "4.9/5", "24/7"][i - 1]))}</p>
+            <p class="text-gray-600 ${t.fontWeight} text-sm">${escapeHtml(getText(`saas_pro_stat_${i}_label`, ["Active Users", "Uptime SLA", "Customer Rating", "Support"][i - 1]))}</p>
           </div>
         `).join("")}
       </div>
@@ -843,7 +863,7 @@ function generateSaaSProHTML(getText: GetText, getImage: GetImage, getButton: Ge
       <h3 class="text-4xl md:text-6xl ${t.fontWeight}">${escapeHtml(getText("saas_pro_testimonials_headline", "Loved by Teams Everywhere"))}</h3>
     </div>
     <div class="grid md:grid-cols-3 gap-8">
-      ${[1,2,3].map(n => `
+      ${[1, 2, 3].map(n => `
         <div class="p-8 border ${t.cardBorder} ${t.cardBg}">
           <div class="flex items-center gap-1 mb-4 text-gray-400 text-sm">${escapeHtml(getText(`saas_pro_testimonial_${n}_rating`, "⭐⭐⭐⭐⭐"))}</div>
           <p class="text-base mb-6 leading-relaxed ${t.fontWeight}">${escapeHtml(getText(`saas_pro_testimonial_${n}_quote`, "Great product!"))}</p>
@@ -867,18 +887,18 @@ function generateSaaSProHTML(getText: GetText, getImage: GetImage, getButton: Ge
       <p class="text-lg text-gray-600 ${t.fontWeight}">${escapeHtml(getText("saas_pro_pricing_subheadline", "Choose the plan that fits your needs"))}</p>
     </div>
     <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-      ${[1,2,3].map(i => `
-        <div class="relative p-8 border ${i===2?'border-black bg-gray-50':''+t.cardBorder+' '+t.cardBg}">
-          ${i===2?`<div class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-black text-white text-xs ${t.fontWeight}">${escapeHtml(getText(`saas_pro_pricing_${i}_badge`, "Most Popular"))}</div>`:''}
-          <p class="text-xl ${t.fontWeight} mb-2">${escapeHtml(getText(`saas_pro_pricing_${i}_name`, ["Starter","Professional","Enterprise"][i-1]))}</p>
+      ${[1, 2, 3].map(i => `
+        <div class="relative p-8 border ${i === 2 ? 'border-black bg-gray-50' : '' + t.cardBorder + ' ' + t.cardBg}">
+          ${i === 2 ? `<div class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-black text-white text-xs ${t.fontWeight}">${escapeHtml(getText(`saas_pro_pricing_${i}_badge`, "Most Popular"))}</div>` : ''}
+          <p class="text-xl ${t.fontWeight} mb-2">${escapeHtml(getText(`saas_pro_pricing_${i}_name`, ["Starter", "Professional", "Enterprise"][i - 1]))}</p>
           <div class="mb-6">
-            <span class="text-5xl ${t.fontWeight}">${escapeHtml(getText(`saas_pro_pricing_${i}_price`, ["$29","$79","$199"][i-1]))}</span>
+            <span class="text-5xl ${t.fontWeight}">${escapeHtml(getText(`saas_pro_pricing_${i}_price`, ["$29", "$79", "$199"][i - 1]))}</span>
             <span class="text-gray-500 ${t.fontWeight} text-sm">${escapeHtml(getText(`saas_pro_pricing_${i}_period`, "/month"))}</span>
           </div>
           <p class="text-xs text-gray-600 mb-6 ${t.fontWeight}">${escapeHtml(getText(`saas_pro_pricing_${i}_description`, "Plan description"))}</p>
-          <a href="${escapeHtml(getButton(`saas_pro_pricing_${i}_cta`).href)}" class="block w-full text-center rounded-md px-4 py-3 mb-6 ${i===2?'bg-black text-white hover:bg-gray-800 '+t.fontWeight:'bg-white text-black border '+t.cardBorder+' hover:bg-gray-50 '+t.fontWeight}">${escapeHtml(getButton(`saas_pro_pricing_${i}_cta`).text)}</a>
+          <a href="${escapeHtml(getButton(`saas_pro_pricing_${i}_cta`).href)}" class="block w-full text-center rounded-md px-4 py-3 mb-6 ${i === 2 ? 'bg-black text-white hover:bg-gray-800 ' + t.fontWeight : 'bg-white text-black border ' + t.cardBorder + ' hover:bg-gray-50 ' + t.fontWeight}">${escapeHtml(getButton(`saas_pro_pricing_${i}_cta`).text)}</a>
           <div class="space-y-3">
-            ${[1,2,3,4,5].map(f => `<div class="flex items-start gap-2"><span class="text-black mt-0.5">✓</span><p class="text-xs ${t.fontWeight}">${escapeHtml(getText(`saas_pro_pricing_${i}_feature_${f}`, `Feature ${f}`))}</p></div>`).join("")}
+            ${[1, 2, 3, 4, 5].map(f => `<div class="flex items-start gap-2"><span class="text-black mt-0.5">✓</span><p class="text-xs ${t.fontWeight}">${escapeHtml(getText(`saas_pro_pricing_${i}_feature_${f}`, `Feature ${f}`))}</p></div>`).join("")}
           </div>
         </div>
       `).join("")}
@@ -905,11 +925,11 @@ function generateSaaSProHTML(getText: GetText, getImage: GetImage, getButton: Ge
           <h5 class="text-lg ${t.fontWeight} mb-3">${escapeHtml(getText("saas_pro_footer_brand", "InnovatePro"))}</h5>
           <p class="text-xs text-gray-600 mb-4 max-w-xs ${t.fontWeight}">${escapeHtml(getText("saas_pro_footer_tagline", "Empowering businesses with intelligent automation"))}</p>
         </div>
-        ${[1,2,3].map(col => `
+        ${[1, 2, 3].map(col => `
           <div>
-            <p class="${t.fontWeight} mb-3 text-sm">${escapeHtml(getText(`saas_pro_footer_col_${col}_title`, ["Product","Company","Support"][col-1]))}</p>
+            <p class="${t.fontWeight} mb-3 text-sm">${escapeHtml(getText(`saas_pro_footer_col_${col}_title`, ["Product", "Company", "Support"][col - 1]))}</p>
             <div class="space-y-2">
-              ${[1,2,3,4].map(link => `<p class="text-xs text-gray-600 hover:text-black ${t.fontWeight} transition-colors">${escapeHtml(getText(`saas_pro_footer_col_${col}_link_${link}`, `Link ${link}`))}</p>`).join("")}
+              ${[1, 2, 3, 4].map(link => `<p class="text-xs text-gray-600 hover:text-black ${t.fontWeight} transition-colors">${escapeHtml(getText(`saas_pro_footer_col_${col}_link_${link}`, `Link ${link}`))}</p>`).join("")}
             </div>
           </div>
         `).join("")}
@@ -917,7 +937,7 @@ function generateSaaSProHTML(getText: GetText, getImage: GetImage, getButton: Ge
       <div class="pt-8 border-t ${t.cardBorder} flex flex-col md:flex-row justify-between items-center gap-4">
         <p class="text-xs text-gray-500 ${t.fontWeight}">${escapeHtml(getText("saas_pro_footer_copyright", "© 2025 InnovatePro. All rights reserved."))}</p>
         <div class="flex gap-6">
-          ${[1,2,3].map(i => `<span class="text-xs text-gray-500 hover:text-black ${t.fontWeight} transition-colors">${escapeHtml(getText(`saas_pro_footer_legal_${i}`, ["Privacy","Terms","Cookies"][i-1]))}</span>`).join("")}
+          ${[1, 2, 3].map(i => `<span class="text-xs text-gray-500 hover:text-black ${t.fontWeight} transition-colors">${escapeHtml(getText(`saas_pro_footer_legal_${i}`, ["Privacy", "Terms", "Cookies"][i - 1]))}</span>`).join("")}
         </div>
       </div>
     </div>
@@ -929,7 +949,7 @@ function generateSaaSProHTML(getText: GetText, getImage: GetImage, getButton: Ge
 function generatePortfolioProHTML(getText: GetText, getImage: GetImage, getButton: GetButton, theme?: string): string {
   // Portfolio Pro has its own theme system
   const t = getPortfolioProThemeStyles(theme || "default")
-  
+
   return `
 <main class="${t.mainBg} ${t.mainText}">
   <!-- Navigation -->
@@ -937,7 +957,7 @@ function generatePortfolioProHTML(getText: GetText, getImage: GetImage, getButto
     <div class="mx-auto max-w-7xl px-4 py-4 flex items-center justify-between">
       <h1 class="text-xl font-bold ${t.headerText}">${escapeHtml(getText("portfolio_pro_brand", "Alex Morgan"))}</h1>
       <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
-        ${[1,2,3,4,5].map(n => `<span>${escapeHtml(getText(`portfolio_pro_nav_${n}`, ["Work","About","Services","Blog","Contact"][n-1]))}</span>`).join("")}
+        ${[1, 2, 3, 4, 5].map(n => `<span>${escapeHtml(getText(`portfolio_pro_nav_${n}`, ["Work", "About", "Services", "Blog", "Contact"][n - 1]))}</span>`).join("")}
       </nav>
       <div class="flex items-center gap-3">
         <a href="${escapeHtml(getButton("portfolio_pro_nav_resume").href)}" class="hidden md:inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium ${t.secondaryBtn}">${escapeHtml(getButton("portfolio_pro_nav_resume").text)}</a>
@@ -972,7 +992,7 @@ function generatePortfolioProHTML(getText: GetText, getImage: GetImage, getButto
       <p class="text-lg opacity-70 max-w-2xl mx-auto">${escapeHtml(getText("portfolio_pro_work_subtitle", "A selection of my recent projects"))}</p>
     </div>
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-      ${[1,2,3].map(n => `
+      ${[1, 2, 3].map(n => `
         <div class="group cursor-pointer">
           <div class="relative overflow-hidden rounded-xl mb-4">
             <img src="${escapeHtml(getImage(`portfolio_pro_project_${n}_image`, `/placeholder.svg?text=Project+${n}`))}" alt="Project ${n}" class="w-full h-64 object-cover" />
@@ -998,7 +1018,7 @@ function generateIPhoneProHTML(getText: GetText, getImage: GetImage, getButton: 
   // iPhone Pro templates have 6 premium themes
   // Theme IDs: "dark-gradient", "light-elegant", "neon-cyberpunk", "luxury-gold", "minimalist-tech", "vibrant-gradient"
   console.log('generateIPhoneProHTML called with theme:', theme)
-  
+
   // Theme-specific styling
   let bgClass = 'bg-gradient-to-b from-slate-950 via-slate-900 to-black text-white'
   let headerBg = 'border-white/10 bg-black/40'
@@ -1030,7 +1050,7 @@ function generateIPhoneProHTML(getText: GetText, getImage: GetImage, getButton: 
   let featureCardBgs = ['bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-white/10', 'bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-white/10', 'bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-white/10']
   let featureCardRounded = 'rounded-2xl'
   let featureTitleColor = ''
-  
+
   if (theme === 'vibrant-gradient') {
     bgClass = 'bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 text-gray-900'
     headerBg = 'border-white/50 bg-white/70'
@@ -1168,9 +1188,9 @@ function generateIPhoneProHTML(getText: GetText, getImage: GetImage, getButton: 
     imageRounded = 'rounded-lg'
   }
   // dark-gradient is the default (already set above)
-  
+
   console.log('Theme:', theme, 'isDark:', isDark)
-  
+
   return `
 <main class="${bgClass}">
   <!-- Navigation -->
@@ -1178,7 +1198,7 @@ function generateIPhoneProHTML(getText: GetText, getImage: GetImage, getButton: 
     <div class="mx-auto max-w-7xl px-8 py-4 flex items-center justify-between">
       <h1 class="text-2xl ${brandFontWeight} ${brandFontFamily} ${titleClass}">${escapeHtml(getText("iphone_pro_brand", "iPhone Pro"))}</h1>
       <nav class="hidden md:flex items-center gap-10 text-sm font-medium">
-        ${[0,1,2,3].map(i => `<span class="${textHoverClass} transition-colors">${escapeHtml(getText(`iphone_pro_nav_${i}`, ["Overview","Tech Specs","Gallery","Compare"][i]))}</span>`).join("")}
+        ${[0, 1, 2, 3].map(i => `<span class="${textHoverClass} transition-colors">${escapeHtml(getText(`iphone_pro_nav_${i}`, ["Overview", "Tech Specs", "Gallery", "Compare"][i]))}</span>`).join("")}
       </nav>
       <div class="flex items-center gap-4">
         <a href="${escapeHtml(getButton("iphone_pro_nav_preorder").href)}" class="${buttonClass} text-white px-6 py-2.5 ${buttonRounded} text-sm ${buttonFontWeight} ${buttonShadow}">${escapeHtml(getButton("iphone_pro_nav_preorder").text)}</a>
@@ -1230,10 +1250,10 @@ function generateIPhoneProHTML(getText: GetText, getImage: GetImage, getButton: 
         <p class="text-xl ${textMuted} max-w-3xl mx-auto">${escapeHtml(getText("iphone_pro_features_subtitle", "Every detail meticulously crafted to deliver an unprecedented mobile experience."))}</p>
       </div>
       <div class="grid md:grid-cols-3 gap-8">
-        ${[0,1,2].map(i => `
+        ${[0, 1, 2].map(i => `
           <div class="relative p-8 ${featureCardRounded} ${featureCardBgs[i]} backdrop-blur-sm hover:scale-105 transition-transform duration-300">
-            <div class="text-6xl mb-6">${escapeHtml(getText(`iphone_pro_feature_${i}_icon`, ["⚡","📸","🔋"][i]))}</div>
-            <h4 class="text-2xl font-bold mb-4 ${featureTitleColor}">${escapeHtml(getText(`iphone_pro_feature_${i}_title`, ["A18 Pro Chip","Pro Camera System","All-Day Battery"][i]))}</h4>
+            <div class="text-6xl mb-6">${escapeHtml(getText(`iphone_pro_feature_${i}_icon`, ["⚡", "📸", "🔋"][i]))}</div>
+            <h4 class="text-2xl font-bold mb-4 ${featureTitleColor}">${escapeHtml(getText(`iphone_pro_feature_${i}_title`, ["A18 Pro Chip", "Pro Camera System", "All-Day Battery"][i]))}</h4>
             <p class="${textColor} leading-relaxed">${escapeHtml(getText(`iphone_pro_feature_${i}_desc`, "Feature description"))}</p>
           </div>
         `).join("")}
@@ -1252,10 +1272,10 @@ function generateIPhoneProHTML(getText: GetText, getImage: GetImage, getButton: 
           </h3>
           <p class="text-lg ${isDark ? 'text-gray-300' : 'text-gray-600'} mb-8 leading-relaxed">${escapeHtml(getText("iphone_pro_camera_desc", "The new 48MP Main camera captures super-high-resolution photos with incredible detail."))}</p>
           <ul class="space-y-4">
-            ${[0,1,2,3].map(i => `
+            ${[0, 1, 2, 3].map(i => `
               <li class="flex items-start gap-3">
                 <span class="${isDark ? 'text-blue-400' : 'text-blue-600'} mt-1">✓</span>
-                <span class="${isDark ? 'text-gray-300' : 'text-gray-600'}">${escapeHtml(getText(`iphone_pro_camera_feature_${i}`, `Camera feature ${i+1}`))}</span>
+                <span class="${isDark ? 'text-gray-300' : 'text-gray-600'}">${escapeHtml(getText(`iphone_pro_camera_feature_${i}`, `Camera feature ${i + 1}`))}</span>
               </li>
             `).join("")}
           </ul>
@@ -1272,10 +1292,10 @@ function generateIPhoneProHTML(getText: GetText, getImage: GetImage, getButton: 
     <div class="mx-auto max-w-7xl px-8">
       <h3 class="text-5xl md:text-6xl font-black mb-16 text-center">${escapeHtml(getText("iphone_pro_specs_title", "Technical excellence."))}</h3>
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-        ${[0,1,2,3].map(i => `
+        ${[0, 1, 2, 3].map(i => `
           <div class="p-6 rounded-xl ${isDark ? 'bg-white/5 border border-white/10 hover:bg-white/10' : 'bg-gray-50 border border-gray-200 hover:bg-gray-100'} backdrop-blur-sm text-center transition-colors">
-            <p class="text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'} uppercase tracking-wider mb-2">${escapeHtml(getText(`iphone_pro_spec_${i}_label`, ["Display","Chip","Storage","5G"][i]))}</p>
-            <p class="text-2xl font-bold mb-1">${escapeHtml(getText(`iphone_pro_spec_${i}_value`, ["6.7″ XDR","A18 Pro","Up to 1TB","Superfast"][i]))}</p>
+            <p class="text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'} uppercase tracking-wider mb-2">${escapeHtml(getText(`iphone_pro_spec_${i}_label`, ["Display", "Chip", "Storage", "5G"][i]))}</p>
+            <p class="text-2xl font-bold mb-1">${escapeHtml(getText(`iphone_pro_spec_${i}_value`, ["6.7″ XDR", "A18 Pro", "Up to 1TB", "Superfast"][i]))}</p>
             <p class="text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}">${escapeHtml(getText(`iphone_pro_spec_${i}_detail`, "Detail"))}</p>
           </div>
         `).join("")}
@@ -1289,10 +1309,10 @@ function generateIPhoneProHTML(getText: GetText, getImage: GetImage, getButton: 
       <h3 class="text-5xl md:text-6xl font-black mb-6">${escapeHtml(getText("iphone_pro_colors_title", "Four stunning finishes."))}</h3>
       <p class="text-xl ${isDark ? 'text-gray-400' : 'text-gray-600'} mb-16">${escapeHtml(getText("iphone_pro_colors_subtitle", "Titanium design in Natural, Blue, White, and Black."))}</p>
       <div class="flex flex-wrap justify-center gap-6 mb-12">
-        ${[0,1,2,3].map(i => `
+        ${[0, 1, 2, 3].map(i => `
           <div class="text-center">
             <div class="w-20 h-20 rounded-full bg-gradient-to-br from-gray-400 to-gray-600 mb-3 mx-auto ${isDark ? 'border-2 border-white/20' : 'border-2 border-gray-300'} shadow-xl"></div>
-            <p class="text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}">${escapeHtml(getText(`iphone_pro_color_${i}`, ["Natural Titanium","Blue Titanium","White Titanium","Black Titanium"][i]))}</p>
+            <p class="text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}">${escapeHtml(getText(`iphone_pro_color_${i}`, ["Natural Titanium", "Blue Titanium", "White Titanium", "Black Titanium"][i]))}</p>
           </div>
         `).join("")}
       </div>
@@ -1316,12 +1336,12 @@ function generateIPhoneProHTML(getText: GetText, getImage: GetImage, getButton: 
   <footer class="${isDark ? 'border-t border-white/10 bg-black/60' : 'border-t border-gray-200 bg-gray-50'} backdrop-blur-xl">
     <div class="mx-auto max-w-7xl px-8 py-12">
       <div class="grid md:grid-cols-4 gap-8 mb-8">
-        ${[1,2,3,4].map(col => `
+        ${[1, 2, 3, 4].map(col => `
           <div>
-            <p class="font-semibold mb-4">${escapeHtml(getText(`iphone_pro_footer_col${col}_title`, ["Shop","Learn More","Support","Company"][col-1]))}</p>
+            <p class="font-semibold mb-4">${escapeHtml(getText(`iphone_pro_footer_col${col}_title`, ["Shop", "Learn More", "Support", "Company"][col - 1]))}</p>
             <div class="space-y-2 text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}">
-              <p class="${isDark ? 'hover:text-white' : 'hover:text-gray-900'} transition-colors">${escapeHtml(getText(`iphone_pro_footer_${["shop","learn","support","company"][col-1]}_1`, "Link 1"))}</p>
-              <p class="${isDark ? 'hover:text-white' : 'hover:text-gray-900'} transition-colors">${escapeHtml(getText(`iphone_pro_footer_${["shop","learn","support","company"][col-1]}_2`, "Link 2"))}</p>
+              <p class="${isDark ? 'hover:text-white' : 'hover:text-gray-900'} transition-colors">${escapeHtml(getText(`iphone_pro_footer_${["shop", "learn", "support", "company"][col - 1]}_1`, "Link 1"))}</p>
+              <p class="${isDark ? 'hover:text-white' : 'hover:text-gray-900'} transition-colors">${escapeHtml(getText(`iphone_pro_footer_${["shop", "learn", "support", "company"][col - 1]}_2`, "Link 2"))}</p>
             </div>
           </div>
         `).join("")}

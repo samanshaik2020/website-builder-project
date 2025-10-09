@@ -23,6 +23,11 @@ import { SalesLandingTemplate } from "@/components/templates/normal/sales-landin
 import { CatFoodTemplate } from "@/components/templates/normal/cat-food-template"
 import { IndoorSkydivingTemplate } from "@/components/templates/normal/indoor-skydiving-template"
 import { KetoBarTemplate } from "@/components/templates/normal/keto-bars-template"
+import { CampaignMonitorTemplate } from "@/components/templates/normal/campaign-monitor-template"
+import { BlowLtdTemplate } from "@/components/templates/normal/blow-ltd-template"
+import { BePatientsTemplate } from "@/components/templates/normal/be-patients-template"
+import { OutlierApparelTemplate } from "@/components/templates/normal/outlier-apparel-template"
+import { BranchFurnitureTemplate } from "@/components/templates/normal/branch-furniture-template"
 // import { AgencyProTemplate } from "@/components/templates/pro/agency-pro-template"
 import { SAAS_PRO_THEMES, type SaaSProThemeId } from "@/components/templates/pro/saas-pro"
 import { PortfolioProTemplatePro } from "@/components/templates/pro/portfolio-pro-template"
@@ -47,6 +52,11 @@ type TemplateId =
   | "cat-food"
   | "indoor-skydiving"
   | "keto-bars"
+  | "campaign-monitor"
+  | "blow-ltd"
+  | "be-patients"
+  | "outlier-apparel"
+  | "branch-furniture"
   | "agency-pro"
   | "saas-pro"
   | "portfolio-pro"
@@ -263,6 +273,56 @@ function TemplateModal({
       desc: "Clean, modern landing page for keto protein bars with nutrition facts, testimonials, and health benefits",
       category: "Ecommerce",
       tags: ["Product", "Health", "E-commerce"],
+      free: true,
+    },
+    {
+      id: "campaign-monitor",
+      title: "Campaign Monitor Email Builder",
+      imgSrc: "/campaign-monitor-landing.png",
+      imgAlt: "Campaign Monitor template preview",
+      desc: "Professional email marketing landing page with drag-and-drop builder features, templates, and customization options",
+      category: "SaaS",
+      tags: ["Email", "Marketing", "Builder"],
+      free: true,
+    },
+    {
+      id: "blow-ltd",
+      title: "Blow LTD Eyelash Extensions",
+      imgSrc: "/blow-ltd-landing.png",
+      imgAlt: "Blow LTD template preview",
+      desc: "Beautiful beauty salon landing page for eyelash extensions at home with booking features, reviews, and service showcase",
+      category: "Event",
+      tags: ["Beauty", "Salon", "Booking"],
+      free: true,
+    },
+    {
+      id: "be-patients",
+      title: "Be Patients Bariatric Reset",
+      imgSrc: "/be-patients-landing.png",
+      imgAlt: "Be Patients template preview",
+      desc: "Medical health service landing page for bariatric surgery pouch reset program with testimonials and free plan offer",
+      category: "Event",
+      tags: ["Health", "Medical", "Lead Gen"],
+      free: true,
+    },
+    {
+      id: "outlier-apparel",
+      title: "Outlier Apparel Fashion",
+      imgSrc: "/outlier-apparel-landing.png",
+      imgAlt: "Outlier Apparel template preview",
+      desc: "Minimalist fashion brand landing page with full-screen imagery, product details, and premium apparel showcase",
+      category: "Ecommerce",
+      tags: ["Fashion", "E-commerce", "Premium"],
+      free: true,
+    },
+    {
+      id: "branch-furniture",
+      title: "Branch Furniture Store",
+      imgSrc: "/branch-furniture-landing.png",
+      imgAlt: "Branch Furniture template preview",
+      desc: "Elegant furniture e-commerce landing page with product showcase, craftsmanship details, and testimonials",
+      category: "Ecommerce",
+      tags: ["Furniture", "E-commerce", "Handcrafted"],
       free: true,
     },
     {
@@ -1008,6 +1068,16 @@ export default function EditorPage() {
         return <IndoorSkydivingTemplate editable={!preview} openInspector={openInspector} />
       case "keto-bars":
         return <KetoBarTemplate editable={!preview} openInspector={openInspector} />
+      case "campaign-monitor":
+        return <CampaignMonitorTemplate editable={!preview} openInspector={openInspector} />
+      case "blow-ltd":
+        return <BlowLtdTemplate editable={!preview} openInspector={openInspector} />
+      case "be-patients":
+        return <BePatientsTemplate editable={!preview} openInspector={openInspector} />
+      case "outlier-apparel":
+        return <OutlierApparelTemplate editable={!preview} openInspector={openInspector} />
+      case "branch-furniture":
+        return <BranchFurnitureTemplate editable={!preview} openInspector={openInspector} />
       case "agency-pro":
         // return <AgencyProTemplate editable={!preview} openInspector={openInspector} />
         return <div className="text-center p-8"><p className="text-lg">Agency Pro template coming soon...</p></div>
