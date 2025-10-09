@@ -221,7 +221,8 @@ export function FloatingTextToolbar({ active }: FloatingTextToolbarProps) {
   const updateColor = (color: string) => {
     if (!targetElement) return
     setTextColor(color)
-    targetElement.style.color = color
+    // Use execCommand to apply color only to selected text
+    execCommand('foreColor', color)
     setShowColorPicker(false)
   }
 
