@@ -9,62 +9,60 @@ import {
   updateShareableLink,
   isSlugAvailable,
   getActiveLinkCount,
-  type ShareableLinkRecord,
-} from "@/lib/shareable-links-store"
+  type ShareableLink,
+} from "@/lib/supabase/shareable-links"
 
 export function useShareableLinks(projectId?: string) {
-  const [links, setLinks] = useState<ShareableLinkRecord[]>([])
+  const [links, setLinks] = useState<ShareableLink[]>([])
   const [loading, setLoading] = useState(true)
 
-  const loadLinks = () => {
-    if (projectId) {
-      setLinks(getShareableLinksByProjectId(projectId))
-    } else {
-      setLinks(getShareableLinks())
+  const loadLinks = async () => {
+    try {
+      if (projectId) {
+        const data = await getShareableLinksByProjectId(projectId)
+        setLinks(data)
+      } else {
+        const data = await getShareableLinks()
+        setLinks(data)
+      }
+    } catch (error) {
+      console.error("Error loading shareable links:", error)
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   useEffect(() => {
     loadLinks()
-
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === "sitebuilder.shareable-links") {
-        loadLinks()
-      }
-    }
-
-    window.addEventListener("storage", handleStorageChange)
-    return () => window.removeEventListener("storage", handleStorageChange)
   }, [projectId])
 
-  const create = (
+  const create = async (
     projectId: string,
     customSlug: string,
     expiryDays: number | null = null,
     maxViews?: number
   ) => {
-    const newLink = createShareableLink(projectId, customSlug, expiryDays, maxViews)
-    loadLinks()
+    const newLink = await createShareableLink(projectId, customSlug, expiryDays, maxViews)
+    await loadLinks()
     return newLink
   }
 
-  const remove = (linkId: string) => {
-    deleteShareableLink(linkId)
-    loadLinks()
+  const remove = async (linkId: string) => {
+    await deleteShareableLink(linkId)
+    await loadLinks()
   }
 
-  const update = (linkId: string, updates: Partial<ShareableLinkRecord>) => {
-    updateShareableLink(linkId, updates)
-    loadLinks()
+  const update = async (linkId: string, updates: Partial<ShareableLink>) => {
+    await updateShareableLink(linkId, updates)
+    await loadLinks()
   }
 
-  const checkSlugAvailability = (slug: string): boolean => {
-    return isSlugAvailable(slug)
+  const checkSlugAvailability = async (slug: string): Promise<boolean> => {
+    return await isSlugAvailable(slug)
   }
 
-  const getActiveCount = (projectId: string): number => {
-    return getActiveLinkCount(projectId)
+  const getActiveCount = async (projectId: string): Promise<number> => {
+    return await getActiveLinkCount(projectId)
   }
 
   return {

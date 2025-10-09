@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -35,11 +35,16 @@ export function ShareLinkDialog({ project, open, onOpenChange }: ShareLinkDialog
   const [generatedLink, setGeneratedLink] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [activeLinksCount, setActiveLinksCount] = useState(0)
 
-  const activeLinksCount = getActiveCount(project.id)
   const maxLinks = getMaxShareableLinks(subscription.plan)
   const expiryDays = getShareableLinkExpiry(subscription.plan)
   const canCreate = canCreateShareableLink(subscription.plan, activeLinksCount)
+
+  // Load active links count
+  useEffect(() => {
+    getActiveCount(project.id).then(setActiveLinksCount)
+  }, [project.id, getActiveCount])
 
   const handleGenerateLink = async () => {
     if (!customSlug.trim()) {
@@ -54,7 +59,8 @@ export function ShareLinkDialog({ project, open, onOpenChange }: ShareLinkDialog
       return
     }
 
-    if (!checkSlugAvailability(customSlug)) {
+    const isAvailable = await checkSlugAvailability(customSlug)
+    if (!isAvailable) {
       toast.error("This URL is already taken. Please choose a different one.")
       return
     }
@@ -68,9 +74,9 @@ export function ShareLinkDialog({ project, open, onOpenChange }: ShareLinkDialog
 
     setLoading(true)
     try {
-      const link = create(project.id, customSlug, expiryDays)
+      const link = await create(project.id, customSlug, expiryDays)
       const baseUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin
-      const fullUrl = `${baseUrl}/share/${link.customSlug}`
+      const fullUrl = `${baseUrl}/share/${link.custom_slug}`
       setGeneratedLink(fullUrl)
       
       toast.success("Shareable Link Created!", {
