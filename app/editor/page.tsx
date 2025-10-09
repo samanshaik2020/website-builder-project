@@ -22,6 +22,7 @@ import { ClickThroughTemplate } from "@/components/templates/normal/click-throug
 import { SalesLandingTemplate } from "@/components/templates/normal/sales-landing-template"
 import { CatFoodTemplate } from "@/components/templates/normal/cat-food-template"
 import { IndoorSkydivingTemplate } from "@/components/templates/normal/indoor-skydiving-template"
+import { KetoBarTemplate } from "@/components/templates/normal/keto-bars-template"
 // import { AgencyProTemplate } from "@/components/templates/pro/agency-pro-template"
 import { SAAS_PRO_THEMES, type SaaSProThemeId } from "@/components/templates/pro/saas-pro"
 import { PortfolioProTemplatePro } from "@/components/templates/pro/portfolio-pro-template"
@@ -45,6 +46,7 @@ type TemplateId =
   | "sales-landing"
   | "cat-food"
   | "indoor-skydiving"
+  | "keto-bars"
   | "agency-pro"
   | "saas-pro"
   | "portfolio-pro"
@@ -251,6 +253,16 @@ function TemplateModal({
       desc: "Exciting landing page for indoor skydiving with packages, testimonials, and booking features",
       category: "Event",
       tags: ["Adventure", "Booking", "Experience"],
+      free: true,
+    },
+    {
+      id: "keto-bars",
+      title: "Keto Bars Product Landing",
+      imgSrc: "/keto-bars-landing.png",
+      imgAlt: "Keto bars product template preview",
+      desc: "Clean, modern landing page for keto protein bars with nutrition facts, testimonials, and health benefits",
+      category: "Ecommerce",
+      tags: ["Product", "Health", "E-commerce"],
       free: true,
     },
     {
@@ -994,6 +1006,8 @@ export default function EditorPage() {
         return <CatFoodTemplate editable={!preview} openInspector={openInspector} />
       case "indoor-skydiving":
         return <IndoorSkydivingTemplate editable={!preview} openInspector={openInspector} />
+      case "keto-bars":
+        return <KetoBarTemplate editable={!preview} openInspector={openInspector} />
       case "agency-pro":
         // return <AgencyProTemplate editable={!preview} openInspector={openInspector} />
         return <div className="text-center p-8"><p className="text-lg">Agency Pro template coming soon...</p></div>

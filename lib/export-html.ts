@@ -1,6 +1,8 @@
 "use client"
 
 import type { ProjectRecord } from "@/components/lib/projects-store"
+import { generateKetoBarHTML } from "./export-html-keto"
+import { generateBananaMilkHTML } from "./export-html-banana-milk"
 
 /**
  * Generates a standalone HTML file from a saved project
@@ -62,6 +64,12 @@ export function generateHTMLExport(project: ProjectRecord): string {
       break
     case "iphone-pro":
       html = generateIPhoneProHTML(getText, getImage, getButton, theme)
+      break
+    case "keto-bars":
+      html = generateKetoBarHTML(getText, getImage, getButton)
+      break
+    case "banana-milk":
+      html = generateBananaMilkHTML(getText, getImage, getButton)
       break
     default:
       html = generateGenericHTML(getText, getImage, getButton, name)

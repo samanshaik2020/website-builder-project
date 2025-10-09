@@ -205,6 +205,8 @@ export async function countNormalTemplates(): Promise<number> {
     'click-through',
     'sales-landing',
     'cat-food',
+    'indoor-skydiving',
+    'keto-bars',
   ]
 
   const { count, error } = await supabase
