@@ -51,6 +51,9 @@ export function generateHTMLExport(project: ProjectRecord): string {
     case "sales-landing":
       html = generateSalesLandingHTML(getText, getImage, getButton)
       break
+    case "indoor-skydiving":
+      html = generateIndoorSkydivingHTML(getText, getImage, getButton)
+      break
     case "saas-pro":
       html = generateSaaSProHTML(getText, getImage, getButton, theme)
       break
@@ -1561,6 +1564,186 @@ function generateSalesLandingHTML(getText: GetText, getImage: GetImage, getButto
   <footer class="border-t border-border">
     <div class="mx-auto max-w-6xl px-4 py-8 text-center">
       <p class="text-sm text-muted-foreground">${escapeHtml(getText("sl-footer", "© 2025 ProFitness Elite. All rights reserved."))}</p>
+    </div>
+  </footer>
+</main>
+  `
+}
+
+function generateIndoorSkydivingHTML(getText: GetText, getImage: GetImage, getButton: GetButton): string {
+  return `
+<main class="bg-white text-gray-900">
+  <header class="bg-[#003366] text-white sticky top-0 z-50">
+    <div class="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <img src="${escapeHtml(getImage("sky_logo", "/placeholder.svg?height=40&width=40&query=skydiving%20logo"))}" alt="Logo" class="w-10 h-10" />
+        <h1 class="text-lg font-bold">${escapeHtml(getText("sky_brand", "iFLY Indoor Skydiving"))}</h1>
+      </div>
+      <a href="${escapeHtml(getButton("sky_nav_cta").href)}" class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 text-sm font-medium rounded">${escapeHtml(getButton("sky_nav_cta").text)}</a>
+    </div>
+  </header>
+
+  <section class="relative bg-gradient-to-br from-orange-400 via-orange-300 to-yellow-200 py-20 overflow-hidden">
+    <div class="mx-auto max-w-7xl px-6 relative z-10">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="relative">
+          <img src="${escapeHtml(getImage("sky_hero_image", "/placeholder.svg?height=600&width=500&query=indoor%20skydiving%20person"))}" alt="Indoor skydiving" class="w-full h-auto rounded-lg shadow-2xl" />
+        </div>
+        <div>
+          <h2 class="text-5xl md:text-7xl font-black mb-6 leading-tight text-[#003366]">${escapeHtml(getText("sky_hero_title", "FEEL THE RUSH"))}</h2>
+          <p class="text-xl text-gray-800 mb-4">${escapeHtml(getText("sky_hero_subtitle", "With Indoor Skydiving from £39.99"))}</p>
+          <p class="text-2xl font-bold text-[#003366] mb-8">${escapeHtml(getText("sky_hero_price", "Was £49.99 | Now £39.99"))}</p>
+          <a href="${escapeHtml(getButton("sky_hero_cta").href)}" class="inline-block bg-red-600 hover:bg-red-700 text-white px-10 py-4 text-lg font-bold rounded-full shadow-lg">${escapeHtml(getButton("sky_hero_cta").text)}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 bg-gray-50">
+    <div class="mx-auto max-w-4xl px-6 text-center">
+      <p class="text-2xl md:text-3xl text-gray-700 italic mb-6">${escapeHtml(getText("sky_testimonial_quote", "The flying experience at Paramount Skydiving is one of the world's most exhilarating and adrenaline-filled activities!"))}</p>
+      <div class="flex items-center justify-center gap-4">
+        <img src="${escapeHtml(getImage("sky_testimonial_avatar", "/placeholder.svg?height=60&width=60&query=person%20avatar"))}" alt="Customer" class="w-16 h-16 rounded-full" />
+        <div class="text-left">
+          <p class="font-bold text-gray-900">${escapeHtml(getText("sky_testimonial_name", "Sarah Johnson"))}</p>
+          <p class="text-sm text-gray-600">${escapeHtml(getText("sky_testimonial_role", "First-time Flyer"))}</p>
+        </div>
+      </div>
+      <div class="flex justify-center gap-1 mt-4">
+        <span class="text-yellow-400 text-2xl">★★★★★</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 bg-white">
+    <div class="mx-auto max-w-7xl px-6">
+      <div class="grid md:grid-cols-4 gap-8">
+        ${[0, 1, 2, 3].map((i) => `
+          <div class="text-center">
+            <div class="mb-4">
+              <div class="w-24 h-24 mx-auto bg-blue-100 rounded-full flex items-center justify-center">
+                <img src="${escapeHtml(getImage(`sky_feature_${i}_icon`, `/placeholder.svg?height=80&width=80&query=feature%20${i + 1}`))}" alt="Feature ${i + 1}" class="w-16 h-16 rounded-full" />
+              </div>
+            </div>
+            <h4 class="text-lg font-bold mb-2 text-[#003366]">${escapeHtml(getText(`sky_feature_${i}_title`, `Feature ${i + 1}`))}</h4>
+            <p class="text-sm text-gray-600">${escapeHtml(getText(`sky_feature_${i}_desc`, "Feature description"))}</p>
+          </div>
+        `).join("")}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-[#003366] py-20">
+    <div class="mx-auto max-w-6xl px-6">
+      <div class="relative aspect-video bg-gray-900 rounded-lg overflow-hidden shadow-2xl">
+        <img src="${escapeHtml(getImage("sky_video_thumbnail", "/placeholder.svg?height=600&width=1000&query=indoor%20skydiving%20tunnel"))}" alt="Video" class="w-full h-full object-cover" />
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 bg-gradient-to-r from-blue-900 to-[#003366] text-white">
+    <div class="mx-auto max-w-7xl px-6">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <img src="${escapeHtml(getImage("sky_stats_image", "/placeholder.svg?height=400&width=600&query=happy%20customers"))}" alt="Happy customers" class="w-full h-auto rounded-lg" />
+        </div>
+        <div>
+          <h3 class="text-3xl md:text-4xl font-bold mb-8">${escapeHtml(getText("sky_stats_title", "We attract over 100,000 visitors per year from all over the world."))}</h3>
+          <div class="grid grid-cols-3 gap-6">
+            ${[0, 1, 2].map((i) => `
+              <div class="text-center">
+                <p class="text-4xl font-bold mb-2">${escapeHtml(getText(`sky_stat_${i}_value`, "4.5"))}</p>
+                <div class="flex justify-center gap-1 mb-2">
+                  <span class="text-yellow-400 text-sm">★★★★★</span>
+                </div>
+                <p class="text-sm text-blue-200">${escapeHtml(getText(`sky_stat_${i}_label`, "Rating"))}</p>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 bg-gray-50">
+    <div class="mx-auto max-w-7xl px-6">
+      <div class="text-center mb-12">
+        <p class="text-sm font-semibold text-red-600 mb-2 uppercase tracking-wide">${escapeHtml(getText("sky_packages_eyebrow", "Standard Packages"))}</p>
+        <h3 class="text-4xl md:text-5xl font-bold text-[#003366]">${escapeHtml(getText("sky_packages_title", "Choose Your Experience"))}</h3>
+      </div>
+
+      <div class="bg-gradient-to-r from-blue-900 to-[#003366] text-white py-6 px-8 rounded-lg mb-12 text-center">
+        <p class="text-2xl font-bold">${escapeHtml(getText("sky_discount_text", "Get 15% Off With Discount Code: FDIVE15"))}</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        ${["2flight", "4flight", "friend"].map((pkg) => `
+          <article class="bg-white rounded-lg shadow-lg overflow-hidden border-2 border-gray-200">
+            <div class="relative">
+              <img src="${escapeHtml(getImage(`sky_pkg_${pkg}_image`, `/placeholder.svg?height=200&width=400&query=${pkg}`))}" alt="Package" class="w-full h-48 object-cover" />
+              <div class="absolute top-4 left-4 bg-yellow-400 text-gray-900 px-3 py-1 rounded-full text-sm font-bold">
+                ⭐ ${escapeHtml(getText(`sky_pkg_${pkg}_badge`, "Popular"))}
+              </div>
+            </div>
+            <div class="p-6">
+              <h4 class="text-xl font-bold mb-4 text-[#003366]">${escapeHtml(getText(`sky_pkg_${pkg}_title`, "Package"))}</h4>
+              <div class="mb-4">
+                <div class="flex items-baseline gap-2">
+                  <span class="text-3xl font-bold text-red-600">${escapeHtml(getText(`sky_pkg_${pkg}_price`, "£99"))}</span>
+                  <span class="text-lg text-gray-500 line-through">${escapeHtml(getText(`sky_pkg_${pkg}_original`, "£120"))}</span>
+                </div>
+              </div>
+              <ul class="space-y-2 mb-6">
+                ${[0, 1, 2, 3].map((i) => `
+                  <li class="flex items-start gap-2 text-sm text-gray-600">
+                    <span class="text-green-600 mt-0.5">✓</span>
+                    <span>${escapeHtml(getText(`sky_pkg_${pkg}_feat_${i}`, "Feature"))}</span>
+                  </li>
+                `).join("")}
+              </ul>
+              <a href="${escapeHtml(getButton(`sky_pkg_${pkg}_cta`).href)}" class="block w-full bg-red-600 hover:bg-red-700 text-white py-3 font-bold rounded text-center">${escapeHtml(getButton(`sky_pkg_${pkg}_cta`).text)}</a>
+            </div>
+          </article>
+        `).join("")}
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-[#003366] text-white py-12">
+    <div class="mx-auto max-w-7xl px-6">
+      <div class="grid md:grid-cols-4 gap-8 mb-8">
+        <div>
+          <h4 class="text-xl font-bold mb-4">${escapeHtml(getText("sky_footer_brand", "iFLY Indoor Skydiving"))}</h4>
+          <p class="text-blue-200 text-sm">${escapeHtml(getText("sky_footer_tagline", "Experience the thrill of flight"))}</p>
+        </div>
+        <div>
+          <h5 class="font-semibold mb-4">${escapeHtml(getText("sky_footer_experiences_title", "Experiences"))}</h5>
+          <div class="space-y-2 text-sm text-blue-200">
+            ${[0, 1, 2, 3].map((i) => `
+              <p>${escapeHtml(getText(`sky_footer_exp_${i}`, "Experience"))}</p>
+            `).join("")}
+          </div>
+        </div>
+        <div>
+          <h5 class="font-semibold mb-4">${escapeHtml(getText("sky_footer_info_title", "Information"))}</h5>
+          <div class="space-y-2 text-sm text-blue-200">
+            ${[0, 1, 2, 3].map((i) => `
+              <p>${escapeHtml(getText(`sky_footer_info_${i}`, "Info"))}</p>
+            `).join("")}
+          </div>
+        </div>
+        <div>
+          <h5 class="font-semibold mb-4">${escapeHtml(getText("sky_footer_contact_title", "Contact Us"))}</h5>
+          <div class="space-y-2 text-sm text-blue-200">
+            <p>${escapeHtml(getText("sky_footer_phone", "📞 0800 000 0000"))}</p>
+            <p>${escapeHtml(getText("sky_footer_email", "✉️ info@ifly.com"))}</p>
+            <p>${escapeHtml(getText("sky_footer_address", "📍 123 Flight Street, London"))}</p>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-blue-800 pt-8 text-center text-sm text-blue-200">
+        <p>${escapeHtml(getText("sky_footer_copyright", "© 2025 iFLY Indoor Skydiving. All rights reserved."))}</p>
+      </div>
     </div>
   </footer>
 </main>

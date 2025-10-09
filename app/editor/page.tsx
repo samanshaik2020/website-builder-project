@@ -20,6 +20,8 @@ import { IPhoneProductTemplate } from "@/components/templates/normal/iphone-prod
 import { LeadGenerationTemplate } from "@/components/templates/normal/lead-generation-template"
 import { ClickThroughTemplate } from "@/components/templates/normal/click-through-template"
 import { SalesLandingTemplate } from "@/components/templates/normal/sales-landing-template"
+import { CatFoodTemplate } from "@/components/templates/normal/cat-food-template"
+import { IndoorSkydivingTemplate } from "@/components/templates/normal/indoor-skydiving-template"
 // import { AgencyProTemplate } from "@/components/templates/pro/agency-pro-template"
 import { SAAS_PRO_THEMES, type SaaSProThemeId } from "@/components/templates/pro/saas-pro"
 import { PortfolioProTemplatePro } from "@/components/templates/pro/portfolio-pro-template"
@@ -41,6 +43,8 @@ type TemplateId =
   | "lead-generation"
   | "click-through"
   | "sales-landing"
+  | "cat-food"
+  | "indoor-skydiving"
   | "agency-pro"
   | "saas-pro"
   | "portfolio-pro"
@@ -227,6 +231,26 @@ function TemplateModal({
       desc: "High-converting sales page with urgency, testimonials, and guarantees",
       category: "SaaS",
       tags: ["Sales", "Urgency", "Conversion"],
+      free: true,
+    },
+    {
+      id: "cat-food",
+      title: "Cat Food Product Landing",
+      imgSrc: "/cat-food-landing.png",
+      imgAlt: "Cat food product template preview",
+      desc: "Vibrant product landing page for pet food with colorful sections and engaging design",
+      category: "Ecommerce",
+      tags: ["Product", "E-commerce", "Colorful"],
+      free: true,
+    },
+    {
+      id: "indoor-skydiving",
+      title: "Indoor Skydiving Experience",
+      imgSrc: "/indoor-skydiving-landing.png",
+      imgAlt: "Indoor skydiving template preview",
+      desc: "Exciting landing page for indoor skydiving with packages, testimonials, and booking features",
+      category: "Event",
+      tags: ["Adventure", "Booking", "Experience"],
       free: true,
     },
     {
@@ -966,6 +990,10 @@ export default function EditorPage() {
         return <ClickThroughTemplate editable={!preview} openInspector={openInspector} />
       case "sales-landing":
         return <SalesLandingTemplate editable={!preview} openInspector={openInspector} />
+      case "cat-food":
+        return <CatFoodTemplate editable={!preview} openInspector={openInspector} />
+      case "indoor-skydiving":
+        return <IndoorSkydivingTemplate editable={!preview} openInspector={openInspector} />
       case "agency-pro":
         // return <AgencyProTemplate editable={!preview} openInspector={openInspector} />
         return <div className="text-center p-8"><p className="text-lg">Agency Pro template coming soon...</p></div>
