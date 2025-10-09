@@ -60,6 +60,45 @@ export async function getProjectById(projectId: string): Promise<Project | null>
   return data as Project
 }
 
+// Get a project by shareable link slug (public access)
+export async function getProjectByShareableLink(slug: string): Promise<Project | null> {
+  // First get the shareable link
+  const { data: linkData, error: linkError } = await supabase
+    .from('shareable_links')
+    .select('project_id, expires_at, max_views, views')
+    .eq('custom_slug', slug)
+    .single()
+
+  if (linkError || !linkData) {
+    console.error('Error fetching shareable link:', linkError)
+    return null
+  }
+
+  // Check if link has expired
+  if (linkData.expires_at && new Date(linkData.expires_at) < new Date()) {
+    return null
+  }
+
+  // Check if view limit reached
+  if (linkData.max_views && linkData.views >= linkData.max_views) {
+    return null
+  }
+
+  // Get the project (RLS policy allows public access via shareable links)
+  const { data: projectData, error: projectError } = await supabase
+    .from('projects')
+    .select('*')
+    .eq('id', linkData.project_id)
+    .single()
+
+  if (projectError) {
+    console.error('Error fetching project:', projectError)
+    return null
+  }
+
+  return projectData as Project
+}
+
 // Save or update a project
 export async function saveProject(project: {
   id?: string

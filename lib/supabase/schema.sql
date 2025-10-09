@@ -87,6 +87,17 @@ CREATE POLICY "Users can update own projects" ON public.projects
 CREATE POLICY "Users can delete own projects" ON public.projects
   FOR DELETE USING (auth.uid() = user_id);
 
+-- Public can view projects via shareable links
+CREATE POLICY "Anyone can view projects via shareable links" ON public.projects
+  FOR SELECT USING (
+    EXISTS (
+      SELECT 1 FROM public.shareable_links
+      WHERE shareable_links.project_id = projects.id
+      AND (shareable_links.expires_at IS NULL OR shareable_links.expires_at > NOW())
+      AND (shareable_links.max_views IS NULL OR shareable_links.views < shareable_links.max_views)
+    )
+  );
+
 -- RLS Policies for shareable_links table
 CREATE POLICY "Users can view own shareable links" ON public.shareable_links
   FOR SELECT USING (auth.uid() = user_id);
