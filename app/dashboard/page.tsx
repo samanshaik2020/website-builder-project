@@ -33,7 +33,7 @@ import {
 import Link from "next/link"
 import { useProjects } from "@/hooks/use-projects"
 import { generateHTMLExport } from "@/lib/export-html"
-import type { ProjectRecord } from "@/components/lib/projects-store"
+import type { Project } from "@/lib/supabase/projects"
 import { useSubscription } from "@/hooks/use-subscription"
 import { canExport, getPlanById } from "@/lib/pricing-plans"
 import { useRouter } from "next/navigation"
@@ -57,7 +57,7 @@ export default function DashboardPage() {
   const router = useRouter()
   const currentPlan = getPlanById(subscription.plan)
   const [shareDialogOpen, setShareDialogOpen] = useState(false)
-  const [selectedProject, setSelectedProject] = useState<ProjectRecord | null>(null)
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null)
 
   const handleLogout = async () => {
     try {
@@ -96,7 +96,7 @@ export default function DashboardPage() {
     )
   }
 
-  const handleExport = (project: ProjectRecord) => {
+  const handleExport = (project: Project) => {
     // Check if user's plan allows export
     if (!canExport(subscription.plan)) {
       toast.error("Export Feature Locked", {
@@ -107,7 +107,16 @@ export default function DashboardPage() {
       return
     }
     
-    const html = generateHTMLExport(project)
+    // Convert Supabase project format to format expected by generateHTMLExport
+    const projectData = {
+      id: project.id,
+      name: project.name,
+      template: project.template,
+      theme: project.theme || undefined,
+      updatedAt: new Date(project.updated_at).getTime(),
+      data: project.data,
+    }
+    const html = generateHTMLExport(projectData)
     const blob = new Blob([html], { type: "text/html" })
     const url = URL.createObjectURL(blob)
     const a = document.createElement("a")
@@ -124,14 +133,23 @@ export default function DashboardPage() {
     })
   }
 
-  const handlePreview = (project: ProjectRecord) => {
-    const html = generateHTMLExport(project)
+  const handlePreview = (project: Project) => {
+    // Convert Supabase project format to format expected by generateHTMLExport
+    const projectData = {
+      id: project.id,
+      name: project.name,
+      template: project.template,
+      theme: project.theme || undefined,
+      updatedAt: new Date(project.updated_at).getTime(),
+      data: project.data,
+    }
+    const html = generateHTMLExport(projectData)
     const blob = new Blob([html], { type: "text/html" })
     const url = URL.createObjectURL(blob)
     window.open(url, "_blank")
   }
 
-  const handleEdit = (project: ProjectRecord) => {
+  const handleEdit = (project: Project) => {
     // Save project to localStorage for editor to load
     localStorage.setItem('editor-project-data', JSON.stringify(project))
     
@@ -145,7 +163,7 @@ export default function DashboardPage() {
     window.location.href = `/editor?${params.toString()}`
   }
 
-  const handleShare = (project: ProjectRecord) => {
+  const handleShare = (project: Project) => {
     setSelectedProject(project)
     setShareDialogOpen(true)
   }
@@ -440,7 +458,7 @@ export default function DashboardPage() {
                           </div>
                           <div className="flex items-center gap-2 text-sm text-gray-500 mb-3">
                             <Calendar className="w-4 h-4" />
-                            <span>{new Date(project.updatedAt).toLocaleDateString()}</span>
+                            <span>{new Date(project.updated_at).toLocaleDateString()}</span>
                           </div>
                           <div className="flex items-center gap-2">
                             <Button

@@ -20,10 +20,10 @@ import {
 } from "@/lib/pricing-plans"
 import { toast } from "sonner"
 import { Copy, Check, ExternalLink, Calendar, Eye, Link2 } from "lucide-react"
-import type { ProjectRecord } from "@/components/lib/projects-store"
+import type { Project } from "@/lib/supabase/projects"
 
 interface ShareLinkDialogProps {
-  project: ProjectRecord
+  project: Project
   open: boolean
   onOpenChange: (open: boolean) => void
 }
