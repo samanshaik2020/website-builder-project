@@ -26,7 +26,7 @@ import { PortfolioProTemplatePro } from "@/components/templates/pro/portfolio-pr
 import { IPHONE_PRO_THEMES, type IPhoneProThemeId } from "@/components/templates/pro/iphone-pro"
 import type { AITheme } from "@/components/ai-generation-modal"
 // import { EcommerceProTemplate } from "@/components/templates/pro/ecommerce-pro-template"
-import { saveProject, type ProjectRecord, getProjects } from "@/components/lib/projects-store"
+import { useProjects } from "@/hooks/use-projects"
 import { useSubscription } from "@/hooks/use-subscription"
 import { canCreateNormalTemplate, canCreateProTemplate, getPlanById } from "@/lib/pricing-plans"
 import { toast } from "sonner"
@@ -582,6 +582,7 @@ function EditElementPanel({
 export default function EditorPage() {
   const router = useRouter()
   const { subscription, isLoaded } = useSubscription()
+  const { projects, save } = useProjects()
   const [template, setTemplate] = useState<TemplateId | null>(null)
   const [modalOpen, setModalOpen] = useState(true)
   const [aiModalOpen, setAiModalOpen] = useState(false)
@@ -725,11 +726,10 @@ export default function EditorPage() {
   const onSelectTemplate = useCallback((id: TemplateId) => {
     // Check if it's a Pro template
     const proTemplates: TemplateId[] = ["agency-pro", "saas-pro", "portfolio-pro", "iphone-pro", "ecommerce-pro"]
-    const projects = getProjects()
     
     if (proTemplates.includes(id)) {
       // Check pro template limits
-      const proProjectCount = projects.filter(p => proTemplates.includes(p.template as TemplateId)).length
+      const proProjectCount = projects.filter((p: any) => proTemplates.includes(p.template as TemplateId)).length
       
       if (!canCreateProTemplate(subscription.plan, proProjectCount)) {
         const plan = getPlanById(subscription.plan)
@@ -748,7 +748,7 @@ export default function EditorPage() {
       setAiModalOpen(true)
     } else {
       // Check normal template limits
-      const normalProjectCount = projects.filter(p => !proTemplates.includes(p.template as TemplateId)).length
+      const normalProjectCount = projects.filter((p: any) => !proTemplates.includes(p.template as TemplateId)).length
       
       if (!canCreateNormalTemplate(subscription.plan, normalProjectCount)) {
         const plan = getPlanById(subscription.plan)
@@ -896,12 +896,10 @@ export default function EditorPage() {
 
       const themeToSave = (template === "saas-pro" || template === "portfolio-pro" || template === "iphone-pro") ? selectedThemeId || undefined : undefined
       
-      const project: ProjectRecord = {
-        id: `p_${Date.now()}`,
+      const project = {
         name: titleCandidate,
         template: template || "unknown",
         theme: themeToSave,
-        updatedAt: Date.now(),
         data: { texts, images, buttons },
       }
 
@@ -910,7 +908,7 @@ export default function EditorPage() {
       console.log("  Selected Theme ID:", selectedThemeId)
       console.log("  Theme to save:", themeToSave)
       console.log("  Full project:", project)
-      saveProject(project)
+      await save(project)
 
       // Enhanced saving experience with realistic timing
       await new Promise((r) => setTimeout(r, 800))
