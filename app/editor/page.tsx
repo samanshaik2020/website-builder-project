@@ -28,6 +28,9 @@ import { BlowLtdTemplate } from "@/components/templates/normal/blow-ltd-template
 import { BePatientsTemplate } from "@/components/templates/normal/be-patients-template"
 import { OutlierApparelTemplate } from "@/components/templates/normal/outlier-apparel-template"
 import { BranchFurnitureTemplate } from "@/components/templates/normal/branch-furniture-template"
+import { AmazonPrimeTemplate } from "@/components/templates/normal/amazon-prime-template"
+import { GobyToothbrushTemplate } from "@/components/templates/normal/goby-toothbrush-template"
+import { ZolaWeddingTemplate } from "@/components/templates/normal/zola-wedding-template"
 // import { AgencyProTemplate } from "@/components/templates/pro/agency-pro-template"
 import { SAAS_PRO_THEMES, type SaaSProThemeId } from "@/components/templates/pro/saas-pro"
 import { PortfolioProTemplatePro } from "@/components/templates/pro/portfolio-pro-template"
@@ -57,6 +60,9 @@ type TemplateId =
   | "be-patients"
   | "outlier-apparel"
   | "branch-furniture"
+  | "amazon-prime"
+  | "goby-toothbrush"
+  | "zola-wedding"
   | "agency-pro"
   | "saas-pro"
   | "portfolio-pro"
@@ -323,6 +329,36 @@ function TemplateModal({
       desc: "Elegant furniture e-commerce landing page with product showcase, craftsmanship details, and testimonials",
       category: "Ecommerce",
       tags: ["Furniture", "E-commerce", "Handcrafted"],
+      free: true,
+    },
+    {
+      id: "amazon-prime",
+      title: "Amazon Prime Membership",
+      imgSrc: "/amazon-prime-landing.png",
+      imgAlt: "Amazon Prime template preview",
+      desc: "Comprehensive membership landing page showcasing Prime benefits including delivery, streaming, music, and reading",
+      category: "SaaS",
+      tags: ["Membership", "Subscription", "Benefits"],
+      free: true,
+    },
+    {
+      id: "goby-toothbrush",
+      title: "GOBY Electric Toothbrush",
+      imgSrc: "/goby-toothbrush-landing.png",
+      imgAlt: "GOBY Toothbrush template preview",
+      desc: "Modern e-commerce landing page for electric toothbrush with subscription model, testimonials, and social proof",
+      category: "Ecommerce",
+      tags: ["Product", "Subscription", "Health"],
+      free: true,
+    },
+    {
+      id: "zola-wedding",
+      title: "Zola Wedding Websites",
+      imgSrc: "/zola-wedding-landing.png",
+      imgAlt: "Zola Wedding template preview",
+      desc: "Beautiful wedding website builder landing page with design showcase, features, and registry integration",
+      category: "Event",
+      tags: ["Wedding", "Event", "Registry"],
       free: true,
     },
     {
@@ -1078,6 +1114,12 @@ export default function EditorPage() {
         return <OutlierApparelTemplate editable={!preview} openInspector={openInspector} />
       case "branch-furniture":
         return <BranchFurnitureTemplate editable={!preview} openInspector={openInspector} />
+      case "amazon-prime":
+        return <AmazonPrimeTemplate editable={!preview} openInspector={openInspector} />
+      case "goby-toothbrush":
+        return <GobyToothbrushTemplate editable={!preview} openInspector={openInspector} />
+      case "zola-wedding":
+        return <ZolaWeddingTemplate editable={!preview} openInspector={openInspector} />
       case "agency-pro":
         // return <AgencyProTemplate editable={!preview} openInspector={openInspector} />
         return <div className="text-center p-8"><p className="text-lg">Agency Pro template coming soon...</p></div>

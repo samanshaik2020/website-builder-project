@@ -8,6 +8,9 @@ import { generateBlowLtdHTML } from "./export-html-blow-ltd"
 import { generateBePatientsHTML } from "./export-html-be-patients"
 import { generateOutlierApparelHTML } from "./export-html-outlier-apparel"
 import { generateBranchFurnitureHTML } from "./export-html-branch-furniture"
+import { generateAmazonPrimeHTML } from "./export-html-amazon-prime"
+import { generateGobyToothbrushHTML } from "./export-html-goby-toothbrush"
+import { generateZolaWeddingHTML } from "./export-html-zola-wedding"
 
 /**
  * Generates a standalone HTML file from a saved project
@@ -90,6 +93,15 @@ export function generateHTMLExport(project: ProjectRecord): string {
       break
     case "branch-furniture":
       html = generateBranchFurnitureHTML(getText, getImage, getButton)
+      break
+    case "amazon-prime":
+      html = generateAmazonPrimeHTML(getText, getImage, getButton)
+      break
+    case "goby-toothbrush":
+      html = generateGobyToothbrushHTML(getText, getImage, getButton)
+      break
+    case "zola-wedding":
+      html = generateZolaWeddingHTML(getText, getImage, getButton)
       break
     default:
       html = generateGenericHTML(getText, getImage, getButton, name)
