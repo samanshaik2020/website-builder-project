@@ -242,12 +242,12 @@ export function AIGenerationModal({ open, templateType, onClose, onGenerate }: A
 
   return (
     <Dialog open={open} onOpenChange={(isOpen) => !generating && !isOpen && onClose()}>
-      <DialogContent className="max-w-6xl h-[85vh] overflow-hidden p-0 gap-0 bg-white border border-slate-200 shadow-2xl">
+      <DialogContent className="max-w-6xl h-[85vh] overflow-hidden p-0 gap-0 bg-white border border-slate-200 shadow-2xl flex flex-col">
         {!generating ? (
           // Main Form Layout - No Scroll, Single Page
-          <div className="h-full flex flex-col">
+          <>
             {/* Premium Header */}
-            <div className="relative overflow-hidden bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 text-white border-b border-blue-200">
+            <div className="relative overflow-hidden bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 text-white border-b border-blue-200 flex-shrink-0">
               <DialogHeader className="relative px-8 py-6">
                 <div className="flex items-center justify-center gap-4 mb-2">
                   <div className="relative">
@@ -268,9 +268,9 @@ export function AIGenerationModal({ open, templateType, onClose, onGenerate }: A
             </div>
 
             {/* Main Content - Two Column Layout */}
-            <div className="flex-1 flex overflow-y-auto">
+            <div className="flex-1 flex overflow-hidden min-h-0">
               {/* Left Column - Form */}
-              <div className="flex-1 p-8 space-y-6 overflow-y-auto">
+              <div className="flex-1 p-8 space-y-6 overflow-y-auto min-h-0">
                 {/* Topic Input Section */}
                 <div className="space-y-4">
                   <div className="flex items-center gap-3 mb-4">
@@ -358,7 +358,7 @@ export function AIGenerationModal({ open, templateType, onClose, onGenerate }: A
               </div>
 
               {/* Right Column - Preview & Features */}
-              <div className="w-80 bg-gradient-to-b from-blue-50 to-indigo-50 border-l border-slate-200 p-6 space-y-6 overflow-y-auto">
+              <div className="w-80 bg-gradient-to-b from-blue-50 to-indigo-50 border-l border-slate-200 p-6 space-y-6 overflow-y-auto min-h-0">
                 {/* AI Features */}
                 <div className="space-y-4">
                   <h4 className="font-bold text-slate-900 text-lg mb-4">What you'll get:</h4>
@@ -407,7 +407,7 @@ export function AIGenerationModal({ open, templateType, onClose, onGenerate }: A
             </div>
 
             {/* Action Footer */}
-            <div className="border-t border-slate-200 bg-white/80 backdrop-blur-sm p-6">
+            <div className="border-t border-slate-200 bg-white/80 backdrop-blur-sm p-6 flex-shrink-0">
               <div className="flex gap-4">
                 <Button
                   onClick={onClose}
@@ -428,7 +428,7 @@ export function AIGenerationModal({ open, templateType, onClose, onGenerate }: A
                 </Button>
               </div>
             </div>
-          </div>
+          </>
         ) : (
           // Professional Loading State - Full Screen
           <div className="h-full flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
