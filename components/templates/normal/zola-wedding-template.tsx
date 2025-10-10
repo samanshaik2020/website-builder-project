@@ -11,7 +11,7 @@ export function ZolaWeddingTemplate(props: TemplateProps) {
         <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
           <EditableImage
             id="zola_logo"
-            src="/placeholder.svg?height=30&width=80&query=zola%20logo"
+            src=""
             alt="ZOLA"
             className="h-8 w-auto"
             editable={editable}
@@ -59,7 +59,7 @@ export function ZolaWeddingTemplate(props: TemplateProps) {
             <div className="grid grid-cols-2 gap-4">
               <EditableImage
                 id="zola_hero_image_1"
-                src="/placeholder.svg?height=400&width=300&query=wedding%20couple%20photo"
+                src=""
                 alt="Wedding Photo"
                 className="w-full h-auto rounded-lg shadow-lg"
                 editable={editable}
@@ -68,7 +68,7 @@ export function ZolaWeddingTemplate(props: TemplateProps) {
               <div className="space-y-4">
                 <EditableImage
                   id="zola_hero_image_2"
-                  src="/placeholder.svg?height=200&width=300&query=wedding%20invitation"
+                  src=""
                   alt="Wedding Invitation"
                   className="w-full h-auto rounded-lg shadow-lg"
                   editable={editable}
@@ -76,7 +76,7 @@ export function ZolaWeddingTemplate(props: TemplateProps) {
                 />
                 <EditableImage
                   id="zola_hero_image_3"
-                  src="/placeholder.svg?height=200&width=300&query=wedding%20flowers"
+                  src=""
                   alt="Wedding Flowers"
                   className="w-full h-auto rounded-lg"
                   editable={editable}
@@ -106,7 +106,7 @@ export function ZolaWeddingTemplate(props: TemplateProps) {
                 <div key={i} className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
                   <EditableImage
                     id={`zola_design_${i}_image`}
-                    src={`/placeholder.svg?height=400&width=300&query=wedding%20website%20design%20${i}`}
+                    src={``}
                     alt={`Design ${i}`}
                     className="w-full h-80 object-cover"
                     editable={editable}
@@ -197,7 +197,7 @@ export function ZolaWeddingTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="zola_save_dates_image"
-                src="/placeholder.svg?height=600&width=500&query=save%20the%20date%20cards"
+                src=""
                 alt="Save the Dates"
                 className="w-full h-auto"
                 editable={editable}
@@ -269,7 +269,7 @@ export function ZolaWeddingTemplate(props: TemplateProps) {
             <div className="order-1 md:order-2">
               <EditableImage
                 id="zola_registry_image"
-                src="/placeholder.svg?height=600&width=600&query=wedding%20registry%20website"
+                src=""
                 alt="Registry"
                 className="w-full h-auto rounded-lg shadow-xl"
                 editable={editable}
@@ -310,7 +310,7 @@ export function ZolaWeddingTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="zola_footer_logo"
-                src="/placeholder.svg?height=30&width=80&query=zola%20logo%20white"
+                src=""
                 alt="ZOLA"
                 className="h-8 w-auto mb-4"
                 editable={editable}

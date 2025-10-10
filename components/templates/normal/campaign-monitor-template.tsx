@@ -11,7 +11,7 @@ export function CampaignMonitorTemplate(props: TemplateProps) {
         <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
           <EditableImage
             id="cm_logo"
-            src="/placeholder.svg?height=40&width=180&query=campaign%20monitor%20logo"
+            src=""
             alt="Campaign Monitor"
             className="h-10 w-auto"
             editable={editable}
@@ -102,7 +102,7 @@ export function CampaignMonitorTemplate(props: TemplateProps) {
             <div className="relative">
               <EditableImage
                 id="cm_hero_image"
-                src="/placeholder.svg?height=600&width=800&query=email%20campaign%20preview"
+                src=""
                 alt="Email Campaign Preview"
                 className="w-full h-auto rounded-lg shadow-2xl"
                 editable={editable}
@@ -129,7 +129,7 @@ export function CampaignMonitorTemplate(props: TemplateProps) {
               <EditableImage
                 key={brand}
                 id={`cm_brand_${i}`}
-                src={`/placeholder.svg?height=40&width=120&query=${brand}%20logo`}
+                src={``}
                 alt={brand}
                 className="h-8 w-auto opacity-60 hover:opacity-100 transition-opacity"
                 editable={editable}
@@ -167,7 +167,7 @@ export function CampaignMonitorTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="cm_feature_1_image"
-                src="/placeholder.svg?height=500&width=600&query=email%20builder%20interface"
+                src=""
                 alt="Email Builder"
                 className="w-full h-auto rounded-lg shadow-xl"
                 editable={editable}
@@ -294,7 +294,7 @@ export function CampaignMonitorTemplate(props: TemplateProps) {
             <div className="order-1 md:order-2">
               <EditableImage
                 id="cm_secondary_feature_image"
-                src="/placeholder.svg?height=500&width=600&query=customization%20panel"
+                src=""
                 alt="Customization Panel"
                 className="w-full h-auto rounded-lg shadow-xl"
                 editable={editable}
@@ -333,7 +333,7 @@ export function CampaignMonitorTemplate(props: TemplateProps) {
               <div key={i} className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
                 <EditableImage
                   id={`cm_template_${i}_image`}
-                  src={`/placeholder.svg?height=400&width=300&query=email%20template%20${i}`}
+                  src={``}
                   alt={`Template ${i}`}
                   className="w-full h-80 object-cover"
                   editable={editable}
@@ -401,7 +401,7 @@ export function CampaignMonitorTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="cm_footer_logo"
-                src="/placeholder.svg?height=40&width=150&query=campaign%20monitor%20logo%20white"
+                src=""
                 alt="Campaign Monitor"
                 className="h-10 w-auto mb-4"
                 editable={editable}

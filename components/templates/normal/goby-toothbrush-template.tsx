@@ -11,7 +11,7 @@ export function GobyToothbrushTemplate(props: TemplateProps) {
         <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
           <EditableImage
             id="goby_logo"
-            src="/placeholder.svg?height=30&width=80&query=goby%20logo"
+            src=""
             alt="GOBY"
             className="h-8 w-auto"
             editable={editable}
@@ -40,7 +40,7 @@ export function GobyToothbrushTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="goby_hero_icon"
-                src="/placeholder.svg?height=60&width=60&query=gear%20icon"
+                src=""
                 alt="Icon"
                 className="w-16 h-16 mb-6"
                 editable={editable}
@@ -75,7 +75,7 @@ export function GobyToothbrushTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="goby_hero_image"
-                src="/placeholder.svg?height=600&width=400&query=electric%20toothbrush%20pink"
+                src=""
                 alt="GOBY Toothbrush"
                 className="w-full h-auto"
                 editable={editable}
@@ -135,7 +135,7 @@ export function GobyToothbrushTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="goby_features_image"
-                src="/placeholder.svg?height=600&width=500&query=pink%20toothbrush%20features"
+                src=""
                 alt="Product Features"
                 className="w-full h-auto"
                 editable={editable}
@@ -280,7 +280,7 @@ export function GobyToothbrushTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="goby_testimonial_image"
-                src="/placeholder.svg?height=500&width=500&query=toothbrush%20product%20shot"
+                src=""
                 alt="GOBY Product"
                 className="w-full h-auto rounded-lg"
                 editable={editable}
@@ -360,7 +360,7 @@ export function GobyToothbrushTemplate(props: TemplateProps) {
             <div className="order-1 md:order-2">
               <EditableImage
                 id="goby_giving_image"
-                src="/placeholder.svg?height=500&width=600&query=person%20smiling%20portrait"
+                src=""
                 alt="Giving Back"
                 className="w-full h-auto rounded-lg"
                 editable={editable}
@@ -396,7 +396,7 @@ export function GobyToothbrushTemplate(props: TemplateProps) {
               <div key={i} className="relative group">
                 <EditableImage
                   id={`goby_instagram_${i}_image`}
-                  src={`/placeholder.svg?height=300&width=300&query=instagram%20post%20${i}`}
+                  src={``}
                   alt={`Instagram ${i}`}
                   className="w-full h-64 object-cover rounded-lg"
                   editable={editable}
@@ -421,7 +421,7 @@ export function GobyToothbrushTemplate(props: TemplateProps) {
         <div className="mx-auto max-w-4xl px-6 text-center">
           <EditableImage
             id="goby_guarantee_icon"
-            src="/placeholder.svg?height=80&width=80&query=guarantee%20badge"
+            src=""
             alt="Guarantee"
             className="w-20 h-20 mx-auto mb-6"
             editable={editable}
@@ -462,7 +462,7 @@ export function GobyToothbrushTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="goby_footer_logo"
-                src="/placeholder.svg?height=30&width=80&query=goby%20logo%20white"
+                src=""
                 alt="GOBY"
                 className="h-8 w-auto mb-4"
                 editable={editable}

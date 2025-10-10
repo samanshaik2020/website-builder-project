@@ -37,7 +37,7 @@ export function generateBranchFurnitureHTML(
       <!-- Navigation -->
       <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div class="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
-          <img src="${escapeHtml(getImage("branch_logo", "/placeholder.svg?height=40&width=140"))}" alt="Branch Furniture" class="h-10 w-auto">
+          <img src="${escapeHtml(getImage("branch_logo", ""))}" alt="Branch Furniture" class="h-10 w-auto">
           <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-700">
             ${[0, 1, 2, 3].map((i) => {
         const labels = ["Shop", "Collections", "About", "Contact"]
@@ -71,7 +71,7 @@ export function generateBranchFurnitureHTML(
               </div>
             </div>
             <div>
-              <img src="${escapeHtml(getImage("branch_hero_image", "/placeholder.svg?height=600&width=600"))}" alt="Modern Furniture" class="w-full h-auto rounded-lg shadow-2xl">
+              <img src="${escapeHtml(getImage("branch_hero_image", ""))}" alt="Modern Furniture" class="w-full h-auto rounded-lg shadow-2xl">
             </div>
           </div>
         </div>
@@ -118,7 +118,7 @@ export function generateBranchFurnitureHTML(
             { name: "Maple Coffee Table", price: "$649" }
         ].map((product, i) => `
               <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-                <img src="${escapeHtml(getImage(`branch_product_${i + 1}_image`, `/placeholder.svg?height=400&width=400`))}" alt="${product.name}" class="w-full h-80 object-cover">
+                <img src="${escapeHtml(getImage(`branch_product_${i + 1}_image`, ``))}" alt="${product.name}" class="w-full h-80 object-cover">
                 <div class="p-6">
                   <h3 class="text-xl font-semibold text-gray-900 mb-2">
                     ${escapeHtml(getText(`branch_product_${i + 1}_name`, product.name))}
@@ -141,7 +141,7 @@ export function generateBranchFurnitureHTML(
         <div class="mx-auto max-w-7xl px-6">
           <div class="grid md:grid-cols-2 gap-16 items-center">
             <div>
-              <img src="${escapeHtml(getImage("branch_craftsmanship_image", "/placeholder.svg?height=600&width=600"))}" alt="Craftsmanship" class="w-full h-auto rounded-lg">
+              <img src="${escapeHtml(getImage("branch_craftsmanship_image", ""))}" alt="Craftsmanship" class="w-full h-auto rounded-lg">
             </div>
             <div class="space-y-6">
               <h2 class="text-4xl font-serif text-gray-900">
@@ -208,7 +208,7 @@ export function generateBranchFurnitureHTML(
         <div class="mx-auto max-w-7xl px-6">
           <div class="grid md:grid-cols-4 gap-8 mb-8">
             <div>
-              <img src="${escapeHtml(getImage("branch_footer_logo", "/placeholder.svg?height=40&width=140"))}" alt="Branch Furniture" class="h-10 w-auto mb-4">
+              <img src="${escapeHtml(getImage("branch_footer_logo", ""))}" alt="Branch Furniture" class="h-10 w-auto mb-4">
               <p class="text-gray-400 text-sm">${escapeHtml(getText("branch_footer_tagline", "Timeless furniture, crafted with care"))}</p>
             </div>
             <div>

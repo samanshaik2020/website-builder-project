@@ -11,7 +11,7 @@ export function OutlierApparelTemplate(props: TemplateProps) {
         <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
           <EditableImage
             id="outlier_logo"
-            src="/placeholder.svg?height=30&width=120&query=outlier%20apparel%20logo"
+            src=""
             alt="Outlier Apparel"
             className="h-8 w-auto"
             editable={editable}
@@ -38,7 +38,7 @@ export function OutlierApparelTemplate(props: TemplateProps) {
       <section className="relative h-screen">
         <EditableImage
           id="outlier_hero_image"
-          src="/placeholder.svg?height=1080&width=1920&query=urban%20cyclist%20bmx"
+          src=""
           alt="Urban Lifestyle"
           className="w-full h-full object-cover"
           editable={editable}
@@ -135,7 +135,7 @@ export function OutlierApparelTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="outlier_detail_1_image"
-                src="/placeholder.svg?height=800&width=600&query=man%20skateboarding%20urban"
+                src=""
                 alt="Urban Movement"
                 className="w-full h-auto"
                 editable={editable}
@@ -207,7 +207,7 @@ export function OutlierApparelTemplate(props: TemplateProps) {
             <div className="order-1 md:order-2">
               <EditableImage
                 id="outlier_showcase_image"
-                src="/placeholder.svg?height=800&width=600&query=man%20walking%20city%20street"
+                src=""
                 alt="Collection Showcase"
                 className="w-full h-auto"
                 editable={editable}
@@ -222,7 +222,7 @@ export function OutlierApparelTemplate(props: TemplateProps) {
       <section className="relative h-screen bg-gray-900">
         <EditableImage
           id="outlier_lifestyle_image"
-          src="/placeholder.svg?height=1080&width=1920&query=person%20working%20leather%20craft"
+          src=""
           alt="Craftsmanship"
           className="w-full h-full object-cover opacity-70"
           editable={editable}
@@ -273,7 +273,7 @@ export function OutlierApparelTemplate(props: TemplateProps) {
               <div key={i} className="space-y-6">
                 <EditableImage
                   id={`outlier_grid_${i + 1}_image`}
-                  src={`/placeholder.svg?height=400&width=600&query=${item.image}`}
+                  src={``}
                   alt={item.title}
                   className="w-full h-64 object-cover"
                   editable={editable}
@@ -311,7 +311,7 @@ export function OutlierApparelTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="outlier_materials_image"
-                src="/placeholder.svg?height=600&width=600&query=fabric%20texture%20close%20up"
+                src=""
                 alt="Premium Materials"
                 className="w-full h-auto"
                 editable={editable}
@@ -365,7 +365,7 @@ export function OutlierApparelTemplate(props: TemplateProps) {
       <section className="relative h-screen">
         <EditableImage
           id="outlier_final_image"
-          src="/placeholder.svg?height=1080&width=1920&query=person%20walking%20desert%20landscape"
+          src=""
           alt="Adventure Awaits"
           className="w-full h-full object-cover"
           editable={editable}
@@ -401,7 +401,7 @@ export function OutlierApparelTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="outlier_footer_logo"
-                src="/placeholder.svg?height=30&width=120&query=outlier%20logo%20white"
+                src=""
                 alt="Outlier Apparel"
                 className="h-8 w-auto mb-6"
                 editable={editable}

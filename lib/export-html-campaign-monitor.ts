@@ -37,7 +37,7 @@ export function generateCampaignMonitorHTML(
       <!-- Navigation -->
       <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div class="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
-          <img src="${escapeHtml(getImage("cm_logo", "/placeholder.svg?height=40&width=180"))}" alt="Campaign Monitor" class="h-10 w-auto">
+          <img src="${escapeHtml(getImage("cm_logo", ""))}" alt="Campaign Monitor" class="h-10 w-auto">
           <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-700">
             ${[0, 1, 2, 3].map((i) => {
         const labels = ["Features", "Pricing", "Resources", "Support"]
@@ -73,7 +73,7 @@ export function generateCampaignMonitorHTML(
               </p>
             </div>
             <div class="relative">
-              <img src="${escapeHtml(getImage("cm_hero_image", "/placeholder.svg?height=600&width=800"))}" alt="Email Campaign Preview" class="w-full h-auto rounded-lg shadow-2xl">
+              <img src="${escapeHtml(getImage("cm_hero_image", ""))}" alt="Email Campaign Preview" class="w-full h-auto rounded-lg shadow-2xl">
             </div>
           </div>
         </div>
@@ -87,7 +87,7 @@ export function generateCampaignMonitorHTML(
           </p>
           <div class="flex flex-wrap items-center justify-center gap-12">
             ${["BuzzFeed", "Rip Curl", "TOPSHOP", "unicef", "adidas", "SHOWTIME"].map((brand, i) => `
-              <img src="${escapeHtml(getImage(`cm_brand_${i}`, `/placeholder.svg?height=40&width=120`))}" alt="${brand}" class="h-8 w-auto opacity-60 hover:opacity-100 transition-opacity">
+              <img src="${escapeHtml(getImage(`cm_brand_${i}`, ``))}" alt="${brand}" class="h-8 w-auto opacity-60 hover:opacity-100 transition-opacity">
             `).join("")}
           </div>
         </div>
@@ -107,7 +107,7 @@ export function generateCampaignMonitorHTML(
 
           <div class="grid md:grid-cols-2 gap-16 items-center mb-20">
             <div>
-              <img src="${escapeHtml(getImage("cm_feature_1_image", "/placeholder.svg?height=500&width=600"))}" alt="Email Builder" class="w-full h-auto rounded-lg shadow-xl">
+              <img src="${escapeHtml(getImage("cm_feature_1_image", ""))}" alt="Email Builder" class="w-full h-auto rounded-lg shadow-xl">
             </div>
             <div class="space-y-8">
               <div>
@@ -169,7 +169,7 @@ export function generateCampaignMonitorHTML(
               </div>
             </div>
             <div class="order-1 md:order-2">
-              <img src="${escapeHtml(getImage("cm_secondary_feature_image", "/placeholder.svg?height=500&width=600"))}" alt="Customization Panel" class="w-full h-auto rounded-lg shadow-xl">
+              <img src="${escapeHtml(getImage("cm_secondary_feature_image", ""))}" alt="Customization Panel" class="w-full h-auto rounded-lg shadow-xl">
             </div>
           </div>
         </div>
@@ -190,7 +190,7 @@ export function generateCampaignMonitorHTML(
           <div class="grid md:grid-cols-3 gap-8">
             ${[1, 2, 3].map((i) => `
               <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-                <img src="${escapeHtml(getImage(`cm_template_${i}_image`, `/placeholder.svg?height=400&width=300`))}" alt="Template ${i}" class="w-full h-80 object-cover">
+                <img src="${escapeHtml(getImage(`cm_template_${i}_image`, ``))}" alt="Template ${i}" class="w-full h-80 object-cover">
                 <div class="p-6">
                   <p class="text-xl font-bold text-gray-900 mb-2">${escapeHtml(getText(`cm_template_${i}_name`, `Template ${i}`))}</p>
                   <p class="text-gray-600 text-sm">${escapeHtml(getText(`cm_template_${i}_desc`, "Perfect for newsletters and announcements"))}</p>
@@ -221,7 +221,7 @@ export function generateCampaignMonitorHTML(
         <div class="mx-auto max-w-7xl px-6">
           <div class="grid md:grid-cols-4 gap-8 mb-8">
             <div>
-              <img src="${escapeHtml(getImage("cm_footer_logo", "/placeholder.svg?height=40&width=150"))}" alt="Campaign Monitor" class="h-10 w-auto mb-4">
+              <img src="${escapeHtml(getImage("cm_footer_logo", ""))}" alt="Campaign Monitor" class="h-10 w-auto mb-4">
               <p class="text-gray-400 text-sm">${escapeHtml(getText("cm_footer_tagline", "Beautiful email marketing made simple"))}</p>
             </div>
             <div>

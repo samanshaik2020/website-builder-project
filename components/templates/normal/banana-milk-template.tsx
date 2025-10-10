@@ -11,7 +11,7 @@ export function BananaMilkTemplate(props: TemplateProps) {
         <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
           <EditableImage
             id="bm_logo"
-            src="/placeholder.svg?height=50&width=120&query=mooala%20logo"
+            src=""
             alt="Brand Logo"
             className="h-12 w-auto"
             editable={editable}
@@ -101,7 +101,7 @@ export function BananaMilkTemplate(props: TemplateProps) {
             <div className="relative">
               <EditableImage
                 id="bm_hero_product"
-                src="/placeholder.svg?height=600&width=400&query=banana%20milk%20bottle"
+                src=""
                 alt="Banamilk Product"
                 className="w-full h-auto max-w-md mx-auto drop-shadow-2xl"
                 editable={editable}
@@ -191,7 +191,7 @@ export function BananaMilkTemplate(props: TemplateProps) {
               <div key={i} className={`bg-gradient-to-b ${flavor.color} rounded-lg p-6 text-center shadow-lg`}>
                 <EditableImage
                   id={`bm_flavor_${i}_image`}
-                  src={`/placeholder.svg?height=300&width=200&query=${flavor.name}%20bottle`}
+                  src={``}
                   alt={flavor.name}
                   className="w-full h-64 object-contain mb-4"
                   editable={editable}
@@ -240,7 +240,7 @@ export function BananaMilkTemplate(props: TemplateProps) {
               <div key={i} className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
                 <EditableImage
                   id={`bm_moo_${i}_image`}
-                  src={`/placeholder.svg?height=300&width=300&query=lifestyle%20${i}`}
+                  src={``}
                   alt={`Lifestyle ${i}`}
                   className="w-full h-64 object-cover"
                   editable={editable}
@@ -320,7 +320,7 @@ export function BananaMilkTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="bm_footer_logo"
-                src="/placeholder.svg?height=40&width=100&query=mooala%20logo%20white"
+                src=""
                 alt="Mooala"
                 className="h-10 w-auto mb-4"
                 editable={editable}

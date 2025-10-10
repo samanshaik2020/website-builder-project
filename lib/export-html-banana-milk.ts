@@ -35,7 +35,7 @@ export function generateBananaMilkHTML(
       <!-- Navigation -->
       <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div class="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
-          <img src="${escapeHtml(getImage("bm_logo", "/placeholder.svg?height=50&width=120"))}" alt="Brand Logo" class="h-12 w-auto">
+          <img src="${escapeHtml(getImage("bm_logo", ""))}" alt="Brand Logo" class="h-12 w-auto">
           <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-700">
             ${[0, 1, 2, 3, 4, 5].map((i) => {
         const labels = ["Home", "Our Products", "Our Story", "Recipes", "Hello at Mooala", "Find a Store"]
@@ -77,7 +77,7 @@ export function generateBananaMilkHTML(
               </div>
             </div>
             <div class="relative">
-              <img src="${escapeHtml(getImage("bm_hero_product", "/placeholder.svg?height=600&width=400"))}" alt="Banamilk Product" class="w-full h-auto max-w-md mx-auto drop-shadow-2xl">
+              <img src="${escapeHtml(getImage("bm_hero_product", ""))}" alt="Banamilk Product" class="w-full h-auto max-w-md mx-auto drop-shadow-2xl">
             </div>
           </div>
         </div>
@@ -127,7 +127,7 @@ export function generateBananaMilkHTML(
             { name: "All Mooala", color: "from-blue-200 to-blue-100" }
         ].map((flavor, i) => `
               <div class="bg-gradient-to-b ${flavor.color} rounded-lg p-6 text-center shadow-lg">
-                <img src="${escapeHtml(getImage(`bm_flavor_${i}_image`, `/placeholder.svg?height=300&width=200`))}" alt="${flavor.name}" class="w-full h-64 object-contain mb-4">
+                <img src="${escapeHtml(getImage(`bm_flavor_${i}_image`, ``))}" alt="${flavor.name}" class="w-full h-64 object-contain mb-4">
                 <p class="text-xl font-bold text-gray-800">${escapeHtml(getText(`bm_flavor_${i}_name`, flavor.name))}</p>
               </div>
             `).join("")}
@@ -151,7 +151,7 @@ export function generateBananaMilkHTML(
           <div class="grid md:grid-cols-4 gap-6">
             ${[1, 2, 3, 4].map((i) => `
               <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-                <img src="${escapeHtml(getImage(`bm_moo_${i}_image`, `/placeholder.svg?height=300&width=300`))}" alt="Lifestyle ${i}" class="w-full h-64 object-cover">
+                <img src="${escapeHtml(getImage(`bm_moo_${i}_image`, ``))}" alt="Lifestyle ${i}" class="w-full h-64 object-cover">
               </div>
             `).join("")}
           </div>
@@ -196,7 +196,7 @@ export function generateBananaMilkHTML(
         <div class="mx-auto max-w-7xl px-6">
           <div class="grid md:grid-cols-4 gap-8 mb-8">
             <div>
-              <img src="${escapeHtml(getImage("bm_footer_logo", "/placeholder.svg?height=40&width=100"))}" alt="Mooala" class="h-10 w-auto mb-4">
+              <img src="${escapeHtml(getImage("bm_footer_logo", ""))}" alt="Mooala" class="h-10 w-auto mb-4">
               <p class="text-gray-400 text-sm">${escapeHtml(getText("bm_footer_tagline", "Plant-based goodness in every sip"))}</p>
             </div>
             <div>

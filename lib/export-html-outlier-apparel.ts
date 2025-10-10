@@ -34,7 +34,7 @@ export function generateOutlierApparelHTML(
       <!-- Navigation -->
       <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div class="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
-          <img src="${escapeHtml(getImage("outlier_logo", "/placeholder.svg?height=30&width=120"))}" alt="Outlier Apparel" class="h-8 w-auto">
+          <img src="${escapeHtml(getImage("outlier_logo", ""))}" alt="Outlier Apparel" class="h-8 w-auto">
           <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-700">
             ${[0, 1, 2, 3].map((i) => {
         const labels = ["Shop", "About", "Journal", "Contact"]
@@ -46,7 +46,7 @@ export function generateOutlierApparelHTML(
 
       <!-- Hero Section -->
       <section class="relative h-screen">
-        <img src="${escapeHtml(getImage("outlier_hero_image", "/placeholder.svg?height=1080&width=1920"))}" alt="Urban Lifestyle" class="w-full h-full object-cover">
+        <img src="${escapeHtml(getImage("outlier_hero_image", ""))}" alt="Urban Lifestyle" class="w-full h-full object-cover">
         <div class="absolute inset-0 bg-black/20 flex items-center justify-center">
           <div class="text-center text-white">
             <h1 class="text-5xl md:text-7xl font-light mb-4 tracking-wide">
@@ -102,7 +102,7 @@ export function generateOutlierApparelHTML(
         <div class="mx-auto max-w-7xl px-6">
           <div class="grid md:grid-cols-2 gap-16 items-center">
             <div>
-              <img src="${escapeHtml(getImage("outlier_detail_1_image", "/placeholder.svg?height=800&width=600"))}" alt="Urban Movement" class="w-full h-auto">
+              <img src="${escapeHtml(getImage("outlier_detail_1_image", ""))}" alt="Urban Movement" class="w-full h-auto">
             </div>
             <div class="space-y-6">
               <h2 class="text-sm font-semibold tracking-widest text-gray-900">
@@ -135,7 +135,7 @@ export function generateOutlierApparelHTML(
               </a>
             </div>
             <div class="order-1 md:order-2">
-              <img src="${escapeHtml(getImage("outlier_showcase_image", "/placeholder.svg?height=800&width=600"))}" alt="Collection Showcase" class="w-full h-auto">
+              <img src="${escapeHtml(getImage("outlier_showcase_image", ""))}" alt="Collection Showcase" class="w-full h-auto">
             </div>
           </div>
         </div>
@@ -143,7 +143,7 @@ export function generateOutlierApparelHTML(
 
       <!-- Lifestyle Section -->
       <section class="relative h-screen bg-gray-900">
-        <img src="${escapeHtml(getImage("outlier_lifestyle_image", "/placeholder.svg?height=1080&width=1920"))}" alt="Craftsmanship" class="w-full h-full object-cover opacity-70">
+        <img src="${escapeHtml(getImage("outlier_lifestyle_image", ""))}" alt="Craftsmanship" class="w-full h-full object-cover opacity-70">
         <div class="absolute inset-0 flex items-center justify-center">
           <div class="text-center text-white max-w-2xl px-6">
             <h2 class="text-4xl md:text-5xl font-light mb-6">
@@ -170,7 +170,7 @@ export function generateOutlierApparelHTML(
             { title: "REINFORCED SEAMS", desc: "Triple-stitched stress points. Built to handle whatever you throw at them.", image: "reinforced-seams" }
         ].map((item, i) => `
               <div class="space-y-6">
-                <img src="${escapeHtml(getImage(`outlier_grid_${i + 1}_image`, `/placeholder.svg?height=400&width=600`))}" alt="${item.title}" class="w-full h-64 object-cover">
+                <img src="${escapeHtml(getImage(`outlier_grid_${i + 1}_image`, ``))}" alt="${item.title}" class="w-full h-64 object-cover">
                 <div>
                   <h3 class="text-sm font-semibold tracking-widest text-gray-900 mb-3">
                     ${escapeHtml(getText(`outlier_grid_${i + 1}_title`, item.title))}
@@ -190,7 +190,7 @@ export function generateOutlierApparelHTML(
         <div class="mx-auto max-w-7xl px-6">
           <div class="grid md:grid-cols-2 gap-16 items-center">
             <div>
-              <img src="${escapeHtml(getImage("outlier_materials_image", "/placeholder.svg?height=600&width=600"))}" alt="Premium Materials" class="w-full h-auto">
+              <img src="${escapeHtml(getImage("outlier_materials_image", ""))}" alt="Premium Materials" class="w-full h-auto">
             </div>
             <div class="space-y-6">
               <h2 class="text-3xl md:text-4xl font-light text-gray-900">
@@ -219,7 +219,7 @@ export function generateOutlierApparelHTML(
 
       <!-- Final CTA Section -->
       <section class="relative h-screen">
-        <img src="${escapeHtml(getImage("outlier_final_image", "/placeholder.svg?height=1080&width=1920"))}" alt="Adventure Awaits" class="w-full h-full object-cover">
+        <img src="${escapeHtml(getImage("outlier_final_image", ""))}" alt="Adventure Awaits" class="w-full h-full object-cover">
         <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
           <div class="text-center text-white px-6">
             <h2 class="text-4xl md:text-6xl font-light mb-8">
@@ -237,7 +237,7 @@ export function generateOutlierApparelHTML(
         <div class="mx-auto max-w-7xl px-6">
           <div class="grid md:grid-cols-4 gap-12 mb-12">
             <div>
-              <img src="${escapeHtml(getImage("outlier_footer_logo", "/placeholder.svg?height=30&width=120"))}" alt="Outlier Apparel" class="h-8 w-auto mb-6">
+              <img src="${escapeHtml(getImage("outlier_footer_logo", ""))}" alt="Outlier Apparel" class="h-8 w-auto mb-6">
               <p class="text-sm text-gray-400">${escapeHtml(getText("outlier_footer_tagline", "Performance apparel for the modern professional"))}</p>
             </div>
             <div>

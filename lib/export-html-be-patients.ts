@@ -38,7 +38,7 @@ export function generateBePatientsHTML(
       <!-- Navigation -->
       <header class="bg-white shadow-sm sticky top-0 z-50">
         <div class="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
-          <img src="${escapeHtml(getImage("bp_logo", "/placeholder.svg?height=40&width=150"))}" alt="Be Patients" class="h-10 w-auto">
+          <img src="${escapeHtml(getImage("bp_logo", ""))}" alt="Be Patients" class="h-10 w-auto">
           <a href="${escapeHtml(navCta.href)}" class="bg-teal-500 hover:bg-teal-600 text-white px-6 py-2 rounded-full font-medium text-sm">
             ${escapeHtml(navCta.text)}
           </a>
@@ -50,7 +50,7 @@ export function generateBePatientsHTML(
         <div class="mx-auto max-w-7xl px-6">
           <div class="grid md:grid-cols-2 gap-12 items-center">
             <div class="order-2 md:order-1">
-              <img src="${escapeHtml(getImage("bp_hero_image", "/placeholder.svg?height=600&width=500"))}" alt="Pouch Reset Plan" class="w-full h-auto">
+              <img src="${escapeHtml(getImage("bp_hero_image", ""))}" alt="Pouch Reset Plan" class="w-full h-auto">
             </div>
             <div class="order-1 md:order-2">
               <h1 class="text-4xl md:text-5xl font-bold mb-4 text-teal-600">
@@ -90,7 +90,7 @@ export function generateBePatientsHTML(
         <div class="mx-auto max-w-7xl px-6">
           <div class="grid md:grid-cols-2 gap-12">
             <div class="bg-white rounded-2xl shadow-lg p-8">
-              <img src="${escapeHtml(getImage("bp_feature_1_image", "/placeholder.svg?height=300&width=400"))}" alt="Meal Planning" class="w-full h-auto rounded-lg mb-6">
+              <img src="${escapeHtml(getImage("bp_feature_1_image", ""))}" alt="Meal Planning" class="w-full h-auto rounded-lg mb-6">
               <h3 class="text-2xl font-bold mb-4 text-gray-900">
                 ${escapeHtml(getText("bp_feature_1_title", "Keep your 48-hr pouch reset After my Pouch Reset, I was able to eat less and my Cravings went away!"))}
               </h3>
@@ -103,7 +103,7 @@ export function generateBePatientsHTML(
             </div>
 
             <div class="bg-white rounded-2xl shadow-lg p-8">
-              <img src="${escapeHtml(getImage("bp_feature_2_image", "/placeholder.svg?height=300&width=400"))}" alt="Meal Prep" class="w-full h-auto rounded-lg mb-6">
+              <img src="${escapeHtml(getImage("bp_feature_2_image", ""))}" alt="Meal Prep" class="w-full h-auto rounded-lg mb-6">
               <h3 class="text-2xl font-bold mb-4 text-gray-900">
                 ${escapeHtml(getText("bp_feature_2_title", "I lift way! Much more and then I was back eating a healthy amount of food. I'm so glad I found this!"))}
               </h3>
@@ -132,7 +132,7 @@ export function generateBePatientsHTML(
         ].map((surgery, i) => `
               <div class="text-center">
                 <div class="w-32 h-32 mx-auto mb-4 bg-purple-100 rounded-full flex items-center justify-center">
-                  <img src="${escapeHtml(getImage(`bp_surgery_${i + 1}_icon`, `/placeholder.svg?height=80&width=80`))}" alt="${surgery.name}" class="w-20 h-20">
+                  <img src="${escapeHtml(getImage(`bp_surgery_${i + 1}_icon`, ``))}" alt="${surgery.name}" class="w-20 h-20">
                 </div>
                 <p class="text-lg font-semibold text-gray-900">
                   ${escapeHtml(getText(`bp_surgery_${i + 1}_name`, surgery.name))}
@@ -186,7 +186,7 @@ export function generateBePatientsHTML(
               </p>
             </div>
             <div class="flex justify-center">
-              <img src="${escapeHtml(getImage("bp_magic_image", "/placeholder.svg?height=400&width=300"))}" alt="Healthcare Professional" class="w-64 h-auto">
+              <img src="${escapeHtml(getImage("bp_magic_image", ""))}" alt="Healthcare Professional" class="w-64 h-auto">
             </div>
           </div>
         </div>
@@ -237,7 +237,7 @@ export function generateBePatientsHTML(
             ${escapeHtml(getText("bp_final_note", "The Pouch Reset shows you my 48hr PDF method that has helped thousands of bariatric patients worldwide!"))}
           </p>
           <div class="mt-8">
-            <img src="${escapeHtml(getImage("bp_final_preview", "/placeholder.svg?height=400&width=300"))}" alt="Plan Preview" class="mx-auto h-96 w-auto">
+            <img src="${escapeHtml(getImage("bp_final_preview", ""))}" alt="Plan Preview" class="mx-auto h-96 w-auto">
           </div>
         </div>
       </section>
@@ -245,7 +245,7 @@ export function generateBePatientsHTML(
       <!-- Footer -->
       <footer class="bg-gray-900 text-white py-8">
         <div class="mx-auto max-w-7xl px-6 text-center">
-          <img src="${escapeHtml(getImage("bp_footer_logo", "/placeholder.svg?height=40&width=150"))}" alt="Be Patients" class="h-10 w-auto mx-auto mb-4">
+          <img src="${escapeHtml(getImage("bp_footer_logo", ""))}" alt="Be Patients" class="h-10 w-auto mx-auto mb-4">
           <p class="text-sm text-gray-400">${escapeHtml(getText("bp_footer_copyright", "© 2025 Be Patients LLC. All Rights Reserved."))}</p>
         </div>
       </footer>

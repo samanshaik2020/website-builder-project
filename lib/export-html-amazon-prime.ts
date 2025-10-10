@@ -41,7 +41,7 @@ export function generateAmazonPrimeHTML(
       <!-- Navigation -->
       <header class="bg-gray-900 text-white sticky top-0 z-50">
         <div class="mx-auto max-w-7xl px-6 py-3 flex items-center justify-between">
-          <img src="${escapeHtml(getImage("prime_logo", "/placeholder.svg?height=30&width=100"))}" alt="Amazon Prime" class="h-8 w-auto">
+          <img src="${escapeHtml(getImage("prime_logo", ""))}" alt="Amazon Prime" class="h-8 w-auto">
           <nav class="hidden md:flex items-center gap-6 text-sm">
             <span class="hover:text-gray-300 transition-colors cursor-pointer">${escapeHtml(getText("prime_nav_0", "See more plans"))}</span>
           </nav>
@@ -70,7 +70,7 @@ export function generateAmazonPrimeHTML(
               </p>
             </div>
             <div>
-              <img src="${escapeHtml(getImage("prime_hero_image", "/placeholder.svg?height=500&width=500"))}" alt="Prime Benefits" class="w-full h-auto">
+              <img src="${escapeHtml(getImage("prime_hero_image", ""))}" alt="Prime Benefits" class="w-full h-auto">
             </div>
           </div>
         </div>
@@ -101,7 +101,7 @@ export function generateAmazonPrimeHTML(
         <div class="mx-auto max-w-7xl px-6">
           <div class="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <img src="${escapeHtml(getImage("prime_delivery_image", "/placeholder.svg?height=400&width=500"))}" alt="Fast Delivery" class="w-full h-auto">
+              <img src="${escapeHtml(getImage("prime_delivery_image", ""))}" alt="Fast Delivery" class="w-full h-auto">
             </div>
             <div>
               <span class="inline-block bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
@@ -146,7 +146,7 @@ export function generateAmazonPrimeHTML(
               </a>
             </div>
             <div>
-              <img src="${escapeHtml(getImage("prime_fast_delivery_image", "/placeholder.svg?height=400&width=400"))}" alt="Fast Delivery" class="w-full h-auto">
+              <img src="${escapeHtml(getImage("prime_fast_delivery_image", ""))}" alt="Fast Delivery" class="w-full h-auto">
             </div>
           </div>
         </div>
@@ -157,7 +157,7 @@ export function generateAmazonPrimeHTML(
         <div class="mx-auto max-w-7xl px-6">
           <div class="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <img src="${escapeHtml(getImage("prime_originals_image", "/placeholder.svg?height=400&width=400"))}" alt="Amazon Originals" class="w-full h-auto rounded-lg shadow-xl">
+              <img src="${escapeHtml(getImage("prime_originals_image", ""))}" alt="Amazon Originals" class="w-full h-auto rounded-lg shadow-xl">
             </div>
             <div>
               <span class="inline-block bg-gray-900 text-white px-4 py-2 rounded text-sm font-bold mb-4">
@@ -193,7 +193,7 @@ export function generateAmazonPrimeHTML(
               </a>
             </div>
             <div class="order-1 md:order-2">
-              <img src="${escapeHtml(getImage("prime_streaming_image", "/placeholder.svg?height=400&width=600"))}" alt="Streaming" class="w-full h-auto rounded-lg">
+              <img src="${escapeHtml(getImage("prime_streaming_image", ""))}" alt="Streaming" class="w-full h-auto rounded-lg">
             </div>
           </div>
         </div>
@@ -204,7 +204,7 @@ export function generateAmazonPrimeHTML(
         <div class="mx-auto max-w-7xl px-6">
           <div class="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <img src="${escapeHtml(getImage("prime_music_image", "/placeholder.svg?height=400&width=400"))}" alt="Prime Music" class="w-full h-auto rounded-lg shadow-xl">
+              <img src="${escapeHtml(getImage("prime_music_image", ""))}" alt="Prime Music" class="w-full h-auto rounded-lg shadow-xl">
             </div>
             <div>
               <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">
@@ -237,7 +237,7 @@ export function generateAmazonPrimeHTML(
               </a>
             </div>
             <div class="order-1 md:order-2">
-              <img src="${escapeHtml(getImage("prime_reading_image", "/placeholder.svg?height=500&width=600"))}" alt="Prime Reading" class="w-full h-auto">
+              <img src="${escapeHtml(getImage("prime_reading_image", ""))}" alt="Prime Reading" class="w-full h-auto">
             </div>
           </div>
         </div>
@@ -246,7 +246,7 @@ export function generateAmazonPrimeHTML(
       <!-- Final CTA Section -->
       <section class="py-20 bg-white">
         <div class="mx-auto max-w-4xl px-6 text-center">
-          <img src="${escapeHtml(getImage("prime_final_image", "/placeholder.svg?height=400&width=300"))}" alt="Join Prime" class="w-64 h-auto mx-auto mb-8">
+          <img src="${escapeHtml(getImage("prime_final_image", ""))}" alt="Join Prime" class="w-64 h-auto mx-auto mb-8">
           <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-900">
             ${escapeHtml(getText("prime_final_title", "There's something for everyone"))}
           </h2>

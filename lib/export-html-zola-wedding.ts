@@ -32,7 +32,7 @@ export function generateZolaWeddingHTML(
     <main class="bg-white text-gray-900">
       <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div class="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
-          <img src="${escapeHtml(getImage("zola_logo", "/placeholder.svg?height=30&width=80"))}" alt="ZOLA" class="h-8 w-auto">
+          <img src="${escapeHtml(getImage("zola_logo", ""))}" alt="ZOLA" class="h-8 w-auto">
           <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-700">
             <span class="hover:text-gray-900 transition-colors cursor-pointer">${escapeHtml(getText("zola_nav_0", "LOG IN"))}</span>
           </nav>
@@ -48,10 +48,10 @@ export function generateZolaWeddingHTML(
               <a href="${escapeHtml(heroCta.href)}" class="bg-teal-500 hover:bg-teal-600 text-white px-10 py-4 rounded-full font-bold text-lg inline-block">${escapeHtml(heroCta.text)}</a>
             </div>
             <div class="grid grid-cols-2 gap-4">
-              <img src="${escapeHtml(getImage("zola_hero_image_1", "/placeholder.svg?height=400&width=300"))}" alt="Wedding Photo" class="w-full h-auto rounded-lg shadow-lg">
+              <img src="${escapeHtml(getImage("zola_hero_image_1", ""))}" alt="Wedding Photo" class="w-full h-auto rounded-lg shadow-lg">
               <div class="space-y-4">
-                <img src="${escapeHtml(getImage("zola_hero_image_2", "/placeholder.svg?height=200&width=300"))}" alt="Wedding Invitation" class="w-full h-auto rounded-lg shadow-lg">
-                <img src="${escapeHtml(getImage("zola_hero_image_3", "/placeholder.svg?height=200&width=300"))}" alt="Wedding Flowers" class="w-full h-auto rounded-lg">
+                <img src="${escapeHtml(getImage("zola_hero_image_2", ""))}" alt="Wedding Invitation" class="w-full h-auto rounded-lg shadow-lg">
+                <img src="${escapeHtml(getImage("zola_hero_image_3", ""))}" alt="Wedding Flowers" class="w-full h-auto rounded-lg">
               </div>
             </div>
           </div>
@@ -65,7 +65,7 @@ export function generateZolaWeddingHTML(
             <div class="grid md:grid-cols-3 gap-8">
               ${[1, 2, 3].map((i) => `
                 <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-                  <img src="${escapeHtml(getImage(`zola_design_${i}_image`, `/placeholder.svg?height=400&width=300`))}" alt="Design ${i}" class="w-full h-80 object-cover">
+                  <img src="${escapeHtml(getImage(`zola_design_${i}_image`, ``))}" alt="Design ${i}" class="w-full h-80 object-cover">
                 </div>
               `).join("")}
             </div>
@@ -102,7 +102,7 @@ export function generateZolaWeddingHTML(
         <div class="mx-auto max-w-7xl px-6">
           <div class="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <img src="${escapeHtml(getImage("zola_save_dates_image", "/placeholder.svg?height=600&width=500"))}" alt="Save the Dates" class="w-full h-auto">
+              <img src="${escapeHtml(getImage("zola_save_dates_image", ""))}" alt="Save the Dates" class="w-full h-auto">
             </div>
             <div>
               <h2 class="text-4xl font-bold mb-6 text-gray-900">${escapeHtml(getText("zola_save_dates_title", "Add Matching Save the Dates and Invitations"))}</h2>
@@ -122,7 +122,7 @@ export function generateZolaWeddingHTML(
               <a href="${escapeHtml(registryCta.href)}" class="bg-teal-500 hover:bg-teal-600 text-white px-10 py-4 rounded-full font-bold inline-block">${escapeHtml(registryCta.text)}</a>
             </div>
             <div class="order-1 md:order-2">
-              <img src="${escapeHtml(getImage("zola_registry_image", "/placeholder.svg?height=600&width=600"))}" alt="Registry" class="w-full h-auto rounded-lg shadow-xl">
+              <img src="${escapeHtml(getImage("zola_registry_image", ""))}" alt="Registry" class="w-full h-auto rounded-lg shadow-xl">
             </div>
           </div>
         </div>
@@ -139,7 +139,7 @@ export function generateZolaWeddingHTML(
         <div class="mx-auto max-w-7xl px-6">
           <div class="grid md:grid-cols-4 gap-8 mb-8">
             <div>
-              <img src="${escapeHtml(getImage("zola_footer_logo", "/placeholder.svg?height=30&width=80"))}" alt="ZOLA" class="h-8 w-auto mb-4">
+              <img src="${escapeHtml(getImage("zola_footer_logo", ""))}" alt="ZOLA" class="h-8 w-auto mb-4">
               <p class="text-sm text-gray-400">${escapeHtml(getText("zola_footer_tagline", "Your wedding, your way"))}</p>
             </div>
             ${["wedding", "company", "support"].map((section) => `

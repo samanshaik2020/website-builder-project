@@ -37,7 +37,7 @@ export function generateBlowLtdHTML(
       <!-- Navigation -->
       <header class="bg-white shadow-sm sticky top-0 z-50">
         <div class="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
-          <img src="${escapeHtml(getImage("blow_logo", "/placeholder.svg?height=40&width=120"))}" alt="Blow LTD" class="h-10 w-auto">
+          <img src="${escapeHtml(getImage("blow_logo", ""))}" alt="Blow LTD" class="h-10 w-auto">
           <a href="${escapeHtml(navCta.href)}" class="bg-coral-500 hover:bg-coral-600 text-white px-6 py-2 rounded-md font-medium text-sm">
             ${escapeHtml(navCta.text)}
           </a>
@@ -60,7 +60,7 @@ export function generateBlowLtdHTML(
               </a>
             </div>
             <div class="relative">
-              <img src="${escapeHtml(getImage("blow_hero_image", "/placeholder.svg?height=400&width=600"))}" alt="Eyelash Extensions" class="w-full h-auto rounded-lg">
+              <img src="${escapeHtml(getImage("blow_hero_image", ""))}" alt="Eyelash Extensions" class="w-full h-auto rounded-lg">
             </div>
           </div>
         </div>
@@ -109,7 +109,7 @@ export function generateBlowLtdHTML(
         return `
               <div>
                 <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                  <img src="${escapeHtml(getImage(`blow_feature_${i}_icon`, `/placeholder.svg?height=64&width=64`))}" alt="Feature ${i}" class="w-full h-full">
+                  <img src="${escapeHtml(getImage(`blow_feature_${i}_icon`, ``))}" alt="Feature ${i}" class="w-full h-full">
                 </div>
                 <p class="font-semibold text-gray-900 mb-2 text-sm uppercase tracking-wide">
                   ${escapeHtml(getText(`blow_feature_${i}_title`, titles[i - 1]))}
@@ -131,7 +131,7 @@ export function generateBlowLtdHTML(
           </div>
           <div class="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <img src="${escapeHtml(getImage("blow_home_extensions_image", "/placeholder.svg?height=400&width=400"))}" alt="Eyelash Extensions" class="w-full h-auto rounded-lg">
+              <img src="${escapeHtml(getImage("blow_home_extensions_image", ""))}" alt="Eyelash Extensions" class="w-full h-auto rounded-lg">
             </div>
             <div>
               <p class="text-gray-700 leading-relaxed mb-6">
@@ -190,7 +190,7 @@ export function generateBlowLtdHTML(
             { name: "HYBRID", label: "BOOK VOL. HYBRID" }
         ].map((service, i) => `
               <div class="text-center">
-                <img src="${escapeHtml(getImage(`blow_service_${i + 1}_image`, `/placeholder.svg?height=300&width=300`))}" alt="${service.name}" class="w-full h-64 object-cover rounded-lg mb-4">
+                <img src="${escapeHtml(getImage(`blow_service_${i + 1}_image`, ``))}" alt="${service.name}" class="w-full h-64 object-cover rounded-lg mb-4">
                 <a href="${escapeHtml(getButton(`blow_service_${i + 1}_cta`).href)}" class="bg-coral-500 hover:bg-coral-600 text-white px-4 py-2 rounded-md font-medium text-sm w-full inline-block">
                   ${escapeHtml(getButton(`blow_service_${i + 1}_cta`).text || service.label)}
                 </a>
@@ -205,7 +205,7 @@ export function generateBlowLtdHTML(
         <div class="mx-auto max-w-7xl px-6">
           <div class="grid md:grid-cols-2 gap-12 items-center">
             <div class="flex justify-center">
-              <img src="${escapeHtml(getImage("blow_app_mockup", "/placeholder.svg?height=600&width=300"))}" alt="Blow LTD App" class="h-96 w-auto">
+              <img src="${escapeHtml(getImage("blow_app_mockup", ""))}" alt="Blow LTD App" class="h-96 w-auto">
             </div>
             <div class="text-center md:text-left">
               <h2 class="text-3xl md:text-4xl font-serif italic mb-6 text-gray-900">
@@ -213,10 +213,10 @@ export function generateBlowLtdHTML(
               </h2>
               <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                 <a href="${escapeHtml(appStore.href)}" class="inline-block">
-                  <img src="/placeholder.svg?height=50&width=150&query=app%20store%20badge" alt="Download on App Store" class="h-12">
+                  <img src="" alt="Download on App Store" class="h-12">
                 </a>
                 <a href="${escapeHtml(googlePlay.href)}" class="inline-block">
-                  <img src="/placeholder.svg?height=50&width=150&query=google%20play%20badge" alt="Get it on Google Play" class="h-12">
+                  <img src="" alt="Get it on Google Play" class="h-12">
                 </a>
               </div>
             </div>
@@ -229,7 +229,7 @@ export function generateBlowLtdHTML(
         <div class="mx-auto max-w-7xl px-6">
           <div class="grid md:grid-cols-3 gap-8 mb-8">
             <div>
-              <img src="${escapeHtml(getImage("blow_footer_logo", "/placeholder.svg?height=40&width=120"))}" alt="Blow LTD" class="h-10 w-auto mb-4">
+              <img src="${escapeHtml(getImage("blow_footer_logo", ""))}" alt="Blow LTD" class="h-10 w-auto mb-4">
             </div>
             <div>
               <h5 class="font-semibold mb-4">${escapeHtml(getText("blow_footer_contact_title", "Contact Us"))}</h5>

@@ -11,7 +11,7 @@ export function AmazonPrimeTemplate(props: TemplateProps) {
         <div className="mx-auto max-w-7xl px-6 py-3 flex items-center justify-between">
           <EditableImage
             id="prime_logo"
-            src="/placeholder.svg?height=30&width=100&query=amazon%20prime%20logo"
+            src=""
             alt="Amazon Prime"
             className="h-8 w-auto"
             editable={editable}
@@ -75,7 +75,7 @@ export function AmazonPrimeTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="prime_hero_image"
-                src="/placeholder.svg?height=500&width=500&query=person%20with%20packages%20illustration"
+                src=""
                 alt="Prime Benefits"
                 className="w-full h-auto"
                 editable={editable}
@@ -127,7 +127,7 @@ export function AmazonPrimeTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="prime_delivery_image"
-                src="/placeholder.svg?height=400&width=500&query=delivery%20person%20packages"
+                src=""
                 alt="Fast Delivery"
                 className="w-full h-auto"
                 editable={editable}
@@ -222,7 +222,7 @@ export function AmazonPrimeTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="prime_fast_delivery_image"
-                src="/placeholder.svg?height=400&width=400&query=delivery%20person%20box"
+                src=""
                 alt="Fast Delivery"
                 className="w-full h-auto"
                 editable={editable}
@@ -240,7 +240,7 @@ export function AmazonPrimeTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="prime_originals_image"
-                src="/placeholder.svg?height=400&width=400&query=amazon%20originals%20poster"
+                src=""
                 alt="Amazon Originals"
                 className="w-full h-auto rounded-lg shadow-xl"
                 editable={editable}
@@ -320,7 +320,7 @@ export function AmazonPrimeTemplate(props: TemplateProps) {
             <div className="order-1 md:order-2">
               <EditableImage
                 id="prime_streaming_image"
-                src="/placeholder.svg?height=400&width=600&query=streaming%20devices%20tv"
+                src=""
                 alt="Streaming"
                 className="w-full h-auto rounded-lg"
                 editable={editable}
@@ -338,7 +338,7 @@ export function AmazonPrimeTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="prime_music_image"
-                src="/placeholder.svg?height=400&width=400&query=music%20album%20cover"
+                src=""
                 alt="Prime Music"
                 className="w-full h-auto rounded-lg shadow-xl"
                 editable={editable}
@@ -410,7 +410,7 @@ export function AmazonPrimeTemplate(props: TemplateProps) {
             <div className="order-1 md:order-2">
               <EditableImage
                 id="prime_reading_image"
-                src="/placeholder.svg?height=500&width=600&query=book%20covers%20collection"
+                src=""
                 alt="Prime Reading"
                 className="w-full h-auto"
                 editable={editable}
@@ -426,7 +426,7 @@ export function AmazonPrimeTemplate(props: TemplateProps) {
         <div className="mx-auto max-w-4xl px-6 text-center">
           <EditableImage
             id="prime_final_image"
-            src="/placeholder.svg?height=400&width=300&query=person%20with%20packages"
+            src=""
             alt="Join Prime"
             className="w-64 h-auto mx-auto mb-8"
             editable={editable}

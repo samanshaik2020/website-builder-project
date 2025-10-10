@@ -11,7 +11,7 @@ export function BlowLtdTemplate(props: TemplateProps) {
         <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
           <EditableImage
             id="blow_logo"
-            src="/placeholder.svg?height=40&width=120&query=blow%20ltd%20logo"
+            src=""
             alt="Blow LTD"
             className="h-10 w-auto"
             editable={editable}
@@ -62,7 +62,7 @@ export function BlowLtdTemplate(props: TemplateProps) {
             <div className="relative">
               <EditableImage
                 id="blow_hero_image"
-                src="/placeholder.svg?height=400&width=600&query=eyelash%20extensions%20close%20up"
+                src=""
                 alt="Eyelash Extensions"
                 className="w-full h-auto rounded-lg"
                 editable={editable}
@@ -128,7 +128,7 @@ export function BlowLtdTemplate(props: TemplateProps) {
               <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                 <EditableImage
                   id="blow_feature_1_icon"
-                  src="/placeholder.svg?height=64&width=64&query=clock%20icon"
+                  src=""
                   alt="Clock"
                   className="w-full h-full"
                   editable={editable}
@@ -148,7 +148,7 @@ export function BlowLtdTemplate(props: TemplateProps) {
               <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                 <EditableImage
                   id="blow_feature_2_icon"
-                  src="/placeholder.svg?height=64&width=64&query=luxury%20icon"
+                  src=""
                   alt="Luxury"
                   className="w-full h-full"
                   editable={editable}
@@ -168,7 +168,7 @@ export function BlowLtdTemplate(props: TemplateProps) {
               <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                 <EditableImage
                   id="blow_feature_3_icon"
-                  src="/placeholder.svg?height=64&width=64&query=comfort%20icon"
+                  src=""
                   alt="Comfort"
                   className="w-full h-full"
                   editable={editable}
@@ -205,7 +205,7 @@ export function BlowLtdTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="blow_home_extensions_image"
-                src="/placeholder.svg?height=400&width=400&query=eyelash%20extension%20eye"
+                src=""
                 alt="Eyelash Extensions"
                 className="w-full h-auto rounded-lg"
                 editable={editable}
@@ -308,7 +308,7 @@ export function BlowLtdTemplate(props: TemplateProps) {
               <div key={i} className="text-center">
                 <EditableImage
                   id={`blow_service_${i + 1}_image`}
-                  src={`/placeholder.svg?height=300&width=300&query=eyelash%20${service.name.toLowerCase()}`}
+                  src={``}
                   alt={service.name}
                   className="w-full h-64 object-cover rounded-lg mb-4"
                   editable={editable}
@@ -335,7 +335,7 @@ export function BlowLtdTemplate(props: TemplateProps) {
             <div className="flex justify-center">
               <EditableImage
                 id="blow_app_mockup"
-                src="/placeholder.svg?height=600&width=300&query=mobile%20app%20mockup"
+                src=""
                 alt="Blow LTD App"
                 className="h-96 w-auto"
                 editable={editable}
@@ -359,7 +359,7 @@ export function BlowLtdTemplate(props: TemplateProps) {
                   editable={editable}
                   {...props}
                 >
-                  <img src="/placeholder.svg?height=50&width=150&query=app%20store%20badge" alt="Download on App Store" className="h-12" />
+                  <img src="" alt="Download on App Store" className="h-12" />
                 </EditableButton>
                 <EditableButton
                   id="blow_google_play"
@@ -367,7 +367,7 @@ export function BlowLtdTemplate(props: TemplateProps) {
                   editable={editable}
                   {...props}
                 >
-                  <img src="/placeholder.svg?height=50&width=150&query=google%20play%20badge" alt="Get it on Google Play" className="h-12" />
+                  <img src="" alt="Get it on Google Play" className="h-12" />
                 </EditableButton>
               </div>
             </div>
@@ -382,7 +382,7 @@ export function BlowLtdTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="blow_footer_logo"
-                src="/placeholder.svg?height=40&width=120&query=blow%20ltd%20logo%20white"
+                src=""
                 alt="Blow LTD"
                 className="h-10 w-auto mb-4"
                 editable={editable}

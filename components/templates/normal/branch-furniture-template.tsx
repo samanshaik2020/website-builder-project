@@ -11,7 +11,7 @@ export function BranchFurnitureTemplate(props: TemplateProps) {
         <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
           <EditableImage
             id="branch_logo"
-            src="/placeholder.svg?height=40&width=140&query=branch%20furniture%20logo"
+            src=""
             alt="Branch Furniture"
             className="h-10 w-auto"
             editable={editable}
@@ -86,7 +86,7 @@ export function BranchFurnitureTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="branch_hero_image"
-                src="/placeholder.svg?height=600&width=600&query=modern%20furniture%20living%20room"
+                src=""
                 alt="Modern Furniture"
                 className="w-full h-auto rounded-lg shadow-2xl"
                 editable={editable}
@@ -162,7 +162,7 @@ export function BranchFurnitureTemplate(props: TemplateProps) {
               <div key={i} className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
                 <EditableImage
                   id={`branch_product_${i + 1}_image`}
-                  src={`/placeholder.svg?height=400&width=400&query=${product.name.toLowerCase()}`}
+                  src={``}
                   alt={product.name}
                   className="w-full h-80 object-cover"
                   editable={editable}
@@ -208,7 +208,7 @@ export function BranchFurnitureTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="branch_craftsmanship_image"
-                src="/placeholder.svg?height=600&width=600&query=woodworking%20craftsmanship"
+                src=""
                 alt="Craftsmanship"
                 className="w-full h-auto rounded-lg"
                 editable={editable}
@@ -341,7 +341,7 @@ export function BranchFurnitureTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="branch_footer_logo"
-                src="/placeholder.svg?height=40&width=140&query=branch%20furniture%20logo%20white"
+                src=""
                 alt="Branch Furniture"
                 className="h-10 w-auto mb-4"
                 editable={editable}

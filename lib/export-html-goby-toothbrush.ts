@@ -30,7 +30,7 @@ export function generateGobyToothbrushHTML(
     <main class="bg-white text-gray-900">
       <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div class="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
-          <img src="${escapeHtml(getImage("goby_logo", "/placeholder.svg?height=30&width=80"))}" alt="GOBY" class="h-8 w-auto">
+          <img src="${escapeHtml(getImage("goby_logo", ""))}" alt="GOBY" class="h-8 w-auto">
           <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-700">
             <span class="hover:text-gray-900 transition-colors cursor-pointer">${escapeHtml(getText("goby_nav_0", "Subscribe & Save"))}</span>
           </nav>
@@ -42,13 +42,13 @@ export function generateGobyToothbrushHTML(
         <div class="mx-auto max-w-7xl px-6">
           <div class="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <img src="${escapeHtml(getImage("goby_hero_icon", "/placeholder.svg?height=60&width=60"))}" alt="Icon" class="w-16 h-16 mb-6">
+              <img src="${escapeHtml(getImage("goby_hero_icon", ""))}" alt="Icon" class="w-16 h-16 mb-6">
               <h1 class="text-5xl md:text-6xl font-bold mb-6 text-gray-900">${escapeHtml(getText("goby_hero_title", "BRUSHING PERFECTED"))}</h1>
               <p class="text-xl text-gray-700 mb-8 leading-relaxed">${escapeHtml(getText("goby_hero_subtitle", "Goby provides an earth-shattering brush at a jaw-dropping price."))}</p>
               <a href="${escapeHtml(heroCta.href)}" class="bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-md font-bold text-lg inline-block">${escapeHtml(heroCta.text)}</a>
             </div>
             <div>
-              <img src="${escapeHtml(getImage("goby_hero_image", "/placeholder.svg?height=600&width=400"))}" alt="GOBY Toothbrush" class="w-full h-auto">
+              <img src="${escapeHtml(getImage("goby_hero_image", ""))}" alt="GOBY Toothbrush" class="w-full h-auto">
             </div>
           </div>
         </div>
@@ -80,7 +80,7 @@ export function generateGobyToothbrushHTML(
           </div>
           <div class="grid md:grid-cols-2 gap-16 items-center">
             <div>
-              <img src="${escapeHtml(getImage("goby_features_image", "/placeholder.svg?height=600&width=500"))}" alt="Product Features" class="w-full h-auto">
+              <img src="${escapeHtml(getImage("goby_features_image", ""))}" alt="Product Features" class="w-full h-auto">
             </div>
             <div class="space-y-8">
               ${[1, 2, 3, 4].map((i) => `
@@ -124,7 +124,7 @@ export function generateGobyToothbrushHTML(
         <div class="mx-auto max-w-7xl px-6">
           <div class="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <img src="${escapeHtml(getImage("goby_testimonial_image", "/placeholder.svg?height=500&width=500"))}" alt="GOBY Product" class="w-full h-auto rounded-lg">
+              <img src="${escapeHtml(getImage("goby_testimonial_image", ""))}" alt="GOBY Product" class="w-full h-auto rounded-lg">
             </div>
             <div>
               <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-900">${escapeHtml(getText("goby_testimonial_title", "THE BUZZ ON GOBY"))}</h2>
@@ -145,7 +145,7 @@ export function generateGobyToothbrushHTML(
               <p class="text-gray-600 leading-relaxed">${escapeHtml(getText("goby_giving_details", "We also partner with NYC's Share of Humanity's Global Impact Network Program."))}</p>
             </div>
             <div class="order-1 md:order-2">
-              <img src="${escapeHtml(getImage("goby_giving_image", "/placeholder.svg?height=500&width=600"))}" alt="Giving Back" class="w-full h-auto rounded-lg">
+              <img src="${escapeHtml(getImage("goby_giving_image", ""))}" alt="Giving Back" class="w-full h-auto rounded-lg">
             </div>
           </div>
         </div>
@@ -158,7 +158,7 @@ export function generateGobyToothbrushHTML(
           <div class="grid md:grid-cols-4 gap-6">
             ${[1, 2, 3, 4].map((i) => `
               <div class="relative group">
-                <img src="${escapeHtml(getImage(`goby_instagram_${i}_image`, `/placeholder.svg?height=300&width=300`))}" alt="Instagram ${i}" class="w-full h-64 object-cover rounded-lg">
+                <img src="${escapeHtml(getImage(`goby_instagram_${i}_image`, ``))}" alt="Instagram ${i}" class="w-full h-64 object-cover rounded-lg">
                 <p class="text-center text-sm text-gray-600 mt-2">${escapeHtml(getText(`goby_instagram_${i}_caption`, "@username"))}</p>
               </div>
             `).join("")}
@@ -168,7 +168,7 @@ export function generateGobyToothbrushHTML(
 
       <section class="py-20 bg-gray-800 text-white">
         <div class="mx-auto max-w-4xl px-6 text-center">
-          <img src="${escapeHtml(getImage("goby_guarantee_icon", "/placeholder.svg?height=80&width=80"))}" alt="Guarantee" class="w-20 h-20 mx-auto mb-6">
+          <img src="${escapeHtml(getImage("goby_guarantee_icon", ""))}" alt="Guarantee" class="w-20 h-20 mx-auto mb-6">
           <h2 class="text-3xl md:text-4xl font-bold mb-6">${escapeHtml(getText("goby_guarantee_title", "UNLIMITED COMPLIMENTARY GUARANTEES."))}</h2>
           <p class="text-lg text-gray-300 leading-relaxed mb-8 max-w-2xl mx-auto">${escapeHtml(getText("goby_guarantee_description", "If you don't love your brush, we'll do whatever it takes to make it right."))}</p>
           <a href="${escapeHtml(guaranteeCta.href)}" class="bg-white text-gray-900 px-10 py-4 rounded-md font-bold hover:bg-gray-100 transition-colors inline-block">${escapeHtml(guaranteeCta.text)}</a>
@@ -179,7 +179,7 @@ export function generateGobyToothbrushHTML(
         <div class="mx-auto max-w-7xl px-6">
           <div class="grid md:grid-cols-4 gap-8 mb-8">
             <div>
-              <img src="${escapeHtml(getImage("goby_footer_logo", "/placeholder.svg?height=30&width=80"))}" alt="GOBY" class="h-8 w-auto mb-4">
+              <img src="${escapeHtml(getImage("goby_footer_logo", ""))}" alt="GOBY" class="h-8 w-auto mb-4">
             </div>
             ${["shop", "company", "support"].map((section, idx) => `
               <div>

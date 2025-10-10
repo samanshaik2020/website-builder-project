@@ -11,7 +11,7 @@ export function BePatientsTemplate(props: TemplateProps) {
         <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
           <EditableImage
             id="bp_logo"
-            src="/placeholder.svg?height=40&width=150&query=be%20patients%20logo"
+            src=""
             alt="Be Patients"
             className="h-10 w-auto"
             editable={editable}
@@ -35,7 +35,7 @@ export function BePatientsTemplate(props: TemplateProps) {
             <div className="order-2 md:order-1">
               <EditableImage
                 id="bp_hero_image"
-                src="/placeholder.svg?height=600&width=500&query=pouch%20reset%20plan%20clipboard"
+                src=""
                 alt="Pouch Reset Plan"
                 className="w-full h-auto"
                 editable={editable}
@@ -119,7 +119,7 @@ export function BePatientsTemplate(props: TemplateProps) {
             <div className="bg-white rounded-2xl shadow-lg p-8">
               <EditableImage
                 id="bp_feature_1_image"
-                src="/placeholder.svg?height=300&width=400&query=meal%20planning%20laptop"
+                src=""
                 alt="Meal Planning"
                 className="w-full h-auto rounded-lg mb-6"
                 editable={editable}
@@ -155,7 +155,7 @@ export function BePatientsTemplate(props: TemplateProps) {
             <div className="bg-white rounded-2xl shadow-lg p-8">
               <EditableImage
                 id="bp_feature_2_image"
-                src="/placeholder.svg?height=300&width=400&query=healthy%20meal%20prep"
+                src=""
                 alt="Meal Prep"
                 className="w-full h-auto rounded-lg mb-6"
                 editable={editable}
@@ -213,7 +213,7 @@ export function BePatientsTemplate(props: TemplateProps) {
                 <div className="w-32 h-32 mx-auto mb-4 bg-purple-100 rounded-full flex items-center justify-center">
                   <EditableImage
                     id={`bp_surgery_${i + 1}_icon`}
-                    src={`/placeholder.svg?height=80&width=80&query=${surgery.icon}`}
+                    src={``}
                     alt={surgery.name}
                     className="w-20 h-20"
                     editable={editable}
@@ -313,7 +313,7 @@ export function BePatientsTemplate(props: TemplateProps) {
             <div className="flex justify-center">
               <EditableImage
                 id="bp_magic_image"
-                src="/placeholder.svg?height=400&width=300&query=doctor%20with%20clipboard"
+                src=""
                 alt="Healthcare Professional"
                 className="w-64 h-auto"
                 editable={editable}
@@ -416,7 +416,7 @@ export function BePatientsTemplate(props: TemplateProps) {
           <div className="mt-8">
             <EditableImage
               id="bp_final_preview"
-              src="/placeholder.svg?height=400&width=300&query=mobile%20app%20preview"
+              src=""
               alt="Plan Preview"
               className="mx-auto h-96 w-auto"
               editable={editable}
@@ -431,7 +431,7 @@ export function BePatientsTemplate(props: TemplateProps) {
         <div className="mx-auto max-w-7xl px-6 text-center">
           <EditableImage
             id="bp_footer_logo"
-            src="/placeholder.svg?height=40&width=150&query=be%20patients%20logo%20white"
+            src=""
             alt="Be Patients"
             className="h-10 w-auto mx-auto mb-4"
             editable={editable}
