@@ -9,14 +9,9 @@ export function GobyToothbrushTemplate(props: TemplateProps) {
       {/* Navigation */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
-          <EditableImage
-            id="goby_logo"
-            src=""
-            alt="GOBY"
-            className="h-8 w-auto"
-            editable={editable}
-            {...props}
-          />
+          <EditableText id="goby_logo" as="h1" className="text-xl font-bold" editable={editable} {...props}>
+            GOBY
+          </EditableText>
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-700">
             <EditableText id="goby_nav_0" className="hover:text-gray-900 transition-colors cursor-pointer" editable={editable} {...props}>
               Subscribe & Save
@@ -40,7 +35,7 @@ export function GobyToothbrushTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="goby_hero_icon"
-                src=""
+                src="https://placehold.co/600x400/EEE/999?text=Image"
                 alt="Icon"
                 className="w-16 h-16 mb-6"
                 editable={editable}
@@ -71,6 +66,16 @@ export function GobyToothbrushTemplate(props: TemplateProps) {
               >
                 GET STARTED
               </EditableButton>
+            </div>
+            <div>
+              <EditableImage
+                id="goby_hero_image"
+                src="https://placehold.co/600x400/EEE/999?text=Image"
+                alt="GOBY Toothbrush"
+                className="w-full h-auto"
+                editable={editable}
+                {...props}
+              />
             </div>
           </div>
         </div>
@@ -125,7 +130,7 @@ export function GobyToothbrushTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="goby_features_image"
-                src=""
+                src="https://placehold.co/600x400/EEE/999?text=Image"
                 alt="Product Features"
                 className="w-full h-auto"
                 editable={editable}
@@ -270,7 +275,7 @@ export function GobyToothbrushTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="goby_testimonial_image"
-                src=""
+                src="https://placehold.co/600x400/EEE/999?text=Image"
                 alt="GOBY Product"
                 className="w-full h-auto rounded-lg"
                 editable={editable}
@@ -350,7 +355,7 @@ export function GobyToothbrushTemplate(props: TemplateProps) {
             <div className="order-1 md:order-2">
               <EditableImage
                 id="goby_giving_image"
-                src=""
+                src="https://placehold.co/600x400/EEE/999?text=Image"
                 alt="Giving Back"
                 className="w-full h-auto rounded-lg"
                 editable={editable}
@@ -411,7 +416,7 @@ export function GobyToothbrushTemplate(props: TemplateProps) {
         <div className="mx-auto max-w-4xl px-6 text-center">
           <EditableImage
             id="goby_guarantee_icon"
-            src=""
+            src="https://placehold.co/600x400/EEE/999?text=Image"
             alt="Guarantee"
             className="w-20 h-20 mx-auto mb-6"
             editable={editable}
@@ -450,14 +455,9 @@ export function GobyToothbrushTemplate(props: TemplateProps) {
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
-              <EditableImage
-                id="goby_footer_logo"
-                src=""
-                alt="GOBY"
-                className="h-8 w-auto mb-4"
-                editable={editable}
-                {...props}
-              />
+              <EditableText id="goby_footer_logo" as="h3" className="text-lg font-bold mb-4" editable={editable} {...props}>
+                GOBY
+              </EditableText>
             </div>
             <div>
               <EditableText id="goby_footer_shop_title" as="h5" className="font-semibold mb-4 text-sm" editable={editable} {...props}>

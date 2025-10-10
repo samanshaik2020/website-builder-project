@@ -29,7 +29,7 @@ interface ShareLinkDialogProps {
 }
 
 export function ShareLinkDialog({ project, open, onOpenChange }: ShareLinkDialogProps) {
-  const { create, checkSlugAvailability, getActiveCount } = useShareableLinks(project.id)
+  const { links, create, checkSlugAvailability, getActiveCount } = useShareableLinks(project.id)
   const { subscription } = useSubscription()
   const [customSlug, setCustomSlug] = useState("")
   const [generatedLink, setGeneratedLink] = useState<string | null>(null)
@@ -41,10 +41,24 @@ export function ShareLinkDialog({ project, open, onOpenChange }: ShareLinkDialog
   const expiryDays = getShareableLinkExpiry(subscription.plan)
   const canCreate = canCreateShareableLink(subscription.plan, activeLinksCount)
 
-  // Load active links count
+  // Load active links count and check for existing link
   useEffect(() => {
     getActiveCount(project.id).then(setActiveLinksCount)
-  }, [project.id, getActiveCount])
+    
+    // Check if there's already an active link for this project
+    const existingLink = links.find(l => {
+      if (l.project_id !== project.id) return false
+      if (l.expires_at && new Date(l.expires_at) < new Date()) return false
+      if (l.max_views && l.views >= l.max_views) return false
+      return true
+    })
+    
+    if (existingLink && open) {
+      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin
+      setGeneratedLink(`${baseUrl}/share/${existingLink.custom_slug}`)
+      setCustomSlug(existingLink.custom_slug)
+    }
+  }, [project.id, getActiveCount, links, open])
 
   const handleGenerateLink = async () => {
     if (!customSlug.trim()) {

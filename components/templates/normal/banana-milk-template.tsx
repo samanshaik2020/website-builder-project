@@ -9,14 +9,9 @@ export function BananaMilkTemplate(props: TemplateProps) {
       {/* Navigation */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
-          <EditableImage
-            id="bm_logo"
-            src=""
-            alt="Brand Logo"
-            className="h-12 w-auto"
-            editable={editable}
-            {...props}
-          />
+          <EditableText id="bm_logo" as="h1" className="text-xl font-bold" editable={editable} {...props}>
+            Mooala
+          </EditableText>
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-700">
             <EditableText id="bm_nav_0" className="hover:text-yellow-500 transition-colors cursor-pointer" editable={editable} {...props}>
               Home
@@ -101,7 +96,7 @@ export function BananaMilkTemplate(props: TemplateProps) {
             <div className="relative">
               <EditableImage
                 id="bm_hero_product"
-                src=""
+                src="https://placehold.co/600x400/EEE/999?text=Image"
                 alt="Banamilk Product"
                 className="w-full h-auto max-w-md mx-auto drop-shadow-2xl"
                 editable={editable}
@@ -318,14 +313,9 @@ export function BananaMilkTemplate(props: TemplateProps) {
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
-              <EditableImage
-                id="bm_footer_logo"
-                src=""
-                alt="Mooala"
-                className="h-10 w-auto mb-4"
-                editable={editable}
-                {...props}
-              />
+              <EditableText id="bm_footer_logo" as="h3" className="text-lg font-bold mb-4" editable={editable} {...props}>
+                Mooala
+              </EditableText>
               <EditableText id="bm_footer_tagline" className="text-gray-400 text-sm" editable={editable} {...props}>
                 Plant-based goodness in every sip
               </EditableText>

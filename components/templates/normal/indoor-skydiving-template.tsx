@@ -9,19 +9,9 @@ export function IndoorSkydivingTemplate(props: TemplateProps) {
       {/* Navigation */}
       <header className="bg-[#003366] text-white sticky top-0 z-50">
         <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <EditableImage
-              id="sky_logo"
-              src="/placeholder.svg?height=40&width=40&query=skydiving%20logo"
-              alt="Logo"
-              className="w-10 h-10"
-              editable={editable}
-              {...props}
-            />
-            <EditableText id="sky_brand" as="h1" className="text-lg font-bold" editable={editable} {...props}>
-              iFLY Indoor Skydiving
-            </EditableText>
-          </div>
+          <EditableText id="sky_brand" as="h1" className="text-xl font-bold" editable={editable} {...props}>
+            iFLY Indoor Skydiving
+          </EditableText>
           <EditableButton id="sky_nav_cta" className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 text-sm font-medium rounded" editable={editable} {...props}>
             BOOK NOW
           </EditableButton>

@@ -41,6 +41,8 @@ import { toast } from "sonner"
 import { ShareLinkDialog } from "@/components/share-link-dialog"
 import { useAuth } from "@/contexts/auth-context"
 import { signOut } from "@/lib/supabase/auth"
+import { useShareableLinks } from "@/hooks/use-shareable-links"
+import { Copy } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -58,6 +60,7 @@ export default function DashboardPage() {
   const currentPlan = getPlanById(subscription.plan)
   const [shareDialogOpen, setShareDialogOpen] = useState(false)
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
+  const { links: allLinks } = useShareableLinks()
 
   const handleLogout = async () => {
     try {
@@ -166,6 +169,33 @@ export default function DashboardPage() {
   const handleShare = (project: Project) => {
     setSelectedProject(project)
     setShareDialogOpen(true)
+  }
+
+  const handleCopyLink = (link: string, e: React.MouseEvent) => {
+    e.stopPropagation()
+    navigator.clipboard.writeText(link)
+    toast.success("Link copied to clipboard!")
+  }
+
+  const getProjectLink = (projectId: string) => {
+    // Find the most recent active link for this project
+    const link = allLinks.find(l => {
+      if (l.project_id !== projectId) return false
+      
+      // Check if expired
+      if (l.expires_at && new Date(l.expires_at) < new Date()) return false
+      
+      // Check if max views reached
+      if (l.max_views && l.views >= l.max_views) return false
+      
+      return true
+    })
+    
+    if (link) {
+      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin
+      return `${baseUrl}/share/${link.custom_slug}`
+    }
+    return null
   }
 
   return (
@@ -460,6 +490,23 @@ export default function DashboardPage() {
                             <Calendar className="w-4 h-4" />
                             <span>{new Date(project.updated_at).toLocaleDateString()}</span>
                           </div>
+                          {getProjectLink(project.id) && (
+                            <div className="mb-3 p-2 bg-blue-50 border border-blue-200 rounded-lg">
+                              <div className="flex items-center gap-2">
+                                <Globe className="w-3.5 h-3.5 text-blue-600 flex-shrink-0" />
+                                <code className="text-xs text-blue-700 flex-1 truncate">
+                                  {getProjectLink(project.id)}
+                                </code>
+                                <button
+                                  onClick={(e) => handleCopyLink(getProjectLink(project.id)!, e)}
+                                  className="p-1 hover:bg-blue-100 rounded transition-colors"
+                                  title="Copy link"
+                                >
+                                  <Copy className="w-3.5 h-3.5 text-blue-600" />
+                                </button>
+                              </div>
+                            </div>
+                          )}
                           <div className="flex items-center gap-2">
                             <Button
                               size="sm"

@@ -9,14 +9,9 @@ export function BePatientsTemplate(props: TemplateProps) {
       {/* Navigation */}
       <header className="bg-white shadow-sm sticky top-0 z-50">
         <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
-          <EditableImage
-            id="bp_logo"
-            src=""
-            alt="Be Patients"
-            className="h-10 w-auto"
-            editable={editable}
-            {...props}
-          />
+          <EditableText id="bp_logo" as="h1" className="text-xl font-bold" editable={editable} {...props}>
+            Be Patients
+          </EditableText>
           <EditableButton
             id="bp_nav_cta"
             className="bg-teal-500 hover:bg-teal-600 text-white px-6 py-2 rounded-full font-medium text-sm"
@@ -32,6 +27,16 @@ export function BePatientsTemplate(props: TemplateProps) {
       <section className="relative py-16 bg-gradient-to-br from-purple-100 via-purple-50 to-teal-50">
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="order-2 md:order-1">
+              <EditableImage
+                id="bp_hero_image"
+                src="https://placehold.co/600x400/EEE/999?text=Image"
+                alt="Pouch Reset Plan"
+                className="w-full h-auto"
+                editable={editable}
+                {...props}
+              />
+            </div>
             <div className="order-1 md:order-2">
               <EditableText
                 id="bp_hero_title"
@@ -109,7 +114,7 @@ export function BePatientsTemplate(props: TemplateProps) {
             <div className="bg-white rounded-2xl shadow-lg p-8">
               <EditableImage
                 id="bp_feature_1_image"
-                src=""
+                src="https://placehold.co/600x400/EEE/999?text=Image"
                 alt="Meal Planning"
                 className="w-full h-auto rounded-lg mb-6"
                 editable={editable}
@@ -145,7 +150,7 @@ export function BePatientsTemplate(props: TemplateProps) {
             <div className="bg-white rounded-2xl shadow-lg p-8">
               <EditableImage
                 id="bp_feature_2_image"
-                src=""
+                src="https://placehold.co/600x400/EEE/999?text=Image"
                 alt="Meal Prep"
                 className="w-full h-auto rounded-lg mb-6"
                 editable={editable}
@@ -303,7 +308,7 @@ export function BePatientsTemplate(props: TemplateProps) {
             <div className="flex justify-center">
               <EditableImage
                 id="bp_magic_image"
-                src=""
+                src="https://placehold.co/600x400/EEE/999?text=Image"
                 alt="Healthcare Professional"
                 className="w-64 h-auto"
                 editable={editable}
@@ -406,7 +411,7 @@ export function BePatientsTemplate(props: TemplateProps) {
           <div className="mt-8">
             <EditableImage
               id="bp_final_preview"
-              src=""
+              src="https://placehold.co/600x400/EEE/999?text=Image"
               alt="Plan Preview"
               className="mx-auto h-96 w-auto"
               editable={editable}
@@ -419,14 +424,9 @@ export function BePatientsTemplate(props: TemplateProps) {
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-8">
         <div className="mx-auto max-w-7xl px-6 text-center">
-          <EditableImage
-            id="bp_footer_logo"
-            src=""
-            alt="Be Patients"
-            className="h-10 w-auto mx-auto mb-4"
-            editable={editable}
-            {...props}
-          />
+          <EditableText id="bp_footer_logo" as="h3" className="text-lg font-bold mb-4" editable={editable} {...props}>
+            Be Patients
+          </EditableText>
           <EditableText id="bp_footer_copyright" className="text-sm text-gray-400" editable={editable} {...props}>
             © 2025 Be Patients LLC. All Rights Reserved.
           </EditableText>

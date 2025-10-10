@@ -9,14 +9,9 @@ export function CampaignMonitorTemplate(props: TemplateProps) {
       {/* Navigation */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
-          <EditableImage
-            id="cm_logo"
-            src=""
-            alt="Campaign Monitor"
-            className="h-10 w-auto"
-            editable={editable}
-            {...props}
-          />
+          <EditableText id="cm_logo" as="h1" className="text-xl font-bold" editable={editable} {...props}>
+            Campaign Monitor
+          </EditableText>
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-700">
             <EditableText id="cm_nav_0" className="hover:text-blue-600 transition-colors cursor-pointer" editable={editable} {...props}>
               Features
@@ -102,7 +97,7 @@ export function CampaignMonitorTemplate(props: TemplateProps) {
             <div className="relative">
               <EditableImage
                 id="cm_hero_image"
-                src=""
+                src="https://placehold.co/600x400/EEE/999?text=Image"
                 alt="Email Campaign Preview"
                 className="w-full h-auto rounded-lg shadow-2xl"
                 editable={editable}
@@ -167,7 +162,7 @@ export function CampaignMonitorTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="cm_feature_1_image"
-                src=""
+                src="https://placehold.co/600x400/EEE/999?text=Image"
                 alt="Email Builder"
                 className="w-full h-auto rounded-lg shadow-xl"
                 editable={editable}
@@ -294,7 +289,7 @@ export function CampaignMonitorTemplate(props: TemplateProps) {
             <div className="order-1 md:order-2">
               <EditableImage
                 id="cm_secondary_feature_image"
-                src=""
+                src="https://placehold.co/600x400/EEE/999?text=Image"
                 alt="Customization Panel"
                 className="w-full h-auto rounded-lg shadow-xl"
                 editable={editable}
@@ -399,14 +394,9 @@ export function CampaignMonitorTemplate(props: TemplateProps) {
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
-              <EditableImage
-                id="cm_footer_logo"
-                src=""
-                alt="Campaign Monitor"
-                className="h-10 w-auto mb-4"
-                editable={editable}
-                {...props}
-              />
+              <EditableText id="cm_footer_logo" as="h3" className="text-lg font-bold mb-4" editable={editable} {...props}>
+                Campaign Monitor
+              </EditableText>
               <EditableText id="cm_footer_tagline" className="text-gray-400 text-sm" editable={editable} {...props}>
                 Beautiful email marketing made simple
               </EditableText>

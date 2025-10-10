@@ -89,7 +89,7 @@ export function EditableImage({
     // In preview mode, just render the image without wrapper
     return (
       <img
-        src={src || "/placeholder.svg"}
+        src={src || undefined}
         alt={alt}
         data-eid={id}
         className={cn("rounded-md border border-border", className)}
@@ -105,7 +105,7 @@ export function EditableImage({
       style={{ cursor: 'pointer' }}
     >
       <img
-        src={src || "/placeholder.svg"}
+        src={src || undefined}
         alt={alt}
         data-eid={id}
         className={cn(

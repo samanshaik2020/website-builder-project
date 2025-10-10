@@ -9,14 +9,9 @@ export function OutlierApparelTemplate(props: TemplateProps) {
       {/* Navigation */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
-          <EditableImage
-            id="outlier_logo"
-            src=""
-            alt="Outlier Apparel"
-            className="h-8 w-auto"
-            editable={editable}
-            {...props}
-          />
+          <EditableText id="outlier_logo" as="h1" className="text-xl font-bold" editable={editable} {...props}>
+            Outlier
+          </EditableText>
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-700">
             <EditableText id="outlier_nav_0" className="hover:text-gray-900 transition-colors cursor-pointer" editable={editable} {...props}>
               Shop
@@ -35,7 +30,15 @@ export function OutlierApparelTemplate(props: TemplateProps) {
       </header>
 
       {/* Hero Section */}
-      <section className="relative h-screen bg-gray-900">
+      <section className="relative h-screen">
+        <EditableImage
+          id="outlier_hero_image"
+          src=""
+          alt="Urban Lifestyle"
+          className="w-full h-full object-cover"
+          editable={editable}
+          {...props}
+        />
         <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
           <div className="text-center text-white">
             <EditableText
@@ -127,7 +130,7 @@ export function OutlierApparelTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="outlier_detail_1_image"
-                src=""
+                src="https://placehold.co/600x400/EEE/999?text=Image"
                 alt="Urban Movement"
                 className="w-full h-auto"
                 editable={editable}
@@ -199,7 +202,7 @@ export function OutlierApparelTemplate(props: TemplateProps) {
             <div className="order-1 md:order-2">
               <EditableImage
                 id="outlier_showcase_image"
-                src=""
+                src="https://placehold.co/600x400/EEE/999?text=Image"
                 alt="Collection Showcase"
                 className="w-full h-auto"
                 editable={editable}
@@ -303,7 +306,7 @@ export function OutlierApparelTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="outlier_materials_image"
-                src=""
+                src="https://placehold.co/600x400/EEE/999?text=Image"
                 alt="Premium Materials"
                 className="w-full h-auto"
                 editable={editable}
@@ -391,14 +394,9 @@ export function OutlierApparelTemplate(props: TemplateProps) {
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid md:grid-cols-4 gap-12 mb-12">
             <div>
-              <EditableImage
-                id="outlier_footer_logo"
-                src=""
-                alt="Outlier Apparel"
-                className="h-8 w-auto mb-6"
-                editable={editable}
-                {...props}
-              />
+              <EditableText id="outlier_footer_logo" as="h3" className="text-lg font-bold mb-6" editable={editable} {...props}>
+                Outlier
+              </EditableText>
               <EditableText id="outlier_footer_tagline" className="text-sm text-gray-400" editable={editable} {...props}>
                 Performance apparel for the modern professional
               </EditableText>

@@ -9,14 +9,9 @@ export function ZolaWeddingTemplate(props: TemplateProps) {
       {/* Navigation */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
-          <EditableImage
-            id="zola_logo"
-            src=""
-            alt="ZOLA"
-            className="h-8 w-auto"
-            editable={editable}
-            {...props}
-          />
+          <EditableText id="zola_logo" as="h1" className="text-xl font-bold" editable={editable} {...props}>
+            ZOLA
+          </EditableText>
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-700">
             <EditableText id="zola_nav_0" className="hover:text-gray-900 transition-colors cursor-pointer" editable={editable} {...props}>
               LOG IN
@@ -55,6 +50,34 @@ export function ZolaWeddingTemplate(props: TemplateProps) {
               >
                 START YOUR WEBSITE
               </EditableButton>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <EditableImage
+                id="zola_hero_image_1"
+                src="https://placehold.co/600x400/EEE/999?text=Image"
+                alt="Wedding Photo"
+                className="w-full h-auto rounded-lg shadow-lg"
+                editable={editable}
+                {...props}
+              />
+              <div className="space-y-4">
+                <EditableImage
+                  id="zola_hero_image_2"
+                  src="https://placehold.co/600x400/EEE/999?text=Image"
+                  alt="Wedding Invitation"
+                  className="w-full h-auto rounded-lg shadow-lg"
+                  editable={editable}
+                  {...props}
+                />
+                <EditableImage
+                  id="zola_hero_image_3"
+                  src="https://placehold.co/600x400/EEE/999?text=Image"
+                  alt="Wedding Flowers"
+                  className="w-full h-auto rounded-lg"
+                  editable={editable}
+                  {...props}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -169,7 +192,7 @@ export function ZolaWeddingTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="zola_save_dates_image"
-                src=""
+                src="https://placehold.co/600x400/EEE/999?text=Image"
                 alt="Save the Dates"
                 className="w-full h-auto"
                 editable={editable}
@@ -241,7 +264,7 @@ export function ZolaWeddingTemplate(props: TemplateProps) {
             <div className="order-1 md:order-2">
               <EditableImage
                 id="zola_registry_image"
-                src=""
+                src="https://placehold.co/600x400/EEE/999?text=Image"
                 alt="Registry"
                 className="w-full h-auto rounded-lg shadow-xl"
                 editable={editable}
@@ -280,14 +303,9 @@ export function ZolaWeddingTemplate(props: TemplateProps) {
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
-              <EditableImage
-                id="zola_footer_logo"
-                src=""
-                alt="ZOLA"
-                className="h-8 w-auto mb-4"
-                editable={editable}
-                {...props}
-              />
+              <EditableText id="zola_footer_logo" as="h3" className="text-lg font-bold mb-4" editable={editable} {...props}>
+                ZOLA
+              </EditableText>
               <EditableText id="zola_footer_tagline" className="text-sm text-gray-400" editable={editable} {...props}>
                 Your wedding, your way
               </EditableText>

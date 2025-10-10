@@ -9,14 +9,9 @@ export function BranchFurnitureTemplate(props: TemplateProps) {
       {/* Navigation */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
-          <EditableImage
-            id="branch_logo"
-            src=""
-            alt="Branch Furniture"
-            className="h-10 w-auto"
-            editable={editable}
-            {...props}
-          />
+          <EditableText id="branch_logo" as="h1" className="text-xl font-bold" editable={editable} {...props}>
+            Branch
+          </EditableText>
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-700">
             <EditableText id="branch_nav_0" className="hover:text-gray-900 transition-colors cursor-pointer" editable={editable} {...props}>
               Shop
@@ -82,6 +77,16 @@ export function BranchFurnitureTemplate(props: TemplateProps) {
                   Learn More
                 </EditableButton>
               </div>
+            </div>
+            <div>
+              <EditableImage
+                id="branch_hero_image"
+                src="https://placehold.co/600x400/EEE/999?text=Image"
+                alt="Modern Furniture"
+                className="w-full h-auto rounded-lg shadow-2xl"
+                editable={editable}
+                {...props}
+              />
             </div>
           </div>
         </div>
@@ -198,7 +203,7 @@ export function BranchFurnitureTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="branch_craftsmanship_image"
-                src=""
+                src="https://placehold.co/600x400/EEE/999?text=Image"
                 alt="Craftsmanship"
                 className="w-full h-auto rounded-lg"
                 editable={editable}
@@ -329,14 +334,9 @@ export function BranchFurnitureTemplate(props: TemplateProps) {
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
-              <EditableImage
-                id="branch_footer_logo"
-                src=""
-                alt="Branch Furniture"
-                className="h-10 w-auto mb-4"
-                editable={editable}
-                {...props}
-              />
+              <EditableText id="branch_footer_logo" as="h3" className="text-lg font-bold mb-4" editable={editable} {...props}>
+                Branch
+              </EditableText>
               <EditableText id="branch_footer_tagline" className="text-gray-400 text-sm" editable={editable} {...props}>
                 Timeless furniture, crafted with care
               </EditableText>

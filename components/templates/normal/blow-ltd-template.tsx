@@ -9,14 +9,9 @@ export function BlowLtdTemplate(props: TemplateProps) {
       {/* Navigation */}
       <header className="bg-white shadow-sm sticky top-0 z-50">
         <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
-          <EditableImage
-            id="blow_logo"
-            src=""
-            alt="Blow LTD"
-            className="h-10 w-auto"
-            editable={editable}
-            {...props}
-          />
+          <EditableText id="blow_logo" as="h1" className="text-xl font-bold" editable={editable} {...props}>
+            Blow LTD
+          </EditableText>
           <EditableButton
             id="blow_nav_cta"
             className="bg-coral-500 hover:bg-coral-600 text-white px-6 py-2 rounded-md font-medium text-sm"
@@ -62,7 +57,7 @@ export function BlowLtdTemplate(props: TemplateProps) {
             <div className="relative">
               <EditableImage
                 id="blow_hero_image"
-                src=""
+                src="https://placehold.co/600x400/EEE/999?text=Image"
                 alt="Eyelash Extensions"
                 className="w-full h-auto rounded-lg"
                 editable={editable}
@@ -128,7 +123,7 @@ export function BlowLtdTemplate(props: TemplateProps) {
               <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                 <EditableImage
                   id="blow_feature_1_icon"
-                  src=""
+                  src="https://placehold.co/600x400/EEE/999?text=Image"
                   alt="Clock"
                   className="w-full h-full"
                   editable={editable}
@@ -148,7 +143,7 @@ export function BlowLtdTemplate(props: TemplateProps) {
               <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                 <EditableImage
                   id="blow_feature_2_icon"
-                  src=""
+                  src="https://placehold.co/600x400/EEE/999?text=Image"
                   alt="Luxury"
                   className="w-full h-full"
                   editable={editable}
@@ -168,7 +163,7 @@ export function BlowLtdTemplate(props: TemplateProps) {
               <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                 <EditableImage
                   id="blow_feature_3_icon"
-                  src=""
+                  src="https://placehold.co/600x400/EEE/999?text=Image"
                   alt="Comfort"
                   className="w-full h-full"
                   editable={editable}
@@ -205,7 +200,7 @@ export function BlowLtdTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="blow_home_extensions_image"
-                src=""
+                src="https://placehold.co/600x400/EEE/999?text=Image"
                 alt="Eyelash Extensions"
                 className="w-full h-auto rounded-lg"
                 editable={editable}
@@ -335,7 +330,7 @@ export function BlowLtdTemplate(props: TemplateProps) {
             <div className="flex justify-center">
               <EditableImage
                 id="blow_app_mockup"
-                src=""
+                src="https://placehold.co/600x400/EEE/999?text=Image"
                 alt="Blow LTD App"
                 className="h-96 w-auto"
                 editable={editable}
@@ -359,7 +354,7 @@ export function BlowLtdTemplate(props: TemplateProps) {
                   editable={editable}
                   {...props}
                 >
-                  <img src="" alt="Download on App Store" className="h-12" />
+                  <img src="https://placehold.co/150x50/000000/FFFFFF?text=App+Store" alt="Download on App Store" className="h-12" />
                 </EditableButton>
                 <EditableButton
                   id="blow_google_play"
@@ -367,7 +362,7 @@ export function BlowLtdTemplate(props: TemplateProps) {
                   editable={editable}
                   {...props}
                 >
-                  <img src="" alt="Get it on Google Play" className="h-12" />
+                  <img src="https://placehold.co/150x50/000000/FFFFFF?text=Google+Play" alt="Get it on Google Play" className="h-12" />
                 </EditableButton>
               </div>
             </div>
@@ -380,14 +375,9 @@ export function BlowLtdTemplate(props: TemplateProps) {
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             <div>
-              <EditableImage
-                id="blow_footer_logo"
-                src=""
-                alt="Blow LTD"
-                className="h-10 w-auto mb-4"
-                editable={editable}
-                {...props}
-              />
+              <EditableText id="blow_footer_logo" as="h3" className="text-lg font-bold mb-4" editable={editable} {...props}>
+                Blow LTD
+              </EditableText>
             </div>
             <div>
               <EditableText id="blow_footer_contact_title" as="h5" className="font-semibold mb-4" editable={editable} {...props}>

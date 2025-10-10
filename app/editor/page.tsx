@@ -31,6 +31,7 @@ import { BranchFurnitureTemplate } from "@/components/templates/normal/branch-fu
 import { AmazonPrimeTemplate } from "@/components/templates/normal/amazon-prime-template"
 import { GobyToothbrushTemplate } from "@/components/templates/normal/goby-toothbrush-template"
 import { ZolaWeddingTemplate } from "@/components/templates/normal/zola-wedding-template"
+import { BananaMilkTemplate } from "@/components/templates/normal/banana-milk-template"
 // import { AgencyProTemplate } from "@/components/templates/pro/agency-pro-template"
 import { SAAS_PRO_THEMES, type SaaSProThemeId } from "@/components/templates/pro/saas-pro"
 import { PortfolioProTemplatePro } from "@/components/templates/pro/portfolio-pro-template"
@@ -63,6 +64,7 @@ type TemplateId =
   | "amazon-prime"
   | "goby-toothbrush"
   | "zola-wedding"
+  | "banana-milk"
   | "agency-pro"
   | "saas-pro"
   | "portfolio-pro"
@@ -254,7 +256,7 @@ function TemplateModal({
     {
       id: "cat-food",
       title: "Cat Food Product Landing",
-      imgSrc: "/cat-food-landing.png",
+      imgSrc: "/Cat Food Product Landing.png",
       imgAlt: "Cat food product template preview",
       desc: "Vibrant product landing page for pet food with colorful sections and engaging design",
       category: "Ecommerce",
@@ -264,7 +266,7 @@ function TemplateModal({
     {
       id: "indoor-skydiving",
       title: "Indoor Skydiving Experience",
-      imgSrc: "/indoor-skydiving-landing.png",
+      imgSrc: "/Indoor Skydiving Experience.png",
       imgAlt: "Indoor skydiving template preview",
       desc: "Exciting landing page for indoor skydiving with packages, testimonials, and booking features",
       category: "Event",
@@ -274,7 +276,7 @@ function TemplateModal({
     {
       id: "keto-bars",
       title: "Keto Bars Product Landing",
-      imgSrc: "/keto-bars-landing.png",
+      imgSrc: "/Keto Bars Product Landing.png",
       imgAlt: "Keto bars product template preview",
       desc: "Clean, modern landing page for keto protein bars with nutrition facts, testimonials, and health benefits",
       category: "Ecommerce",
@@ -284,7 +286,7 @@ function TemplateModal({
     {
       id: "campaign-monitor",
       title: "Campaign Monitor Email Builder",
-      imgSrc: "/campaign-monitor-landing.png",
+      imgSrc: "/Campaign Monitor Email Builder.png",
       imgAlt: "Campaign Monitor template preview",
       desc: "Professional email marketing landing page with drag-and-drop builder features, templates, and customization options",
       category: "SaaS",
@@ -294,7 +296,7 @@ function TemplateModal({
     {
       id: "blow-ltd",
       title: "Blow LTD Eyelash Extensions",
-      imgSrc: "/blow-ltd-landing.png",
+      imgSrc: "/Blow LTD Eyelash Extensions.png",
       imgAlt: "Blow LTD template preview",
       desc: "Beautiful beauty salon landing page for eyelash extensions at home with booking features, reviews, and service showcase",
       category: "Event",
@@ -304,7 +306,7 @@ function TemplateModal({
     {
       id: "be-patients",
       title: "Be Patients Bariatric Reset",
-      imgSrc: "/be-patients-landing.png",
+      imgSrc: "/Be Patients Bariatric Reset.png",
       imgAlt: "Be Patients template preview",
       desc: "Medical health service landing page for bariatric surgery pouch reset program with testimonials and free plan offer",
       category: "Event",
@@ -314,7 +316,7 @@ function TemplateModal({
     {
       id: "outlier-apparel",
       title: "Outlier Apparel Fashion",
-      imgSrc: "/outlier-apparel-landing.png",
+      imgSrc: "/Outlier Apparel Fashion.png",
       imgAlt: "Outlier Apparel template preview",
       desc: "Minimalist fashion brand landing page with full-screen imagery, product details, and premium apparel showcase",
       category: "Ecommerce",
@@ -324,7 +326,7 @@ function TemplateModal({
     {
       id: "branch-furniture",
       title: "Branch Furniture Store",
-      imgSrc: "/branch-furniture-landing.png",
+      imgSrc: "/Branch Furniture Store.png",
       imgAlt: "Branch Furniture template preview",
       desc: "Elegant furniture e-commerce landing page with product showcase, craftsmanship details, and testimonials",
       category: "Ecommerce",
@@ -334,7 +336,7 @@ function TemplateModal({
     {
       id: "amazon-prime",
       title: "Amazon Prime Membership",
-      imgSrc: "/amazon-prime-landing.png",
+      imgSrc: "/Amazon Prime Membership.png",
       imgAlt: "Amazon Prime template preview",
       desc: "Comprehensive membership landing page showcasing Prime benefits including delivery, streaming, music, and reading",
       category: "SaaS",
@@ -344,7 +346,7 @@ function TemplateModal({
     {
       id: "goby-toothbrush",
       title: "GOBY Electric Toothbrush",
-      imgSrc: "/goby-toothbrush-landing.png",
+      imgSrc: "/GOBY Electric Toothbrush.png",
       imgAlt: "GOBY Toothbrush template preview",
       desc: "Modern e-commerce landing page for electric toothbrush with subscription model, testimonials, and social proof",
       category: "Ecommerce",
@@ -354,11 +356,21 @@ function TemplateModal({
     {
       id: "zola-wedding",
       title: "Zola Wedding Websites",
-      imgSrc: "/zola-wedding-landing.png",
+      imgSrc: "/Zola Wedding Websites.png",
       imgAlt: "Zola Wedding template preview",
       desc: "Beautiful wedding website builder landing page with design showcase, features, and registry integration",
       category: "Event",
       tags: ["Wedding", "Event", "Registry"],
+      free: true,
+    },
+    {
+      id: "banana-milk",
+      title: "Banana Milk Product Landing",
+      imgSrc: "/Banana Milk Product Landing.png",
+      imgAlt: "Banana Milk template preview",
+      desc: "Playful and vibrant product landing page for banana milk with fun illustrations and product benefits",
+      category: "Ecommerce",
+      tags: ["Product", "E-commerce", "Fun"],
       free: true,
     },
     {
@@ -1120,6 +1132,8 @@ export default function EditorPage() {
         return <GobyToothbrushTemplate editable={!preview} openInspector={openInspector} />
       case "zola-wedding":
         return <ZolaWeddingTemplate editable={!preview} openInspector={openInspector} />
+      case "banana-milk":
+        return <BananaMilkTemplate editable={!preview} openInspector={openInspector} />
       case "agency-pro":
         // return <AgencyProTemplate editable={!preview} openInspector={openInspector} />
         return <div className="text-center p-8"><p className="text-lg">Agency Pro template coming soon...</p></div>

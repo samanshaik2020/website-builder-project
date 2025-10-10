@@ -9,14 +9,9 @@ export function AmazonPrimeTemplate(props: TemplateProps) {
       {/* Navigation */}
       <header className="bg-gray-900 text-white sticky top-0 z-50">
         <div className="mx-auto max-w-7xl px-6 py-3 flex items-center justify-between">
-          <EditableImage
-            id="prime_logo"
-            src=""
-            alt="Amazon Prime"
-            className="h-8 w-auto"
-            editable={editable}
-            {...props}
-          />
+          <EditableText id="prime_logo" as="h1" className="text-xl font-bold" editable={editable} {...props}>
+            Prime Video
+          </EditableText>
           <nav className="hidden md:flex items-center gap-6 text-sm">
             <EditableText id="prime_nav_0" className="hover:text-gray-300 transition-colors cursor-pointer" editable={editable} {...props}>
               See more plans
@@ -72,6 +67,16 @@ export function AmazonPrimeTemplate(props: TemplateProps) {
                 Join Prime and start saving today! Cancel anytime. Terms and conditions apply.
               </EditableText>
             </div>
+            <div>
+              <EditableImage
+                id="prime_hero_image"
+                src="https://placehold.co/600x400/EEE/999?text=Image"
+                alt="Prime Benefits"
+                className="w-full h-auto"
+                editable={editable}
+                {...props}
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -117,7 +122,7 @@ export function AmazonPrimeTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="prime_delivery_image"
-                src=""
+                src="https://placehold.co/600x400/EEE/999?text=Image"
                 alt="Fast Delivery"
                 className="w-full h-auto"
                 editable={editable}
@@ -212,7 +217,7 @@ export function AmazonPrimeTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="prime_fast_delivery_image"
-                src=""
+                src="https://placehold.co/600x400/EEE/999?text=Image"
                 alt="Fast Delivery"
                 className="w-full h-auto"
                 editable={editable}
@@ -230,7 +235,7 @@ export function AmazonPrimeTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="prime_originals_image"
-                src=""
+                src="https://placehold.co/600x400/EEE/999?text=Image"
                 alt="Amazon Originals"
                 className="w-full h-auto rounded-lg shadow-xl"
                 editable={editable}
@@ -310,7 +315,7 @@ export function AmazonPrimeTemplate(props: TemplateProps) {
             <div className="order-1 md:order-2">
               <EditableImage
                 id="prime_streaming_image"
-                src=""
+                src="https://placehold.co/600x400/EEE/999?text=Image"
                 alt="Streaming"
                 className="w-full h-auto rounded-lg"
                 editable={editable}
@@ -328,7 +333,7 @@ export function AmazonPrimeTemplate(props: TemplateProps) {
             <div>
               <EditableImage
                 id="prime_music_image"
-                src=""
+                src="https://placehold.co/600x400/EEE/999?text=Image"
                 alt="Prime Music"
                 className="w-full h-auto rounded-lg shadow-xl"
                 editable={editable}
@@ -400,7 +405,7 @@ export function AmazonPrimeTemplate(props: TemplateProps) {
             <div className="order-1 md:order-2">
               <EditableImage
                 id="prime_reading_image"
-                src=""
+                src="https://placehold.co/600x400/EEE/999?text=Image"
                 alt="Prime Reading"
                 className="w-full h-auto"
                 editable={editable}
@@ -416,7 +421,7 @@ export function AmazonPrimeTemplate(props: TemplateProps) {
         <div className="mx-auto max-w-4xl px-6 text-center">
           <EditableImage
             id="prime_final_image"
-            src=""
+            src="https://placehold.co/600x400/EEE/999?text=Image"
             alt="Join Prime"
             className="w-64 h-auto mx-auto mb-8"
             editable={editable}
