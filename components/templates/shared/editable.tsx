@@ -71,17 +71,13 @@ export function EditableImage({
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation()
     e.preventDefault()
-    console.log("🖼️ Image clicked:", { id, editable, hasOpenInspector: !!openInspector })
     
     if (onSelect) {
       onSelect(id)
     }
     
     if (editable && openInspector) {
-      console.log("🎯 Calling openInspector for image:", id)
       openInspector("image", { id })
-    } else {
-      console.warn("⚠️ Cannot open inspector:", { editable, hasOpenInspector: !!openInspector })
     }
   }
 

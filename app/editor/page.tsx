@@ -758,8 +758,6 @@ export default function EditorPage() {
         if (projectDataStr) {
           try {
             const projectData = JSON.parse(projectDataStr)
-            console.log('Loading project data:', projectData)
-            console.log('Template:', projectData.template, 'Theme:', projectData.theme)
             
             // Wait for template to render, then populate data
             // Use multiple attempts to ensure DOM is ready
@@ -773,8 +771,6 @@ export default function EditorPage() {
               if (elements.length > 0 || attempts >= maxAttempts) {
                 clearInterval(loadInterval)
                 
-                console.log(`Loading project data (attempt ${attempts}, found ${elements.length} elements)`)
-                
                 // Populate texts
                 if (projectData.data?.texts) {
                   let textCount = 0
@@ -785,7 +781,6 @@ export default function EditorPage() {
                       textCount++
                     }
                   })
-                  console.log(`Populated ${textCount} text elements`)
                 }
                 
                 // Populate images
@@ -804,7 +799,6 @@ export default function EditorPage() {
                   if (Object.keys(imageUpdates).length > 0) {
                     setImageCache(prev => ({ ...prev, ...imageUpdates }))
                   }
-                  console.log(`Populated ${imageCount} images`)
                 }
                 
                 // Populate buttons
@@ -818,10 +812,8 @@ export default function EditorPage() {
                       buttonCount++
                     }
                   })
-                  console.log(`Populated ${buttonCount} buttons`)
                 }
                 
-                console.log('✅ Project data loaded successfully')
                 // Clean up localStorage
                 localStorage.removeItem('editor-project-data')
               }
@@ -919,7 +911,6 @@ export default function EditorPage() {
       Object.entries(imageCache).forEach(([imageId, src]) => {
         const img = document.querySelector(`img[data-eid="${imageId}"]`) as HTMLImageElement
         if (img && img.getAttribute("src") !== src) {
-          console.log("Restoring cached image:", imageId)
           img.setAttribute("src", src)
         }
       })
@@ -980,8 +971,6 @@ export default function EditorPage() {
           }
         }
       })
-      
-      console.log("AI content generated and populated successfully!", `Populated ${elements.length} elements`)
     } catch (error) {
       console.error("Error during AI generation:", error)
       toast.error("AI Generation Failed", {
@@ -1047,11 +1036,6 @@ export default function EditorPage() {
         data: { texts, images, buttons },
       }
 
-      console.log("[v0] Publishing payload:")
-      console.log("  Template:", template)
-      console.log("  Selected Theme ID:", selectedThemeId)
-      console.log("  Theme to save:", themeToSave)
-      console.log("  Full project:", project)
       await save(project)
 
       // Enhanced saving experience with realistic timing

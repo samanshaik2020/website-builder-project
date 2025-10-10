@@ -126,8 +126,6 @@ export async function clearLocalStorage() {
   ]
 
   keys.forEach(key => localStorage.removeItem(key))
-  
-  console.log('LocalStorage cleared:', keys)
 }
 
 export function getLocalStorageStats() {

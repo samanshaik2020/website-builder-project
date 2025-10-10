@@ -19,11 +19,6 @@ export function generateHTMLExport(project: ProjectRecord): string {
   const { template, data, name, theme } = project
   const { texts, images, buttons } = data
 
-  console.log('🎨 generateHTMLExport called:')
-  console.log('  Template:', template)
-  console.log('  Theme:', theme)
-  console.log('  Project:', project)
-
   // Helper to get text content by ID
   const getText = (id: string, fallback = "") => texts[id] || fallback
 
@@ -1029,7 +1024,6 @@ function generatePortfolioProHTML(getText: GetText, getImage: GetImage, getButto
 function generateIPhoneProHTML(getText: GetText, getImage: GetImage, getButton: GetButton, theme?: string): string {
   // iPhone Pro templates have 6 premium themes
   // Theme IDs: "dark-gradient", "light-elegant", "neon-cyberpunk", "luxury-gold", "minimalist-tech", "vibrant-gradient"
-  console.log('generateIPhoneProHTML called with theme:', theme)
 
   // Theme-specific styling
   let bgClass = 'bg-gradient-to-b from-slate-950 via-slate-900 to-black text-white'
@@ -1200,8 +1194,6 @@ function generateIPhoneProHTML(getText: GetText, getImage: GetImage, getButton: 
     imageRounded = 'rounded-lg'
   }
   // dark-gradient is the default (already set above)
-
-  console.log('Theme:', theme, 'isDark:', isDark)
 
   return `
 <main class="${bgClass}">

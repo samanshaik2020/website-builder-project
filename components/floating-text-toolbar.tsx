@@ -74,15 +74,6 @@ export function FloatingTextToolbar({ active }: FloatingTextToolbarProps) {
       const padding = 15
       left = Math.max(padding, Math.min(left, window.innerWidth - toolbarWidth - padding))
 
-      console.log('📍 Position calculated:', { 
-        elementTop: rect.top, 
-        elementLeft: rect.left,
-        toolbarTop: top, 
-        toolbarLeft: left,
-        elementHeight: rect.height,
-        toolbarHeight 
-      })
-
       setPosition({ top, left })
       isPositioningRef.current = false
     })
@@ -95,26 +86,11 @@ export function FloatingTextToolbar({ active }: FloatingTextToolbarProps) {
       return
     }
 
-    console.log('📌 FloatingTextToolbar mounted, active:', active)
-    
-    // Log all editable elements on mount
-    setTimeout(() => {
-      const allEditableElements = document.querySelectorAll('[data-eid]')
-      console.log('📋 Found', allEditableElements.length, 'elements with [data-eid]')
-      allEditableElements.forEach((el) => {
-        const htmlEl = el as HTMLElement
-        console.log('  -', htmlEl.getAttribute('data-eid'), '| Tag:', htmlEl.tagName, '| contentEditable:', htmlEl.isContentEditable)
-      })
-    }, 500)
-
     const handleClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement
       
-      console.log('🖱️ Click detected - target:', target.tagName, 'data-eid:', target.getAttribute('data-eid'))
-      
       // Ignore clicks on toolbar
       if (toolbarRef.current?.contains(target)) {
-        console.log('⏭️ Click on toolbar itself, ignoring')
         return
       }
 
@@ -133,34 +109,27 @@ export function FloatingTextToolbar({ active }: FloatingTextToolbarProps) {
       
       if (!editableEl) {
         // Clicked outside - close toolbar
-        console.log('❌ No editable element found, closing toolbar')
         setVisible(false)
         setTargetElement(null)
         return
       }
 
-      console.log('🎯 Found element:', editableEl.getAttribute('data-eid'), 'Tag:', editableEl.tagName, 'contentEditable:', editableEl.isContentEditable)
-
       // Skip non-text elements (images, links, buttons)
       if (editableEl.tagName === 'IMG') {
-        console.log('⏭️ Skipping image element')
         return
       }
       
       // Skip anchor tags (EditableButton components)
       if (editableEl.tagName === 'A' && editableEl.hasAttribute('href')) {
-        console.log('⏭️ Skipping button/link element')
         return
       }
 
       // Must be contentEditable or have role=textbox
       if (!editableEl.isContentEditable && editableEl.getAttribute('role') !== 'textbox') {
-        console.log('⚠️ Element not editable:', editableEl.contentEditable, 'role:', editableEl.getAttribute('role'))
         return
       }
 
       // Show toolbar
-      console.log('✅ SHOWING TOOLBAR for:', editableEl.getAttribute('data-eid'), 'Setting visible=true')
       setTargetElement(editableEl)
       setVisible(true)
 
@@ -171,7 +140,6 @@ export function FloatingTextToolbar({ active }: FloatingTextToolbarProps) {
 
       // Position toolbar
       setTimeout(() => {
-        console.log('📍 Positioning toolbar for:', editableEl.getAttribute('data-eid'))
         positionToolbar(editableEl)
       }, 0)
     }
@@ -180,7 +148,6 @@ export function FloatingTextToolbar({ active }: FloatingTextToolbarProps) {
     document.addEventListener('click', handleClick, true)
 
     return () => {
-      console.log('🧹 Cleaning up toolbar listener')
       document.removeEventListener('click', handleClick, true)
     }
   }, [active])
@@ -238,14 +205,9 @@ export function FloatingTextToolbar({ active }: FloatingTextToolbarProps) {
     setMounted(true)
   }, [])
 
-  console.log('🎨 RENDER - visible:', visible, 'position:', position, 'targetElement:', targetElement?.getAttribute('data-eid'))
-
   if (!visible || !mounted) {
-    console.log('❌ Not rendering toolbar (visible=false or not mounted)')
     return null
   }
-
-  console.log('✅ RENDERING TOOLBAR DIV at position:', position)
 
   // Render the toolbar as a portal directly to document.body
   // This bypasses all parent stacking contexts and overflow issues
