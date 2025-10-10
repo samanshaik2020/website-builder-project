@@ -72,16 +72,6 @@ export function AmazonPrimeTemplate(props: TemplateProps) {
                 Join Prime and start saving today! Cancel anytime. Terms and conditions apply.
               </EditableText>
             </div>
-            <div>
-              <EditableImage
-                id="prime_hero_image"
-                src=""
-                alt="Prime Benefits"
-                className="w-full h-auto"
-                editable={editable}
-                {...props}
-              />
-            </div>
           </div>
         </div>
       </section>

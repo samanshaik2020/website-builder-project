@@ -83,16 +83,6 @@ export function BranchFurnitureTemplate(props: TemplateProps) {
                 </EditableButton>
               </div>
             </div>
-            <div>
-              <EditableImage
-                id="branch_hero_image"
-                src=""
-                alt="Modern Furniture"
-                className="w-full h-auto rounded-lg shadow-2xl"
-                editable={editable}
-                {...props}
-              />
-            </div>
           </div>
         </div>
       </section>

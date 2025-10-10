@@ -56,34 +56,6 @@ export function ZolaWeddingTemplate(props: TemplateProps) {
                 START YOUR WEBSITE
               </EditableButton>
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <EditableImage
-                id="zola_hero_image_1"
-                src=""
-                alt="Wedding Photo"
-                className="w-full h-auto rounded-lg shadow-lg"
-                editable={editable}
-                {...props}
-              />
-              <div className="space-y-4">
-                <EditableImage
-                  id="zola_hero_image_2"
-                  src=""
-                  alt="Wedding Invitation"
-                  className="w-full h-auto rounded-lg shadow-lg"
-                  editable={editable}
-                  {...props}
-                />
-                <EditableImage
-                  id="zola_hero_image_3"
-                  src=""
-                  alt="Wedding Flowers"
-                  className="w-full h-auto rounded-lg"
-                  editable={editable}
-                  {...props}
-                />
-              </div>
-            </div>
           </div>
         </div>
       </section>

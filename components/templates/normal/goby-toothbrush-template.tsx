@@ -72,16 +72,6 @@ export function GobyToothbrushTemplate(props: TemplateProps) {
                 GET STARTED
               </EditableButton>
             </div>
-            <div>
-              <EditableImage
-                id="goby_hero_image"
-                src=""
-                alt="GOBY Toothbrush"
-                className="w-full h-auto"
-                editable={editable}
-                {...props}
-              />
-            </div>
           </div>
         </div>
       </section>

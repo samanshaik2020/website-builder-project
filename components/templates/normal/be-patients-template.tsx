@@ -32,16 +32,6 @@ export function BePatientsTemplate(props: TemplateProps) {
       <section className="relative py-16 bg-gradient-to-br from-purple-100 via-purple-50 to-teal-50">
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="order-2 md:order-1">
-              <EditableImage
-                id="bp_hero_image"
-                src=""
-                alt="Pouch Reset Plan"
-                className="w-full h-auto"
-                editable={editable}
-                {...props}
-              />
-            </div>
             <div className="order-1 md:order-2">
               <EditableText
                 id="bp_hero_title"

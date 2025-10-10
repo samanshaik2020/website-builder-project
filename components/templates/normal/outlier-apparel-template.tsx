@@ -35,15 +35,7 @@ export function OutlierApparelTemplate(props: TemplateProps) {
       </header>
 
       {/* Hero Section */}
-      <section className="relative h-screen">
-        <EditableImage
-          id="outlier_hero_image"
-          src=""
-          alt="Urban Lifestyle"
-          className="w-full h-full object-cover"
-          editable={editable}
-          {...props}
-        />
+      <section className="relative h-screen bg-gray-900">
         <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
           <div className="text-center text-white">
             <EditableText
