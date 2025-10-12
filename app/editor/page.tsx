@@ -41,12 +41,12 @@ import { AmazonPrimeTemplate } from "@/components/templates/normal/amazon-prime-
 import { GobyToothbrushTemplate } from "@/components/templates/normal/goby-toothbrush-template"
 import { ZolaWeddingTemplate } from "@/components/templates/normal/zola-wedding-template"
 import { BananaMilkTemplate } from "@/components/templates/normal/banana-milk-template"
-// import { AgencyProTemplate } from "@/components/templates/pro/agency-pro-template"
 import { SAAS_PRO_THEMES, type SaaSProThemeId } from "@/components/templates/pro/saas-pro"
+import { AGENCY_PRO_THEMES, type AgencyProThemeId } from "@/components/templates/pro/agency-pro"
+import { ECOMMERCE_PRO_THEMES, type EcommerceProThemeId } from "@/components/templates/pro/ecommerce-pro"
 import { PortfolioProTemplatePro } from "@/components/templates/pro/portfolio-pro-template"
 import { IPHONE_PRO_THEMES, type IPhoneProThemeId } from "@/components/templates/pro/iphone-pro"
 import type { AITheme } from "@/components/ai-generation-modal"
-// import { EcommerceProTemplate } from "@/components/templates/pro/ecommerce-pro-template"
 import { useProjects } from "@/hooks/use-projects"
 import { useSubscription } from "@/hooks/use-subscription"
 import { canCreateNormalTemplate, canCreateProTemplate, getPlanById } from "@/lib/pricing-plans"
@@ -1151,9 +1151,12 @@ export default function EditorPage() {
         return <ZolaWeddingTemplate editable={!preview} openInspector={openInspector} />
       case "banana-milk":
         return <BananaMilkTemplate editable={!preview} openInspector={openInspector} />
-      case "agency-pro":
-        // return <AgencyProTemplate editable={!preview} openInspector={openInspector} />
-        return <div className="text-center p-8"><p className="text-lg">Agency Pro template coming soon...</p></div>
+      case "agency-pro": {
+        // Use the themed template based on selected theme
+        const themeId = (selectedThemeId as AgencyProThemeId) || "modern-creative"
+        const ThemedTemplate = AGENCY_PRO_THEMES[themeId]
+        return <ThemedTemplate editable={!preview} openInspector={openInspector} />
+      }
       case "saas-pro": {
         // Use the themed template based on selected theme
         const themeId = (selectedThemeId as SaaSProThemeId) || "modern-minimal"
@@ -1168,9 +1171,12 @@ export default function EditorPage() {
         const ThemedTemplate = IPHONE_PRO_THEMES[themeId]
         return <ThemedTemplate editable={!preview} openInspector={openInspector} />
       }
-      case "ecommerce-pro":
-        // return <EcommerceProTemplate editable={!preview} openInspector={openInspector} />
-        return <div className="text-center p-8"><p className="text-lg">Ecommerce Pro template coming soon...</p></div>
+      case "ecommerce-pro": {
+        // Use the themed template based on selected theme
+        const themeId = (selectedThemeId as EcommerceProThemeId) || "luxury-elegant"
+        const ThemedTemplate = ECOMMERCE_PRO_THEMES[themeId]
+        return <ThemedTemplate editable={!preview} openInspector={openInspector} />
+      }
       default:
         return null
     }

@@ -11,6 +11,8 @@ import { generateBranchFurnitureHTML } from "./export-html-branch-furniture"
 import { generateAmazonPrimeHTML } from "./export-html-amazon-prime"
 import { generateGobyToothbrushHTML } from "./export-html-goby-toothbrush"
 import { generateZolaWeddingHTML } from "./export-html-zola-wedding"
+import { generateAgencyProHTML } from "./export-html-agency-pro"
+import { generateEcommerceProHTML } from "./export-html-ecommerce-pro"
 
 /**
  * Generates a standalone HTML file from a saved project
@@ -97,6 +99,12 @@ export function generateHTMLExport(project: ProjectRecord): string {
       break
     case "zola-wedding":
       html = generateZolaWeddingHTML(getText, getImage, getButton)
+      break
+    case "agency-pro":
+      html = generateAgencyProHTML(getText, getImage, getButton)
+      break
+    case "ecommerce-pro":
+      html = generateEcommerceProHTML(getText, getImage, getButton)
       break
     default:
       html = generateGenericHTML(getText, getImage, getButton, name)
