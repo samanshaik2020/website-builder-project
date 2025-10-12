@@ -1160,7 +1160,7 @@ export default function EditorPage() {
       case "agency-pro": {
         // Use the themed template based on selected theme
         const themeId = (selectedThemeId as AgencyProThemeId) || "modern-creative"
-        const ThemedTemplate = AGENCY_PRO_THEMES[themeId]
+        const ThemedTemplate = AGENCY_PRO_THEMES[themeId] || AGENCY_PRO_THEMES["modern-creative"]
         return <ThemedTemplate editable={!preview} openInspector={openInspector} />
       }
       case "saas-pro": {
@@ -1180,7 +1180,7 @@ export default function EditorPage() {
       case "ecommerce-pro": {
         // Use the themed template based on selected theme
         const themeId = (selectedThemeId as EcommerceProThemeId) || "luxury-elegant"
-        const ThemedTemplate = ECOMMERCE_PRO_THEMES[themeId]
+        const ThemedTemplate = ECOMMERCE_PRO_THEMES[themeId] || ECOMMERCE_PRO_THEMES["luxury-elegant"]
         return <ThemedTemplate editable={!preview} openInspector={openInspector} />
       }
       default:
