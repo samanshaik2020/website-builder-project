@@ -214,12 +214,12 @@ export default function DashboardPage() {
         <div className="flex items-center justify-between max-w-[1400px] mx-auto">
           {/* Left: Logo and Search */}
           <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2">
+            <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity cursor-pointer">
               <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
                 <Brain className="w-5 h-5 text-white" />
               </div>
               <span className="text-lg font-bold text-gray-900">Squpage</span>
-            </div>
+            </Link>
             
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
