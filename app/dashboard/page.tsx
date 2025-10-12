@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { 
@@ -28,7 +28,9 @@ import {
   LogOut,
   User,
   Settings,
-  ChevronDown
+  ChevronDown,
+  Monitor,
+  X
 } from "lucide-react"
 import Link from "next/link"
 import { useProjects } from "@/hooks/use-projects"
@@ -51,6 +53,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { isMobileDevice } from "@/lib/utils"
 
 export default function DashboardPage() {
   const { projects, remove } = useProjects()
@@ -61,6 +64,12 @@ export default function DashboardPage() {
   const [shareDialogOpen, setShareDialogOpen] = useState(false)
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
   const { links: allLinks } = useShareableLinks()
+  const [isMobile, setIsMobile] = useState(false)
+  const [showMobileWarning, setShowMobileWarning] = useState(true)
+
+  useEffect(() => {
+    setIsMobile(isMobileDevice())
+  }, [])
 
   const handleLogout = async () => {
     try {
@@ -281,6 +290,25 @@ export default function DashboardPage() {
 
       {/* Main Content */}
       <div className="max-w-[1400px] mx-auto p-6">
+        {/* Mobile Warning */}
+        {isMobile && showMobileWarning && (
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 flex items-start gap-3">
+            <Monitor className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+            <div className="flex-1">
+              <h3 className="font-semibold text-amber-900 text-sm mb-1">Desktop Recommended</h3>
+              <p className="text-amber-800 text-sm">
+                For the best experience, please use a desktop or laptop to access the website builder.
+              </p>
+            </div>
+            <button
+              onClick={() => setShowMobileWarning(false)}
+              className="text-amber-600 hover:text-amber-800 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+        )}
+
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between">

@@ -1,13 +1,14 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Brain, Mail, Lock, User, ArrowLeft, Chrome, Check } from "lucide-react"
+import { Brain, Mail, Lock, User, ArrowLeft, Chrome, Check, Monitor } from "lucide-react"
 import Link from "next/link"
 import { signUpWithEmail, signInWithGoogle } from "@/lib/supabase/auth"
 import { toast } from "sonner"
+import { isMobileDevice } from "@/lib/utils"
 
 export default function SignUpPage() {
   const [formData, setFormData] = useState({
@@ -17,7 +18,12 @@ export default function SignUpPage() {
     confirmPassword: ""
   })
   const [loading, setLoading] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
   const router = useRouter()
+
+  useEffect(() => {
+    setIsMobile(isMobileDevice())
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -111,6 +117,19 @@ export default function SignUpPage() {
             <ArrowLeft className="w-4 h-4" />
             Back to Home
           </Link>
+
+          {/* Mobile Warning */}
+          {isMobile && (
+            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 flex items-start gap-3">
+              <Monitor className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+              <div>
+                <h3 className="font-semibold text-amber-900 text-sm mb-1">Desktop Recommended</h3>
+                <p className="text-amber-800 text-sm">
+                  For the best experience, please use a desktop or laptop to access the website builder.
+                </p>
+              </div>
+            </div>
+          )}
 
           {/* Auth Container */}
           <div className="bg-white rounded-2xl border border-gray-200 p-8 shadow-lg">

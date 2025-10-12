@@ -11,6 +11,15 @@ import { generateSaaSProContent, generatePortfolioProThemeContent, generateIPhon
 import { Button } from "@/components/ui/button"
 import { LoadingSpinner } from "@/components/ui/loading-spinner"
 import { cn } from "@/lib/utils"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
 import { PortfolioTemplate } from "@/components/templates/normal/portfolio-template"
 import { SaaSTemplate } from "@/components/templates/normal/saas-landing-template"
 import { ProjectOverviewTemplate } from "@/components/templates/normal/project-overview-template"
@@ -737,6 +746,8 @@ export default function EditorPage() {
   const [panelOpen, setPanelOpen] = useState(false)
   const [selected, setSelected] = useState<SelectedElement | null>(null)
   const [imageCache, setImageCache] = useState<Record<string, string>>({})
+  const [saveDialogOpen, setSaveDialogOpen] = useState(false)
+  const [projectName, setProjectName] = useState("")
 
   // Restore template from URL params or localStorage on mount
   useEffect(() => {
@@ -983,6 +994,39 @@ export default function EditorPage() {
   }, [selectedProTemplate])
 
   const onSavePublish = useCallback(async () => {
+    // Get suggested name from template content
+    const textNodes = Array.from(document.querySelectorAll<HTMLElement>("[data-eid]:not(img):not(a)"))
+    const texts: Record<string, string> = {}
+    textNodes.forEach((el) => {
+      const id = el.getAttribute("data-eid")
+      if (!id) return
+      texts[id] = el.innerText || ""
+    })
+
+    const suggestedName =
+      texts["sl-hero-title"] ||
+      texts["pt-hero-title"] ||
+      texts["po-title"] ||
+      texts["pp-name"] ||
+      texts["el-title"] ||
+      texts["lg-hero-title"] ||
+      texts["ct-hero-title"] ||
+      "Untitled Website"
+
+    setProjectName(suggestedName)
+    setSaveDialogOpen(true)
+  }, [template])
+
+  const handleSaveConfirm = useCallback(async () => {
+    if (!projectName.trim()) {
+      toast.error("Project name required", {
+        description: "Please enter a name for your project.",
+        duration: 3000,
+      })
+      return
+    }
+
+    setSaveDialogOpen(false)
     setSaving(true)
 
     try {
@@ -1016,21 +1060,10 @@ export default function EditorPage() {
         buttons[id] = { href: el.getAttribute("href") || "#", text: el.innerText || "" }
       })
 
-      // derive project name from first headline-like text if available, else from template
-      const titleCandidate =
-        texts["sl-hero-title"] ||
-        texts["pt-hero-title"] ||
-        texts["po-title"] ||
-        texts["pp-name"] ||
-        texts["el-title"] ||
-        texts["lg-hero-title"] ||
-        texts["ct-hero-title"] ||
-        "Untitled Website"
-
       const themeToSave = (template === "saas-pro" || template === "portfolio-pro" || template === "iphone-pro") ? selectedThemeId || undefined : undefined
       
       const project = {
-        name: titleCandidate,
+        name: projectName.trim(),
         template: template || "unknown",
         theme: themeToSave,
         data: { texts, images, buttons },
@@ -1043,7 +1076,7 @@ export default function EditorPage() {
       
       setSaving(false)
       toast.success("Saved & Published!", {
-        description: "Your project has been saved successfully. Check the Dashboard to see it.",
+        description: `"${projectName}" has been saved successfully. Check the Dashboard to see it.`,
         duration: 4000,
       })
     } catch (error) {
@@ -1054,7 +1087,7 @@ export default function EditorPage() {
         duration: 4000,
       })
     }
-  }, [template, selectedThemeId])
+  }, [template, selectedThemeId, projectName, save])
 
   const openInspector = useCallback((type: "image" | "button" | "link", payload: { id: string }) => {
     const selector = type === "image" ? `img[data-eid="${payload.id}"]` : `a[data-eid="${payload.id}"]`
@@ -1201,6 +1234,53 @@ export default function EditorPage() {
         }}
         onGenerate={handleAIGenerate}
       />
+
+      {/* Save Project Dialog */}
+      <Dialog open={saveDialogOpen} onOpenChange={setSaveDialogOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Save Your Project</DialogTitle>
+            <DialogDescription>
+              Give your project a name to easily identify it in your dashboard.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <label htmlFor="project-name" className="text-sm font-medium">
+                Project Name
+              </label>
+              <Input
+                id="project-name"
+                value={projectName}
+                onChange={(e) => setProjectName(e.target.value)}
+                placeholder="Enter project name..."
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleSaveConfirm()
+                  }
+                }}
+                autoFocus
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setSaveDialogOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              onClick={handleSaveConfirm}
+              className="bg-purple-600 hover:bg-purple-700"
+            >
+              Save & Publish
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </main>
   )
 }
