@@ -375,7 +375,7 @@ function TemplateModal({
     {
       id: "banana-milk",
       title: "Banana Milk Product Landing",
-      imgSrc: "/Banana Milk Product Landing.png",
+      imgSrc: "/Cat Food Product Landing.png",
       imgAlt: "Banana Milk template preview",
       desc: "Playful and vibrant product landing page for banana milk with fun illustrations and product benefits",
       category: "Ecommerce",
@@ -979,15 +979,17 @@ export default function EditorPage() {
       await new Promise(resolve => setTimeout(resolve, 1000))
       
       // Populate all elements with generated content
-      elements.forEach(({ id, content }) => {
-        const element = document.querySelector(`[data-eid="${id}"]`)
-        if (element) {
-          // Update text content
-          if (element.textContent !== undefined) {
-            element.textContent = content
+      if (elements && Array.isArray(elements)) {
+        elements.forEach(({ id, content }) => {
+          const element = document.querySelector(`[data-eid="${id}"]`)
+          if (element) {
+            // Update text content
+            if (element.textContent !== undefined) {
+              element.textContent = content
+            }
           }
-        }
-      })
+        })
+      }
     } catch (error) {
       console.error("Error during AI generation:", error)
       toast.error("AI Generation Failed", {

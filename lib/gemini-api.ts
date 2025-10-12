@@ -11,7 +11,9 @@ export interface ElementContent {
 }
 
 export interface GeneratedContent {
-  elements: ElementContent[]
+  elements?: ElementContent[]
+  texts?: Record<string, string>
+  buttons?: Record<string, { text: string; href: string }>
 }
 
 /**
@@ -760,7 +762,28 @@ export async function generateAgencyProThemeContent(
 
   const theme = themeConfigs[themeId as keyof typeof themeConfigs] || themeConfigs.default
 
-  return generateAgencyProContent(topic, theme)
+  const result = await generateAgencyProContent(topic, theme)
+  
+  // Convert the result to the expected format
+  const elements: ElementContent[] = []
+  
+  // Add text elements
+  if (result.texts) {
+    Object.entries(result.texts).forEach(([id, content]) => {
+      elements.push({ id, content: content as string })
+    })
+  }
+  
+  // Add button elements (just the text for now, href is handled separately)
+  if (result.buttons) {
+    Object.entries(result.buttons).forEach(([id, btnData]: [string, any]) => {
+      if (btnData && btnData.text) {
+        elements.push({ id, content: btnData.text })
+      }
+    })
+  }
+  
+  return { elements }
 }
 
 /**
@@ -900,6 +923,27 @@ export async function generateEcommerceProThemeContent(
 
   const theme = themeConfigs[themeId as keyof typeof themeConfigs] || themeConfigs.default
 
-  return generateEcommerceProContent(topic, theme)
+  const result = await generateEcommerceProContent(topic, theme)
+  
+  // Convert the result to the expected format
+  const elements: ElementContent[] = []
+  
+  // Add text elements
+  if (result.texts) {
+    Object.entries(result.texts).forEach(([id, content]) => {
+      elements.push({ id, content: content as string })
+    })
+  }
+  
+  // Add button elements (just the text for now, href is handled separately)
+  if (result.buttons) {
+    Object.entries(result.buttons).forEach(([id, btnData]: [string, any]) => {
+      if (btnData && btnData.text) {
+        elements.push({ id, content: btnData.text })
+      }
+    })
+  }
+  
+  return { elements }
 }
 
