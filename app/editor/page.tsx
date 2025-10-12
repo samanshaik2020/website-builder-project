@@ -7,7 +7,7 @@ import { Eye, Save, ArrowLeft } from "lucide-react"
 import { X } from "lucide-react"
 import { AIGenerationModal } from "@/components/ai-generation-modal"
 import { FloatingTextToolbar } from "@/components/floating-text-toolbar"
-import { generateSaaSProContent, generatePortfolioProThemeContent, generateIPhoneProThemeContent } from "@/lib/gemini-api"
+import { generateSaaSProContent, generatePortfolioProThemeContent, generateIPhoneProThemeContent, generateAgencyProThemeContent, generateEcommerceProThemeContent } from "@/lib/gemini-api"
 import { Button } from "@/components/ui/button"
 import { LoadingSpinner } from "@/components/ui/loading-spinner"
 import { cn } from "@/lib/utils"
@@ -740,7 +740,7 @@ export default function EditorPage() {
   const [modalOpen, setModalOpen] = useState(true)
   const [aiModalOpen, setAiModalOpen] = useState(false)
   const [selectedProTemplate, setSelectedProTemplate] = useState<TemplateId | null>(null)
-  const [selectedThemeId, setSelectedThemeId] = useState<SaaSProThemeId | IPhoneProThemeId | null>(null)
+  const [selectedThemeId, setSelectedThemeId] = useState<SaaSProThemeId | IPhoneProThemeId | AgencyProThemeId | EcommerceProThemeId | null>(null)
   const [preview, setPreview] = useState(false)
   const [saving, setSaving] = useState(false)
   const [panelOpen, setPanelOpen] = useState(false)
@@ -957,6 +957,12 @@ export default function EditorPage() {
       } else if (selectedProTemplate === "iphone-pro") {
         const result = await generateIPhoneProThemeContent(topic, theme.id)
         elements = result.elements
+      } else if (selectedProTemplate === "agency-pro") {
+        const result = await generateAgencyProThemeContent(topic, theme.id)
+        elements = result.elements
+      } else if (selectedProTemplate === "ecommerce-pro") {
+        const result = await generateEcommerceProThemeContent(topic, theme.id)
+        elements = result.elements
       } else {
         // For other pro templates, use SaaS Pro as fallback for now
         const result = await generateSaaSProContent(topic, theme)
@@ -965,7 +971,7 @@ export default function EditorPage() {
       
       // Close AI modal, set template and theme
       setAiModalOpen(false)
-      setSelectedThemeId(theme.id as SaaSProThemeId | IPhoneProThemeId)
+      setSelectedThemeId(theme.id as SaaSProThemeId | IPhoneProThemeId | AgencyProThemeId | EcommerceProThemeId)
       setTemplate(selectedProTemplate)
       setSelectedProTemplate(null)
       

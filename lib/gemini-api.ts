@@ -634,4 +634,272 @@ export async function generateIPhoneProThemeContent(
   return generateIPhoneProContent(topic, theme)
 }
 
+/**
+ * Generate content for Agency Pro template using Gemini AI
+ */
+export async function generateAgencyProContent(
+  topic: string,
+  theme: { name: string; tone: string }
+): Promise<GeneratedContent> {
+  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" })
+
+  const prompt = `You are a professional creative agency copywriter creating content for a full-service agency website.
+
+AGENCY FOCUS: ${topic}
+THEME: ${theme.name}
+TONE: ${theme.tone}
+
+Generate compelling, professional copy for a complete creative agency landing page. The tone should be ${theme.tone}.
+
+Return ONLY a valid JSON object (no markdown, no code blocks) with this exact structure:
+{
+  "texts": {
+    "agency_pro_brand": "Agency Name",
+    "agency_pro_hero_headline": "Main headline about creating digital experiences",
+    "agency_pro_hero_subheadline": "Subheadline describing agency expertise",
+    "agency_pro_services_title": "Our Services",
+    "agency_pro_services_subtitle": "Services description",
+    "agency_pro_service_title_1": "Brand Identity",
+    "agency_pro_service_desc_1": "Brand identity service description",
+    "agency_pro_service_title_2": "Web Design",
+    "agency_pro_service_desc_2": "Web design service description",
+    "agency_pro_service_title_3": "Mobile Apps",
+    "agency_pro_service_desc_3": "Mobile apps service description",
+    "agency_pro_service_title_4": "Digital Marketing",
+    "agency_pro_service_desc_4": "Digital marketing service description",
+    "agency_pro_service_title_5": "SEO & Analytics",
+    "agency_pro_service_desc_5": "SEO service description",
+    "agency_pro_service_title_6": "Content Strategy",
+    "agency_pro_service_desc_6": "Content strategy service description",
+    "agency_pro_cases_title": "Featured Work",
+    "agency_pro_cases_subtitle": "Case studies description",
+    "agency_pro_case_title_1": "Project 1 name",
+    "agency_pro_case_desc_1": "Project 1 description with results",
+    "agency_pro_case_title_2": "Project 2 name",
+    "agency_pro_case_desc_2": "Project 2 description with results",
+    "agency_pro_case_title_3": "Project 3 name",
+    "agency_pro_case_desc_3": "Project 3 description with results",
+    "agency_pro_case_title_4": "Project 4 name",
+    "agency_pro_case_desc_4": "Project 4 description with results",
+    "agency_pro_testimonials_title": "What Our Clients Say",
+    "agency_pro_testimonial_text_1": "Client testimonial 1",
+    "agency_pro_testimonial_name_1": "Client name 1",
+    "agency_pro_testimonial_role_1": "Client role 1",
+    "agency_pro_testimonial_text_2": "Client testimonial 2",
+    "agency_pro_testimonial_name_2": "Client name 2",
+    "agency_pro_testimonial_role_2": "Client role 2",
+    "agency_pro_testimonial_text_3": "Client testimonial 3",
+    "agency_pro_testimonial_name_3": "Client name 3",
+    "agency_pro_testimonial_role_3": "Client role 3",
+    "agency_pro_team_title": "Meet Our Team",
+    "agency_pro_team_subtitle": "Team description",
+    "agency_pro_pricing_title": "Flexible Pricing",
+    "agency_pro_pricing_subtitle": "Pricing description",
+    "agency_pro_cta_title": "Ready to Start Your Project?",
+    "agency_pro_cta_subtitle": "CTA description"
+  },
+  "buttons": {
+    "agency_pro_nav_cta": { "text": "Get Started", "href": "#contact" },
+    "agency_pro_hero_cta_primary": { "text": "View Our Work", "href": "#work" },
+    "agency_pro_hero_cta_secondary": { "text": "Start a Project", "href": "#contact" },
+    "agency_pro_cta_primary": { "text": "Schedule a Call", "href": "#contact" },
+    "agency_pro_cta_secondary": { "text": "View Pricing", "href": "#pricing" }
+  }
+}`
+
+  const result = await model.generateContent(prompt)
+  const response = result.response.text()
+  
+  const cleanedResponse = response
+    .replace(/```json\n?/g, "")
+    .replace(/```\n?/g, "")
+    .trim()
+
+  try {
+    return JSON.parse(cleanedResponse)
+  } catch (error) {
+    console.error("Failed to parse Gemini response:", error)
+    throw new Error("Failed to generate valid content")
+  }
+}
+
+/**
+ * Generate themed content for Agency Pro template
+ */
+export async function generateAgencyProThemeContent(
+  topic: string,
+  themeId: string
+): Promise<GeneratedContent> {
+  // Define theme-specific configurations
+  const themeConfigs = {
+    "modern-creative": {
+      name: "Modern Creative",
+      tone: "modern, creative, and innovative with blue/purple gradients"
+    },
+    "bold-vibrant": {
+      name: "Bold Vibrant",
+      tone: "bold, energetic, and vibrant with orange/pink colors"
+    },
+    "elegant-minimal": {
+      name: "Elegant Minimal",
+      tone: "elegant, minimal, and sophisticated with clean design"
+    },
+    "tech-dark": {
+      name: "Tech Dark",
+      tone: "technical, futuristic, and premium with dark theme and cyan accents"
+    },
+    "nature-organic": {
+      name: "Nature Organic",
+      tone: "natural, organic, and eco-friendly with green tones"
+    },
+    "default": {
+      name: "Professional Default",
+      tone: "professional, trustworthy, and creative"
+    }
+  }
+
+  const theme = themeConfigs[themeId as keyof typeof themeConfigs] || themeConfigs.default
+
+  return generateAgencyProContent(topic, theme)
+}
+
+/**
+ * Generate content for Ecommerce Pro template using Gemini AI
+ */
+export async function generateEcommerceProContent(
+  topic: string,
+  theme: { name: string; tone: string }
+): Promise<GeneratedContent> {
+  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" })
+
+  const prompt = `You are a professional e-commerce copywriter creating content for a premium online store.
+
+STORE FOCUS: ${topic}
+THEME: ${theme.name}
+TONE: ${theme.tone}
+
+Generate compelling, conversion-focused copy for a complete e-commerce landing page. The tone should be ${theme.tone}.
+
+Return ONLY a valid JSON object (no markdown, no code blocks) with this exact structure:
+{
+  "texts": {
+    "ecommerce_pro_brand": "Store Name",
+    "ecommerce_pro_hero_badge": "New Collection or Sale badge",
+    "ecommerce_pro_hero_headline": "Main headline about products",
+    "ecommerce_pro_hero_subheadline": "Subheadline with value proposition",
+    "ecommerce_pro_feature_title_1": "Free Shipping",
+    "ecommerce_pro_feature_desc_1": "Shipping description",
+    "ecommerce_pro_feature_title_2": "Secure Payment",
+    "ecommerce_pro_feature_desc_2": "Payment description",
+    "ecommerce_pro_feature_title_3": "Easy Returns",
+    "ecommerce_pro_feature_desc_3": "Returns description",
+    "ecommerce_pro_feature_title_4": "24/7 Support",
+    "ecommerce_pro_feature_desc_4": "Support description",
+    "ecommerce_pro_featured_title": "Featured Products",
+    "ecommerce_pro_featured_subtitle": "Products description",
+    "ecommerce_pro_product_name_1": "Product 1 name",
+    "ecommerce_pro_product_category_1": "Category",
+    "ecommerce_pro_product_price_1": "$99.99",
+    "ecommerce_pro_product_name_2": "Product 2 name",
+    "ecommerce_pro_product_category_2": "Category",
+    "ecommerce_pro_product_price_2": "$129.99",
+    "ecommerce_pro_product_name_3": "Product 3 name",
+    "ecommerce_pro_product_category_3": "Category",
+    "ecommerce_pro_product_price_3": "$149.99",
+    "ecommerce_pro_product_name_4": "Product 4 name",
+    "ecommerce_pro_product_category_4": "Category",
+    "ecommerce_pro_product_price_4": "$179.99",
+    "ecommerce_pro_collections_title": "Shop by Collection",
+    "ecommerce_pro_collections_subtitle": "Collections description",
+    "ecommerce_pro_collection_name_1": "Collection 1 name",
+    "ecommerce_pro_collection_desc_1": "Collection 1 description",
+    "ecommerce_pro_collection_name_2": "Collection 2 name",
+    "ecommerce_pro_collection_desc_2": "Collection 2 description",
+    "ecommerce_pro_collection_name_3": "Collection 3 name",
+    "ecommerce_pro_collection_desc_3": "Collection 3 description",
+    "ecommerce_pro_testimonials_title": "What Our Customers Say",
+    "ecommerce_pro_testimonial_text_1": "Customer testimonial 1",
+    "ecommerce_pro_testimonial_name_1": "Customer name 1",
+    "ecommerce_pro_testimonial_location_1": "Location 1",
+    "ecommerce_pro_testimonial_text_2": "Customer testimonial 2",
+    "ecommerce_pro_testimonial_name_2": "Customer name 2",
+    "ecommerce_pro_testimonial_location_2": "Location 2",
+    "ecommerce_pro_testimonial_text_3": "Customer testimonial 3",
+    "ecommerce_pro_testimonial_name_3": "Customer name 3",
+    "ecommerce_pro_testimonial_location_3": "Location 3",
+    "ecommerce_pro_instagram_title": "Follow Us on Instagram",
+    "ecommerce_pro_instagram_subtitle": "@storename - Tag us",
+    "ecommerce_pro_newsletter_title": "Join Our Newsletter",
+    "ecommerce_pro_newsletter_subtitle": "Newsletter description"
+  },
+  "buttons": {
+    "ecommerce_pro_nav_cart": { "text": "Cart (0)", "href": "#cart" },
+    "ecommerce_pro_hero_cta_primary": { "text": "Shop Now", "href": "#products" },
+    "ecommerce_pro_hero_cta_secondary": { "text": "View Collections", "href": "#collections" },
+    "ecommerce_pro_product_cta_1": { "text": "Add to Cart", "href": "#" },
+    "ecommerce_pro_product_cta_2": { "text": "Add to Cart", "href": "#" },
+    "ecommerce_pro_product_cta_3": { "text": "Add to Cart", "href": "#" },
+    "ecommerce_pro_product_cta_4": { "text": "Add to Cart", "href": "#" },
+    "ecommerce_pro_collection_cta_1": { "text": "Shop Collection", "href": "#" },
+    "ecommerce_pro_collection_cta_2": { "text": "Shop Collection", "href": "#" },
+    "ecommerce_pro_collection_cta_3": { "text": "Shop Collection", "href": "#" },
+    "ecommerce_pro_newsletter_cta": { "text": "Subscribe Now", "href": "#subscribe" }
+  }
+}`
+
+  const result = await model.generateContent(prompt)
+  const response = result.response.text()
+  
+  const cleanedResponse = response
+    .replace(/```json\n?/g, "")
+    .replace(/```\n?/g, "")
+    .trim()
+
+  try {
+    return JSON.parse(cleanedResponse)
+  } catch (error) {
+    console.error("Failed to parse Gemini response:", error)
+    throw new Error("Failed to generate valid content")
+  }
+}
+
+/**
+ * Generate themed content for Ecommerce Pro template
+ */
+export async function generateEcommerceProThemeContent(
+  topic: string,
+  themeId: string
+): Promise<GeneratedContent> {
+  // Define theme-specific configurations
+  const themeConfigs = {
+    "luxury-elegant": {
+      name: "Luxury Elegant",
+      tone: "luxurious, elegant, and premium with amber/gold tones"
+    },
+    "modern-minimal": {
+      name: "Modern Minimal",
+      tone: "modern, minimal, and clean with sophisticated simplicity"
+    },
+    "vibrant-colorful": {
+      name: "Vibrant Colorful",
+      tone: "vibrant, energetic, and playful with pink/purple gradients"
+    },
+    "dark-premium": {
+      name: "Dark Premium",
+      tone: "premium, sophisticated, and exclusive with dark theme and purple accents"
+    },
+    "eco-natural": {
+      name: "Eco Natural",
+      tone: "natural, eco-friendly, and sustainable with green tones"
+    },
+    "default": {
+      name: "Professional Default",
+      tone: "professional, trustworthy, and customer-focused"
+    }
+  }
+
+  const theme = themeConfigs[themeId as keyof typeof themeConfigs] || themeConfigs.default
+
+  return generateEcommerceProContent(topic, theme)
+}
 
