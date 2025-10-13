@@ -387,7 +387,7 @@ function TemplateModal({
     {
       id: "science-landing",
       title: "Science Landing Page",
-      imgSrc: "/template-preview.jpg",
+      imgSrc: "/Science Landing Page.png",
       imgAlt: "Science landing template preview",
       desc: "Educational landing page with brain science imagery, bullet points, and informative sections",
       category: "SaaS",
@@ -397,7 +397,7 @@ function TemplateModal({
     {
       id: "agency-pro",
       title: "Agency Pro",
-      imgSrc: "/template-preview.jpg",
+      imgSrc: "/Agency pro.png",
       imgAlt: "Agency Pro template preview",
       desc: "Full‑service agency with enhanced sections, pricing, case studies, and blog.",
       category: "Agency",
@@ -437,7 +437,7 @@ function TemplateModal({
     {
       id: "ecommerce-pro",
       title: "Ecommerce Pro",
-      imgSrc: "/template-preview.jpg",
+      imgSrc: "/Ecommerece pro.png",
       imgAlt: "Ecommerce Pro template preview",
       desc: "Storefront with product grid, feature highlights, and conversion CTAs.",
       category: "Ecommerce",
