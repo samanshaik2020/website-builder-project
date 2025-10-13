@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: "Squpage - AI Website Builder",
   description: "Transform your ideas into professional websites in minutes with our AI-powered website builder. No coding required.",
   keywords: [
+    // Core Product Keywords
     "AI website builder",
     "website builder",
     "no code website builder",
@@ -29,6 +30,73 @@ export const metadata: Metadata = {
     "website builder for small business",
     "responsive website builder",
     "Squpage",
+    
+    // AI & Automation Keywords
+    "AI powered website builder",
+    "artificial intelligence website design",
+    "automated website builder",
+    "AI website generator",
+    "smart website builder",
+    "AI web page creator",
+    "machine learning website design",
+    
+    // No-Code & Easy Use Keywords
+    "no coding required",
+    "build website without coding",
+    "easy website builder",
+    "simple website creator",
+    "beginner website builder",
+    "website builder for beginners",
+    "quick website builder",
+    "instant website builder",
+    "fast website creation",
+    
+    // Business & Professional Keywords
+    "small business website",
+    "startup website builder",
+    "ecommerce website builder",
+    "portfolio website builder",
+    "business landing page",
+    "corporate website builder",
+    "professional web design",
+    "business website templates",
+    "company website builder",
+    
+    // Features & Capabilities
+    "mobile responsive website",
+    "custom website builder",
+    "website design software",
+    "web page builder",
+    "site builder",
+    "website building platform",
+    "web design platform",
+    "website development tool",
+    "modern website builder",
+    
+    // Specific Use Cases
+    "landing page creator",
+    "one page website builder",
+    "portfolio creator",
+    "blog website builder",
+    "event website builder",
+    "restaurant website builder",
+    "freelancer website builder",
+    
+    // Comparison & Alternative Keywords
+    "best website builder",
+    "top website builder",
+    "website builder alternative",
+    "affordable website builder",
+    "website builder online free",
+    "create professional website",
+    
+    // Technical Keywords
+    "HTML website builder",
+    "CSS website builder",
+    "website builder with templates",
+    "customizable website builder",
+    "SEO friendly website builder",
+    "fast loading website builder",
   ],
   authors: [{ name: "Squpage" }],
   creator: "Squpage",

@@ -9,6 +9,7 @@ import Link from "next/link"
 import { signUpWithEmail, signInWithGoogle } from "@/lib/supabase/auth"
 import { toast } from "sonner"
 import { isMobileDevice } from "@/lib/utils"
+import { LegalDialog } from "@/components/legal-dialog"
 
 export default function SignUpPage() {
   const [formData, setFormData] = useState({
@@ -19,6 +20,10 @@ export default function SignUpPage() {
   })
   const [loading, setLoading] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [legalDialog, setLegalDialog] = useState<{ open: boolean; type: "terms" | "privacy" | null }>({
+    open: false,
+    type: null
+  })
   const router = useRouter()
 
   useEffect(() => {
@@ -220,13 +225,21 @@ export default function SignUpPage() {
                   <input type="checkbox" className="mt-1 rounded border-gray-300" required />
                   <span>
                     I agree to the{" "}
-                    <Link href="/terms" className="text-blue-600 hover:text-blue-700 transition-colors">
+                    <button
+                      type="button"
+                      onClick={() => setLegalDialog({ open: true, type: "terms" })}
+                      className="text-blue-600 hover:text-blue-700 transition-colors underline"
+                    >
                       Terms of Service
-                    </Link>{" "}
+                    </button>{" "}
                     and{" "}
-                    <Link href="/privacy" className="text-blue-600 hover:text-blue-700 transition-colors">
+                    <button
+                      type="button"
+                      onClick={() => setLegalDialog({ open: true, type: "privacy" })}
+                      className="text-blue-600 hover:text-blue-700 transition-colors underline"
+                    >
                       Privacy Policy
-                    </Link>
+                    </button>
                   </span>
                 </label>
               </div>
@@ -277,6 +290,15 @@ export default function SignUpPage() {
           </div>
         </div>
       </div>
+
+      {/* Legal Dialogs */}
+      {legalDialog.type && (
+        <LegalDialog
+          open={legalDialog.open}
+          onOpenChange={(open) => setLegalDialog({ open, type: null })}
+          type={legalDialog.type}
+        />
+      )}
     </div>
   )
 }
