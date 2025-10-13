@@ -41,6 +41,7 @@ import { AmazonPrimeTemplate } from "@/components/templates/normal/amazon-prime-
 import { GobyToothbrushTemplate } from "@/components/templates/normal/goby-toothbrush-template"
 import { ZolaWeddingTemplate } from "@/components/templates/normal/zola-wedding-template"
 import { BananaMilkTemplate } from "@/components/templates/normal/banana-milk-template"
+import { ScienceLandingTemplate } from "@/components/templates/normal/science-landing-template"
 import { SAAS_PRO_THEMES, type SaaSProThemeId } from "@/components/templates/pro/saas-pro"
 import { AGENCY_PRO_THEMES, type AgencyProThemeId } from "@/components/templates/pro/agency-pro"
 import { ECOMMERCE_PRO_THEMES, type EcommerceProThemeId } from "@/components/templates/pro/ecommerce-pro"
@@ -74,6 +75,7 @@ type TemplateId =
   | "goby-toothbrush"
   | "zola-wedding"
   | "banana-milk"
+  | "science-landing"
   | "agency-pro"
   | "saas-pro"
   | "portfolio-pro"
@@ -380,6 +382,16 @@ function TemplateModal({
       desc: "Playful and vibrant product landing page for banana milk with fun illustrations and product benefits",
       category: "Ecommerce",
       tags: ["Product", "E-commerce", "Fun"],
+      free: true,
+    },
+    {
+      id: "science-landing",
+      title: "Science Landing Page",
+      imgSrc: "/template-preview.jpg",
+      imgAlt: "Science landing template preview",
+      desc: "Educational landing page with brain science imagery, bullet points, and informative sections",
+      category: "SaaS",
+      tags: ["Educational", "Science", "Informative"],
       free: true,
     },
     {
@@ -1019,6 +1031,7 @@ export default function EditorPage() {
       texts["el-title"] ||
       texts["lg-hero-title"] ||
       texts["ct-hero-title"] ||
+      texts["sl-hero-title"] ||
       "Untitled Website"
 
     setProjectName(suggestedName)
@@ -1159,6 +1172,8 @@ export default function EditorPage() {
         return <ZolaWeddingTemplate editable={!preview} openInspector={openInspector} />
       case "banana-milk":
         return <BananaMilkTemplate editable={!preview} openInspector={openInspector} />
+      case "science-landing":
+        return <ScienceLandingTemplate editable={!preview} openInspector={openInspector} />
       case "agency-pro": {
         // Use the themed template based on selected theme
         const themeId = (selectedThemeId as AgencyProThemeId) || "modern-creative"

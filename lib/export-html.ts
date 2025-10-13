@@ -13,6 +13,7 @@ import { generateGobyToothbrushHTML } from "./export-html-goby-toothbrush"
 import { generateZolaWeddingHTML } from "./export-html-zola-wedding"
 import { generateAgencyProHTML } from "./export-html-agency-pro"
 import { generateEcommerceProHTML } from "./export-html-ecommerce-pro"
+import { generateScienceLandingHTML } from "./export-html-science-landing"
 
 /**
  * Generates a standalone HTML file from a saved project
@@ -99,6 +100,9 @@ export function generateHTMLExport(project: ProjectRecord): string {
       break
     case "zola-wedding":
       html = generateZolaWeddingHTML(getText, getImage, getButton)
+      break
+    case "science-landing":
+      html = generateScienceLandingHTML(getText, getImage, getButton)
       break
     case "agency-pro":
       html = generateAgencyProHTML(getText, getImage, getButton)
