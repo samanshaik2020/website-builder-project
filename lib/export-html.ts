@@ -14,6 +14,7 @@ import { generateZolaWeddingHTML } from "./export-html-zola-wedding"
 import { generateAgencyProHTML } from "./export-html-agency-pro"
 import { generateEcommerceProHTML } from "./export-html-ecommerce-pro"
 import { generateScienceLandingHTML } from "./export-html-science-landing"
+import { generateEmptyHTML } from "./export-html-empty"
 
 /**
  * Generates a standalone HTML file from a saved project
@@ -103,6 +104,9 @@ export function generateHTMLExport(project: ProjectRecord): string {
       break
     case "science-landing":
       html = generateScienceLandingHTML(getText, getImage, getButton)
+      break
+    case "empty":
+      html = generateEmptyHTML(getText, getButton)
       break
     case "agency-pro":
       html = generateAgencyProHTML(getText, getImage, getButton)
