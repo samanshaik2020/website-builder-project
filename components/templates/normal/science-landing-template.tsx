@@ -22,7 +22,7 @@ export function ScienceLandingTemplate(props: TemplateProps) {
       </section>
 
       {/* Hero Section */}
-      <section className="mx-auto max-w-6xl px-4 py-12">
+      <section className="mx-auto max-w-6xl px-4 py-6">
         <div className="text-center">
           <EditableText
             id="sl-hero-title"

@@ -41,7 +41,7 @@ export function generateScienceLandingHTML(
       </section>
 
       <!-- Hero Section -->
-      <section class="mx-auto max-w-6xl px-4 py-12">
+      <section class="mx-auto max-w-6xl px-4 py-6">
         <div class="text-center">
           <h1 class="text-4xl md:text-5xl font-bold mb-6">
             ${escapeHtml(getText("sl-hero-title", "welcome to landing page"))}
