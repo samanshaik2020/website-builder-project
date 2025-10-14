@@ -54,6 +54,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { isMobileDevice } from "@/lib/utils"
+import { getAnalyticsSummary } from "@/lib/supabase/analytics"
 
 export default function DashboardPage() {
   const { projects, remove } = useProjects()
@@ -66,10 +67,20 @@ export default function DashboardPage() {
   const { links: allLinks } = useShareableLinks()
   const [isMobile, setIsMobile] = useState(false)
   const [showMobileWarning, setShowMobileWarning] = useState(true)
+  const [analytics, setAnalytics] = useState({ totalViews: 0, totalClicks: 0, conversionRate: 0 })
 
   useEffect(() => {
     setIsMobile(isMobileDevice())
   }, [])
+
+  // Load analytics data
+  useEffect(() => {
+    async function loadAnalytics() {
+      const data = await getAnalyticsSummary()
+      setAnalytics(data)
+    }
+    loadAnalytics()
+  }, [projects, allLinks])
 
   const handleLogout = async () => {
     try {
@@ -367,14 +378,14 @@ export default function DashboardPage() {
             <div className="flex items-start justify-between mb-4">
               <div>
                 <div className="text-sm text-gray-600 mb-1">Total Views</div>
-                <div className="text-3xl font-bold text-gray-900">0</div>
+                <div className="text-3xl font-bold text-gray-900">{analytics.totalViews}</div>
               </div>
               <div className="w-12 h-12 bg-green-50 rounded-full flex items-center justify-center">
                 <Eye className="w-6 h-6 text-green-600" />
               </div>
             </div>
-            <div className="flex items-center gap-1 text-sm text-green-600">
-              <span>↑ 0% vs last month</span>
+            <div className="flex items-center gap-1 text-sm text-gray-600">
+              <span>Across all shared links</span>
             </div>
           </div>
 
@@ -382,14 +393,14 @@ export default function DashboardPage() {
             <div className="flex items-start justify-between mb-4">
               <div>
                 <div className="text-sm text-gray-600 mb-1">Total Clicks</div>
-                <div className="text-3xl font-bold text-gray-900">0</div>
+                <div className="text-3xl font-bold text-gray-900">{analytics.totalClicks}</div>
               </div>
               <div className="w-12 h-12 bg-purple-50 rounded-full flex items-center justify-center">
                 <MousePointerClick className="w-6 h-6 text-purple-600" />
               </div>
             </div>
-            <div className="flex items-center gap-1 text-sm text-green-600">
-              <span>↑ 0% vs last month</span>
+            <div className="flex items-center gap-1 text-sm text-gray-600">
+              <span>Button clicks on shared links</span>
             </div>
           </div>
 
@@ -397,14 +408,14 @@ export default function DashboardPage() {
             <div className="flex items-start justify-between mb-4">
               <div>
                 <div className="text-sm text-gray-600 mb-1">Avg. Conversion</div>
-                <div className="text-3xl font-bold text-gray-900">0%</div>
+                <div className="text-3xl font-bold text-gray-900">{analytics.conversionRate}%</div>
               </div>
               <div className="w-12 h-12 bg-orange-50 rounded-full flex items-center justify-center">
                 <Target className="w-6 h-6 text-orange-600" />
               </div>
             </div>
-            <div className="flex items-center gap-1 text-sm text-green-600">
-              <span>↑ 0% vs last month</span>
+            <div className="flex items-center gap-1 text-sm text-gray-600">
+              <span>Click-through rate</span>
             </div>
           </div>
         </div>

@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation"
 import { getProjectByShareableLink } from "@/lib/supabase/projects"
 import { getShareableLinkBySlug, incrementLinkViews } from "@/lib/supabase/shareable-links"
 import { generateHTMLExport } from "@/lib/export-html"
+import { trackButtonClick } from "@/lib/supabase/analytics"
 import { AlertCircle, Clock, Eye } from "lucide-react"
 
 export default function SharePage() {
@@ -13,6 +14,8 @@ export default function SharePage() {
   const slug = params.slug as string
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
+  const [htmlContent, setHtmlContent] = useState<string | null>(null)
+  const [linkId, setLinkId] = useState<string | null>(null)
 
   useEffect(() => {
     async function loadSharedProject() {
@@ -31,6 +34,9 @@ export default function SharePage() {
           setLoading(false)
           return
         }
+
+        // Store link ID for click tracking
+        setLinkId(link.id)
 
         // Increment view count
         await incrementLinkViews(link.id)
@@ -54,13 +60,10 @@ export default function SharePage() {
           data: project.data,
         }
 
-        // Generate and display the HTML
+        // Generate HTML and render inline
         const html = generateHTMLExport(projectData)
-        const blob = new Blob([html], { type: "text/html" })
-        const url = URL.createObjectURL(blob)
-        
-        // Redirect to the blob URL
-        window.location.href = url
+        setHtmlContent(html)
+        setLoading(false)
       } catch (err) {
         console.error("Error loading shared project:", err)
         setError("Failed to load project")
@@ -70,6 +73,33 @@ export default function SharePage() {
 
     loadSharedProject()
   }, [slug])
+
+  // Track button clicks
+  useEffect(() => {
+    if (!htmlContent || !linkId) return
+
+    const handleClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement
+      const button = target.closest('a, button')
+      
+      if (button) {
+        const buttonId = button.getAttribute('data-button-id') || button.id || 'unknown'
+        const buttonText = button.textContent || ''
+        const buttonHref = button instanceof HTMLAnchorElement ? button.href : ''
+        
+        // Track the click asynchronously
+        trackButtonClick(linkId, buttonId, buttonText, buttonHref)
+      }
+    }
+
+    document.addEventListener('click', handleClick)
+    return () => document.removeEventListener('click', handleClick)
+  }, [htmlContent, linkId])
+
+  // Render HTML content
+  if (htmlContent) {
+    return <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+  }
 
   if (loading) {
     return (
