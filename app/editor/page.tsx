@@ -399,7 +399,7 @@ function TemplateModal({
     {
       id: "empty",
       title: "Empty Template",
-      imgSrc: "/placeholder.svg?height=400&width=600",
+      imgSrc: "/Empty template.png",
       imgAlt: "Empty template preview",
       desc: "Start from scratch with a blank canvas. Perfect for building your own unique design from the ground up",
       category: "SaaS",
