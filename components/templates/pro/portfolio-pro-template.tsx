@@ -1,5 +1,6 @@
 "use client"
 import { useState } from "react"
+import { X } from "lucide-react"
 import type { TemplateProps } from "../types"
 import { PORTFOLIO_PRO_THEMES, PORTFOLIO_PRO_THEME_INFO, type PortfolioProThemeId } from "./portfolio-pro"
 
@@ -9,6 +10,7 @@ interface PortfolioProTemplateProps extends TemplateProps {
 
 export function PortfolioProTemplatePro({ initialTheme = "default", ...props }: PortfolioProTemplateProps) {
   const [currentTheme, setCurrentTheme] = useState<PortfolioProThemeId>(initialTheme)
+  const [showThemeSelector, setShowThemeSelector] = useState(true)
   const { editable } = props
 
   // Get the current theme component
@@ -16,11 +18,20 @@ export function PortfolioProTemplatePro({ initialTheme = "default", ...props }: 
 
   // Theme selector (only show in edit mode)
   const ThemeSelector = () => {
-    if (!editable) return null
+    if (!editable || !showThemeSelector) return null
 
     return (
       <div className="fixed top-20 right-4 z-50 bg-white rounded-lg shadow-xl border border-gray-200 p-4 max-w-sm">
-        <h3 className="font-semibold mb-3 text-gray-900">Portfolio Themes</h3>
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="font-semibold text-gray-900">Portfolio Themes</h3>
+          <button
+            onClick={() => setShowThemeSelector(false)}
+            className="p-1 hover:bg-gray-100 rounded-md transition-colors"
+            aria-label="Close theme selector"
+          >
+            <X className="w-4 h-4 text-gray-500" />
+          </button>
+        </div>
         <div className="space-y-2 max-h-96 overflow-y-auto">
           {Object.entries(PORTFOLIO_PRO_THEME_INFO).map(([themeId, info]) => (
             <button

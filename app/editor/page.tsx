@@ -7,7 +7,7 @@ import { Eye, Save, ArrowLeft } from "lucide-react"
 import { X } from "lucide-react"
 import { AIGenerationModal } from "@/components/ai-generation-modal"
 import { FloatingTextToolbar } from "@/components/floating-text-toolbar"
-import { generateSaaSProContent, generatePortfolioProThemeContent, generateIPhoneProThemeContent, generateAgencyProThemeContent, generateEcommerceProThemeContent } from "@/lib/gemini-api"
+import { generateSaaSProContent, generatePortfolioProThemeContent, generateIPhoneProThemeContent } from "@/lib/gemini-api"
 import { Button } from "@/components/ui/button"
 import { LoadingSpinner } from "@/components/ui/loading-spinner"
 import { cn } from "@/lib/utils"
@@ -44,8 +44,6 @@ import { BananaMilkTemplate } from "@/components/templates/normal/banana-milk-te
 import { ScienceLandingTemplate } from "@/components/templates/normal/science-landing-template"
 import { EmptyTemplate } from "@/components/templates/normal/empty-template"
 import { SAAS_PRO_THEMES, type SaaSProThemeId } from "@/components/templates/pro/saas-pro"
-import { AGENCY_PRO_THEMES, type AgencyProThemeId } from "@/components/templates/pro/agency-pro"
-import { ECOMMERCE_PRO_THEMES, type EcommerceProThemeId } from "@/components/templates/pro/ecommerce-pro"
 import { PortfolioProTemplatePro } from "@/components/templates/pro/portfolio-pro-template"
 import { IPHONE_PRO_THEMES, type IPhoneProThemeId } from "@/components/templates/pro/iphone-pro"
 import type { AITheme } from "@/components/ai-generation-modal"
@@ -78,11 +76,10 @@ type TemplateId =
   | "banana-milk"
   | "science-landing"
   | "empty"
-  | "agency-pro"
   | "saas-pro"
   | "portfolio-pro"
   | "iphone-pro"
-  | "ecommerce-pro"
+  | "coming-soon"
 
 type SelectedElement = { kind: "image"; el: HTMLImageElement } | { kind: "button"; el: HTMLAnchorElement } | { kind: "link"; el: HTMLAnchorElement }
 
@@ -175,6 +172,7 @@ function TemplateModal({
     category: "Portfolio" | "SaaS" | "Profile" | "Event" | "Agency" | "Ecommerce"
     tags: string[]
     free?: boolean
+    comingSoon?: boolean
   }> = [
     {
       id: "portfolio",
@@ -407,16 +405,6 @@ function TemplateModal({
       free: true,
     },
     {
-      id: "agency-pro",
-      title: "Agency Pro",
-      imgSrc: "/Agency pro.png",
-      imgAlt: "Agency Pro template preview",
-      desc: "Full‑service agency with enhanced sections, pricing, case studies, and blog.",
-      category: "Agency",
-      tags: ["Pro", "Agency", "Premium"],
-      free: false,
-    },
-    {
       id: "saas-pro",
       title: "SaaS Pro",
       imgSrc: "/saas landing page.png",
@@ -447,14 +435,15 @@ function TemplateModal({
       free: false,
     },
     {
-      id: "ecommerce-pro",
-      title: "Ecommerce Pro",
-      imgSrc: "/Ecommerece pro.png",
-      imgAlt: "Ecommerce Pro template preview",
-      desc: "Storefront with product grid, feature highlights, and conversion CTAs.",
-      category: "Ecommerce",
-      tags: ["Pro", "Storefront", "Premium"],
+      id: "coming-soon",
+      title: "More Pro Templates Coming Soon",
+      imgSrc: "/placeholder.svg",
+      imgAlt: "Coming soon",
+      desc: "🚀 We're working on exciting new Pro templates! Agency, E-commerce, and more professional templates are in development and will be added soon.",
+      category: "SaaS",
+      tags: ["Coming Soon", "In Development", "Pro"],
       free: false,
+      comingSoon: true,
     },
   ]
 
@@ -529,7 +518,15 @@ function TemplateModal({
         {/* Grid */}
         <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((c) => (
-            <div key={c.id} className="flex flex-col overflow-hidden rounded-xl border bg-white shadow-sm">
+            <div key={c.id} className={cn(
+              "flex flex-col overflow-hidden rounded-xl border bg-white shadow-sm",
+              (c as any).comingSoon && "opacity-75 relative"
+            )}>
+              {(c as any).comingSoon && (
+                <div className="absolute top-4 right-4 z-10 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+                  Coming Soon
+                </div>
+              )}
               <img src={c.imgSrc} alt={c.imgAlt} className="h-48 w-full object-cover" />
               <div className="flex flex-1 flex-col p-4">
                 <div className="mb-3 flex items-start justify-between gap-3">
@@ -551,10 +548,16 @@ function TemplateModal({
                   </div>
                   <Button
                     type="button"
-                    onClick={() => onSelect(c.id)}
-                    className="h-10 w-full rounded-lg bg-black text-white hover:opacity-90"
+                    onClick={() => !(c as any).comingSoon && onSelect(c.id)}
+                    disabled={(c as any).comingSoon}
+                    className={cn(
+                      "h-10 w-full rounded-lg",
+                      (c as any).comingSoon 
+                        ? "bg-gray-300 text-gray-500 cursor-not-allowed" 
+                        : "bg-black text-white hover:opacity-90"
+                    )}
                   >
-                    {"Start Editing"}
+                    {(c as any).comingSoon ? "In Development" : "Start Editing"}
                   </Button>
                 </div>
               </div>
@@ -764,7 +767,7 @@ export default function EditorPage() {
   const [modalOpen, setModalOpen] = useState(true)
   const [aiModalOpen, setAiModalOpen] = useState(false)
   const [selectedProTemplate, setSelectedProTemplate] = useState<TemplateId | null>(null)
-  const [selectedThemeId, setSelectedThemeId] = useState<SaaSProThemeId | IPhoneProThemeId | AgencyProThemeId | EcommerceProThemeId | null>(null)
+  const [selectedThemeId, setSelectedThemeId] = useState<SaaSProThemeId | IPhoneProThemeId | null>(null)
   const [preview, setPreview] = useState(false)
   const [saving, setSaving] = useState(false)
   const [panelOpen, setPanelOpen] = useState(false)
@@ -896,7 +899,7 @@ export default function EditorPage() {
 
   const onSelectTemplate = useCallback((id: TemplateId) => {
     // Check if it's a Pro template
-    const proTemplates: TemplateId[] = ["agency-pro", "saas-pro", "portfolio-pro", "iphone-pro", "ecommerce-pro"]
+    const proTemplates: TemplateId[] = ["saas-pro", "portfolio-pro", "iphone-pro"]
     
     if (proTemplates.includes(id)) {
       // Check pro template limits
@@ -981,12 +984,6 @@ export default function EditorPage() {
       } else if (selectedProTemplate === "iphone-pro") {
         const result = await generateIPhoneProThemeContent(topic, theme.id)
         elements = result.elements
-      } else if (selectedProTemplate === "agency-pro") {
-        const result = await generateAgencyProThemeContent(topic, theme.id)
-        elements = result.elements
-      } else if (selectedProTemplate === "ecommerce-pro") {
-        const result = await generateEcommerceProThemeContent(topic, theme.id)
-        elements = result.elements
       } else {
         // For other pro templates, use SaaS Pro as fallback for now
         const result = await generateSaaSProContent(topic, theme)
@@ -995,7 +992,7 @@ export default function EditorPage() {
       
       // Close AI modal, set template and theme
       setAiModalOpen(false)
-      setSelectedThemeId(theme.id as SaaSProThemeId | IPhoneProThemeId | AgencyProThemeId | EcommerceProThemeId)
+      setSelectedThemeId(theme.id as SaaSProThemeId | IPhoneProThemeId)
       setTemplate(selectedProTemplate)
       setSelectedProTemplate(null)
       
@@ -1188,13 +1185,6 @@ export default function EditorPage() {
         return <ScienceLandingTemplate editable={!preview} openInspector={openInspector} />
       case "empty":
         return <EmptyTemplate editable={!preview} openInspector={openInspector} />
-      case "agency-pro": {
-        // Use the themed template based on selected theme
-        const themeId = (selectedThemeId as AgencyProThemeId) || "modern-creative"
-        const ThemedTemplate = AGENCY_PRO_THEMES[themeId] || AGENCY_PRO_THEMES["modern-creative"]
-        if (!ThemedTemplate) return null
-        return <ThemedTemplate editable={!preview} openInspector={openInspector} />
-      }
       case "saas-pro": {
         // Use the themed template based on selected theme
         const themeId = (selectedThemeId as SaaSProThemeId) || "modern-minimal"
@@ -1207,13 +1197,6 @@ export default function EditorPage() {
         // Use the themed template based on selected theme
         const themeId = (selectedThemeId as IPhoneProThemeId) || "dark-gradient"
         const ThemedTemplate = IPHONE_PRO_THEMES[themeId]
-        return <ThemedTemplate editable={!preview} openInspector={openInspector} />
-      }
-      case "ecommerce-pro": {
-        // Use the themed template based on selected theme
-        const themeId = (selectedThemeId as EcommerceProThemeId) || "luxury-elegant"
-        const ThemedTemplate = ECOMMERCE_PRO_THEMES[themeId] || ECOMMERCE_PRO_THEMES["luxury-elegant"]
-        if (!ThemedTemplate) return null
         return <ThemedTemplate editable={!preview} openInspector={openInspector} />
       }
       default:
@@ -1267,9 +1250,7 @@ export default function EditorPage() {
         templateType={
           selectedProTemplate === "saas-pro" ? "SaaS Pro" : 
           selectedProTemplate === "portfolio-pro" ? "Portfolio Pro" :
-          selectedProTemplate === "agency-pro" ? "Agency Pro" : 
-          selectedProTemplate === "iphone-pro" ? "iPhone Pro" :
-          "Ecommerce Pro"
+          "iPhone Pro"
         }
         onClose={() => {
           // User cancelled - go back to template selection

@@ -106,6 +106,51 @@ const iphoneProThemes: Theme[] = [
   }
 ]
 
+const portfolioProThemes: Theme[] = [
+  {
+    id: "default",
+    name: "Professional Default",
+    description: "Clean and professional portfolio design",
+    colors: ["#000000", "#ffffff", "#3b82f6"],
+    tone: "professional, clean, and polished"
+  },
+  {
+    id: "creative-artist",
+    name: "Creative Artist",
+    description: "Vibrant and artistic design for digital artists",
+    colors: ["#ec4899", "#f97316", "#8b5cf6"],
+    tone: "creative, artistic, and vibrant"
+  },
+  {
+    id: "tech-minimal",
+    name: "Tech Minimal",
+    description: "Minimalist design for developers and tech professionals",
+    colors: ["#f3f4f6", "#1f2937", "#3b82f6"],
+    tone: "technical, minimal, and modern"
+  },
+  {
+    id: "luxury-elegant",
+    name: "Luxury Elegant",
+    description: "Sophisticated design for luxury brands",
+    colors: ["#000000", "#f59e0b", "#ffffff"],
+    tone: "luxurious, elegant, and sophisticated"
+  },
+  {
+    id: "nature-organic",
+    name: "Nature Organic",
+    description: "Earth-friendly design for sustainable brands",
+    colors: ["#16a34a", "#059669", "#10b981"],
+    tone: "natural, organic, and eco-friendly"
+  },
+  {
+    id: "cyberpunk-futuristic",
+    name: "Cyberpunk Futuristic",
+    description: "High-tech design for futuristic themes",
+    colors: ["#000000", "#06b6d4", "#ec4899"],
+    tone: "futuristic, edgy, and high-tech"
+  }
+]
+
 interface AIGenerationModalProps {
   open: boolean
   templateType: string
@@ -122,7 +167,10 @@ export function AIGenerationModal({ open, templateType, onClose, onGenerate }: A
   const [currentStep, setCurrentStep] = useState(0)
 
   // Select themes based on template type
-  const themes = templateType === "iPhone Pro" ? iphoneProThemes : saasThemes
+  const themes = 
+    templateType === "iPhone Pro" ? iphoneProThemes :
+    templateType === "Portfolio Pro" ? portfolioProThemes :
+    saasThemes
 
   // Enhanced loading animation with steps
   useEffect(() => {
