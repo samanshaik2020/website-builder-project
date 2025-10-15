@@ -4,6 +4,8 @@ export interface PricingPlan {
   id: PlanType
   name: string
   price: number
+  priceINR: number // Price in Indian Rupees
+  priceUSD: number // Price in US Dollars
   period: string
   description: string
   features: string[]
@@ -22,6 +24,8 @@ export const PRICING_PLANS: PricingPlan[] = [
     id: "free",
     name: "Free Plan",
     price: 0,
+    priceINR: 0,
+    priceUSD: 0,
     period: "forever",
     description: "Perfect for getting started",
     features: [
@@ -43,7 +47,9 @@ export const PRICING_PLANS: PricingPlan[] = [
   {
     id: "starter",
     name: "Starter Plan",
-    price: 19,
+    price: 9,
+    priceINR: 399,
+    priceUSD: 9,
     period: "month",
     description: "Great for individuals and small projects",
     features: [
@@ -67,7 +73,9 @@ export const PRICING_PLANS: PricingPlan[] = [
   {
     id: "professional",
     name: "Professional Plan",
-    price: 49,
+    price: 19,
+    priceINR: 799,
+    priceUSD: 19,
     period: "month",
     description: "Perfect for professionals and agencies",
     features: [
@@ -91,7 +99,9 @@ export const PRICING_PLANS: PricingPlan[] = [
   {
     id: "unlimited",
     name: "Unlimited Plan",
-    price: 99,
+    price: 49,
+    priceINR: 1999,
+    priceUSD: 49,
     period: "month",
     description: "For power users and large teams",
     features: [

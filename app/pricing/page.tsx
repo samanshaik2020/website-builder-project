@@ -1,19 +1,23 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Check, Brain, ArrowLeft } from "lucide-react"
+import { Check, Brain, ArrowLeft, Globe } from "lucide-react"
 import Link from "next/link"
 import { PRICING_PLANS } from "@/lib/pricing-plans"
 import { useSubscription } from "@/hooks/use-subscription"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
+import { useCurrency, getCurrencySymbol } from "@/hooks/use-currency"
+import { useState } from "react"
 
 export default function PricingPage() {
   const { subscription, upgradePlan, isLoaded } = useSubscription()
   const router = useRouter()
+  const { currency, setCurrency, isLoading: currencyLoading } = useCurrency()
+  const [isProcessing, setIsProcessing] = useState(false)
 
   // Prevent hydration errors
-  if (!isLoaded) {
+  if (!isLoaded || currencyLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
         <div className="text-center">
@@ -24,13 +28,30 @@ export default function PricingPage() {
     )
   }
 
-  const handleSelectPlan = (planId: string) => {
-    upgradePlan(planId as any)
-    toast.success(`Successfully upgraded to ${planId.toUpperCase()} plan!`, {
-      description: "Your plan has been updated. Enjoy your new features!",
-      duration: 4000,
-    })
-    setTimeout(() => router.push("/dashboard"), 1000)
+  const handlePayment = async (planId: string) => {
+    setIsProcessing(true)
+
+    try {
+      // Update subscription directly (payment integration removed)
+      upgradePlan(planId as any)
+      
+      const plan = PRICING_PLANS.find((p) => p.id === planId)
+      const planName = plan?.name || "selected plan"
+      
+      toast.success(`Successfully switched to ${planName}!`, {
+        description: "Your plan has been updated.",
+        duration: 4000,
+      })
+      
+      setTimeout(() => router.push("/dashboard"), 1000)
+    } catch (error) {
+      console.error("Plan update error:", error)
+      toast.error("Failed to update plan", {
+        description: "Please try again later.",
+      })
+    } finally {
+      setIsProcessing(false)
+    }
   }
 
   return (
@@ -63,9 +84,22 @@ export default function PricingPage() {
         <p className="text-xl text-gray-600 mb-2">
           Start free, upgrade as you grow
         </p>
-        <p className="text-sm text-gray-500">
-          Current Plan: <span className="font-semibold text-purple-600">{subscription.plan.toUpperCase()}</span>
-        </p>
+        <div className="flex items-center justify-center gap-4 mb-4">
+          <p className="text-sm text-gray-500">
+            Current Plan: <span className="font-semibold text-purple-600">{subscription.plan.toUpperCase()}</span>
+          </p>
+          <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-lg border border-gray-200">
+            <Globe className="w-4 h-4 text-gray-600" />
+            <select
+              value={currency}
+              onChange={(e) => setCurrency(e.target.value as "INR" | "USD")}
+              className="text-sm font-medium text-gray-900 bg-transparent border-none outline-none cursor-pointer"
+            >
+              <option value="INR">🇮🇳 INR (₹)</option>
+              <option value="USD">🌍 USD ($)</option>
+            </select>
+          </div>
+        </div>
       </div>
 
       {/* Pricing Cards */}
@@ -106,7 +140,10 @@ export default function PricingPage() {
                   <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
                   <p className="text-gray-600 text-sm mb-4">{plan.description}</p>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-5xl font-bold text-gray-900">${plan.price}</span>
+                    <span className="text-5xl font-bold text-gray-900">
+                      {getCurrencySymbol(currency)}
+                      {currency === "INR" ? plan.priceINR : plan.priceUSD}
+                    </span>
                     <span className="text-gray-600">/{plan.period}</span>
                   </div>
                 </div>
@@ -123,9 +160,9 @@ export default function PricingPage() {
                 </div>
 
                 <Button
-                  onClick={() => handleSelectPlan(plan.id)}
-                  disabled={isPlanActive}
-                  className={`w-full ${
+                  onClick={() => handlePayment(plan.id)}
+                  disabled={isPlanActive || isProcessing}
+                  className={`w-full ${isProcessing ? "opacity-50 cursor-not-allowed" : ""} ${
                     plan.popular
                       ? "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
                       : isPlanActive
@@ -133,7 +170,13 @@ export default function PricingPage() {
                       : "bg-gray-900 hover:bg-gray-800"
                   }`}
                 >
-                  {isPlanActive ? "Current Plan" : `Upgrade to ${plan.name}`}
+                  {isProcessing
+                    ? "Processing..."
+                    : isPlanActive
+                    ? "Current Plan"
+                    : plan.id === "free"
+                    ? "Switch to Free"
+                    : `Upgrade to ${plan.name}`}
                 </Button>
               </div>
             )
