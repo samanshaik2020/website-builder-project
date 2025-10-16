@@ -109,7 +109,7 @@ export function generateHTMLExport(project: ProjectRecord): string {
       html = generateEmptyHTML(getText, getButton)
       break
     case "agency-pro":
-      html = generateAgencyProHTML(getText, getImage, getButton)
+      html = generateAgencyProHTML(getText, getImage, getButton, theme)
       break
     case "ecommerce-pro":
       html = generateEcommerceProHTML(getText, getImage, getButton)

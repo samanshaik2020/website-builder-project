@@ -7,7 +7,7 @@ import { Eye, Save, ArrowLeft } from "lucide-react"
 import { X } from "lucide-react"
 import { AIGenerationModal } from "@/components/ai-generation-modal"
 import { FloatingTextToolbar } from "@/components/floating-text-toolbar"
-import { generateSaaSProContent, generatePortfolioProThemeContent, generateIPhoneProThemeContent } from "@/lib/gemini-api"
+import { generateSaaSProContent, generatePortfolioProThemeContent, generateIPhoneProThemeContent, generateAgencyProContent, type ElementContent } from "@/lib/gemini-api"
 import { Button } from "@/components/ui/button"
 import { LoadingSpinner } from "@/components/ui/loading-spinner"
 import { cn } from "@/lib/utils"
@@ -46,6 +46,7 @@ import { EmptyTemplate } from "@/components/templates/normal/empty-template"
 import { SAAS_PRO_THEMES, type SaaSProThemeId } from "@/components/templates/pro/saas-pro"
 import { PortfolioProTemplatePro } from "@/components/templates/pro/portfolio-pro-template"
 import { IPHONE_PRO_THEMES, type IPhoneProThemeId } from "@/components/templates/pro/iphone-pro"
+import { AGENCY_PRO_THEMES, type AgencyProThemeId } from "@/components/templates/pro/agency-pro"
 import type { AITheme } from "@/components/ai-generation-modal"
 import { useProjects } from "@/hooks/use-projects"
 import { useSubscription } from "@/hooks/use-subscription"
@@ -79,6 +80,7 @@ type TemplateId =
   | "saas-pro"
   | "portfolio-pro"
   | "iphone-pro"
+  | "agency-pro"
   | "coming-soon"
 
 type SelectedElement = { kind: "image"; el: HTMLImageElement } | { kind: "button"; el: HTMLAnchorElement } | { kind: "link"; el: HTMLAnchorElement }
@@ -435,11 +437,21 @@ function TemplateModal({
       free: false,
     },
     {
+      id: "agency-pro",
+      title: "Agency Pro",
+      imgSrc: "/Agency pro.png",
+      imgAlt: "Agency Pro template preview",
+      desc: "Professional agency website with services, case studies, team, blog, and pricing sections.",
+      category: "SaaS",
+      tags: ["Pro", "Agency", "Multi-Section", "Business"],
+      free: false,
+    },
+    {
       id: "coming-soon",
       title: "More Pro Templates Coming Soon",
       imgSrc: "/placeholder.svg",
       imgAlt: "Coming soon",
-      desc: "🚀 We're working on exciting new Pro templates! Agency, E-commerce, and more professional templates are in development and will be added soon.",
+      desc: "🚀 We're working on exciting new Pro templates! E-commerce and more professional templates are in development and will be added soon.",
       category: "SaaS",
       tags: ["Coming Soon", "In Development", "Pro"],
       free: false,
@@ -899,7 +911,7 @@ export default function EditorPage() {
 
   const onSelectTemplate = useCallback((id: TemplateId) => {
     // Check if it's a Pro template
-    const proTemplates: TemplateId[] = ["saas-pro", "portfolio-pro", "iphone-pro"]
+    const proTemplates: TemplateId[] = ["saas-pro", "portfolio-pro", "iphone-pro", "agency-pro"]
     
     if (proTemplates.includes(id)) {
       // Check pro template limits
@@ -974,25 +986,45 @@ export default function EditorPage() {
 
     try {
       // Generate content using Gemini API based on template type
-      let elements
+      let elements: ElementContent[] = []
       if (selectedProTemplate === "saas-pro") {
         const result = await generateSaaSProContent(topic, theme)
-        elements = result.elements
+        elements = result.elements || []
       } else if (selectedProTemplate === "portfolio-pro") {
         const result = await generatePortfolioProThemeContent(topic, theme.id)
-        elements = result.elements
+        elements = result.elements || []
       } else if (selectedProTemplate === "iphone-pro") {
         const result = await generateIPhoneProThemeContent(topic, theme.id)
-        elements = result.elements
+        elements = result.elements || []
+      } else if (selectedProTemplate === "agency-pro") {
+        // Convert theme object to elements format
+        const result = await generateAgencyProContent(topic, theme)
+        elements = []
+        
+        // Add text elements
+        if (result.texts) {
+          Object.entries(result.texts).forEach(([id, content]) => {
+            elements.push({ id, content: content as string })
+          })
+        }
+        
+        // Add button elements (just the text for now)
+        if (result.buttons) {
+          Object.entries(result.buttons).forEach(([id, btnData]: [string, any]) => {
+            if (btnData && btnData.text) {
+              elements.push({ id, content: btnData.text })
+            }
+          })
+        }
       } else {
         // For other pro templates, use SaaS Pro as fallback for now
         const result = await generateSaaSProContent(topic, theme)
-        elements = result.elements
+        elements = result.elements || []
       }
       
       // Close AI modal, set template and theme
       setAiModalOpen(false)
-      setSelectedThemeId(theme.id as SaaSProThemeId | IPhoneProThemeId)
+      setSelectedThemeId(theme.id as SaaSProThemeId | IPhoneProThemeId | AgencyProThemeId)
       setTemplate(selectedProTemplate)
       setSelectedProTemplate(null)
       
@@ -1090,7 +1122,7 @@ export default function EditorPage() {
         buttons[id] = { href: el.getAttribute("href") || "#", text: el.innerText || "" }
       })
 
-      const themeToSave = (template === "saas-pro" || template === "portfolio-pro" || template === "iphone-pro") ? selectedThemeId || undefined : undefined
+      const themeToSave = (template === "saas-pro" || template === "portfolio-pro" || template === "iphone-pro" || template === "agency-pro") ? selectedThemeId || undefined : undefined
       
       const project = {
         name: projectName.trim(),
@@ -1199,6 +1231,12 @@ export default function EditorPage() {
         const ThemedTemplate = IPHONE_PRO_THEMES[themeId]
         return <ThemedTemplate editable={!preview} openInspector={openInspector} />
       }
+      case "agency-pro": {
+        // Use the themed template based on selected theme
+        const themeId = (selectedThemeId as AgencyProThemeId) || "modern-minimal"
+        const ThemedTemplate = AGENCY_PRO_THEMES[themeId]
+        return <ThemedTemplate editable={!preview} openInspector={openInspector} />
+      }
       default:
         return null
     }
@@ -1250,6 +1288,7 @@ export default function EditorPage() {
         templateType={
           selectedProTemplate === "saas-pro" ? "SaaS Pro" : 
           selectedProTemplate === "portfolio-pro" ? "Portfolio Pro" :
+          selectedProTemplate === "agency-pro" ? "Agency Pro" :
           "iPhone Pro"
         }
         onClose={() => {

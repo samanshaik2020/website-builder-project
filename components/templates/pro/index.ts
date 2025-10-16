@@ -7,6 +7,9 @@ export * from "./portfolio-pro"
 // Re-export all SaaS Pro templates
 export * from "./saas-pro"
 
+// Re-export all Agency Pro templates
+export * from "./agency-pro"
+
 // Re-export the wrapper templates with theme selectors
 export { PortfolioProTemplatePro } from "./portfolio-pro-template"
 

@@ -151,6 +151,51 @@ const portfolioProThemes: Theme[] = [
   }
 ]
 
+const agencyProThemes: Theme[] = [
+  {
+    id: "modern-minimal",
+    name: "Modern & Minimal",
+    description: "Clean, professional, and sophisticated",
+    colors: ["#000000", "#FFFFFF", "#F5F5F5"],
+    tone: "professional, concise, and clear"
+  },
+  {
+    id: "vibrant-playful",
+    name: "Vibrant & Playful",
+    description: "Energetic, fun, and approachable",
+    colors: ["#FF6B6B", "#4ECDC4", "#FFE66D"],
+    tone: "fun, energetic, and engaging"
+  },
+  {
+    id: "corporate-blue",
+    name: "Corporate & Blue",
+    description: "Trustworthy, reliable, and professional",
+    colors: ["#1E3A8A", "#3B82F6", "#DBEAFE"],
+    tone: "trustworthy, corporate, and authoritative"
+  },
+  {
+    id: "elegant-dark",
+    name: "Elegant & Dark",
+    description: "Sophisticated, premium, and luxurious",
+    colors: ["#1A1A1A", "#D4AF37", "#F5F5F5"],
+    tone: "elegant, sophisticated, and premium"
+  },
+  {
+    id: "creative-bold",
+    name: "Creative & Bold",
+    description: "Innovative, daring, and imaginative",
+    colors: ["#8B5CF6", "#EC4899", "#F59E0B"],
+    tone: "bold, creative, and innovative"
+  },
+  {
+    id: "nature-calm",
+    name: "Nature & Calm",
+    description: "Peaceful, organic, and grounded",
+    colors: ["#059669", "#10B981", "#D1FAE5"],
+    tone: "calm, natural, and soothing"
+  }
+]
+
 interface AIGenerationModalProps {
   open: boolean
   templateType: string
@@ -170,6 +215,7 @@ export function AIGenerationModal({ open, templateType, onClose, onGenerate }: A
   const themes = 
     templateType === "iPhone Pro" ? iphoneProThemes :
     templateType === "Portfolio Pro" ? portfolioProThemes :
+    templateType === "Agency Pro" ? agencyProThemes :
     saasThemes
 
   // Enhanced loading animation with steps
