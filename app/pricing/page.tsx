@@ -9,12 +9,19 @@ import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { useCurrency, getCurrencySymbol } from "@/hooks/use-currency"
 import { useState } from "react"
+import { PaymentInfoDialog } from "@/components/payment-info-dialog"
 
 export default function PricingPage() {
   const { subscription, upgradePlan, isLoaded } = useSubscription()
   const router = useRouter()
   const { currency, setCurrency, isLoading: currencyLoading } = useCurrency()
   const [isProcessing, setIsProcessing] = useState(false)
+  const [paymentDialogOpen, setPaymentDialogOpen] = useState(false)
+  const [selectedPlan, setSelectedPlan] = useState<{
+    id: string
+    name: string
+    price: string
+  } | null>(null)
 
   // Prevent hydration errors
   if (!isLoaded || currencyLoading) {
@@ -29,29 +36,37 @@ export default function PricingPage() {
   }
 
   const handlePayment = async (planId: string) => {
-    setIsProcessing(true)
+    const plan = PRICING_PLANS.find((p) => p.id === planId)
+    
+    if (!plan) return
 
-    try {
-      // Update subscription directly (payment integration removed)
-      upgradePlan(planId as any)
-      
-      const plan = PRICING_PLANS.find((p) => p.id === planId)
-      const planName = plan?.name || "selected plan"
-      
-      toast.success(`Successfully switched to ${planName}!`, {
-        description: "Your plan has been updated.",
-        duration: 4000,
-      })
-      
-      setTimeout(() => router.push("/dashboard"), 1000)
-    } catch (error) {
-      console.error("Plan update error:", error)
-      toast.error("Failed to update plan", {
-        description: "Please try again later.",
-      })
-    } finally {
-      setIsProcessing(false)
+    // For free plan, directly switch
+    if (planId === "free") {
+      setIsProcessing(true)
+      try {
+        upgradePlan(planId as any)
+        toast.success("Switched to Free Plan", {
+          description: "Your plan has been updated.",
+          duration: 4000,
+        })
+        setTimeout(() => router.push("/dashboard"), 1000)
+      } catch (error) {
+        console.error("Plan update error:", error)
+        toast.error("Failed to update plan")
+      } finally {
+        setIsProcessing(false)
+      }
+      return
     }
+
+    // For paid plans, show payment info dialog
+    const price = currency === "INR" ? plan.priceINR.toString() : plan.priceUSD.toString()
+    setSelectedPlan({
+      id: planId,
+      name: plan.name,
+      price: price,
+    })
+    setPaymentDialogOpen(true)
   }
 
   return (
@@ -289,6 +304,17 @@ export default function PricingPage() {
           </div>
         </div>
       </div>
+
+      {/* Payment Info Dialog */}
+      {selectedPlan && (
+        <PaymentInfoDialog
+          open={paymentDialogOpen}
+          onOpenChange={setPaymentDialogOpen}
+          planName={selectedPlan.name}
+          planPrice={selectedPlan.price}
+          currency={currency}
+        />
+      )}
     </div>
   )
 }

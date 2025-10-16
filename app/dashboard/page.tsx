@@ -61,7 +61,9 @@ export default function DashboardPage() {
   const { subscription, isLoaded } = useSubscription()
   const { user, profile } = useAuth()
   const router = useRouter()
-  const currentPlan = getPlanById(subscription.plan)
+  // Use profile.plan from database if available, otherwise fallback to localStorage subscription
+  const userPlan = profile?.plan || subscription.plan
+  const currentPlan = getPlanById(userPlan)
   const [shareDialogOpen, setShareDialogOpen] = useState(false)
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
   const { links: allLinks } = useShareableLinks()
@@ -94,6 +96,7 @@ export default function DashboardPage() {
     }
   }
 
+
   const getUserInitials = (email: string | null | undefined) => {
     if (!email) return "LU"
     const parts = email.split("@")[0].split(".")
@@ -121,7 +124,7 @@ export default function DashboardPage() {
 
   const handleExport = (project: Project) => {
     // Check if user's plan allows export
-    if (!canExport(subscription.plan)) {
+    if (!canExport(userPlan)) {
       toast.error("Export Feature Locked", {
         description: "Export is only available on Professional and Unlimited plans. Upgrade to export your websites.",
         duration: 5000,
@@ -330,7 +333,7 @@ export default function DashboardPage() {
             <div className="flex items-center gap-3">
               <div className="bg-white rounded-lg border border-gray-200 px-4 py-2">
                 <div className="text-xs text-gray-600">Current Plan</div>
-                <div className="text-sm font-semibold text-purple-600 uppercase">{subscription.plan}</div>
+                <div className="text-sm font-semibold text-purple-600 uppercase">{userPlan}</div>
               </div>
               <Link href="/pricing">
                 <Button variant="outline" className="gap-2">
@@ -681,17 +684,17 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            {subscription.plan !== "unlimited" && (
+            {userPlan !== "unlimited" && (
               <div className="bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl p-6 text-white">
                 <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mb-4">
                   <Brain className="w-6 h-6 text-white" />
                 </div>
                 <h3 className="text-xl font-bold mb-2">
-                  {subscription.plan === "free" ? "Upgrade to Pro" : "Upgrade Your Plan"}
+                  {userPlan === "free" ? "Upgrade to Pro" : "Upgrade Your Plan"}
                 </h3>
                 <p className="text-sm text-white/90 mb-4">Unlock more features and templates</p>
                 <ul className="space-y-2 mb-6 text-sm">
-                  {subscription.plan === "free" && (
+                  {userPlan === "free" && (
                     <>
                       <li className="flex items-center gap-2">
                         <span className="text-white">•</span>
@@ -703,7 +706,7 @@ export default function DashboardPage() {
                       </li>
                     </>
                   )}
-                  {(subscription.plan === "free" || subscription.plan === "starter") && (
+                  {(userPlan === "free" || userPlan === "starter") && (
                     <li className="flex items-center gap-2">
                       <span className="text-white">•</span>
                       <span>Export to HTML</span>
@@ -718,11 +721,13 @@ export default function DashboardPage() {
                     <span>Priority support</span>
                   </li>
                 </ul>
-                <Link href="/pricing">
-                  <Button className="w-full bg-white text-purple-600 hover:bg-gray-100">
-                    View All Plans
-                  </Button>
-                </Link>
+                <div className="space-y-2">
+                  <Link href="/pricing" className="block">
+                    <Button className="w-full bg-white text-purple-600 hover:bg-gray-100">
+                      View All Plans
+                    </Button>
+                  </Link>
+                </div>
               </div>
             )}
           </div>
@@ -737,6 +742,7 @@ export default function DashboardPage() {
           onOpenChange={setShareDialogOpen}
         />
       )}
+
     </div>
   )
 }
