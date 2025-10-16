@@ -779,7 +779,7 @@ export default function EditorPage() {
   const [modalOpen, setModalOpen] = useState(true)
   const [aiModalOpen, setAiModalOpen] = useState(false)
   const [selectedProTemplate, setSelectedProTemplate] = useState<TemplateId | null>(null)
-  const [selectedThemeId, setSelectedThemeId] = useState<SaaSProThemeId | IPhoneProThemeId | null>(null)
+  const [selectedThemeId, setSelectedThemeId] = useState<SaaSProThemeId | IPhoneProThemeId | AgencyProThemeId | null>(null)
   const [preview, setPreview] = useState(false)
   const [saving, setSaving] = useState(false)
   const [panelOpen, setPanelOpen] = useState(false)
@@ -792,13 +792,13 @@ export default function EditorPage() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const urlTemplate = params.get('template') as TemplateId | null
-    const urlTheme = params.get('theme') as SaaSProThemeId | IPhoneProThemeId | null
+    const urlTheme = params.get('theme')
     const shouldLoadProject = params.get('loadProject') === 'true'
     
     if (urlTemplate) {
       setTemplate(urlTemplate)
       if (urlTheme) {
-        setSelectedThemeId(urlTheme)
+        setSelectedThemeId(urlTheme as SaaSProThemeId | IPhoneProThemeId | AgencyProThemeId)
       }
       setModalOpen(false)
       
@@ -876,12 +876,12 @@ export default function EditorPage() {
     } else {
       // Try to restore from localStorage
       const savedTemplate = localStorage.getItem('editor-template') as TemplateId | null
-      const savedTheme = localStorage.getItem('editor-theme') as SaaSProThemeId | IPhoneProThemeId | null
+      const savedTheme = localStorage.getItem('editor-theme')
       
       if (savedTemplate) {
         setTemplate(savedTemplate)
         if (savedTheme) {
-          setSelectedThemeId(savedTheme)
+          setSelectedThemeId(savedTheme as SaaSProThemeId | IPhoneProThemeId | AgencyProThemeId)
         }
         setModalOpen(false)
       }

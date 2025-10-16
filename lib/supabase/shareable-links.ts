@@ -95,11 +95,11 @@ export async function createShareableLink(
   if (!user) throw new Error('Not authenticated')
 
   // Check if slug is available
-  const { data: existing } = await supabase
+  const { data: existing, error: checkError } = await supabase
     .from('shareable_links')
     .select('id')
     .eq('custom_slug', customSlug)
-    .single()
+    .maybeSingle()
 
   if (existing) {
     throw new Error('This custom URL is already taken. Please choose a different one.')
@@ -182,11 +182,16 @@ export async function updateShareableLink(
 
 // Check if slug is available
 export async function isSlugAvailable(slug: string): Promise<boolean> {
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from('shareable_links')
     .select('id')
     .eq('custom_slug', slug)
-    .single()
+    .maybeSingle()
+
+  // If there's an error other than "not found", log it
+  if (error && error.code !== 'PGRST116') {
+    console.error('Error checking slug availability:', error)
+  }
 
   return !data
 }
