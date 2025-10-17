@@ -12,7 +12,6 @@ import { generateAmazonPrimeHTML } from "./export-html-amazon-prime"
 import { generateGobyToothbrushHTML } from "./export-html-goby-toothbrush"
 import { generateZolaWeddingHTML } from "./export-html-zola-wedding"
 import { generateAgencyProHTML } from "./export-html-agency-pro"
-import { generateEcommerceProHTML } from "./export-html-ecommerce-pro"
 import { generateScienceLandingHTML } from "./export-html-science-landing"
 import { generateEmptyHTML } from "./export-html-empty"
 
@@ -111,13 +110,15 @@ export function generateHTMLExport(project: ProjectRecord): string {
     case "agency-pro":
       html = generateAgencyProHTML(getText, getImage, getButton, theme)
       break
-    case "ecommerce-pro":
-      html = generateEcommerceProHTML(getText, getImage, getButton)
-      break
     default:
       html = generateGenericHTML(getText, getImage, getButton, name)
   }
 
+  // Pro templates return complete HTML documents, so don't wrap them again
+  if (html.trim().startsWith('<!DOCTYPE html>')) {
+    return html
+  }
+  
   return wrapInHTMLDocument(html, name)
 }
 

@@ -641,7 +641,7 @@ export default function DashboardPage() {
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm text-gray-600">Normal Templates</span>
                     <span className="text-sm font-semibold text-gray-900">
-                      {projects.filter(p => !["agency-pro", "saas-pro", "portfolio-pro", "iphone-pro", "ecommerce-pro"].includes(p.template)).length} / {currentPlan.limits.normalTemplates === "unlimited" ? "∞" : currentPlan.limits.normalTemplates}
+                      {projects.filter(p => !["agency-pro", "saas-pro", "portfolio-pro", "iphone-pro"].includes(p.template)).length} / {currentPlan.limits.normalTemplates === "unlimited" ? "∞" : currentPlan.limits.normalTemplates}
                     </span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
@@ -650,7 +650,7 @@ export default function DashboardPage() {
                       style={{ 
                         width: currentPlan.limits.normalTemplates === "unlimited" 
                           ? "100%" 
-                          : `${Math.min((projects.filter(p => !["agency-pro", "saas-pro", "portfolio-pro", "iphone-pro", "ecommerce-pro"].includes(p.template)).length / (currentPlan.limits.normalTemplates as number)) * 100, 100)}%` 
+                          : `${Math.min((projects.filter(p => !["agency-pro", "saas-pro", "portfolio-pro", "iphone-pro"].includes(p.template)).length / (currentPlan.limits.normalTemplates as number)) * 100, 100)}%` 
                       }}
                     />
                   </div>
@@ -659,7 +659,7 @@ export default function DashboardPage() {
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm text-gray-600">Pro Templates</span>
                     <span className="text-sm font-semibold text-gray-900">
-                      {projects.filter(p => ["agency-pro", "saas-pro", "portfolio-pro", "iphone-pro", "ecommerce-pro"].includes(p.template)).length} / {currentPlan.limits.proTemplates === Infinity ? "∞" : currentPlan.limits.proTemplates}
+                      {projects.filter(p => ["agency-pro", "saas-pro", "portfolio-pro", "iphone-pro"].includes(p.template)).length} / {currentPlan.limits.proTemplates === Infinity ? "∞" : currentPlan.limits.proTemplates}
                     </span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
@@ -668,7 +668,7 @@ export default function DashboardPage() {
                       style={{ 
                         width: currentPlan.limits.proTemplates === Infinity 
                           ? "100%" 
-                          : `${Math.min((projects.filter(p => ["agency-pro", "saas-pro", "portfolio-pro", "iphone-pro", "ecommerce-pro"].includes(p.template)).length / currentPlan.limits.proTemplates) * 100, 100)}%` 
+                          : `${Math.min((projects.filter(p => ["agency-pro", "saas-pro", "portfolio-pro", "iphone-pro"].includes(p.template)).length / currentPlan.limits.proTemplates) * 100, 100)}%` 
                       }}
                     />
                   </div>

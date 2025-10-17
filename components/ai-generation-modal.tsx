@@ -196,6 +196,51 @@ const agencyProThemes: Theme[] = [
   }
 ]
 
+const ecommerceProThemes: Theme[] = [
+  {
+    id: "luxury-elegant",
+    name: "Luxury Elegant",
+    description: "Sophisticated and premium with exclusivity",
+    colors: ["#9333EA", "#D946EF", "#FFFFFF"],
+    tone: "sophisticated, premium, and refined with emphasis on exclusivity and high-end appeal"
+  },
+  {
+    id: "modern-minimal",
+    name: "Modern Minimal",
+    description: "Clean and contemporary simplicity",
+    colors: ["#000000", "#FFFFFF", "#F5F5F5"],
+    tone: "clean, contemporary, and straightforward with focus on simplicity and functionality"
+  },
+  {
+    id: "vibrant-bold",
+    name: "Vibrant Bold",
+    description: "Energetic and dynamic statement",
+    colors: ["#EC4899", "#8B5CF6", "#F59E0B"],
+    tone: "energetic, exciting, and dynamic with emphasis on standing out and making a statement"
+  },
+  {
+    id: "athletic-sport",
+    name: "Athletic Sport",
+    description: "Powerful and performance-driven",
+    colors: ["#F97316", "#000000", "#FFFFFF"],
+    tone: "powerful, motivational, and performance-driven with focus on action and achievement"
+  },
+  {
+    id: "eco-natural",
+    name: "Eco Natural",
+    description: "Organic and earth-conscious",
+    colors: ["#16A34A", "#84CC16", "#F0FDF4"],
+    tone: "organic, sustainable, and earth-conscious with emphasis on natural materials and ethics"
+  },
+  {
+    id: "tech-futuristic",
+    name: "Tech Futuristic",
+    description: "Innovative and cutting-edge",
+    colors: ["#0EA5E9", "#8B5CF6", "#1E293B"],
+    tone: "innovative, cutting-edge, and forward-thinking with focus on technology and innovation"
+  }
+]
+
 interface AIGenerationModalProps {
   open: boolean
   templateType: string
@@ -216,6 +261,7 @@ export function AIGenerationModal({ open, templateType, onClose, onGenerate }: A
     templateType === "iPhone Pro" ? iphoneProThemes :
     templateType === "Portfolio Pro" ? portfolioProThemes :
     templateType === "Agency Pro" ? agencyProThemes :
+    templateType === "E-commerce Pro" ? ecommerceProThemes :
     saasThemes
 
   // Enhanced loading animation with steps

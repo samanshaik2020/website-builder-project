@@ -234,7 +234,6 @@ export async function countProTemplates(): Promise<number> {
     'saas-pro',
     'portfolio-pro',
     'iphone-pro',
-    'ecommerce-pro',
   ]
 
   const { count, error } = await supabase

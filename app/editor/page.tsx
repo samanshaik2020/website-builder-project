@@ -50,6 +50,7 @@ import { AGENCY_PRO_THEMES, type AgencyProThemeId } from "@/components/templates
 import type { AITheme } from "@/components/ai-generation-modal"
 import { useProjects } from "@/hooks/use-projects"
 import { useSubscription } from "@/hooks/use-subscription"
+import { useAuth } from "@/contexts/auth-context"
 import { canCreateNormalTemplate, canCreateProTemplate, getPlanById } from "@/lib/pricing-plans"
 import { toast } from "sonner"
 
@@ -81,7 +82,6 @@ type TemplateId =
   | "portfolio-pro"
   | "iphone-pro"
   | "agency-pro"
-  | "coming-soon"
 
 type SelectedElement = { kind: "image"; el: HTMLImageElement } | { kind: "button"; el: HTMLAnchorElement } | { kind: "link"; el: HTMLAnchorElement }
 
@@ -446,17 +446,6 @@ function TemplateModal({
       tags: ["Pro", "Agency", "Multi-Section", "Business"],
       free: false,
     },
-    {
-      id: "coming-soon",
-      title: "More Pro Templates Coming Soon",
-      imgSrc: "/placeholder.svg",
-      imgAlt: "Coming soon",
-      desc: "🚀 We're working on exciting new Pro templates! E-commerce and more professional templates are in development and will be added soon.",
-      category: "SaaS",
-      tags: ["Coming Soon", "In Development", "Pro"],
-      free: false,
-      comingSoon: true,
-    },
   ]
 
   if (!open) return null
@@ -774,7 +763,10 @@ function EditElementPanel({
 export default function EditorPage() {
   const router = useRouter()
   const { subscription, isLoaded } = useSubscription()
+  const { profile } = useAuth()
   const { projects, save } = useProjects()
+  // Use profile.plan from database if available, otherwise fallback to localStorage subscription
+  const userPlan = profile?.plan || subscription.plan
   const [template, setTemplate] = useState<TemplateId | null>(null)
   const [modalOpen, setModalOpen] = useState(true)
   const [aiModalOpen, setAiModalOpen] = useState(false)
@@ -917,8 +909,9 @@ export default function EditorPage() {
       // Check pro template limits
       const proProjectCount = projects.filter((p: any) => proTemplates.includes(p.template as TemplateId)).length
       
-      if (!canCreateProTemplate(subscription.plan, proProjectCount)) {
-        const plan = getPlanById(subscription.plan)
+      // Only check limits if subscription is loaded and not unlimited
+      if (isLoaded && userPlan !== "unlimited" && !canCreateProTemplate(userPlan, proProjectCount)) {
+        const plan = getPlanById(userPlan)
         const limit = plan.limits.proTemplates === Infinity ? "unlimited" : plan.limits.proTemplates
         toast.error("Pro Template Limit Reached", {
           description: `You've reached your limit of ${limit} pro templates. Upgrade your plan to create more.`,
@@ -936,8 +929,8 @@ export default function EditorPage() {
       // Check normal template limits
       const normalProjectCount = projects.filter((p: any) => !proTemplates.includes(p.template as TemplateId)).length
       
-      if (!canCreateNormalTemplate(subscription.plan, normalProjectCount)) {
-        const plan = getPlanById(subscription.plan)
+      if (!canCreateNormalTemplate(userPlan, normalProjectCount)) {
+        const plan = getPlanById(userPlan)
         const limit = plan.limits.normalTemplates === "unlimited" ? "unlimited" : plan.limits.normalTemplates
         toast.error("Template Limit Reached", {
           description: `You've reached your limit of ${limit} normal templates. Upgrade your plan to create more.`,
@@ -951,7 +944,7 @@ export default function EditorPage() {
       setTemplate(id)
       setModalOpen(false)
     }
-  }, [subscription.plan, router])
+  }, [userPlan, isLoaded, router, projects])
 
   const onTogglePreview = useCallback(() => {
     setPreview((p) => !p)
@@ -1130,6 +1123,15 @@ export default function EditorPage() {
         theme: themeToSave,
         data: { texts, images, buttons },
       }
+
+      console.log('💾 Saving project:', {
+        name: project.name,
+        template: project.template,
+        theme: project.theme,
+        textCount: Object.keys(texts).length,
+        imageCount: Object.keys(images).length,
+        buttonCount: Object.keys(buttons).length
+      })
 
       await save(project)
 
