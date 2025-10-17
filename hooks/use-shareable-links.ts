@@ -73,5 +73,6 @@ export function useShareableLinks(projectId?: string) {
     update,
     checkSlugAvailability,
     getActiveCount,
+    reload: loadLinks,
   }
 }

@@ -27,9 +27,10 @@ interface ShareLinkDialogProps {
   project: Project
   open: boolean
   onOpenChange: (open: boolean) => void
+  onSuccess?: () => void
 }
 
-export function ShareLinkDialog({ project, open, onOpenChange }: ShareLinkDialogProps) {
+export function ShareLinkDialog({ project, open, onOpenChange, onSuccess }: ShareLinkDialogProps) {
   const { links, create, checkSlugAvailability, getActiveCount } = useShareableLinks(project.id)
   const { subscription } = useSubscription()
   const { profile } = useAuth()
@@ -102,6 +103,11 @@ export function ShareLinkDialog({ project, open, onOpenChange }: ShareLinkDialog
           ? `Link will expire in ${expiryDays} days`
           : "Link has no expiration date",
       })
+      
+      // Notify parent component to refresh links list
+      if (onSuccess) {
+        onSuccess()
+      }
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Failed to create link")
     } finally {

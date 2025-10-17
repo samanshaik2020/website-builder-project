@@ -57,7 +57,7 @@ import { isMobileDevice } from "@/lib/utils"
 import { getAnalyticsSummary } from "@/lib/supabase/analytics"
 
 export default function DashboardPage() {
-  const { projects, remove } = useProjects()
+  const { projects, remove, reload: reloadProjects } = useProjects()
   const { subscription, isLoaded } = useSubscription()
   const { user, profile } = useAuth()
   const router = useRouter()
@@ -66,7 +66,7 @@ export default function DashboardPage() {
   const currentPlan = getPlanById(userPlan)
   const [shareDialogOpen, setShareDialogOpen] = useState(false)
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
-  const { links: allLinks } = useShareableLinks()
+  const { links: allLinks, reload: reloadLinks } = useShareableLinks()
   const [isMobile, setIsMobile] = useState(false)
   const [showMobileWarning, setShowMobileWarning] = useState(true)
   const [analytics, setAnalytics] = useState({ totalViews: 0, totalClicks: 0, conversionRate: 0 })
@@ -74,6 +74,17 @@ export default function DashboardPage() {
   useEffect(() => {
     setIsMobile(isMobileDevice())
   }, [])
+
+  // Reload projects and links when page gains focus (user returns from editor)
+  useEffect(() => {
+    const handleFocus = () => {
+      reloadProjects()
+      reloadLinks()
+    }
+    
+    window.addEventListener('focus', handleFocus)
+    return () => window.removeEventListener('focus', handleFocus)
+  }, [reloadProjects, reloadLinks])
 
   // Load analytics data
   useEffect(() => {
@@ -740,6 +751,7 @@ export default function DashboardPage() {
           project={selectedProject}
           open={shareDialogOpen}
           onOpenChange={setShareDialogOpen}
+          onSuccess={reloadLinks}
         />
       )}
 
