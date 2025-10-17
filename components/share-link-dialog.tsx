@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dialog"
 import { useShareableLinks } from "@/hooks/use-shareable-links"
 import { useSubscription } from "@/hooks/use-subscription"
+import { useAuth } from "@/contexts/auth-context"
 import {
   canCreateShareableLink,
   getShareableLinkExpiry,
@@ -31,15 +32,18 @@ interface ShareLinkDialogProps {
 export function ShareLinkDialog({ project, open, onOpenChange }: ShareLinkDialogProps) {
   const { links, create, checkSlugAvailability, getActiveCount } = useShareableLinks(project.id)
   const { subscription } = useSubscription()
+  const { profile } = useAuth()
   const [customSlug, setCustomSlug] = useState("")
   const [generatedLink, setGeneratedLink] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
   const [loading, setLoading] = useState(false)
   const [activeLinksCount, setActiveLinksCount] = useState(0)
 
-  const maxLinks = getMaxShareableLinks(subscription.plan)
-  const expiryDays = getShareableLinkExpiry(subscription.plan)
-  const canCreate = canCreateShareableLink(subscription.plan, activeLinksCount)
+  // Use profile.plan from database if available, otherwise fallback to localStorage subscription
+  const userPlan = profile?.plan || subscription.plan
+  const maxLinks = getMaxShareableLinks(userPlan)
+  const expiryDays = getShareableLinkExpiry(userPlan)
+  const canCreate = canCreateShareableLink(userPlan, activeLinksCount)
 
   // Load active links count and check for existing link
   useEffect(() => {

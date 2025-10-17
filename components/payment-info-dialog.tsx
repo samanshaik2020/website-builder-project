@@ -37,7 +37,7 @@ export function PaymentInfoDialog({
     const body = encodeURIComponent(
       `Hello,\n\nI would like to upgrade to the ${planName} plan.\n\nPlan Details:\n- Plan: ${planName}\n- Price: ${currency === "INR" ? "₹" : "$"}${planPrice}\n\nPlease upgrade my account to this plan.\n\nThank you!`
     )
-    window.open(`mailto:${DEVELOPER_EMAIL}?subject=${subject}&body=${body}`, "_blank")
+    window.location.href = `mailto:${DEVELOPER_EMAIL}?subject=${subject}&body=${body}`
   }
 
   return (
