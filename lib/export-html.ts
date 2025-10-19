@@ -14,6 +14,8 @@ import { generateZolaWeddingHTML } from "./export-html-zola-wedding"
 import { generateAgencyProHTML } from "./export-html-agency-pro"
 import { generateScienceLandingHTML } from "./export-html-science-landing"
 import { generateEmptyHTML } from "./export-html-empty"
+import { generatePortfolioHTML } from "./export-html-portfolio"
+import { generateSaaSLandingHTML } from "./export-html-saas-landing"
 
 /**
  * Generates a standalone HTML file from a saved project
@@ -21,6 +23,14 @@ import { generateEmptyHTML } from "./export-html-empty"
 export function generateHTMLExport(project: ProjectRecord): string {
   const { template, data, name, theme } = project
   const { texts, images, buttons } = data
+
+  console.log('📄 Export HTML - Generating:', {
+    template,
+    theme,
+    hasTheme: !!theme,
+    textCount: Object.keys(texts).length,
+    imageCount: Object.keys(images).length
+  })
 
   // Helper to get text content by ID
   const getText = (id: string, fallback = "") => texts[id] || fallback
@@ -36,10 +46,10 @@ export function generateHTMLExport(project: ProjectRecord): string {
 
   switch (template) {
     case "portfolio":
-      html = generatePortfolioHTML(getText, getImage, getButton)
+      html = generatePortfolioHTML(getText, getImage, getButton, theme)
       break
     case "saas-landing":
-      html = generateSaaSLandingHTML(getText, getImage, getButton)
+      html = generateSaaSLandingHTML(getText, getImage, getButton, theme)
       break
     case "project-overview":
       html = generateProjectOverviewHTML(getText, getImage, getButton)
@@ -331,231 +341,8 @@ function getPortfolioProThemeStyles(theme: string) {
   return themes[theme] || themes["default"]
 }
 
-function generatePortfolioHTML(getText: GetText, getImage: GetImage, getButton: GetButton): string {
-  return `
-<main class="bg-background text-foreground">
-  <header class="border-b border-border">
-    <div class="mx-auto max-w-6xl px-4 py-6 flex items-center justify-between">
-      <h1 class="text-xl font-semibold">${escapeHtml(getText("pt-brand", "Your Name"))}</h1>
-      <nav class="flex items-center gap-6 text-sm">
-        <span>${escapeHtml(getText("pt-nav-1", "About"))}</span>
-        <span>${escapeHtml(getText("pt-nav-2", "Projects"))}</span>
-        <span>${escapeHtml(getText("pt-nav-3", "Contact"))}</span>
-      </nav>
-    </div>
-  </header>
-
-  <section class="mx-auto max-w-6xl px-4 py-12 grid gap-8 md:grid-cols-2">
-    <div class="flex flex-col gap-4">
-      <h2 class="text-3xl md:text-5xl font-bold text-balance">${escapeHtml(getText("pt-hero-title", "Designer & Frontend Developer crafting clean, modern websites"))}</h2>
-      <p class="text-muted-foreground leading-relaxed">${escapeHtml(getText("pt-hero-sub", "I help startups and agencies turn ideas into delightful, performant digital products."))}</p>
-      <div class="flex gap-3">
-        <a href="${escapeHtml(getButton("pt-cta-1").href)}" class="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90">${escapeHtml(getButton("pt-cta-1").text)}</a>
-        <a href="${escapeHtml(getButton("pt-cta-2").href)}" class="inline-flex items-center justify-center rounded-md bg-secondary px-4 py-2 text-sm font-medium text-secondary-foreground hover:opacity-90">${escapeHtml(getButton("pt-cta-2").text)}</a>
-      </div>
-    </div>
-    <img src="${escapeHtml(getImage("pt-hero-img", "/portfolio-cover-preview.jpg"))}" alt="Portfolio preview" class="w-full h-auto md:justify-self-end" />
-  </section>
-
-  <section class="mx-auto max-w-6xl px-4 py-12 grid gap-8 md:grid-cols-[1fr_1.2fr]">
-    <div class="rounded-xl border border-border bg-card p-6">
-      <h3 class="text-xl font-semibold mb-3">${escapeHtml(getText("pt-about-title", "About Me"))}</h3>
-      <p class="text-sm text-muted-foreground leading-relaxed">${escapeHtml(getText("pt-about-body", "I specialize in UX, UI, and front-end development. I turn complex problems into simple, beautiful solutions."))}</p>
-    </div>
-    <div class="rounded-xl border border-border bg-card p-6">
-      <h3 class="text-xl font-semibold mb-3">${escapeHtml(getText("pt-skills-title", "Skills"))}</h3>
-      <div class="grid grid-cols-2 gap-3 text-sm">
-        ${["React", "Next.js", "Tailwind", "Figma", "TypeScript", "Accessibility"]
-      .map((s, i) => `<div class="rounded-lg bg-background p-3">${escapeHtml(getText(`pt-skill-${i}`, s))}</div>`)
-      .join("")}
-      </div>
-    </div>
-  </section>
-
-  <section class="bg-card border-y border-border">
-    <div class="mx-auto max-w-6xl px-4 py-12">
-      <h3 class="text-2xl font-semibold mb-6 text-center">${escapeHtml(getText("pt-test-title", "What clients say"))}</h3>
-      <div class="grid gap-6 md:grid-cols-3">
-        ${[1, 2, 3].map((n) => `
-          <figure class="rounded-lg border border-border p-5 bg-background">
-            <blockquote class="text-pretty">${escapeHtml(getText(`pt-test-quote-${n}`, '"Outstanding work, fast delivery, and great communication throughout."'))}</blockquote>
-            <div class="mt-4 flex items-center gap-3">
-              <img src="${escapeHtml(getImage(`pt-test-avatar-${n}`, `/placeholder.svg?height=40&width=40&query=avatar%20${n}`))}" alt="Client ${n}" class="h-10 w-10 rounded-full" />
-              <div>
-                <p class="text-sm font-medium">${escapeHtml(getText(`pt-test-name-${n}`, `Client Name ${n}`))}</p>
-                <p class="text-xs text-muted-foreground">${escapeHtml(getText(`pt-test-role-${n}`, "Company"))}</p>
-              </div>
-            </div>
-          </figure>
-        `).join("")}
-      </div>
-    </div>
-  </section>
-
-  <section class="mx-auto max-w-6xl px-4 py-12">
-    <div class="rounded-xl border border-border p-6 bg-card grid gap-6 md:grid-cols-[1.2fr_1fr] items-center">
-      <div>
-        <h4 class="text-xl font-semibold">${escapeHtml(getText("pt-contact-title", "Let's build something great"))}</h4>
-        <p class="text-sm text-muted-foreground mt-2">${escapeHtml(getText("pt-contact-desc", "Ready to start your project? Get in touch and tell me about your idea."))}</p>
-      </div>
-      <div class="flex gap-3 md:justify-end">
-        <a href="${escapeHtml(getButton("pt-contact-cta-1").href)}" class="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90">${escapeHtml(getButton("pt-contact-cta-1").text)}</a>
-        <a href="${escapeHtml(getButton("pt-contact-cta-2").href)}" class="inline-flex items-center justify-center rounded-md bg-secondary px-4 py-2 text-sm font-medium text-secondary-foreground hover:opacity-90">${escapeHtml(getButton("pt-contact-cta-2").text)}</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="bg-card border-t border-border">
-    <div class="mx-auto max-w-6xl px-4 py-12">
-      <h3 class="text-2xl font-semibold mb-6">${escapeHtml(getText("pt-sec-title", "Selected Projects"))}</h3>
-      <div class="grid gap-6 md:grid-cols-3">
-        ${[1, 2, 3].map((n) => `
-          <article class="rounded-lg border border-border overflow-hidden bg-background">
-            <img src="${escapeHtml(getImage(`pt-proj-img-${n}`, `/placeholder.svg?height=200&width=400&query=project%20${n}`))}" alt="Project ${n}" class="w-full h-auto" />
-            <div class="p-4">
-              <h4 class="font-medium">${escapeHtml(getText(`pt-proj-title-${n}`, `Project Title ${n}`))}</h4>
-              <p class="text-sm text-muted-foreground">${escapeHtml(getText(`pt-proj-desc-${n}`, "Short description of the project and the impact it delivered."))}</p>
-            </div>
-          </article>
-        `).join("")}
-      </div>
-    </div>
-  </section>
-
-  <footer class="border-t border-border">
-    <div class="mx-auto max-w-6xl px-4 py-8 flex items-center justify-between">
-      <p class="text-sm text-muted-foreground">${escapeHtml(getText("pt-foot-copy", "© 2025 Your Name. All rights reserved."))}</p>
-      <div class="flex gap-4 text-sm">
-        <span>${escapeHtml(getText("pt-foot-link-1", "Twitter"))}</span>
-        <span>${escapeHtml(getText("pt-foot-link-2", "LinkedIn"))}</span>
-        <span>${escapeHtml(getText("pt-foot-link-3", "GitHub"))}</span>
-      </div>
-    </div>
-  </footer>
-</main>
-  `
-}
-
-function generateSaaSLandingHTML(getText: GetText, getImage: GetImage, getButton: GetButton): string {
-  return `
-<main class="bg-background text-foreground">
-  <header class="border-b border-border">
-    <div class="mx-auto max-w-6xl px-4 py-5 flex items-center justify-between">
-      <h1 class="text-xl font-semibold">${escapeHtml(getText("sl-brand", "SparkMail AI"))}</h1>
-      <nav class="hidden md:flex items-center gap-6 text-sm">
-        ${[0, 1, 2, 3].map((i) => `<span>${escapeHtml(getText(`sl-nav-${i}`, ["Features", "Pricing", "Docs", "Contact"][i]))}</span>`).join("")}
-      </nav>
-      <a href="${escapeHtml(getButton("sl-cta-login").href)}" class="hidden md:inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground">${escapeHtml(getButton("sl-cta-login").text)}</a>
-    </div>
-  </header>
-
-  <section class="mx-auto max-w-6xl px-4 py-12 grid gap-10 md:grid-cols-2">
-    <div class="flex flex-col gap-4">
-      <h2 class="text-3xl md:text-5xl font-bold text-balance">${escapeHtml(getText("sl-hero-title", "Write better emails 10x faster with AI"))}</h2>
-      <p class="text-muted-foreground leading-relaxed">${escapeHtml(getText("sl-hero-sub", "Draft, improve, and personalize emails with one click."))}</p>
-      <div class="flex flex-col sm:flex-row gap-3">
-        <a href="${escapeHtml(getButton("sl-cta-1").href)}" class="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground">${escapeHtml(getButton("sl-cta-1").text)}</a>
-        <a href="${escapeHtml(getButton("sl-cta-2").href)}" class="inline-flex items-center justify-center rounded-md bg-secondary px-4 py-2 text-sm font-medium text-secondary-foreground">${escapeHtml(getButton("sl-cta-2").text)}</a>
-      </div>
-      <div class="text-xs text-muted-foreground">${escapeHtml(getText("sl-footnote", "No credit card required"))}</div>
-    </div>
-    <img src="${escapeHtml(getImage("sl-hero-img", "/product-screenshot.png"))}" alt="App screenshot" class="w-full h-auto md:justify-self-end" />
-  </section>
-
-  <section class="mx-auto max-w-6xl px-4 py-10">
-    <div class="rounded-xl border border-border p-6 bg-card">
-      <h4 class="text-center text-sm text-muted-foreground mb-6">${escapeHtml(getText("sl-logos-title", "Trusted by teams at"))}</h4>
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 items-center">
-        ${[1, 2, 3, 4].map((n) => `<img src="${escapeHtml(getImage(`sl-logo-${n}`, `/placeholder.svg?height=36&width=120&query=logo%20${n}`))}" alt="Logo ${n}" class="mx-auto h-9 w-auto opacity-70" />`).join("")}
-      </div>
-    </div>
-  </section>
-
-  <section class="mx-auto max-w-6xl px-4 py-12">
-    <div class="grid gap-6 md:grid-cols-3">
-      ${[0, 1, 2].map((i) => `
-        <article class="rounded-lg border border-border p-5 bg-card">
-          <img src="${escapeHtml(getImage(`sl-adv-icon-${i}`, `/placeholder.svg?height=40&width=40&query=icon%20${i + 1}`))}" alt="Feature icon ${i + 1}" class="h-10 w-10 mb-3" />
-          <h4 class="font-medium">${escapeHtml(getText(`sl-adv-title-${i}`, `Advanced Feature ${i + 1}`))}</h4>
-          <p class="text-sm text-muted-foreground">${escapeHtml(getText(`sl-adv-desc-${i}`, "Explain how this feature provides tangible value."))}</p>
-          <ul class="mt-3 list-disc pl-5 text-sm">
-            ${[1, 2, 3].map((n) => `<li>${escapeHtml(getText(`sl-adv-bullet-${i}-${n}`, `Key benefit ${n}`))}</li>`).join("")}
-          </ul>
-        </article>
-      `).join("")}
-    </div>
-  </section>
-
-  <section class="bg-card border-y border-border">
-    <div class="mx-auto max-w-6xl px-4 py-12">
-      <h3 class="text-2xl font-semibold mb-6 text-center">${escapeHtml(getText("sl-test-title", "Loved by modern teams"))}</h3>
-      <div class="grid gap-6 md:grid-cols-3">
-        ${[1, 2, 3].map((n) => `
-          <figure class="rounded-lg border border-border p-5 bg-background">
-            <blockquote class="text-pretty">${escapeHtml(getText(`sl-test-quote-${n}`, "SparkMail AI cut our reply time by 70%."))}</blockquote>
-            <div class="mt-4 flex items-center gap-3">
-              <img src="${escapeHtml(getImage(`sl-test-avatar-${n}`, `/placeholder.svg?height=40&width=40&query=avatar%20${n}`))}" alt="Avatar ${n}" class="h-10 w-10 rounded-full" />
-              <div>
-                <p class="text-sm font-medium">${escapeHtml(getText(`sl-test-name-${n}`, "Alex Johnson"))}</p>
-                <p class="text-xs text-muted-foreground">${escapeHtml(getText(`sl-test-role-${n}`, "Head of Support, Acme"))}</p>
-              </div>
-            </div>
-          </figure>
-        `).join("")}
-      </div>
-    </div>
-  </section>
-
-  <section class="mx-auto max-w-6xl px-4 py-12">
-    <h3 class="text-2xl font-semibold mb-6 text-center">${escapeHtml(getText("sl-pricing-title", "Simple, transparent pricing"))}</h3>
-    <div class="grid gap-6 md:grid-cols-3">
-      ${["starter", "pro", "team"].map((k) => `
-        <article class="rounded-lg border border-border p-6 bg-card flex flex-col">
-          <p class="text-sm text-muted-foreground">${escapeHtml(getText(`sl-price-badge-${k}`, k.charAt(0).toUpperCase() + k.slice(1)))}</p>
-          <div class="mt-2 text-3xl font-bold">${escapeHtml(getText(`sl-price-amount-${k}`, k === "starter" ? "$0/mo" : k === "pro" ? "$19/mo" : "$49/mo"))}</div>
-          <ul class="mt-4 space-y-2 text-sm">
-            ${[1, 2, 3, 4].map((n) => `<li>${escapeHtml(getText(`sl-price-feat-${k}-${n}`, `Plan feature ${n}`))}</li>`).join("")}
-          </ul>
-          <div class="mt-6">
-            <a href="${escapeHtml(getButton(`sl-price-cta-${k}`).href)}" class="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground w-full">${escapeHtml(getButton(`sl-price-cta-${k}`).text)}</a>
-          </div>
-        </article>
-      `).join("")}
-    </div>
-  </section>
-
-  <section class="bg-card border-y border-border">
-    <div class="mx-auto max-w-6xl px-4 py-12">
-      <h3 class="text-2xl font-semibold mb-6 text-center">${escapeHtml(getText("sl-faq-title", "Frequently asked questions"))}</h3>
-      <div class="grid gap-4 md:grid-cols-2">
-        ${[1, 2, 3, 4].map((n) => `
-          <article class="rounded-lg border border-border p-5 bg-background">
-            <h4 class="font-medium">${escapeHtml(getText(`sl-faq-q-${n}`, `Question ${n}: How does SparkMail AI work?`))}</h4>
-            <p class="text-sm text-muted-foreground">${escapeHtml(getText(`sl-faq-a-${n}`, "Answer: It analyzes your context and tone."))}</p>
-          </article>
-        `).join("")}
-      </div>
-    </div>
-  </section>
-
-  <section class="mx-auto max-w-6xl px-4 py-12">
-    <div class="rounded-xl border border-border p-6 bg-card grid md:grid-cols-2 gap-6 items-center">
-      <h4 class="text-xl font-semibold">${escapeHtml(getText("sl-cta-final-title", "Get started in minutes — no credit card required"))}</h4>
-      <div class="flex gap-3 md:justify-end">
-        <a href="${escapeHtml(getButton("sl-cta-final-1").href)}" class="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground">${escapeHtml(getButton("sl-cta-final-1").text)}</a>
-        <a href="${escapeHtml(getButton("sl-cta-final-2").href)}" class="inline-flex items-center justify-center rounded-md bg-secondary px-4 py-2 text-sm font-medium text-secondary-foreground">${escapeHtml(getButton("sl-cta-final-2").text)}</a>
-      </div>
-    </div>
-  </section>
-
-  <footer class="border-t border-border">
-    <div class="mx-auto max-w-6xl px-4 py-8 text-center md:text-left">
-      <p class="text-sm text-muted-foreground">${escapeHtml(getText("sl-footer", "© 2025 SparkMail Inc."))}</p>
-    </div>
-  </footer>
-</main>
-  `
-}
+// Portfolio HTML generation is now in export-html-portfolio.ts
+// SaaS Landing HTML generation is now in export-html-saas-landing.ts
 
 function generateProjectOverviewHTML(getText: GetText, getImage: GetImage, getButton: GetButton): string {
   return `

@@ -193,9 +193,27 @@ export default function DashboardPage() {
     // Navigate to editor with template and theme parameters
     const params = new URLSearchParams()
     params.set('template', project.template)
-    if (project.theme) {
-      params.set('theme', project.theme)
+    
+    // Only handle themes for Pro templates
+    const proTemplates = ['saas-pro', 'agency-pro', 'portfolio-pro', 'iphone-pro']
+    if (proTemplates.includes(project.template)) {
+      let themeToUse = project.theme
+      if (!themeToUse) {
+        // Default themes for Pro templates
+        const defaultThemes: Record<string, string> = {
+          'saas-pro': 'modern-minimal',
+          'agency-pro': 'modern-minimal',
+          'portfolio-pro': 'default',
+          'iphone-pro': 'dark-gradient',
+        }
+        themeToUse = defaultThemes[project.template] || null
+      }
+      
+      if (themeToUse) {
+        params.set('theme', themeToUse)
+      }
     }
+    
     params.set('loadProject', 'true')
     window.location.href = `/editor?${params.toString()}`
   }

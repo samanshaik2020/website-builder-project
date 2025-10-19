@@ -47,6 +47,8 @@ import { SAAS_PRO_THEMES, type SaaSProThemeId } from "@/components/templates/pro
 import { PortfolioProTemplatePro } from "@/components/templates/pro/portfolio-pro-template"
 import { IPHONE_PRO_THEMES, type IPhoneProThemeId } from "@/components/templates/pro/iphone-pro"
 import { AGENCY_PRO_THEMES, type AgencyProThemeId } from "@/components/templates/pro/agency-pro"
+import { ThemeSelectionModal } from "@/components/theme-selection-modal"
+import { getTemplateThemes, hasMultipleThemes } from "@/lib/template-themes"
 import type { AITheme } from "@/components/ai-generation-modal"
 import { useProjects } from "@/hooks/use-projects"
 import { useSubscription } from "@/hooks/use-subscription"
@@ -160,9 +162,11 @@ function EditorHeader({
 function TemplateModal({
   open,
   onSelect,
+  onViewThemes,
 }: {
   open: boolean
   onSelect: (id: TemplateId) => void
+  onViewThemes: (id: TemplateId) => void
 }) {
   const [activeFilter, setActiveFilter] = useState<"all" | "portfolio" | "free" | "pro">("all")
   const cards: Array<{
@@ -549,7 +553,15 @@ function TemplateModal({
                   </div>
                   <Button
                     type="button"
-                    onClick={() => !(c as any).comingSoon && onSelect(c.id)}
+                    onClick={() => {
+                      if ((c as any).comingSoon) return
+                      // Check if template has multiple themes
+                      if (hasMultipleThemes(c.id)) {
+                        onViewThemes(c.id)
+                      } else {
+                        onSelect(c.id)
+                      }
+                    }}
                     disabled={(c as any).comingSoon}
                     className={cn(
                       "h-10 w-full rounded-lg",
@@ -558,7 +570,11 @@ function TemplateModal({
                         : "bg-black text-white hover:opacity-90"
                     )}
                   >
-                    {(c as any).comingSoon ? "In Development" : "Start Editing"}
+                    {(c as any).comingSoon 
+                      ? "In Development" 
+                      : hasMultipleThemes(c.id) 
+                        ? "View Themes" 
+                        : "Start Editing"}
                   </Button>
                 </div>
               </div>
@@ -779,6 +795,8 @@ export default function EditorPage() {
   const [imageCache, setImageCache] = useState<Record<string, string>>({})
   const [saveDialogOpen, setSaveDialogOpen] = useState(false)
   const [projectName, setProjectName] = useState("")
+  const [themeModalOpen, setThemeModalOpen] = useState(false)
+  const [selectedTemplateForTheme, setSelectedTemplateForTheme] = useState<string | null>(null)
 
   // Restore template from URL params or localStorage on mount
   useEffect(() => {
@@ -1284,7 +1302,35 @@ export default function EditorPage() {
         />
       </section>
 
-      <TemplateModal open={modalOpen} onSelect={onSelectTemplate} />
+      <TemplateModal 
+        open={modalOpen} 
+        onSelect={onSelectTemplate}
+        onViewThemes={(templateId) => {
+          setSelectedTemplateForTheme(templateId)
+          setThemeModalOpen(true)
+        }}
+      />
+      
+      <ThemeSelectionModal
+        open={themeModalOpen}
+        onClose={() => {
+          setThemeModalOpen(false)
+          setSelectedTemplateForTheme(null)
+        }}
+        templateConfig={
+          selectedTemplateForTheme 
+            ? getTemplateThemes(selectedTemplateForTheme) || null
+            : null
+        }
+        onSelectTheme={(templateId, themeId) => {
+          setThemeModalOpen(false)
+          setModalOpen(false)
+          setTemplate(templateId as TemplateId)
+          setSelectedThemeId(themeId as any)
+          setSelectedTemplateForTheme(null)
+        }}
+      />
+      
       <AIGenerationModal 
         open={aiModalOpen} 
         templateType={
