@@ -45,6 +45,7 @@ export default function TemplatesPage() {
     { id: 'free', label: 'Free' },
     { id: 'pro', label: 'Pro' },
     { id: 'finance', label: 'Finance' },
+    { id: 'product', label: 'Product' },
   ];
 
   const filteredTemplates = templates.filter((template) => {
@@ -68,6 +69,12 @@ export default function TemplatesPage() {
         return '/Grocery Delivery.png';
       case 'loan-landing':
         return '/Loan Landing.png';
+      case 'samsung-product':
+        return '/Samsung Product Page.png';
+      case 'furniture-store':
+        return '/Furniture Store.png';
+      case 'meditation-app':
+        return '/Meditation App.png';
       default:
         return null;
     }

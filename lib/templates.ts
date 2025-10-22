@@ -6,6 +6,11 @@ import { AIPhotoStudioTemplate, aiPhotoStudioConfig } from '@/components/templat
 import { CatFoodTemplate, catFoodConfig } from '@/components/templates/cat-food';
 import { GroceryDeliveryTemplate, groceryDeliveryConfig } from '@/components/templates/grocery-delivery';
 import { SaasLandingTemplate, saasLandingConfig } from '@/components/templates/saas-landing';
+import { SamsungProductTemplate, samsungProductConfig } from '@/components/templates/samsung-product';
+import FurnitureStoreTemplate from '@/components/templates/furniture-store';
+import { furnitureStoreConfig } from '@/components/templates/furniture-store';
+import MeditationAppTemplate from '@/components/templates/meditation-app';
+import { meditationAppConfig } from '@/components/templates/meditation-app';
 
 export const templates = {
   portfolio: {
@@ -35,6 +40,18 @@ export const templates = {
   'loan-landing': {
     component: LoanLandingTemplate,
     config: loanLandingConfig,
+  },
+  'samsung-product': {
+    component: SamsungProductTemplate,
+    config: samsungProductConfig,
+  },
+  'furniture-store': {
+    component: FurnitureStoreTemplate,
+    config: furnitureStoreConfig,
+  },
+  'meditation-app': {
+    component: MeditationAppTemplate,
+    config: meditationAppConfig,
   },
 } as const;
 

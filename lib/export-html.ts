@@ -1,6 +1,9 @@
 import { type TemplateId } from './templates';
 import { TemplateData } from '@/types/template';
 import { generateLoanLandingHTML } from './export-html-loan-landing';
+import { generateSamsungProductHTML } from './export-html-samsung-product';
+import { generateFurnitureStoreHTML } from './export-html-furniture-store';
+import { generateMeditationAppHTML } from './export-html-meditation-app';
 
 interface ExportData {
   template: TemplateId;
@@ -1271,6 +1274,12 @@ export const exportToHTML = ({ template, data, projectName }: ExportData): strin
       return generateGroceryDeliveryHTML(data, projectName);
     case 'loan-landing':
       return generateLoanLandingHTML(data);
+    case 'samsung-product':
+      return generateSamsungProductHTML(data);
+    case 'furniture-store':
+      return generateFurnitureStoreHTML(data);
+    case 'meditation-app':
+      return generateMeditationAppHTML(data);
     default:
       return `<!DOCTYPE html><html><head><title>Error</title></head><body><h1>Template not found</h1></body></html>`;
   }

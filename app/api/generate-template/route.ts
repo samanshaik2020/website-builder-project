@@ -159,6 +159,21 @@ function buildPromptForTemplate(templateSlug: string, seedText: string, theme?: 
     return buildLoanLandingPrompt(seedText, theme);
   }
 
+  // Samsung Product template has its own structure
+  if (templateSlug === 'samsung-product') {
+    return buildSamsungProductPrompt(seedText, theme);
+  }
+
+  // Furniture Store template has its own structure
+  if (templateSlug === 'furniture-store') {
+    return buildFurnitureStorePrompt(seedText, theme);
+  }
+
+  // Meditation App template has its own structure
+  if (templateSlug === 'meditation-app') {
+    return buildMeditationAppPrompt(seedText, theme);
+  }
+
   const baseInstructions = `You are a professional web content generator. Generate content for a ${templateSlug} template based on the following description: "${seedText}"${theme ? ` using the ${theme} theme style` : ''}.
 
 Return ONLY valid JSON (no markdown, no code blocks, no comments). The JSON must follow this exact structure with ALL fields:
@@ -597,5 +612,229 @@ Important:
 - Make the process sound simple and stress-free
 - Use realistic company information
 - Adapt tone to the specific loan type (home loan, personal loan, business loan, etc.)
+- Return ONLY the JSON object, nothing else`;
+}
+
+// Prompt builder for Samsung Product template
+function buildSamsungProductPrompt(seedText: string, theme?: string) {
+  return `You are a professional web content generator. Generate content for a modern product landing page inspired by Samsung's design based on the following description: "${seedText}"${theme ? ` using the ${theme} theme style` : ''}.
+
+Return ONLY valid JSON (no markdown, no code blocks, no comments). The JSON must include ALL 61 fields below:
+
+{
+  "nav_brand": "Brand name (1-2 words, all caps, e.g., 'SAMSUNG', 'APPLE')",
+  "nav_link_1": "Navigation link 1 (1-2 words, e.g., 'Mobile', 'Products')",
+  "nav_link_2": "Navigation link 2 (1-2 words, e.g., 'TV & AV', 'Services')",
+  "nav_link_3": "Navigation link 3 (1-2 words, e.g., 'Home Appliances', 'Support')",
+  "nav_cta": "Nav CTA button text (2-3 words, e.g., 'Buy Now', 'Shop')",
+  "hero_badge": "Hero badge text (2-4 words, all caps, e.g., 'NEW ARRIVAL', 'EXCLUSIVE')",
+  "hero_title": "Product name/title (2-5 words, e.g., 'Galaxy S24 Ultra', 'iPhone 15 Pro')",
+  "hero_subtitle": "Hero subtitle (15-25 words describing the product value)",
+  "hero_cta_primary": "Primary CTA button (2-4 words, e.g., 'Pre-order now', 'Buy Now')",
+  "hero_cta_secondary": "Secondary CTA button (2-3 words, e.g., 'Learn more', 'Explore')",
+  "hero_image_text": "Hero image placeholder text (2-3 words, e.g., 'Product Image')",
+  "features_title": "Features section title (2-4 words, e.g., 'Key Features', 'What's New')",
+  "feature_1_title": "Feature 1 title (3-6 words about display/screen)",
+  "feature_1_description": "Feature 1 description (25-40 words about display technology)",
+  "feature_2_title": "Feature 2 title (3-6 words about camera/photography)",
+  "feature_2_description": "Feature 2 description (25-40 words about camera capabilities)",
+  "feature_3_title": "Feature 3 title (3-6 words about battery/performance)",
+  "feature_3_description": "Feature 3 description (25-40 words about battery/power)",
+  "specs_title": "Specifications section title (2-4 words, e.g., 'Technical Specifications', 'Tech Specs')",
+  "spec_1_label": "Spec 1 label (1-2 words, e.g., 'Processor', 'Chip')",
+  "spec_1_value": "Spec 1 value (processor name, e.g., 'Snapdragon 8 Gen 3', 'A17 Pro')",
+  "spec_2_label": "Spec 2 label (1-2 words, e.g., 'Memory', 'Storage')",
+  "spec_2_value": "Spec 2 value (RAM/storage, e.g., '12GB RAM / 512GB Storage')",
+  "spec_3_label": "Spec 3 label (1-2 words, e.g., 'Display', 'Screen')",
+  "spec_3_value": "Spec 3 value (display specs, e.g., '6.8\" Dynamic AMOLED 2X')",
+  "spec_4_label": "Spec 4 label (1-2 words, e.g., 'Camera', 'Cameras')",
+  "spec_4_value": "Spec 4 value (camera specs, e.g., '200MP + 12MP + 10MP + 10MP')",
+  "gallery_title": "Gallery section title (3-5 words, e.g., 'See It In Action')",
+  "gallery_1_text": "Gallery 1 placeholder (2-3 words, e.g., 'Gallery Image 1')",
+  "gallery_2_text": "Gallery 2 placeholder (2-3 words, e.g., 'Gallery Image 2')",
+  "gallery_3_text": "Gallery 3 placeholder (2-3 words, e.g., 'Gallery Image 3')",
+  "pricing_title": "Pricing title (3-6 words, e.g., 'Get Yours Today', 'Available Now')",
+  "pricing_subtitle": "Pricing subtitle (8-15 words about availability/options)",
+  "pricing_label": "Pricing label (2-3 words, e.g., 'Starting at', 'From')",
+  "pricing_amount": "Price (e.g., '$1,199', '$999', '€1,299')",
+  "pricing_description": "Payment option (8-15 words, e.g., 'or $49.95/mo. for 24 months')",
+  "pricing_cta": "Pricing CTA button (2-3 words, e.g., 'Buy Now', 'Order Now')",
+  "pricing_note": "Pricing note (8-15 words about shipping/returns/trade-in)",
+  "footer_col_1_title": "Footer column 1 title (1 word, e.g., 'Products', 'Shop')",
+  "footer_col_1_link_1": "Footer link 1 (1-2 words, e.g., 'Smartphones', 'Phones')",
+  "footer_col_1_link_2": "Footer link 2 (1-2 words, e.g., 'Tablets', 'Watches')",
+  "footer_col_1_link_3": "Footer link 3 (1-2 words, e.g., 'Wearables', 'Audio')",
+  "footer_col_2_title": "Footer column 2 title (1 word, e.g., 'Support', 'Help')",
+  "footer_col_2_link_1": "Footer link 1 (1-2 words, e.g., 'Contact Us')",
+  "footer_col_2_link_2": "Footer link 2 (1-2 words, e.g., 'FAQs', 'Help Center')",
+  "footer_col_2_link_3": "Footer link 3 (1-2 words, e.g., 'Warranty', 'Repairs')",
+  "footer_col_3_title": "Footer column 3 title (1 word, e.g., 'Company', 'About')",
+  "footer_col_3_link_1": "Footer link 1 (1-2 words, e.g., 'About Us')",
+  "footer_col_3_link_2": "Footer link 2 (1-2 words, e.g., 'Careers', 'Jobs')",
+  "footer_col_3_link_3": "Footer link 3 (1-2 words, e.g., 'Press', 'News')",
+  "footer_col_4_title": "Footer column 4 title (1-2 words, e.g., 'Follow Us', 'Social')",
+  "footer_social_1": "Social link 1 (1 word, e.g., 'Facebook', 'Twitter')",
+  "footer_social_2": "Social link 2 (1 word, e.g., 'Twitter', 'Instagram')",
+  "footer_social_3": "Social link 3 (1 word, e.g., 'Instagram', 'YouTube')",
+  "footer_copyright": "Copyright text (e.g., '© 2024 Samsung Electronics. All rights reserved.')"
+}
+
+Create compelling product page content that:
+- Emphasizes premium quality, innovation, and cutting-edge technology
+- Highlights key product features and specifications clearly
+- Uses modern, sleek, and professional language
+- Focuses on benefits and user experience
+- Creates desire and urgency to purchase
+- Makes the tone aspirational yet accessible
+- Emphasizes brand prestige and product excellence
+
+Important:
+- Keep all text concise, impactful, and benefit-focused
+- Use active voice and emotional appeal
+- Make specifications accurate and impressive
+- Emphasize premium features and innovation
+- Use realistic pricing for the product category
+- Adapt to the specific product type (phone, laptop, TV, appliance, etc.)
+- Return ONLY the JSON object, nothing else`;
+}
+
+// Prompt builder for Furniture Store template
+function buildFurnitureStorePrompt(seedText: string, theme?: string) {
+  return `You are a professional web content generator. Generate content for a modern furniture and bedding e-commerce store based on the following description: "${seedText}"${theme ? ` using the ${theme} theme style` : ''}.
+
+Return ONLY valid JSON (no markdown, no code blocks, no comments). The JSON must include ALL fields below:
+
+{
+  "nav_brand": "Store brand name (1-2 words, e.g., 'cocoVillage', 'DreamBeds')",
+  "nav_link1": "Nav link 1 (1 word, e.g., 'Home', 'Shop')",
+  "nav_link2": "Nav link 2 (1 word, e.g., 'Products', 'Catalog')",
+  "nav_link3": "Nav link 3 (1 word, e.g., 'About', 'Story')",
+  "nav_link4": "Nav link 4 (1 word, e.g., 'Contact', 'Support')",
+  "hero_badge": "Hero badge (1-2 words, all caps, e.g., 'GET', 'SAVE')",
+  "hero_discount": "Discount percentage (e.g., '50%', '30%')",
+  "hero_discount_text": "Discount text (1 word, all caps, e.g., 'OFF', 'DISCOUNT')",
+  "hero_title": "Hero title (3-6 words, all caps, e.g., 'BEDS AND BEDDING SETS!')",
+  "hero_description": "Hero description (15-25 words about the product collection)",
+  "beds_title": "Beds section title (1 word, all caps, e.g., 'BEDS', 'FURNITURE')",
+  "beds_description": "Beds description (20-35 words about bed collection and quality)",
+  "bed1_title": "Bed 1 name (2-3 words, all caps, e.g., 'HOUSE BEDS', 'LOFT BED')",
+  "bed1_price": "Bed 1 price (e.g., 'Starting at $299', '$399')",
+  "bed2_title": "Bed 2 name (2-3 words, all caps)",
+  "bed2_price": "Bed 2 price",
+  "bed3_title": "Bed 3 name (2-3 words, all caps)",
+  "bed3_price": "Bed 3 price",
+  "bed4_title": "Bed 4 name (2-3 words, all caps)",
+  "bed4_price": "Bed 4 price (with original and sale price, e.g., '$2,800.00 $2,520')",
+  "bed5_title": "Bed 5 name (2-3 words, all caps)",
+  "bed5_price": "Bed 5 price (with original and sale price)",
+  "bed6_title": "Bed 6 name (2-3 words, all caps)",
+  "bed6_price": "Bed 6 price (with original and sale price)",
+  "bedding_title": "Bedding section title (2-3 words, all caps, e.g., 'BEDDING SETS', 'BED LINENS')",
+  "bedding_description": "Bedding description (20-35 words about bedding quality and comfort)",
+  "bedding1_title": "Bedding 1 name (2-4 words, all caps, creative names like 'WAVES OF OCEAN')",
+  "bedding1_price": "Bedding 1 price (e.g., '$89.99', '$79.99')",
+  "bedding2_title": "Bedding 2 name (2-4 words, all caps, creative name)",
+  "bedding2_price": "Bedding 2 price",
+  "bedding3_title": "Bedding 3 name (2-4 words, all caps, creative name)",
+  "bedding3_price": "Bedding 3 price",
+  "bedding4_title": "Bedding 4 name (2-4 words, all caps, creative name)",
+  "bedding4_price": "Bedding 4 price",
+  "pillows_title": "Pillows section title (3-5 words, all caps, e.g., 'AND MANY FUN PILLOWS')",
+  "pillows_subtitle": "Pillows pricing (e.g., 'AT $29.99 $20', 'FROM $15')",
+  "instagram1_handle": "Instagram handle (e.g., '@cocovillage', '@yourbrand')",
+  "instagram2_handle": "Instagram handle (same as above)",
+  "instagram3_handle": "Instagram handle (same as above)",
+  "about_title": "About section title (2-4 words, all caps, e.g., 'ABOUT COCO VILLAGE')",
+  "about_description": "About description (30-50 words about brand mission and values)",
+  "footer_brand": "Footer brand name (same as nav_brand)",
+  "footer_copyright": "Copyright text (e.g., '© 2025 cocoVillage. All rights reserved.')"
+}
+
+Create compelling furniture store content that:
+- Emphasizes comfort, quality, and beautiful design
+- Highlights family-friendly and child-safe features if applicable
+- Uses warm, inviting, and trustworthy language
+- Focuses on creating cozy, inspiring spaces
+- Makes pricing attractive with clear value
+- Creates emotional connection to home and comfort
+- Emphasizes craftsmanship and durability
+- Uses creative, memorable product names for bedding sets
+
+Important:
+- Keep all text warm, welcoming, and family-oriented
+- Use descriptive, sensory language for comfort products
+- Make product names creative and memorable
+- Show clear pricing with discounts where appropriate
+- Emphasize safety, quality, and design
+- Adapt to the specific furniture type (kids furniture, adult beds, etc.)
+- Return ONLY the JSON object, nothing else`;
+}
+
+// Prompt builder for Meditation App template
+function buildMeditationAppPrompt(seedText: string, theme?: string) {
+  return `You are a professional web content generator. Generate content for a meditation and sleep app landing page based on the following description: "${seedText}"${theme ? ` using the ${theme} theme style` : ''}.
+
+Return ONLY valid JSON (no markdown, no code blocks, no comments). The JSON must include ALL fields below:
+
+{
+  "hero_brand": "App brand name (1-2 words, e.g., 'Calm', 'Headspace')",
+  "hero_title": "Hero title (8-15 words about app benefits, e.g., 'Meet Calm, the #1 app for sleep and meditation')",
+  "hero_description": "Hero description (15-25 words about user benefits and reach)",
+  "features_title": "Features section title (3-5 words, e.g., 'What do you get?')",
+  "feature1_title": "Feature 1 title (2-3 words, e.g., 'Sleep Stories', 'Guided Sessions')",
+  "feature1_description": "Feature 1 description (15-25 words about sleep/relaxation content)",
+  "feature2_title": "Feature 2 title (2-3 words, e.g., 'Guided Meditations', 'Daily Calm')",
+  "feature2_description": "Feature 2 description (15-25 words about meditation benefits)",
+  "feature3_title": "Feature 3 title (2-3 words, e.g., 'Calm Music', 'Soundscapes')",
+  "feature3_description": "Feature 3 description (15-25 words about music and sounds)",
+  "feature4_title": "Feature 4 title (2-3 words, e.g., 'Mindfulness', 'Breathing')",
+  "feature4_description": "Feature 4 description (15-25 words about mindfulness practices)",
+  "stories_title": "Sleep stories section title (4-7 words, e.g., 'Drift off with Sleep Stories')",
+  "stories_subtitle": "Stories subtitle (3-5 words, e.g., 'narrated by iconic voices')",
+  "story_category": "Story category label (2 words, all caps, e.g., 'SLEEP STORY', 'BEDTIME TALE')",
+  "story_author": "Story title/author (3-6 words, e.g., 'Serene Me Sleepy Train')",
+  "story_description": "Story description (20-35 words about the story content)",
+  "story_narrator": "Narrator name (2-3 words, e.g., 'David Walliams', 'Matthew McConaughey')",
+  "testimonials_title": "Testimonials section title (2-4 words, e.g., 'What others say')",
+  "testimonial1_logo": "Publication 1 name (1-2 words, all caps, e.g., 'WIRED', 'FORBES')",
+  "testimonial1_text": "Testimonial 1 quote (25-40 words praising the app)",
+  "testimonial2_logo": "Publication 2 name (2-4 words, e.g., 'Los Angeles Times', 'TechCrunch')",
+  "testimonial2_text": "Testimonial 2 quote (25-40 words about app benefits)",
+  "testimonial3_logo": "Publication 3 name (1-2 words, all caps, e.g., 'REFINERY29', 'VOGUE')",
+  "testimonial3_text": "Testimonial 3 quote (25-40 words about user experience)",
+  "footer_col1_title": "Footer column 1 title (1 word, e.g., 'Company', 'About')",
+  "footer_col1_link1": "Footer link 1 (1-2 words, e.g., 'About', 'Our Story')",
+  "footer_col1_link2": "Footer link 2 (1-2 words, e.g., 'Careers', 'Jobs')",
+  "footer_col1_link3": "Footer link 3 (1-2 words, e.g., 'Press', 'News')",
+  "footer_col1_link4": "Footer link 4 (2-3 words, e.g., 'Meditation 101', 'Resources')",
+  "footer_col2_title": "Footer column 2 title (2-3 words, e.g., 'Get the App', 'Download')",
+  "footer_col2_link1": "Footer link 1 (2 words, e.g., 'iOS App', 'iPhone')",
+  "footer_col2_link2": "Footer link 2 (2 words, e.g., 'Android App', 'Google Play')",
+  "footer_col2_link3": "Footer link 3 (2 words, e.g., 'Kindle Fire', 'Web App')",
+  "footer_col2_link4": "Footer link 4 (2 words, e.g., 'Learn More', 'Features')",
+  "footer_col3_title": "Footer column 3 title (1 word, e.g., 'Help', 'Support')",
+  "footer_col3_link1": "Footer link 1 (1-2 words, e.g., 'FAQ', 'Help Center')",
+  "footer_col3_link2": "Footer link 2 (2 words, e.g., 'Contact Us', 'Support')",
+  "footer_col3_link3": "Footer link 3 (1 word, e.g., 'Terms', 'Privacy')",
+  "footer_copyright": "Copyright text (e.g., '© Calm.com Inc. All rights reserved.')"
+}
+
+Create compelling meditation app content that:
+- Emphasizes peace, relaxation, and mental wellness
+- Highlights sleep improvement and stress reduction
+- Uses calm, soothing, and reassuring language
+- Focuses on scientifically-backed benefits
+- Creates trust through testimonials and social proof
+- Makes the app feel accessible and easy to use
+- Emphasizes quality content and expert narrators
+- Uses aspirational yet achievable tone
+
+Important:
+- Keep all text calming, peaceful, and wellness-focused
+- Use gentle, encouraging language
+- Emphasize proven results and user satisfaction
+- Make features sound valuable and transformative
+- Include credible publication names for testimonials
+- Adapt to the specific meditation/wellness focus (sleep, anxiety, mindfulness, etc.)
 - Return ONLY the JSON object, nothing else`;
 }
