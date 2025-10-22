@@ -25,11 +25,14 @@ export default function TemplatesPage() {
 
   useEffect(() => {
     // Check authentication
-    const user = getCurrentUser();
-    if (!user || !user.loggedIn) {
-      router.push('/signin');
-      return;
-    }
+    const checkAuth = async () => {
+      const user = await getCurrentUser();
+      if (!user) {
+        router.push('/signin');
+        return;
+      }
+    };
+    checkAuth();
   }, [router]);
 
   const handleSelectTemplate = (templateId: string) => {

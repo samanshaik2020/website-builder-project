@@ -7,7 +7,7 @@ export interface ProjectData {
   texts?: Record<string, string>
   images?: Record<string, string>
   buttons?: Record<string, { href: string; text: string }>
-  [key: string]: any
+  [key: string]: unknown
 }
 
 export interface CreateProjectInput {
@@ -52,10 +52,10 @@ export async function getUserProjects(): Promise<ProjectWithAnalytics[]> {
   }
 
   // Transform the data to flatten analytics
-  return (data || []).map((project: any) => ({
+  return (data || []).map((project) => ({
     ...project,
     analytics: project.analytics?.[0] || null,
-  }))
+  })) as ProjectWithAnalytics[]
 }
 
 /**
@@ -133,7 +133,7 @@ export async function createProject(input: CreateProjectInput): Promise<Project>
       name: input.name,
       template: input.template,
       theme: input.theme,
-      data: input.data as any,
+      data: input.data as Record<string, unknown>,
       custom_url: input.customUrl,
     })
     .select()
@@ -158,7 +158,7 @@ export async function updateProject(projectId: string, input: UpdateProjectInput
     throw new Error('User not authenticated')
   }
 
-  const updateData: any = {}
+  const updateData: Record<string, unknown> = {}
   if (input.name !== undefined) updateData.name = input.name
   if (input.template !== undefined) updateData.template = input.template
   if (input.theme !== undefined) updateData.theme = input.theme

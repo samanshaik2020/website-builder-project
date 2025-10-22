@@ -251,7 +251,7 @@ export async function getUserAnalyticsSummary(): Promise<{
   let totalViews = 0
   let totalClicks = 0
 
-  projects.forEach((project: any) => {
+  projects.forEach((project: { analytics?: Array<{ views?: number; clicks?: number }> }) => {
     const analytics = project.analytics?.[0]
     if (analytics) {
       totalViews += analytics.views || 0
@@ -266,13 +266,13 @@ export async function getUserAnalyticsSummary(): Promise<{
   const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
 
   const monthlyProjects = projects.filter(
-    (p: any) => new Date(p.created_at) >= firstDayOfMonth
+    (p: { created_at: string }) => new Date(p.created_at) >= firstDayOfMonth
   )
 
   let monthlyViews = 0
   let monthlyClicks = 0
 
-  monthlyProjects.forEach((project: any) => {
+  monthlyProjects.forEach((project: { analytics?: Array<{ views?: number; clicks?: number }> }) => {
     const analytics = project.analytics?.[0]
     if (analytics) {
       monthlyViews += analytics.views || 0
