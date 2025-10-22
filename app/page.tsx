@@ -88,9 +88,9 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center text-white font-bold text-xl">
-              W
+              S
             </div>
-            <span className="text-white font-bold text-xl">WebBuilder</span>
+            <span className="text-white font-bold text-xl">Squpage</span>
           </div>
           <button
             onClick={() => router.push('/signin')}
@@ -292,12 +292,12 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto text-center">
           <div className="flex items-center justify-center space-x-2 mb-4">
             <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center text-white font-bold">
-              W
+              S
             </div>
-            <span className="text-white font-bold text-lg">WebBuilder</span>
+            <span className="text-white font-bold text-lg">Squpage</span>
           </div>
           <p className="text-slate-400">
-            © 2025 WebBuilder. All rights reserved.
+            © 2025 Squpage. All rights reserved.
           </p>
         </div>
       </footer>

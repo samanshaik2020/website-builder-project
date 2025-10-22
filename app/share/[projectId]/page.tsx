@@ -118,7 +118,7 @@ export default function SharePage() {
 
       {/* Powered by badge */}
       <div className="fixed bottom-6 right-6 bg-slate-900 text-white px-4 py-2 rounded-lg shadow-xl text-sm">
-        <span className="opacity-70">Built with</span> <span className="font-bold">Website Builder</span>
+        <span className="opacity-70">Built with</span> <span className="font-bold">Squpage</span>
       </div>
     </div>
   );

@@ -16,6 +16,9 @@ export default function AiButton({ templateSlug, theme, onGenerated, className =
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  
+  // Check if portfolio template
+  const isPortfolio = templateSlug === 'portfolio';
 
   async function generate() {
     setError(null);
@@ -94,8 +97,95 @@ export default function AiButton({ templateSlug, theme, onGenerated, className =
       {open && (
         <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/70 backdrop-blur-md animate-in fade-in duration-300">
           <div className="bg-white rounded-3xl shadow-2xl w-full max-w-3xl mx-4 animate-in zoom-in-95 duration-300 overflow-hidden border border-slate-200">
-            {/* Header */}
-            <div className="relative bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 text-white px-8 py-6">
+            {/* Portfolio Not Supported Message */}
+            {isPortfolio ? (
+              <>
+                {/* Header */}
+                <div className="relative bg-gradient-to-br from-slate-600 via-slate-700 to-slate-800 text-white px-8 py-6">
+                  <div className="flex items-center justify-between relative z-10">
+                    <div className="flex items-center gap-4">
+                      <div className="p-2 bg-white/20 rounded-xl backdrop-blur-sm">
+                        <svg 
+                          className="w-7 h-7" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          viewBox="0 0 24 24"
+                        >
+                          <path 
+                            strokeLinecap="round" 
+                            strokeLinejoin="round" 
+                            strokeWidth={2} 
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" 
+                          />
+                        </svg>
+                      </div>
+                      <div>
+                        <h3 className="text-2xl font-bold tracking-tight">AI Not Available</h3>
+                        <p className="text-sm text-white/90 font-medium mt-0.5">Portfolio Template</p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => setOpen(false)}
+                      className="p-2 rounded-xl hover:bg-white/20 transition-all duration-200"
+                    >
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Body */}
+                <div className="p-8">
+                  <div className="text-center py-8">
+                    {/* Icon */}
+                    <div className="flex justify-center mb-6">
+                      <div className="w-20 h-20 bg-gradient-to-br from-slate-500 to-slate-700 rounded-full flex items-center justify-center">
+                        <svg 
+                          className="w-10 h-10 text-white" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          viewBox="0 0 24 24"
+                        >
+                          <path 
+                            strokeLinecap="round" 
+                            strokeLinejoin="round" 
+                            strokeWidth={2} 
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" 
+                          />
+                        </svg>
+                      </div>
+                    </div>
+
+                    {/* Message */}
+                    <h4 className="text-2xl font-bold text-slate-900 mb-4">
+                      Portfolio Does Not Support AI
+                    </h4>
+                    <p className="text-slate-600 mb-6 max-w-md mx-auto leading-relaxed">
+                      The Portfolio template is designed for manual customization and does not support AI content generation. Please edit the content directly by clicking on any text element.
+                    </p>
+
+                    {/* Info Box */}
+                    <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-8 max-w-md mx-auto">
+                      <p className="text-sm text-slate-700">
+                        <strong>💡 Tip:</strong> AI generation is available for other templates like SaaS Landing, Agency, E-commerce, and more!
+                      </p>
+                    </div>
+
+                    {/* Close Button */}
+                    <button
+                      onClick={() => setOpen(false)}
+                      className="px-8 py-3 bg-gradient-to-r from-slate-600 to-slate-700 hover:from-slate-700 hover:to-slate-800 text-white rounded-xl font-bold transition-all shadow-lg hover:shadow-xl"
+                    >
+                      Got It
+                    </button>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                {/* Header */}
+                <div className="relative bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 text-white px-8 py-6">
               <div className="flex items-center justify-between relative z-10">
                 <div className="flex items-center gap-4">
                   <div className="p-2 bg-white/20 rounded-xl backdrop-blur-sm">
@@ -282,6 +372,8 @@ export default function AiButton({ templateSlug, theme, onGenerated, className =
                 </button>
               </div>
             </div>
+              </>
+            )}
           </div>
         </div>
       )}

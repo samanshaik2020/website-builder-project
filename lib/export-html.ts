@@ -1,5 +1,6 @@
 import { type TemplateId } from './templates';
 import { TemplateData } from '@/types/template';
+import { generateLoanLandingHTML } from './export-html-loan-landing';
 
 interface ExportData {
   template: TemplateId;
@@ -39,7 +40,7 @@ const getMetaTags = (projectName: string) => `
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${projectName}</title>
-  <meta name="description" content="Website created with Website Builder">
+  <meta name="description" content="Website created with Squpage">
 `;
 
 const escapeHtml = (text: string) => {
@@ -1268,6 +1269,8 @@ export const exportToHTML = ({ template, data, projectName }: ExportData): strin
       return generateCatFoodHTML(data, projectName);
     case 'grocery-delivery':
       return generateGroceryDeliveryHTML(data, projectName);
+    case 'loan-landing':
+      return generateLoanLandingHTML(data);
     default:
       return `<!DOCTYPE html><html><head><title>Error</title></head><body><h1>Template not found</h1></body></html>`;
   }

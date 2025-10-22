@@ -44,6 +44,7 @@ export default function TemplatesPage() {
     { id: 'portfolio', label: 'Portfolio' },
     { id: 'free', label: 'Free' },
     { id: 'pro', label: 'Pro' },
+    { id: 'finance', label: 'Finance' },
   ];
 
   const filteredTemplates = templates.filter((template) => {
@@ -51,16 +52,24 @@ export default function TemplatesPage() {
     return matchesCategory;
   });
 
-  const getTemplateIcon = (templateId: string) => {
+  const getTemplatePreviewImage = (templateId: string) => {
     switch (templateId) {
       case 'portfolio':
-        return '👨‍💼';
+        return '/portflio.png';
       case 'saas-landing':
-        return '🚀';
+        return '/SaaS.png';
       case 'agency':
-        return '🎨';
+        return '/Agency.png';
+      case 'ai-photo-studio':
+        return '/AI photo studio.png';
+      case 'cat-food':
+        return '/Cat Food Product.png';
+      case 'grocery-delivery':
+        return '/Grocery Delivery.png';
+      case 'loan-landing':
+        return '/Loan Landing.png';
       default:
-        return '📄';
+        return null;
     }
   };
 
@@ -83,7 +92,7 @@ export default function TemplatesPage() {
           Back to Dashboard
         </Button>
         <Typography sx={{ color: '#525252', fontWeight: 500, fontSize: 14 }}>
-          Saupage
+          Squpage
         </Typography>
       </Box>
 
@@ -172,7 +181,7 @@ export default function TemplatesPage() {
                 {/* Template Preview */}
                 <Box
                   sx={{
-                    height: 200,
+                    height: 240,
                     bgcolor: '#f5f5f5',
                     display: 'flex',
                     alignItems: 'center',
@@ -181,9 +190,19 @@ export default function TemplatesPage() {
                     overflow: 'hidden',
                   }}
                 >
-                  <Typography sx={{ fontSize: 64, opacity: 0.3 }}>
-                    {getTemplateIcon(template.id)}
-                  </Typography>
+                  {getTemplatePreviewImage(template.id) ? (
+                    <img
+                      src={getTemplatePreviewImage(template.id)!}
+                      alt={template.name}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                      }}
+                    />
+                  ) : (
+                    <Typography sx={{ fontSize: 64, opacity: 0.3 }}>📄</Typography>
+                  )}
                   <Chip
                     label={template.category}
                     size="small"

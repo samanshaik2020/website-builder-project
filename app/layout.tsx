@@ -6,7 +6,7 @@ import { MuiThemeProvider } from "@/components/providers/mui-theme-provider"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Website Builder - Create Beautiful Websites",
+  title: "Squpage - Create Beautiful Websites",
   description: "Professional website builder with modern templates and AI-powered content generation",
 }
 

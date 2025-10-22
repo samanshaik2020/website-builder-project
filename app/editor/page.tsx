@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { getTemplateById, type TemplateId } from '@/lib/templates';
 import { ContentEditableToolbar } from '@/components/editor/content-editable-toolbar';
 import AiButton from '@/components/editor/ai-button';
+import { MobileWarning } from '@/components/editor/mobile-warning';
 import { getCurrentUser } from '@/lib/services/auth-service';
 import { getProject, createProject, updateProject } from '@/lib/services/project-service';
 
@@ -279,6 +280,9 @@ function EditorContent() {
 
   return (
     <div className="min-h-screen bg-slate-100 relative">
+      {/* Mobile Warning Popup */}
+      <MobileWarning />
+
       {/* Editor Toolbar */}
       <div className="fixed top-0 left-0 right-0 bg-slate-900 border-b border-slate-700 z-[100]">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">

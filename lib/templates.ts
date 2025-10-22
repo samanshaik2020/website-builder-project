@@ -1,9 +1,11 @@
 import { PortfolioTemplate, portfolioConfig } from '@/components/templates/portfolio';
-import { SaasLandingTemplate, saasLandingConfig } from '@/components/templates/saas-landing';
+import LoanLandingTemplate from '@/components/templates/loan-landing';
+import { loanLandingConfig } from '@/components/templates/loan-landing';
 import { AgencyTemplate, agencyConfig } from '@/components/templates/agency';
 import { AIPhotoStudioTemplate, aiPhotoStudioConfig } from '@/components/templates/ai-photo-studio';
 import { CatFoodTemplate, catFoodConfig } from '@/components/templates/cat-food';
 import { GroceryDeliveryTemplate, groceryDeliveryConfig } from '@/components/templates/grocery-delivery';
+import { SaasLandingTemplate, saasLandingConfig } from '@/components/templates/saas-landing';
 
 export const templates = {
   portfolio: {
@@ -29,6 +31,10 @@ export const templates = {
   'grocery-delivery': {
     component: GroceryDeliveryTemplate,
     config: groceryDeliveryConfig,
+  },
+  'loan-landing': {
+    component: LoanLandingTemplate,
+    config: loanLandingConfig,
   },
 } as const;
 

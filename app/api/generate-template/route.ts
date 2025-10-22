@@ -154,6 +154,11 @@ function buildPromptForTemplate(templateSlug: string, seedText: string, theme?: 
     return buildGroceryDeliveryPrompt(seedText, theme);
   }
 
+  // Loan Landing template has its own structure
+  if (templateSlug === 'loan-landing') {
+    return buildLoanLandingPrompt(seedText, theme);
+  }
+
   const baseInstructions = `You are a professional web content generator. Generate content for a ${templateSlug} template based on the following description: "${seedText}"${theme ? ` using the ${theme} theme style` : ''}.
 
 Return ONLY valid JSON (no markdown, no code blocks, no comments). The JSON must follow this exact structure with ALL fields:
@@ -538,5 +543,59 @@ Important:
 - Make testimonials long, detailed, and authentic (40-60 words each)
 - Emphasize quality, convenience, and customer satisfaction
 - Use realistic customer names and locations
+- Return ONLY the JSON object, nothing else`;
+}
+
+// Prompt builder for Loan Landing template
+function buildLoanLandingPrompt(seedText: string, theme?: string) {
+  return `You are a professional web content generator. Generate content for a loan and financial services landing page based on the following description: "${seedText}"${theme ? ` using the ${theme} theme style` : ''}.
+
+Return ONLY valid JSON (no markdown, no code blocks, no comments). The JSON must include ALL 26 fields below:
+
+{
+  "nav_brand": "Brand name (1-3 words, e.g., 'HOMELOANGURUS', 'QUICKLOAN')",
+  "hero_headline": "Hero headline (6-12 words, compelling offer or value proposition)",
+  "hero_description": "Hero description (20-35 words about loan benefits and ease)",
+  "hero_cta": "Hero CTA button text (2-4 words, e.g., 'Get Pre-Qualified', 'Apply Now')",
+  "feature1_title": "Feature 1 title (3-6 words, e.g., 'Low Down Payment')",
+  "feature1_description": "Feature 1 description (15-25 words about this benefit)",
+  "feature2_title": "Feature 2 title (3-6 words, e.g., 'Fast Response')",
+  "feature2_description": "Feature 2 description (15-25 words about this benefit)",
+  "feature3_title": "Feature 3 title (3-6 words, e.g., 'No Cost to Apply')",
+  "feature3_description": "Feature 3 description (15-25 words about this benefit)",
+  "how_it_works_title": "How it works section title (3-5 words, e.g., 'How It Works')",
+  "step1_title": "Step 1 title (2-4 words, e.g., 'Apply Online')",
+  "step1_description": "Step 1 description (15-25 words explaining the first step)",
+  "step2_title": "Step 2 title (2-4 words, e.g., 'Get Approved')",
+  "step2_description": "Step 2 description (15-25 words explaining the second step)",
+  "step3_title": "Step 3 title (2-4 words, e.g., 'Close Your Loan')",
+  "step3_description": "Step 3 description (15-25 words explaining the third step)",
+  "cta_title": "CTA section title (5-10 words, compelling call-to-action)",
+  "cta_description": "CTA description (15-25 words encouraging action)",
+  "cta_button": "CTA button text (2-4 words, e.g., 'Start Application', 'Get Started')",
+  "footer_brand": "Footer brand name (same as nav_brand)",
+  "footer_address": "Footer address (full address with street, city, state, zip)",
+  "footer_privacy_title": "Privacy section title (1-2 words, e.g., 'Privacy', 'Legal')",
+  "footer_about_title": "About section title (1-2 words, e.g., 'About Us', 'Company')",
+  "footer_about_text": "About text (20-35 words describing the company mission)",
+  "footer_copyright": "Copyright text (e.g., '© 2024 Company Name. All rights reserved.')"
+}
+
+Create compelling loan landing page content that:
+- Emphasizes trust, speed, and ease of the loan process
+- Highlights competitive rates, low fees, and fast approval
+- Uses professional, trustworthy, and reassuring language
+- Focuses on benefits like low down payment, no hidden fees, quick response
+- Includes clear step-by-step process explanation
+- Makes the tone authoritative yet approachable and helpful
+- Emphasizes security and customer satisfaction
+
+Important:
+- Keep all text concise, impactful, and professional
+- Use active voice and benefit-focused language
+- Emphasize trust factors (licensed, secure, transparent)
+- Make the process sound simple and stress-free
+- Use realistic company information
+- Adapt tone to the specific loan type (home loan, personal loan, business loan, etc.)
 - Return ONLY the JSON object, nothing else`;
 }
