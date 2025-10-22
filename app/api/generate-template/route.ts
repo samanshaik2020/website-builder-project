@@ -619,7 +619,7 @@ Important:
 function buildSamsungProductPrompt(seedText: string, theme?: string) {
   return `You are a professional web content generator. Generate content for a modern product landing page inspired by Samsung's design based on the following description: "${seedText}"${theme ? ` using the ${theme} theme style` : ''}.
 
-Return ONLY valid JSON (no markdown, no code blocks, no comments). The JSON must include ALL 61 fields below:
+Return ONLY valid JSON (no markdown, no code blocks, no comments). The JSON must include ALL 58 fields below:
 
 {
   "nav_brand": "Brand name (1-2 words, all caps, e.g., 'SAMSUNG', 'APPLE')",
@@ -632,7 +632,6 @@ Return ONLY valid JSON (no markdown, no code blocks, no comments). The JSON must
   "hero_subtitle": "Hero subtitle (15-25 words describing the product value)",
   "hero_cta_primary": "Primary CTA button (2-4 words, e.g., 'Pre-order now', 'Buy Now')",
   "hero_cta_secondary": "Secondary CTA button (2-3 words, e.g., 'Learn more', 'Explore')",
-  "hero_image_text": "Hero image placeholder text (2-3 words, e.g., 'Product Image')",
   "features_title": "Features section title (2-4 words, e.g., 'Key Features', 'What's New')",
   "feature_1_title": "Feature 1 title (3-6 words about display/screen)",
   "feature_1_description": "Feature 1 description (25-40 words about display technology)",
@@ -650,9 +649,6 @@ Return ONLY valid JSON (no markdown, no code blocks, no comments). The JSON must
   "spec_4_label": "Spec 4 label (1-2 words, e.g., 'Camera', 'Cameras')",
   "spec_4_value": "Spec 4 value (camera specs, e.g., '200MP + 12MP + 10MP + 10MP')",
   "gallery_title": "Gallery section title (3-5 words, e.g., 'See It In Action')",
-  "gallery_1_text": "Gallery 1 placeholder (2-3 words, e.g., 'Gallery Image 1')",
-  "gallery_2_text": "Gallery 2 placeholder (2-3 words, e.g., 'Gallery Image 2')",
-  "gallery_3_text": "Gallery 3 placeholder (2-3 words, e.g., 'Gallery Image 3')",
   "pricing_title": "Pricing title (3-6 words, e.g., 'Get Yours Today', 'Available Now')",
   "pricing_subtitle": "Pricing subtitle (8-15 words about availability/options)",
   "pricing_label": "Pricing label (2-3 words, e.g., 'Starting at', 'From')",

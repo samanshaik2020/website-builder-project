@@ -4,6 +4,7 @@ export function generateSamsungProductHTML(data: TemplateData): string {
   const getText = (id: string, defaultValue: string) => data[id]?.text || defaultValue;
   const getButtonText = (id: string, defaultValue: string) => data[id]?.button?.text || defaultValue;
   const getButtonUrl = (id: string, defaultValue: string) => data[id]?.button?.url || defaultValue;
+  const getImage = (id: string, defaultValue: string) => data[id]?.image || defaultValue;
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -62,11 +63,9 @@ export function generateSamsungProductHTML(data: TemplateData): string {
         </div>
       </div>
       
-      <!-- Hero Image Placeholder -->
+      <!-- Hero Image -->
       <div class="mt-12 flex justify-center">
-        <div class="w-full max-w-4xl aspect-video bg-gradient-to-br from-purple-100 to-blue-100 rounded-3xl flex items-center justify-center">
-          <p class="text-gray-400 text-lg">${getText('hero_image_text', 'Product Image')}</p>
-        </div>
+        <img src="${getImage('hero_image', 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=1200&h=600&fit=crop')}" alt="Product" class="w-full max-w-4xl aspect-video rounded-3xl object-cover">
       </div>
     </div>
   </section>
@@ -148,15 +147,9 @@ export function generateSamsungProductHTML(data: TemplateData): string {
       <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 text-black">${getText('gallery_title', 'See It In Action')}</h2>
       
       <div class="grid md:grid-cols-3 gap-6">
-        <div class="aspect-square bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl flex items-center justify-center">
-          <p class="text-gray-400">${getText('gallery_1_text', 'Gallery Image 1')}</p>
-        </div>
-        <div class="aspect-square bg-gradient-to-br from-purple-100 to-pink-100 rounded-2xl flex items-center justify-center">
-          <p class="text-gray-400">${getText('gallery_2_text', 'Gallery Image 2')}</p>
-        </div>
-        <div class="aspect-square bg-gradient-to-br from-pink-100 to-orange-100 rounded-2xl flex items-center justify-center">
-          <p class="text-gray-400">${getText('gallery_3_text', 'Gallery Image 3')}</p>
-        </div>
+        <img src="${getImage('gallery_1', 'https://images.unsplash.com/photo-1592286927505-b0e6067f7f2e?w=600&h=600&fit=crop')}" alt="Gallery Image 1" class="aspect-square rounded-2xl object-cover">
+        <img src="${getImage('gallery_2', 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=600&h=600&fit=crop')}" alt="Gallery Image 2" class="aspect-square rounded-2xl object-cover">
+        <img src="${getImage('gallery_3', 'https://images.unsplash.com/photo-1585060544812-6b45742d762f?w=600&h=600&fit=crop')}" alt="Gallery Image 3" class="aspect-square rounded-2xl object-cover">
       </div>
     </div>
   </section>

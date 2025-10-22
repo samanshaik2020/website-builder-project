@@ -18,7 +18,7 @@ export const samsungProductConfig = {
     { id: 'hero_subtitle', type: 'text', label: 'Hero Subtitle' },
     { id: 'hero_cta_primary', type: 'button', label: 'Hero Primary CTA' },
     { id: 'hero_cta_secondary', type: 'button', label: 'Hero Secondary CTA' },
-    { id: 'hero_image_text', type: 'text', label: 'Hero Image Placeholder' },
+    { id: 'hero_image', type: 'image', label: 'Hero Product Image' },
     
     // Features
     { id: 'features_title', type: 'text', label: 'Features Section Title' },
@@ -42,9 +42,9 @@ export const samsungProductConfig = {
     
     // Gallery
     { id: 'gallery_title', type: 'text', label: 'Gallery Section Title' },
-    { id: 'gallery_1_text', type: 'text', label: 'Gallery 1 Placeholder' },
-    { id: 'gallery_2_text', type: 'text', label: 'Gallery 2 Placeholder' },
-    { id: 'gallery_3_text', type: 'text', label: 'Gallery 3 Placeholder' },
+    { id: 'gallery_1', type: 'image', label: 'Gallery Image 1' },
+    { id: 'gallery_2', type: 'image', label: 'Gallery Image 2' },
+    { id: 'gallery_3', type: 'image', label: 'Gallery Image 3' },
     
     // Pricing
     { id: 'pricing_title', type: 'text', label: 'Pricing Title' },

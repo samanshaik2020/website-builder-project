@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { EditableButton } from '@/components/editor/editable-button';
+import { EditableImage } from '@/components/editor/editable-image';
 import { BaseTemplateProps } from '@/types/template';
 
 interface SamsungProductProps extends BaseTemplateProps {
@@ -18,6 +19,16 @@ export default function SamsungProduct({ editable = false, data = {}, onContentC
       text: data[id]?.button?.text || defaultText,
       url: data[id]?.button?.url || defaultUrl,
     };
+  };
+
+  const getImage = (id: string, defaultValue: string) => {
+    return data[id]?.image || defaultValue;
+  };
+
+  const handleImageChange = (eid: string, imageUrl: string) => {
+    if (onContentChange) {
+      onContentChange(eid, { image: imageUrl });
+    }
   };
 
   return (
@@ -120,18 +131,16 @@ export default function SamsungProduct({ editable = false, data = {}, onContentC
             </div>
           </div>
           
-          {/* Hero Image Placeholder */}
+          {/* Hero Image */}
           <div className="mt-12 flex justify-center">
-            <div className="w-full max-w-4xl aspect-video bg-gradient-to-br from-purple-100 to-blue-100 rounded-3xl flex items-center justify-center">
-              <p
-                data-eid="hero_image_text"
-                contentEditable={editable}
-                suppressContentEditableWarning
-                className="text-gray-400 text-lg"
-              >
-                {getText('hero_image_text', 'Product Image')}
-              </p>
-            </div>
+            <EditableImage
+              eid="hero_image"
+              defaultSrc={getImage('hero_image', 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=1200&h=600&fit=crop')}
+              alt="Product"
+              className="w-full max-w-4xl aspect-video rounded-3xl object-cover"
+              editable={editable}
+              onChange={handleImageChange}
+            />
           </div>
         </div>
       </section>
@@ -332,36 +341,30 @@ export default function SamsungProduct({ editable = false, data = {}, onContentC
           </h2>
           
           <div className="grid md:grid-cols-3 gap-6">
-            <div className="aspect-square bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl flex items-center justify-center">
-              <p
-                data-eid="gallery_1_text"
-                contentEditable={editable}
-                suppressContentEditableWarning
-                className="text-gray-400"
-              >
-                {getText('gallery_1_text', 'Gallery Image 1')}
-              </p>
-            </div>
-            <div className="aspect-square bg-gradient-to-br from-purple-100 to-pink-100 rounded-2xl flex items-center justify-center">
-              <p
-                data-eid="gallery_2_text"
-                contentEditable={editable}
-                suppressContentEditableWarning
-                className="text-gray-400"
-              >
-                {getText('gallery_2_text', 'Gallery Image 2')}
-              </p>
-            </div>
-            <div className="aspect-square bg-gradient-to-br from-pink-100 to-orange-100 rounded-2xl flex items-center justify-center">
-              <p
-                data-eid="gallery_3_text"
-                contentEditable={editable}
-                suppressContentEditableWarning
-                className="text-gray-400"
-              >
-                {getText('gallery_3_text', 'Gallery Image 3')}
-              </p>
-            </div>
+            <EditableImage
+              eid="gallery_1"
+              defaultSrc={getImage('gallery_1', 'https://images.unsplash.com/photo-1592286927505-b0e6067f7f2e?w=600&h=600&fit=crop')}
+              alt="Gallery Image 1"
+              className="aspect-square rounded-2xl object-cover"
+              editable={editable}
+              onChange={handleImageChange}
+            />
+            <EditableImage
+              eid="gallery_2"
+              defaultSrc={getImage('gallery_2', 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=600&h=600&fit=crop')}
+              alt="Gallery Image 2"
+              className="aspect-square rounded-2xl object-cover"
+              editable={editable}
+              onChange={handleImageChange}
+            />
+            <EditableImage
+              eid="gallery_3"
+              defaultSrc={getImage('gallery_3', 'https://images.unsplash.com/photo-1585060544812-6b45742d762f?w=600&h=600&fit=crop')}
+              alt="Gallery Image 3"
+              className="aspect-square rounded-2xl object-cover"
+              editable={editable}
+              onChange={handleImageChange}
+            />
           </div>
         </div>
       </section>
