@@ -1,3 +1,13 @@
+/**
+ * @deprecated This file is deprecated and kept only for backward compatibility.
+ * Please use the new Supabase project service instead:
+ * 
+ * import { getUserProjects, createProject, updateProject, deleteProject } from '@/lib/services/project-service'
+ * 
+ * All project data is now stored in Supabase with proper user authentication,
+ * analytics tracking, and shareable links.
+ */
+
 "use client"
 
 export type ProjectRecord = {
@@ -15,7 +25,11 @@ export type ProjectRecord = {
 
 const KEY = "sitebuilder.projects"
 
+/**
+ * @deprecated Use getUserProjects() from @/lib/services/project-service instead
+ */
 function read(): ProjectRecord[] {
+  console.warn('projects-store.read() is deprecated. Use getUserProjects() from @/lib/services/project-service instead.');
   if (typeof window === "undefined") return []
   try {
     const raw = window.localStorage.getItem(KEY)
@@ -25,7 +39,11 @@ function read(): ProjectRecord[] {
   }
 }
 
+/**
+ * @deprecated Projects are now stored in Supabase
+ */
 function write(next: ProjectRecord[]) {
+  console.warn('projects-store.write() is deprecated. Projects are now stored in Supabase.');
   if (typeof window === "undefined") return
   try {
     const payload = JSON.stringify(next)
@@ -34,10 +52,16 @@ function write(next: ProjectRecord[]) {
   } catch {}
 }
 
+/**
+ * @deprecated Use getUserProjects() from @/lib/services/project-service instead
+ */
 export function getProjects() {
   return read()
 }
 
+/**
+ * @deprecated Use createProject() or updateProject() from @/lib/services/project-service instead
+ */
 export function saveProject(p: ProjectRecord) {
   const list = read()
   const idx = list.findIndex((x) => x.id === p.id)
@@ -46,6 +70,9 @@ export function saveProject(p: ProjectRecord) {
   write(list)
 }
 
+/**
+ * @deprecated Use deleteProject() from @/lib/services/project-service instead
+ */
 export function deleteProject(id: string) {
   write(read().filter((p) => p.id !== id))
 }

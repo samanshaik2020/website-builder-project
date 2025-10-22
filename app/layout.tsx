@@ -1,139 +1,13 @@
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
-import Script from "next/script"
 import "./globals.css"
-import { Toaster } from "sonner"
-import { AuthProvider } from "@/contexts/auth-context"
+import { MuiThemeProvider } from "@/components/providers/mui-theme-provider"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Squpage - AI Website Builder",
-  description: "Transform your ideas into professional websites in minutes with our AI-powered website builder. No coding required.",
-  keywords: [
-    // Core Product Keywords
-    "AI website builder",
-    "website builder",
-    "no code website builder",
-    "create website online",
-    "website maker",
-    "AI web design",
-    "drag and drop website builder",
-    "professional website builder",
-    "website templates",
-    "landing page builder",
-    "business website builder",
-    "free website builder",
-    "website creator",
-    "web design tool",
-    "online website builder",
-    "website builder for small business",
-    "responsive website builder",
-    "Squpage",
-    
-    // AI & Automation Keywords
-    "AI powered website builder",
-    "artificial intelligence website design",
-    "automated website builder",
-    "AI website generator",
-    "smart website builder",
-    "AI web page creator",
-    "machine learning website design",
-    
-    // No-Code & Easy Use Keywords
-    "no coding required",
-    "build website without coding",
-    "easy website builder",
-    "simple website creator",
-    "beginner website builder",
-    "website builder for beginners",
-    "quick website builder",
-    "instant website builder",
-    "fast website creation",
-    
-    // Business & Professional Keywords
-    "small business website",
-    "startup website builder",
-    "ecommerce website builder",
-    "portfolio website builder",
-    "business landing page",
-    "corporate website builder",
-    "professional web design",
-    "business website templates",
-    "company website builder",
-    
-    // Features & Capabilities
-    "mobile responsive website",
-    "custom website builder",
-    "website design software",
-    "web page builder",
-    "site builder",
-    "website building platform",
-    "web design platform",
-    "website development tool",
-    "modern website builder",
-    
-    // Specific Use Cases
-    "landing page creator",
-    "one page website builder",
-    "portfolio creator",
-    "blog website builder",
-    "event website builder",
-    "restaurant website builder",
-    "freelancer website builder",
-    
-    // Comparison & Alternative Keywords
-    "best website builder",
-    "top website builder",
-    "website builder alternative",
-    "affordable website builder",
-    "website builder online free",
-    "create professional website",
-    
-    // Technical Keywords
-    "HTML website builder",
-    "CSS website builder",
-    "website builder with templates",
-    "customizable website builder",
-    "SEO friendly website builder",
-    "fast loading website builder",
-  ],
-  authors: [{ name: "Squpage" }],
-  creator: "Squpage",
-  publisher: "Squpage",
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: "https://squpage.com",
-    siteName: "Squpage",
-    title: "Squpage - AI Website Builder",
-    description: "Transform your ideas into professional websites in minutes with our AI-powered website builder. No coding required.",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Squpage - AI Website Builder",
-    description: "Transform your ideas into professional websites in minutes with our AI-powered website builder. No coding required.",
-  },
-  icons: {
-    icon: [
-      { url: '/favicon.svg', type: 'image/svg+xml' },
-      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-    ],
-    apple: { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
-  },
-  metadataBase: new URL('https://squpage.com'),
+  title: "Website Builder - Create Beautiful Websites",
+  description: "Professional website builder with modern templates and AI-powered content generation",
 }
 
 export default function RootLayout({
@@ -143,68 +17,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        {/* Google Tag Manager */}
-        <Script id="google-tag-manager" strategy="afterInteractive">
-          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-P3G3N93V');`}
-        </Script>
-      </head>
       <body className={inter.className}>
-        {/* Google Tag Manager (noscript) */}
-        <noscript>
-          <iframe 
-            src="https://www.googletagmanager.com/ns.html?id=GTM-P3G3N93V"
-            height="0" 
-            width="0" 
-            style={{display: 'none', visibility: 'hidden'}}
-          />
-        </noscript>
-        {/* Google Analytics */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-XHQHTN4YXR"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-XHQHTN4YXR');
-          `}
-        </Script>
-
-        {/* Structured Data for SEO */}
-        <Script id="structured-data" type="application/ld+json" strategy="afterInteractive">
-          {`
-            {
-              "@context": "https://schema.org",
-              "@type": "SoftwareApplication",
-              "name": "Squpage",
-              "applicationCategory": "WebApplication",
-              "offers": {
-                "@type": "Offer",
-                "price": "0",
-                "priceCurrency": "USD"
-              },
-              "description": "Transform your ideas into professional websites in minutes with our AI-powered website builder. No coding required.",
-              "operatingSystem": "Web Browser",
-              "url": "https://squpage.com",
-              "creator": {
-                "@type": "Organization",
-                "name": "Squpage"
-              }
-            }
-          `}
-        </Script>
-        
-        <AuthProvider>
+        <MuiThemeProvider>
           {children}
-          <Toaster position="top-center" richColors />
-        </AuthProvider>
+        </MuiThemeProvider>
       </body>
     </html>
   )

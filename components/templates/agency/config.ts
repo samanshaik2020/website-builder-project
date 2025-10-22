@@ -1,0 +1,30 @@
+export const agencyConfig = {
+  id: 'agency',
+  name: 'Agency',
+  category: 'Business',
+  description: 'Professional website for creative agencies and studios',
+  thumbnail: '/agency-preview.png',
+  editableFields: [
+    { id: 'hero_headline', type: 'text', label: 'Headline', section: 'Hero' },
+    { id: 'hero_tagline', type: 'text', label: 'Tagline', section: 'Hero' },
+    { id: 'hero_cta', type: 'button', label: 'CTA Button', section: 'Hero' },
+    { id: 'services_heading', type: 'text', label: 'Services Heading', section: 'Services' },
+    { id: 'service_1_title', type: 'text', label: 'Service 1 Title', section: 'Services' },
+    { id: 'service_1_description', type: 'text', label: 'Service 1 Description', section: 'Services' },
+    { id: 'service_2_title', type: 'text', label: 'Service 2 Title', section: 'Services' },
+    { id: 'service_2_description', type: 'text', label: 'Service 2 Description', section: 'Services' },
+    { id: 'service_3_title', type: 'text', label: 'Service 3 Title', section: 'Services' },
+    { id: 'service_3_description', type: 'text', label: 'Service 3 Description', section: 'Services' },
+    { id: 'service_4_title', type: 'text', label: 'Service 4 Title', section: 'Services' },
+    { id: 'service_4_description', type: 'text', label: 'Service 4 Description', section: 'Services' },
+    { id: 'portfolio_heading', type: 'text', label: 'Portfolio Heading', section: 'Portfolio' },
+    { id: 'portfolio_1_title', type: 'text', label: 'Portfolio 1 Title', section: 'Portfolio' },
+    { id: 'portfolio_2_title', type: 'text', label: 'Portfolio 2 Title', section: 'Portfolio' },
+    { id: 'portfolio_3_title', type: 'text', label: 'Portfolio 3 Title', section: 'Portfolio' },
+    { id: 'cta_heading', type: 'text', label: 'CTA Heading', section: 'CTA' },
+    { id: 'cta_subheading', type: 'text', label: 'CTA Subheading', section: 'CTA' },
+    { id: 'cta_button', type: 'button', label: 'CTA Button', section: 'CTA' },
+  ],
+} as const;
+
+export type AgencyConfig = typeof agencyConfig;

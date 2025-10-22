@@ -1,778 +1,1169 @@
-"use client"
+'use client';
 
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { 
-  Brain, 
-  Plus, 
-  Search, 
-  Bell, 
-  HelpCircle, 
-  Globe, 
-  Eye, 
-  MousePointerClick, 
-  Target,
-  Layout,
-  Upload,
-  Layers,
-  Calendar,
-  Trash2,
-  Grid3x3,
-  List,
-  Download,
-  ExternalLink,
-  Edit,
-  Lock,
-  Share2,
-  LogOut,
-  User,
-  Settings,
-  ChevronDown,
-  Monitor,
-  X
-} from "lucide-react"
-import Link from "next/link"
-import { useProjects } from "@/hooks/use-projects"
-import { generateHTMLExport } from "@/lib/export-html"
-import type { Project } from "@/lib/supabase/projects"
-import { useSubscription } from "@/hooks/use-subscription"
-import { canExport, getPlanById } from "@/lib/pricing-plans"
-import { useRouter } from "next/navigation"
-import { toast } from "sonner"
-import { ShareLinkDialog } from "@/components/share-link-dialog"
-import { useAuth } from "@/contexts/auth-context"
-import { signOut } from "@/lib/supabase/auth"
-import { useShareableLinks } from "@/hooks/use-shareable-links"
-import { Copy } from "lucide-react"
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { isMobileDevice } from "@/lib/utils"
-import { getAnalyticsSummary } from "@/lib/supabase/analytics"
+  Box,
+  Container,
+  Typography,
+  Button,
+  Card,
+  Chip,
+  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  Menu,
+  MenuItem,
+  Divider,
+  Avatar,
+  InputAdornment,
+  Paper,
+} from '@mui/material';
+import {
+  Add as AddIcon,
+  Edit as EditIcon,
+  Visibility as VisibilityIcon,
+  Share as ShareIcon,
+  Download as DownloadIcon,
+  Delete as DeleteIcon,
+  MoreVert as MoreVertIcon,
+  ContentCopy as ContentCopyIcon,
+  RemoveRedEye as RemoveRedEyeIcon,
+  TouchApp as TouchAppIcon,
+  TrendingUp as TrendingUpIcon,
+  Language as LanguageIcon,
+  Search as SearchIcon,
+  Notifications as NotificationsIcon,
+  CalendarToday as CalendarIcon,
+  Link as LinkIcon,
+  Folder as FolderIcon,
+  Logout as LogoutIcon,
+  Settings as SettingsIcon,
+  Help as HelpIcon,
+  CreditCard as CreditCardIcon,
+} from '@mui/icons-material';
+import { getAllTemplates } from '@/lib/templates';
+import { exportToHTML, downloadHTML } from '@/lib/export-html';
+import type { TemplateId } from '@/lib/templates';
+import { getCurrentUser, signOut as authSignOut } from '@/lib/services/auth-service';
+import { getUserProjects, deleteProject as deleteProjectService, updateProject, isCustomUrlAvailable } from '@/lib/services/project-service';
+
+interface Project {
+  id: string;
+  name: string;
+  template: string;
+  data: Record<string, any>;
+  createdAt: string;
+  updatedAt: string;
+  views?: number;
+  clicks?: number;
+  lastViewedAt?: string;
+  lastClickedAt?: string;
+  customUrl?: string;
+}
 
 export default function DashboardPage() {
-  const { projects, remove, reload: reloadProjects } = useProjects()
-  const { subscription, isLoaded } = useSubscription()
-  const { user, profile } = useAuth()
-  const router = useRouter()
-  // Use profile.plan from database if available, otherwise fallback to localStorage subscription
-  const userPlan = profile?.plan || subscription.plan
-  const currentPlan = getPlanById(userPlan)
-  const [shareDialogOpen, setShareDialogOpen] = useState(false)
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null)
-  const { links: allLinks, reload: reloadLinks } = useShareableLinks()
-  const [isMobile, setIsMobile] = useState(false)
-  const [showMobileWarning, setShowMobileWarning] = useState(true)
-  const [analytics, setAnalytics] = useState({ totalViews: 0, totalClicks: 0, conversionRate: 0 })
+  const router = useRouter();
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [projectToDelete, setProjectToDelete] = useState<string | null>(null);
+  const [showShareDialog, setShowShareDialog] = useState(false);
+  const [shareableLink, setShareableLink] = useState('');
+  const [customUrl, setCustomUrl] = useState('');
+  const [customUrlError, setCustomUrlError] = useState('');
+  const [isEditingUrl, setIsEditingUrl] = useState(false);
+  const [customUrlSaved, setCustomUrlSaved] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [selectedProject, setSelectedProject] = useState<string | null>(null);
+  const [currentDialogProject, setCurrentDialogProject] = useState<Project | null>(null);
+  const [isClient, setIsClient] = useState(false);
+  const [userMenuAnchor, setUserMenuAnchor] = useState<null | HTMLElement>(null);
+  const [currentUser, setCurrentUser] = useState<any>(null);
 
   useEffect(() => {
-    setIsMobile(isMobileDevice())
-  }, [])
-
-  // Reload projects and links when page gains focus (user returns from editor)
-  useEffect(() => {
-    const handleFocus = () => {
-      reloadProjects()
-      reloadLinks()
-    }
+    setIsClient(true);
     
-    window.addEventListener('focus', handleFocus)
-    return () => window.removeEventListener('focus', handleFocus)
-  }, [reloadProjects, reloadLinks])
-
-  // Load analytics data
-  useEffect(() => {
-    async function loadAnalytics() {
-      const data = await getAnalyticsSummary()
-      setAnalytics(data)
-    }
-    loadAnalytics()
-  }, [projects, allLinks])
-
-  const handleLogout = async () => {
-    try {
-      await signOut()
-      toast.success("Logged out successfully")
-      router.push("/auth/signin")
-    } catch (error: any) {
-      toast.error("Logout failed", {
-        description: error.message || "Could not log out. Please try again.",
-      })
-    }
-  }
-
-
-  const getUserInitials = (email: string | null | undefined) => {
-    if (!email) return "LU"
-    const parts = email.split("@")[0].split(".")
-    if (parts.length >= 2) {
-      return (parts[0][0] + parts[1][0]).toUpperCase()
-    }
-    return email.substring(0, 2).toUpperCase()
-  }
-
-  const displayEmail = profile?.email || user?.email || "user@example.com"
-  const displayName = profile?.fullName || user?.user_metadata?.full_name || "Local User"
-  const userInitials = getUserInitials(displayEmail)
-
-  // Prevent hydration errors by not rendering subscription-dependent content until loaded
-  if (!isLoaded) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading...</p>
-        </div>
-      </div>
-    )
-  }
-
-  const handleExport = (project: Project) => {
-    // Check if user's plan allows export
-    if (!canExport(userPlan)) {
-      toast.error("Export Feature Locked", {
-        description: "Export is only available on Professional and Unlimited plans. Upgrade to export your websites.",
-        duration: 5000,
-      })
-      setTimeout(() => router.push("/pricing"), 1500)
-      return
-    }
-    
-    // Convert Supabase project format to format expected by generateHTMLExport
-    const projectData = {
-      id: project.id,
-      name: project.name,
-      template: project.template,
-      theme: project.theme || undefined,
-      updatedAt: new Date(project.updated_at).getTime(),
-      data: project.data,
-    }
-    const html = generateHTMLExport(projectData)
-    const blob = new Blob([html], { type: "text/html" })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement("a")
-    a.href = url
-    a.download = `${project.name.replace(/\s+/g, "-").toLowerCase()}.html`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    URL.revokeObjectURL(url)
-    
-    toast.success("Export Successful!", {
-      description: `${project.name} has been exported as HTML.`,
-      duration: 3000,
-    })
-  }
-
-  const handlePreview = (project: Project) => {
-    // Convert Supabase project format to format expected by generateHTMLExport
-    const projectData = {
-      id: project.id,
-      name: project.name,
-      template: project.template,
-      theme: project.theme || undefined,
-      updatedAt: new Date(project.updated_at).getTime(),
-      data: project.data,
-    }
-    const html = generateHTMLExport(projectData)
-    const blob = new Blob([html], { type: "text/html" })
-    const url = URL.createObjectURL(blob)
-    window.open(url, "_blank")
-  }
-
-  const handleEdit = (project: Project) => {
-    // Save project to localStorage for editor to load
-    localStorage.setItem('editor-project-data', JSON.stringify(project))
-    
-    // Navigate to editor with template and theme parameters
-    const params = new URLSearchParams()
-    params.set('template', project.template)
-    
-    // Only handle themes for Pro templates
-    const proTemplates = ['saas-pro', 'agency-pro', 'portfolio-pro', 'iphone-pro']
-    if (proTemplates.includes(project.template)) {
-      let themeToUse = project.theme
-      if (!themeToUse) {
-        // Default themes for Pro templates
-        const defaultThemes: Record<string, string> = {
-          'saas-pro': 'modern-minimal',
-          'agency-pro': 'modern-minimal',
-          'portfolio-pro': 'default',
-          'iphone-pro': 'dark-gradient',
+    // Check authentication and load data
+    const initDashboard = async () => {
+      try {
+        const user = await getCurrentUser();
+        if (!user) {
+          router.push('/signin');
+          return;
         }
-        themeToUse = defaultThemes[project.template] || null
+        
+        setCurrentUser(user);
+        await loadProjects();
+      } catch (error) {
+        console.error('Failed to initialize dashboard:', error);
+        router.push('/signin');
       }
+    };
+    
+    initDashboard();
+
+    // Auto-refresh analytics when window gains focus (user returns from share page)
+    const handleFocus = () => {
+      loadProjects();
+    };
+
+    window.addEventListener('focus', handleFocus);
+    return () => window.removeEventListener('focus', handleFocus);
+  }, [router]);
+
+  // Debug: Track selectedProject changes
+  useEffect(() => {
+    console.log('selectedProject changed to:', selectedProject);
+  }, [selectedProject]);
+
+  const loadProjects = async () => {
+    try {
+      const projectsData = await getUserProjects();
       
-      if (themeToUse) {
-        params.set('theme', themeToUse)
-      }
+      // Transform Supabase data to match our Project interface
+      const transformedProjects = projectsData.map((p: any) => ({
+        id: p.id,
+        name: p.name,
+        template: p.template,
+        data: p.data,
+        createdAt: p.created_at,
+        updatedAt: p.updated_at,
+        views: p.analytics?.views || 0,
+        clicks: p.analytics?.clicks || 0,
+        lastViewedAt: p.analytics?.last_viewed_at,
+        lastClickedAt: p.analytics?.last_clicked_at,
+        customUrl: p.custom_url,
+      }));
+      
+      setProjects(transformedProjects);
+    } catch (error) {
+      console.error('Failed to load projects:', error);
+    }
+  };
+
+  // Old localStorage-based loadProjects function has been removed
+  // All project data now comes from Supabase via getUserProjects()
+
+  const handleEdit = (projectId: string) => {
+    const project = projects.find(p => p.id === projectId);
+    if (project) {
+      router.push(`/editor?template=${project.template}&projectId=${projectId}`);
+    }
+  };
+
+  const handlePreview = (projectId: string) => {
+    router.push(`/preview/${projectId}`);
+  };
+
+  const handleShare = (projectId: string) => {
+    const project = projects.find(p => p.id === projectId);
+    if (!project) {
+      console.error('Project not found:', projectId);
+      return;
     }
     
-    params.set('loadProject', 'true')
-    window.location.href = `/editor?${params.toString()}`
-  }
-
-  const handleShare = (project: Project) => {
-    setSelectedProject(project)
-    setShareDialogOpen(true)
-  }
-
-  const handleCopyLink = (link: string, e: React.MouseEvent) => {
-    e.stopPropagation()
-    navigator.clipboard.writeText(link)
-    toast.success("Link copied to clipboard!")
-  }
-
-  const getProjectLink = (projectId: string) => {
-    // Find the most recent active link for this project
-    const link = allLinks.find(l => {
-      if (l.project_id !== projectId) return false
-      
-      // Check if expired
-      if (l.expires_at && new Date(l.expires_at) < new Date()) return false
-      
-      // Check if max views reached
-      if (l.max_views && l.views >= l.max_views) return false
-      
-      return true
-    })
+    const baseUrl = window.location.origin;
+    const urlSlug = project.customUrl || projectId;
+    const link = `${baseUrl}/share/${urlSlug}`;
     
-    if (link) {
-      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin
-      return `${baseUrl}/share/${link.custom_slug}`
+    // Store all dialog state
+    setCurrentDialogProject(project);
+    setSelectedProject(projectId);
+    setShareableLink(link);
+    setCustomUrl(project.customUrl || '');
+    setCustomUrlError('');
+    setIsEditingUrl(false);
+    setCustomUrlSaved(false);
+    setShowShareDialog(true);
+    handleMenuClose();
+    
+    console.log('Share dialog opened for project:', projectId);
+  };
+
+  const handleDeleteClick = (projectId: string) => {
+    setProjectToDelete(projectId);
+    setShowDeleteDialog(true);
+    handleMenuClose();
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (projectToDelete) {
+      try {
+        await deleteProjectService(projectToDelete);
+        const savedProjects = projects.filter(p => p.id !== projectToDelete);
+        setProjects(savedProjects);
+        setShowDeleteDialog(false);
+        setProjectToDelete(null);
+      } catch (error) {
+        console.error('Failed to delete project:', error);
+        alert('Failed to delete project. Please try again.');
+      }
     }
-    return null
+  };
+
+  const handleExport = (projectId: string) => {
+    const project = projects.find(p => p.id === projectId);
+    if (project) {
+      const html = exportToHTML({
+        template: project.template as TemplateId,
+        data: project.data,
+        projectName: project.name,
+      });
+      downloadHTML(html, project.name);
+    }
+    handleMenuClose();
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(shareableLink);
+  };
+
+  const handleCloseShareDialog = () => {
+    setShowShareDialog(false);
+    // Don't clear state immediately to allow any pending operations
+    setTimeout(() => {
+      setSelectedProject(null);
+      setCurrentDialogProject(null);
+      setIsEditingUrl(false);
+      setCustomUrlError('');
+      setCustomUrlSaved(false);
+    }, 100);
+  };
+
+  const validateCustomUrl = (url: string): boolean => {
+    // Allow alphanumeric, hyphens, and underscores
+    const urlRegex = /^[a-zA-Z0-9-_]+$/;
+    return urlRegex.test(url);
+  };
+
+  const handleSaveCustomUrl = async () => {
+    console.log('=== SAVE CUSTOM URL STARTED ===');
+    console.log('Selected Project ID:', selectedProject);
+    console.log('Current Dialog Project:', currentDialogProject?.id);
+    console.log('Custom URL Input:', customUrl);
+    
+    // Use currentDialogProject as fallback if selectedProject is null
+    const projectId = selectedProject || currentDialogProject?.id;
+    
+    if (!projectId) {
+      console.error('No project selected - this should not happen!');
+      return;
+    }
+
+    const trimmedUrl = customUrl.trim();
+    console.log('Trimmed URL:', trimmedUrl);
+
+    // Validate custom URL (only if not empty)
+    if (trimmedUrl && !validateCustomUrl(trimmedUrl)) {
+      console.log('Validation failed');
+      setCustomUrlError('Only letters, numbers, hyphens, and underscores are allowed');
+      return;
+    }
+
+    // Check if custom URL is already taken by another project (only if not empty)
+    if (trimmedUrl) {
+      try {
+        const available = await isCustomUrlAvailable(trimmedUrl, projectId);
+        if (!available) {
+          console.log('URL already taken');
+          setCustomUrlError('This URL is already taken by another project');
+          return;
+        }
+      } catch (error) {
+        console.error('Failed to check URL availability:', error);
+        setCustomUrlError('Failed to validate URL. Please try again.');
+        return;
+      }
+    }
+
+    try {
+      // Update project in Supabase
+      const updateData: any = {};
+      if (trimmedUrl) {
+        updateData.customUrl = trimmedUrl;
+      } else {
+        updateData.customUrl = '';
+      }
+      await updateProject(projectId, updateData);
+
+      // Update local state
+      const updatedProjects = projects.map(p => {
+        if (p.id === projectId) {
+          const updated = { ...p };
+          if (trimmedUrl) {
+            updated.customUrl = trimmedUrl;
+          } else {
+            delete updated.customUrl;
+          }
+          console.log('Updated project:', updated);
+          return updated;
+        }
+        return p;
+      });
+
+      setProjects(updatedProjects);
+
+      // Update shareable link
+      const baseUrl = window.location.origin;
+      const urlSlug = trimmedUrl || projectId;
+      const link = `${baseUrl}/share/${urlSlug}`;
+      console.log('New shareable link:', link);
+      
+      setShareableLink(link);
+      setCustomUrl(trimmedUrl);
+      setIsEditingUrl(false);
+      setCustomUrlError('');
+      setCustomUrlSaved(true);
+      
+      console.log('✓ Custom URL saved successfully:', trimmedUrl || '(removed)');
+      console.log('=== SAVE COMPLETE ===');
+      
+      // Hide success message after 2 seconds
+      setTimeout(() => setCustomUrlSaved(false), 2000);
+    } catch (error) {
+      console.error('Failed to save custom URL:', error);
+      setCustomUrlError('Failed to save URL. Please try again.');
+    }
+  };
+
+  const handleCancelEditUrl = () => {
+    const project = projects.find(p => p.id === selectedProject);
+    setCustomUrl(project?.customUrl || '');
+    setIsEditingUrl(false);
+    setCustomUrlError('');
+  };
+
+  const getTemplateName = (templateId: string) => {
+    const templates = getAllTemplates();
+    const template = templates.find(t => t.id === templateId);
+    return template?.name || templateId;
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
+  };
+
+  // Calculate monthly statistics
+  const getMonthlyStats = () => {
+    const now = new Date();
+    const currentMonth = now.getMonth();
+    const currentYear = now.getFullYear();
+
+    const monthlyProjects = projects.filter(p => {
+      const createdDate = new Date(p.createdAt);
+      return createdDate.getMonth() === currentMonth && createdDate.getFullYear() === currentYear;
+    });
+
+    const monthlyViews = monthlyProjects.reduce((sum, p) => sum + (p.views || 0), 0);
+    const monthlyClicks = monthlyProjects.reduce((sum, p) => sum + (p.clicks || 0), 0);
+    const monthlyConversion = monthlyViews > 0 ? Math.round((monthlyClicks / monthlyViews) * 100) : 0;
+
+    return {
+      websitesCreated: monthlyProjects.length,
+      totalVisitors: monthlyViews,
+      conversionRate: monthlyConversion,
+      leadsGenerated: monthlyClicks,
+    };
+  };
+
+  const monthlyStats = getMonthlyStats();
+
+
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>, projectId: string) => {
+    setAnchorEl(event.currentTarget);
+    setSelectedProject(projectId);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    setSelectedProject(null);
+  };
+
+  const handleUserMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setUserMenuAnchor(event.currentTarget);
+  };
+
+  const handleUserMenuClose = () => {
+    setUserMenuAnchor(null);
+  };
+
+  const handleSignOut = async () => {
+    handleUserMenuClose();
+    try {
+      await authSignOut();
+    } catch (error) {
+      console.error('Failed to sign out:', error);
+    }
+  };
+
+  const getUserInitials = () => {
+    if (currentUser?.fullName) {
+      return currentUser.fullName
+        .split(' ')
+        .map((n: string) => n[0])
+        .join('')
+        .toUpperCase()
+        .substring(0, 2);
+    }
+    return currentUser?.email?.substring(0, 2).toUpperCase() || 'U';
+  };
+
+  if (!isClient) {
+    return (
+      <Box sx={{ minHeight: '100vh', bgcolor: '#fafbfc', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Typography>Loading...</Typography>
+      </Box>
+    );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Top Navigation */}
-      <nav className="bg-white border-b border-gray-200 px-6 py-3">
-        <div className="flex items-center justify-between max-w-[1400px] mx-auto">
-          {/* Left: Logo and Search */}
-          <div className="flex items-center gap-6">
-            <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity cursor-pointer">
-              <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
-                <Brain className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-lg font-bold text-gray-900">Squpage</span>
-            </Link>
-            
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <Input
-                type="text"
-                placeholder="Search projects..."
-                className="pl-10 w-80 h-9 bg-gray-50 border-gray-200"
-              />
-            </div>
-          </div>
-
-          {/* Right: Actions and User */}
-          <div className="flex items-center gap-4">
-            <button className="relative p-2 hover:bg-gray-100 rounded-lg">
-              <Bell className="w-5 h-5 text-gray-600" />
-              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-            </button>
-            <button className="p-2 hover:bg-gray-100 rounded-lg">
-              <HelpCircle className="w-5 h-5 text-gray-600" />
-            </button>
-            <div className="pl-4 border-l border-gray-200">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button className="flex items-center gap-2 hover:bg-gray-50 rounded-lg p-1.5 transition-colors">
-                    <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white text-sm font-medium">
-                      {userInitials}
-                    </div>
-                    <div className="text-sm text-left">
-                      <div className="font-medium text-gray-900">{displayName}</div>
-                      <div className="text-xs text-gray-500">{displayEmail}</div>
-                    </div>
-                    <ChevronDown className="w-4 h-4 text-gray-400" />
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56">
-                  <DropdownMenuLabel>
-                    <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none">{displayName}</p>
-                      <p className="text-xs leading-none text-muted-foreground">
-                        {displayEmail}
-                      </p>
-                    </div>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
-                    <Link href="/dashboard" className="cursor-pointer">
-                      <User className="mr-2 h-4 w-4" />
-                      <span>Dashboard</span>
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/pricing" className="cursor-pointer">
-                      <Settings className="mr-2 h-4 w-4" />
-                      <span>Plans & Billing</span>
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-red-600 focus:text-red-600">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>Log out</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      {/* Main Content */}
-      <div className="max-w-[1400px] mx-auto p-6">
-        {/* Mobile Warning */}
-        {isMobile && showMobileWarning && (
-          <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 flex items-start gap-3">
-            <Monitor className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
-            <div className="flex-1">
-              <h3 className="font-semibold text-amber-900 text-sm mb-1">Desktop Recommended</h3>
-              <p className="text-amber-800 text-sm">
-                For the best experience, please use a desktop or laptop to access the website builder.
-              </p>
-            </div>
-            <button
-              onClick={() => setShowMobileWarning(false)}
-              className="text-amber-600 hover:text-amber-800 transition-colors"
+    <Box sx={{ minHeight: '100vh', bgcolor: '#fafbfc' }}>
+      {/* Top Header */}
+      <Box sx={{ bgcolor: 'white', borderBottom: '1px solid #e5e7eb', px: 4, py: 2 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', maxWidth: '1400px', mx: 'auto' }}>
+          {/* Logo & Search */}
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, flex: 1 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+              <Box sx={{ width: 36, height: 36, borderRadius: '10px', bgcolor: '#8b5cf6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <LanguageIcon sx={{ color: 'white', fontSize: 20 }} />
+              </Box>
+              <Typography sx={{ fontSize: 18, fontWeight: 700, color: '#111827' }}>
+                Squpage
+              </Typography>
+            </Box>
+            <TextField
+              placeholder="Search projects..."
+              size="small"
+              sx={{
+                width: 300,
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: '8px',
+                  bgcolor: '#f9fafb',
+                  '& fieldset': { borderColor: '#e5e7eb' },
+                  '&:hover fieldset': { borderColor: '#d1d5db' },
+                  '&.Mui-focused fieldset': { borderColor: '#8b5cf6' },
+                },
+              }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon sx={{ color: '#9ca3af', fontSize: 20 }} />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Box>
+          
+          {/* Right Actions */}
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <IconButton sx={{ color: '#6b7280' }}>
+              <NotificationsIcon />
+            </IconButton>
+            <Box
+              sx={{ display: 'flex', alignItems: 'center', gap: 1.5, ml: 1, cursor: 'pointer', borderRadius: '8px', p: 0.5, '&:hover': { bgcolor: '#f3f4f6' } }}
+              onClick={handleUserMenuOpen}
             >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
-        )}
+              <Avatar sx={{ width: 32, height: 32, bgcolor: '#8b5cf6', fontSize: 14, fontWeight: 600 }}>
+                {getUserInitials()}
+              </Avatar>
+              <Box>
+                <Typography sx={{ fontSize: 13, fontWeight: 600, color: '#111827', lineHeight: 1.2 }}>
+                  {currentUser?.fullName || 'User'}
+                </Typography>
+                <Typography sx={{ fontSize: 11, color: '#6b7280', lineHeight: 1.2 }}>
+                  {currentUser?.email || 'user@example.com'}
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
 
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome back!</h1>
-              <p className="text-gray-600">Here's what's happening with your websites today.</p>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="bg-white rounded-lg border border-gray-200 px-4 py-2">
-                <div className="text-xs text-gray-600">Current Plan</div>
-                <div className="text-sm font-semibold text-purple-600 uppercase">{userPlan}</div>
-              </div>
-              <Link href="/pricing">
-                <Button variant="outline" className="gap-2">
-                  View Plans
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
+      <Container maxWidth="xl" sx={{ py: 4 }}>
+        {/* Welcome Header */}
+        <Box sx={{ mb: 4 }}>
+          <Typography sx={{ fontSize: 28, fontWeight: 700, color: '#111827', mb: 0.5 }}>
+            Welcome back!
+          </Typography>
+          <Typography sx={{ fontSize: 14, color: '#6b7280' }}>
+            Here's what's happening with your websites today.
+          </Typography>
+        </Box>
 
         {/* Action Buttons */}
-        <div className="flex gap-3 mb-8">
-          <Link href="/editor">
-            <Button variant="outline" className="gap-2">
-              <Layout className="w-4 h-4" />
-              Browse Templates
+        <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
+          <Button
+            variant="outlined"
+            startIcon={<LanguageIcon />}
+            sx={{
+              textTransform: 'none',
+              borderColor: '#e5e7eb',
+              color: '#374151',
+              fontWeight: 600,
+              px: 2.5,
+              py: 1,
+              borderRadius: '8px',
+              '&:hover': { borderColor: '#8b5cf6', bgcolor: '#faf5ff' },
+            }}
+          >
+            Browse Templates
+          </Button>
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={() => router.push('/templates')}
+            sx={{
+              textTransform: 'none',
+              bgcolor: '#8b5cf6',
+              color: 'white',
+              fontWeight: 600,
+              px: 2.5,
+              py: 1,
+              borderRadius: '8px',
+              boxShadow: 'none',
+              '&:hover': { bgcolor: '#7c3aed', boxShadow: 'none' },
+            }}
+          >
+            New Website
+          </Button>
+        </Box>
+
+        {/* Analytics Stats */}
+        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' }, gap: 2.5, mb: 4 }}>
+          {/* Total Websites */}
+          <Card
+            elevation={0}
+            sx={{
+              p: 2.5,
+              borderRadius: '12px',
+              border: '1px solid #e5e7eb',
+              bgcolor: 'white',
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', mb: 1.5 }}>
+              <Typography sx={{ fontSize: 13, color: '#6b7280', fontWeight: 500 }}>
+                Total Websites
+              </Typography>
+              <Box sx={{ width: 36, height: 36, borderRadius: '8px', bgcolor: '#dbeafe', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <LanguageIcon sx={{ color: '#3b82f6', fontSize: 20 }} />
+              </Box>
+            </Box>
+            <Typography sx={{ fontSize: 32, fontWeight: 700, color: '#111827', mb: 0.5 }}>
+              {projects.length}
+            </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+              <TrendingUpIcon sx={{ fontSize: 14, color: '#10b981' }} />
+              <Typography sx={{ fontSize: 12, color: '#10b981', fontWeight: 600 }}>
+                {monthlyStats.websitesCreated} this month
+              </Typography>
+            </Box>
+          </Card>
+
+          {/* Total Views */}
+          <Card
+            elevation={0}
+            sx={{
+              p: 2.5,
+              borderRadius: '12px',
+              border: '1px solid #e5e7eb',
+              bgcolor: 'white',
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', mb: 1.5 }}>
+              <Typography sx={{ fontSize: 13, color: '#6b7280', fontWeight: 500 }}>
+                Total Views
+              </Typography>
+              <Box sx={{ width: 36, height: 36, borderRadius: '8px', bgcolor: '#dcfce7', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <RemoveRedEyeIcon sx={{ color: '#22c55e', fontSize: 20 }} />
+              </Box>
+            </Box>
+            <Typography sx={{ fontSize: 32, fontWeight: 700, color: '#111827', mb: 0.5 }}>
+              {projects.reduce((sum, p) => sum + (p.views || 0), 0).toLocaleString()}
+            </Typography>
+            <Typography sx={{ fontSize: 12, color: '#6b7280' }}>
+              Across all shared links
+            </Typography>
+          </Card>
+
+          {/* Total Clicks */}
+          <Card
+            elevation={0}
+            sx={{
+              p: 2.5,
+              borderRadius: '12px',
+              border: '1px solid #e5e7eb',
+              bgcolor: 'white',
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', mb: 1.5 }}>
+              <Typography sx={{ fontSize: 13, color: '#6b7280', fontWeight: 500 }}>
+                Total Clicks
+              </Typography>
+              <Box sx={{ width: 36, height: 36, borderRadius: '8px', bgcolor: '#fce7f3', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <TouchAppIcon sx={{ color: '#ec4899', fontSize: 20 }} />
+              </Box>
+            </Box>
+            <Typography sx={{ fontSize: 32, fontWeight: 700, color: '#111827', mb: 0.5 }}>
+              {projects.reduce((sum, p) => sum + (p.clicks || 0), 0).toLocaleString()}
+            </Typography>
+            <Typography sx={{ fontSize: 12, color: '#6b7280' }}>
+              Button clicks on shared links
+            </Typography>
+          </Card>
+
+          {/* Avg. Conversion */}
+          <Card
+            elevation={0}
+            sx={{
+              p: 2.5,
+              borderRadius: '12px',
+              border: '1px solid #e5e7eb',
+              bgcolor: 'white',
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', mb: 1.5 }}>
+              <Typography sx={{ fontSize: 13, color: '#6b7280', fontWeight: 500 }}>
+                Avg. Conversion
+              </Typography>
+              <Box sx={{ width: 36, height: 36, borderRadius: '8px', bgcolor: '#fed7aa', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <TrendingUpIcon sx={{ color: '#f97316', fontSize: 20 }} />
+              </Box>
+            </Box>
+            <Typography sx={{ fontSize: 32, fontWeight: 700, color: '#111827', mb: 0.5 }}>
+              {projects.length > 0 ? Math.round((projects.reduce((sum, p) => sum + (p.clicks || 0), 0) / projects.reduce((sum, p) => sum + (p.views || 0), 0)) * 100) || 0 : 0}%
+            </Typography>
+            <Typography sx={{ fontSize: 12, color: '#6b7280' }}>
+              Click through rate
+            </Typography>
+          </Card>
+        </Box>
+
+        {/* Quick Actions & Projects Section */}
+        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', lg: '2fr 1fr' }, gap: 3, mb: 4 }}>
+          {/* Quick Actions */}
+          <Card elevation={0} sx={{ p: 3, borderRadius: '12px', border: '1px solid #e5e7eb', bgcolor: 'white' }}>
+            <Typography sx={{ fontSize: 16, fontWeight: 700, color: '#111827', mb: 3 }}>
+              Quick Actions
+            </Typography>
+            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
+              <Box sx={{ p: 2.5, borderRadius: '10px', border: '1px solid #e5e7eb', cursor: 'pointer', transition: 'all 0.2s', '&:hover': { borderColor: '#8b5cf6', bgcolor: '#faf5ff' } }}>
+                <Box sx={{ width: 40, height: 40, borderRadius: '8px', bgcolor: '#dbeafe', display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
+                  <LanguageIcon sx={{ color: '#3b82f6', fontSize: 22 }} />
+                </Box>
+                <Typography sx={{ fontSize: 14, fontWeight: 600, color: '#111827', mb: 0.5 }}>Portfolio Template</Typography>
+                <Typography sx={{ fontSize: 12, color: '#6b7280' }}>Professional portfolio website</Typography>
+              </Box>
+              <Box sx={{ p: 2.5, borderRadius: '10px', border: '1px solid #e5e7eb', cursor: 'pointer', transition: 'all 0.2s', '&:hover': { borderColor: '#8b5cf6', bgcolor: '#faf5ff' } }}>
+                <Box sx={{ width: 40, height: 40, borderRadius: '8px', bgcolor: '#dcfce7', display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
+                  <AddIcon sx={{ color: '#22c55e', fontSize: 22 }} />
+                </Box>
+                <Typography sx={{ fontSize: 14, fontWeight: 600, color: '#111827', mb: 0.5 }}>Blank Canvas</Typography>
+                <Typography sx={{ fontSize: 12, color: '#6b7280' }}>Build with Elementor editor</Typography>
+              </Box>
+              <Box sx={{ p: 2.5, borderRadius: '10px', border: '1px solid #e5e7eb', cursor: 'pointer', transition: 'all 0.2s', '&:hover': { borderColor: '#8b5cf6', bgcolor: '#faf5ff' } }}>
+                <Box sx={{ width: 40, height: 40, borderRadius: '8px', bgcolor: '#fed7aa', display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
+                  <DownloadIcon sx={{ color: '#f97316', fontSize: 22 }} />
+                </Box>
+                <Typography sx={{ fontSize: 14, fontWeight: 600, color: '#111827', mb: 0.5 }}>Import Design</Typography>
+                <Typography sx={{ fontSize: 12, color: '#6b7280' }}>Upload your existing design</Typography>
+              </Box>
+              <Box sx={{ p: 2.5, borderRadius: '10px', border: '1px solid #e5e7eb', cursor: 'pointer', transition: 'all 0.2s', '&:hover': { borderColor: '#8b5cf6', bgcolor: '#faf5ff' } }} onClick={() => router.push('/templates')}>
+                <Box sx={{ width: 40, height: 40, borderRadius: '8px', bgcolor: '#e9d5ff', display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
+                  <VisibilityIcon sx={{ color: '#a855f7', fontSize: 22 }} />
+                </Box>
+                <Typography sx={{ fontSize: 14, fontWeight: 600, color: '#111827', mb: 0.5 }}>View Templates</Typography>
+                <Typography sx={{ fontSize: 12, color: '#6b7280' }}>Browse all available templates</Typography>
+              </Box>
+            </Box>
+          </Card>
+
+          {/* This Month Stats */}
+          <Card elevation={0} sx={{ p: 3, borderRadius: '12px', border: '1px solid #e5e7eb', bgcolor: 'white' }}>
+            <Typography sx={{ fontSize: 16, fontWeight: 700, color: '#111827', mb: 3 }}>
+              This Month
+            </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
+              <Box>
+                <Typography sx={{ fontSize: 12, color: '#6b7280', mb: 0.5 }}>Websites Created</Typography>
+                <Typography sx={{ fontSize: 24, fontWeight: 700, color: '#111827' }}>{monthlyStats.websitesCreated}</Typography>
+              </Box>
+              <Box>
+                <Typography sx={{ fontSize: 12, color: '#6b7280', mb: 0.5 }}>Total Visitors</Typography>
+                <Typography sx={{ fontSize: 24, fontWeight: 700, color: '#111827' }}>{monthlyStats.totalVisitors.toLocaleString()}</Typography>
+              </Box>
+              <Box>
+                <Typography sx={{ fontSize: 12, color: '#6b7280', mb: 0.5 }}>Conversion Rate</Typography>
+                <Typography sx={{ fontSize: 24, fontWeight: 700, color: '#111827' }}>{monthlyStats.conversionRate}%</Typography>
+              </Box>
+              <Box>
+                <Typography sx={{ fontSize: 12, color: '#6b7280', mb: 0.5 }}>Leads Generated</Typography>
+                <Typography sx={{ fontSize: 24, fontWeight: 700, color: '#111827' }}>{monthlyStats.leadsGenerated.toLocaleString()}</Typography>
+              </Box>
+            </Box>
+          </Card>
+        </Box>
+
+        {/* Projects Section Header */}
+        <Box sx={{ mb: 3 }}>
+          <Typography sx={{ fontSize: 18, fontWeight: 700, color: '#111827' }}>
+            My Projects
+          </Typography>
+        </Box>
+
+        {/* Projects Grid */}
+        {projects.length === 0 ? (
+          <Paper
+            elevation={0}
+            sx={{
+              textAlign: 'center',
+              py: 12,
+              bgcolor: 'white',
+              borderRadius: 3,
+              border: '2px dashed #e0e0e0',
+            }}
+          >
+            <FolderIcon sx={{ fontSize: 80, color: '#ccc', mb: 3 }} />
+            <Typography variant="h4" sx={{ fontWeight: 700, color: '#1a1a1a', mb: 2 }}>
+              No Projects Yet
+            </Typography>
+            <Typography variant="body1" sx={{ color: '#666', mb: 4 }}>
+              Create your first website project to get started
+            </Typography>
+            <Button
+              variant="contained"
+              size="large"
+              startIcon={<AddIcon />}
+              onClick={() => router.push('/templates')}
+              sx={{
+                bgcolor: '#6366f1',
+                '&:hover': { bgcolor: '#4f46e5' },
+                textTransform: 'none',
+                fontWeight: 600,
+                px: 4,
+                py: 1.5,
+              }}
+            >
+              Create Your First Project
             </Button>
-          </Link>
-          <Link href="/editor">
-            <Button className="gap-2 bg-purple-600 hover:bg-purple-700">
-              <Plus className="w-4 h-4" />
-              New Website
-            </Button>
-          </Link>
-        </div>
+          </Paper>
+        ) : (
+          <Box>
+            {projects.map((project) => (
+              <Card
+                key={project.id}
+                elevation={0}
+                sx={{
+                  mb: 2,
+                  borderRadius: '12px',
+                  border: '1px solid #e5e7eb',
+                  bgcolor: 'white',
+                  transition: 'all 0.2s',
+                  '&:hover': {
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+                  },
+                }}
+              >
+                <Box sx={{ p: 2.5, display: 'flex', alignItems: 'center', gap: 2 }}>
+                  {/* Project Icon */}
+                  <Box
+                    sx={{
+                      width: 56,
+                      height: 56,
+                      borderRadius: '10px',
+                      bgcolor: '#f3f4f6',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0,
+                    }}
+                  >
+                    <LanguageIcon sx={{ fontSize: 28, color: '#9ca3af' }} />
+                  </Box>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-xl border border-gray-200 p-6">
-            <div className="flex items-start justify-between mb-4">
-              <div>
-                <div className="text-sm text-gray-600 mb-1">Total Websites</div>
-                <div className="text-3xl font-bold text-gray-900">{projects.length}</div>
-              </div>
-              <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center">
-                <Globe className="w-6 h-6 text-blue-600" />
-              </div>
-            </div>
-            <div className="flex items-center gap-1 text-sm text-green-600">
-              <span>↑ {projects.length} this month</span>
-            </div>
-          </div>
+                  {/* Project Info */}
+                  <Box sx={{ flex: 1, minWidth: 0 }}>
+                    <Typography sx={{ fontSize: 16, fontWeight: 700, color: '#111827', mb: 0.5 }}>
+                      {project.name}
+                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                      <Chip
+                        label={getTemplateName(project.template)}
+                        size="small"
+                        sx={{
+                          height: 20,
+                          fontSize: 11,
+                          fontWeight: 600,
+                          bgcolor: '#10b981',
+                          color: 'white',
+                          '& .MuiChip-label': { px: 1 },
+                        }}
+                      />
+                      <Typography sx={{ fontSize: 12, color: '#9ca3af' }}>
+                        <CalendarIcon sx={{ fontSize: 12, mr: 0.5, verticalAlign: 'middle' }} />
+                        {formatDate(project.updatedAt)}
+                      </Typography>
+                    </Box>
+                  </Box>
 
-          <div className="bg-white rounded-xl border border-gray-200 p-6">
-            <div className="flex items-start justify-between mb-4">
-              <div>
-                <div className="text-sm text-gray-600 mb-1">Total Views</div>
-                <div className="text-3xl font-bold text-gray-900">{analytics.totalViews}</div>
-              </div>
-              <div className="w-12 h-12 bg-green-50 rounded-full flex items-center justify-center">
-                <Eye className="w-6 h-6 text-green-600" />
-              </div>
-            </div>
-            <div className="flex items-center gap-1 text-sm text-gray-600">
-              <span>Across all shared links</span>
-            </div>
-          </div>
+                  {/* Share Link */}
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, px: 2, py: 1, bgcolor: '#f9fafb', borderRadius: '8px', border: '1px solid #e5e7eb' }}>
+                    <LinkIcon sx={{ fontSize: 14, color: '#6b7280' }} />
+                    <Typography sx={{ fontSize: 12, color: project.customUrl ? '#8b5cf6' : '#6b7280', fontFamily: 'monospace', fontWeight: project.customUrl ? 600 : 400 }}>
+                      {`squpage.com/share/${project.customUrl || project.id.substring(0, 8) + '...'}`}
+                    </Typography>
+                    <IconButton size="small" onClick={() => handleShare(project.id)}>
+                      <ContentCopyIcon sx={{ fontSize: 14 }} />
+                    </IconButton>
+                  </Box>
 
-          <div className="bg-white rounded-xl border border-gray-200 p-6">
-            <div className="flex items-start justify-between mb-4">
-              <div>
-                <div className="text-sm text-gray-600 mb-1">Total Clicks</div>
-                <div className="text-3xl font-bold text-gray-900">{analytics.totalClicks}</div>
-              </div>
-              <div className="w-12 h-12 bg-purple-50 rounded-full flex items-center justify-center">
-                <MousePointerClick className="w-6 h-6 text-purple-600" />
-              </div>
-            </div>
-            <div className="flex items-center gap-1 text-sm text-gray-600">
-              <span>Button clicks on shared links</span>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-xl border border-gray-200 p-6">
-            <div className="flex items-start justify-between mb-4">
-              <div>
-                <div className="text-sm text-gray-600 mb-1">Avg. Conversion</div>
-                <div className="text-3xl font-bold text-gray-900">{analytics.conversionRate}%</div>
-              </div>
-              <div className="w-12 h-12 bg-orange-50 rounded-full flex items-center justify-center">
-                <Target className="w-6 h-6 text-orange-600" />
-              </div>
-            </div>
-            <div className="flex items-center gap-1 text-sm text-gray-600">
-              <span>Click-through rate</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Two Column Layout */}
-        <div className="grid grid-cols-3 gap-6">
-          {/* Left Column - Quick Actions and Projects */}
-          <div className="col-span-2 space-y-6">
-            {/* Quick Actions */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
-              <h2 className="text-lg font-bold text-gray-900 mb-4">Quick Actions</h2>
-              <div className="grid grid-cols-2 gap-4">
-                <Link href="/editor">
-                  <div className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-colors cursor-pointer">
-                    <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
-                      <Layout className="w-5 h-5 text-white" />
-                    </div>
-                    <div>
-                      <div className="font-semibold text-gray-900">Portfolio Template</div>
-                      <div className="text-sm text-gray-600">Professional portfolio website</div>
-                    </div>
-                  </div>
-                </Link>
-
-                <div className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:border-green-500 hover:bg-green-50 transition-colors cursor-pointer">
-                  <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center">
-                    <Plus className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <div className="font-semibold text-gray-900">Blank Canvas</div>
-                    <div className="text-sm text-gray-600">Build with Elementor editor</div>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:border-orange-500 hover:bg-orange-50 transition-colors cursor-pointer">
-                  <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
-                    <Upload className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <div className="font-semibold text-gray-900">Import Design</div>
-                    <div className="text-sm text-gray-600">Upload your existing design</div>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:border-purple-500 hover:bg-purple-50 transition-colors cursor-pointer">
-                  <div className="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center">
-                    <Layers className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <div className="font-semibold text-gray-900">View Templates</div>
-                    <div className="text-sm text-gray-600">Browse all available templates</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* My Projects */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-bold text-gray-900">My Projects</h2>
-                <div className="flex items-center gap-2">
-                  <button className="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200">
-                    All
-                  </button>
-                  <button className="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded-md">
-                    Published
-                  </button>
-                  <button className="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded-md">
-                    Drafts
-                  </button>
-                  <div className="ml-2 flex gap-1">
-                    <button className="p-1.5 hover:bg-gray-100 rounded">
-                      <Grid3x3 className="w-4 h-4 text-gray-600" />
-                    </button>
-                    <button className="p-1.5 hover:bg-gray-100 rounded">
-                      <List className="w-4 h-4 text-gray-600" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              {projects.length > 0 ? (
-                <div className="space-y-4">
-                  {projects.map((project) => (
-                    <div key={project.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                      <div className="flex items-start gap-4">
-                        <div className="w-32 h-24 bg-gray-100 rounded-lg flex items-center justify-center">
-                          <Layout className="w-8 h-8 text-gray-400" />
-                        </div>
-                        <div className="flex-1">
-                          <div className="flex items-start justify-between mb-2">
-                            <div>
-                              <h3 className="font-semibold text-gray-900">{project.name}</h3>
-                              <div className="flex items-center gap-2 mt-1">
-                                <span className="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded">
-                                  {project.template}
-                                </span>
-                                <span className="text-xs px-2 py-0.5 bg-green-100 text-green-700 rounded font-medium">
-                                  Published
-                                </span>
-                              </div>
-                            </div>
-                            <button 
-                              onClick={() => remove(project.id)}
-                              className="p-1 hover:bg-gray-100 rounded"
-                            >
-                              <Trash2 className="w-4 h-4 text-red-500" />
-                            </button>
-                          </div>
-                          <div className="flex items-center gap-2 text-sm text-gray-500 mb-3">
-                            <Calendar className="w-4 h-4" />
-                            <span>{new Date(project.updated_at).toLocaleDateString()}</span>
-                          </div>
-                          {getProjectLink(project.id) && (
-                            <div className="mb-3 p-2 bg-blue-50 border border-blue-200 rounded-lg">
-                              <div className="flex items-center gap-2">
-                                <Globe className="w-3.5 h-3.5 text-blue-600 flex-shrink-0" />
-                                <code className="text-xs text-blue-700 flex-1 truncate">
-                                  {getProjectLink(project.id)}
-                                </code>
-                                <button
-                                  onClick={(e) => handleCopyLink(getProjectLink(project.id)!, e)}
-                                  className="p-1 hover:bg-blue-100 rounded transition-colors"
-                                  title="Copy link"
-                                >
-                                  <Copy className="w-3.5 h-3.5 text-blue-600" />
-                                </button>
-                              </div>
-                            </div>
-                          )}
-                          <div className="flex items-center gap-2">
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              className="gap-1.5 h-8"
-                              onClick={() => handleEdit(project)}
-                            >
-                              <Edit className="w-3.5 h-3.5" />
-                              Edit
-                            </Button>
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              className="gap-1.5 h-8"
-                              onClick={() => handlePreview(project)}
-                            >
-                              <Eye className="w-3.5 h-3.5" />
-                              Preview
-                            </Button>
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              className="gap-1.5 h-8"
-                              onClick={() => handleShare(project)}
-                            >
-                              <Share2 className="w-3.5 h-3.5" />
-                              Share
-                            </Button>
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              className={`gap-1.5 h-8 ${!currentPlan.limits.canExport ? "opacity-60" : ""}`}
-                              onClick={() => handleExport(project)}
-                            >
-                              {!currentPlan.limits.canExport ? (
-                                <Lock className="w-3.5 h-3.5" />
-                              ) : (
-                                <Download className="w-3.5 h-3.5" />
-                              )}
-                              Export
-                            </Button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                  <button className="w-full py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">
-                    View All Projects
-                  </button>
-                </div>
-              ) : (
-                <div className="text-center py-12 text-gray-500">
-                  <Layout className="w-12 h-12 mx-auto mb-3 text-gray-300" />
-                  <p>No projects yet. Create your first website!</p>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Right Column - This Month and Upgrade */}
-          <div className="space-y-6">
-            {/* This Month Stats */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
-              <h2 className="text-lg font-bold text-gray-900 mb-4">This Month</h2>
-              <div className="space-y-4">
-                <div>
-                  <div className="text-sm text-gray-600 mb-1">Websites Created</div>
-                  <div className="text-2xl font-bold text-gray-900">{projects.length}</div>
-                </div>
-                <div>
-                  <div className="text-sm text-gray-600 mb-1">Total Visitors</div>
-                  <div className="text-2xl font-bold text-gray-900">0</div>
-                </div>
-                <div>
-                  <div className="text-sm text-gray-600 mb-1">Conversion Rate</div>
-                  <div className="text-2xl font-bold text-gray-900">0%</div>
-                </div>
-                <div>
-                  <div className="text-sm text-gray-600 mb-1">Leads Generated</div>
-                  <div className="text-2xl font-bold text-gray-900">0</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Plan Limits & Upgrade */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
-              <h2 className="text-lg font-bold text-gray-900 mb-4">Your Plan Limits</h2>
-              <div className="space-y-4">
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm text-gray-600">Normal Templates</span>
-                    <span className="text-sm font-semibold text-gray-900">
-                      {projects.filter(p => !["agency-pro", "saas-pro", "portfolio-pro", "iphone-pro"].includes(p.template)).length} / {currentPlan.limits.normalTemplates === "unlimited" ? "∞" : currentPlan.limits.normalTemplates}
-                    </span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div 
-                      className="bg-blue-600 h-2 rounded-full" 
-                      style={{ 
-                        width: currentPlan.limits.normalTemplates === "unlimited" 
-                          ? "100%" 
-                          : `${Math.min((projects.filter(p => !["agency-pro", "saas-pro", "portfolio-pro", "iphone-pro"].includes(p.template)).length / (currentPlan.limits.normalTemplates as number)) * 100, 100)}%` 
+                  {/* Action Buttons */}
+                  <Box sx={{ display: 'flex', gap: 1 }}>
+                    <Button
+                      size="small"
+                      startIcon={<EditIcon />}
+                      onClick={() => handleEdit(project.id)}
+                      sx={{
+                        textTransform: 'none',
+                        color: '#374151',
+                        fontWeight: 600,
+                        px: 2,
+                        py: 0.75,
+                        borderRadius: '6px',
+                        '&:hover': { bgcolor: '#f3f4f6' },
                       }}
-                    />
-                  </div>
-                </div>
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm text-gray-600">Pro Templates</span>
-                    <span className="text-sm font-semibold text-gray-900">
-                      {projects.filter(p => ["agency-pro", "saas-pro", "portfolio-pro", "iphone-pro"].includes(p.template)).length} / {currentPlan.limits.proTemplates === Infinity ? "∞" : currentPlan.limits.proTemplates}
-                    </span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div 
-                      className="bg-purple-600 h-2 rounded-full" 
-                      style={{ 
-                        width: currentPlan.limits.proTemplates === Infinity 
-                          ? "100%" 
-                          : `${Math.min((projects.filter(p => ["agency-pro", "saas-pro", "portfolio-pro", "iphone-pro"].includes(p.template)).length / currentPlan.limits.proTemplates) * 100, 100)}%` 
-                      }}
-                    />
-                  </div>
-                </div>
-                <div className="pt-2 border-t border-gray-200">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-600">Export to HTML</span>
-                    <span className={`text-sm font-semibold ${currentPlan.limits.canExport ? "text-green-600" : "text-red-600"}`}>
-                      {currentPlan.limits.canExport ? "Enabled" : "Disabled"}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {userPlan !== "unlimited" && (
-              <div className="bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl p-6 text-white">
-                <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mb-4">
-                  <Brain className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-xl font-bold mb-2">
-                  {userPlan === "free" ? "Upgrade to Pro" : "Upgrade Your Plan"}
-                </h3>
-                <p className="text-sm text-white/90 mb-4">Unlock more features and templates</p>
-                <ul className="space-y-2 mb-6 text-sm">
-                  {userPlan === "free" && (
-                    <>
-                      <li className="flex items-center gap-2">
-                        <span className="text-white">•</span>
-                        <span>Unlimited normal templates</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <span className="text-white">•</span>
-                        <span>Access to pro templates</span>
-                      </li>
-                    </>
-                  )}
-                  {(userPlan === "free" || userPlan === "starter") && (
-                    <li className="flex items-center gap-2">
-                      <span className="text-white">•</span>
-                      <span>Export to HTML</span>
-                    </li>
-                  )}
-                  <li className="flex items-center gap-2">
-                    <span className="text-white">•</span>
-                    <span>AI content generation</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="text-white">•</span>
-                    <span>Priority support</span>
-                  </li>
-                </ul>
-                <div className="space-y-2">
-                  <Link href="/pricing" className="block">
-                    <Button className="w-full bg-white text-purple-600 hover:bg-gray-100">
-                      View All Plans
+                    >
+                      Edit
                     </Button>
-                  </Link>
-                </div>
-              </div>
+                    <Button
+                      size="small"
+                      startIcon={<VisibilityIcon />}
+                      onClick={() => handlePreview(project.id)}
+                      sx={{
+                        textTransform: 'none',
+                        color: '#374151',
+                        fontWeight: 600,
+                        px: 2,
+                        py: 0.75,
+                        borderRadius: '6px',
+                        '&:hover': { bgcolor: '#f3f4f6' },
+                      }}
+                    >
+                      Preview
+                    </Button>
+                    <Button
+                      size="small"
+                      startIcon={<ShareIcon />}
+                      onClick={() => handleShare(project.id)}
+                      sx={{
+                        textTransform: 'none',
+                        color: '#374151',
+                        fontWeight: 600,
+                        px: 2,
+                        py: 0.75,
+                        borderRadius: '6px',
+                        '&:hover': { bgcolor: '#f3f4f6' },
+                      }}
+                    >
+                      Share
+                    </Button>
+                    <Button
+                      size="small"
+                      startIcon={<DownloadIcon />}
+                      onClick={() => handleExport(project.id)}
+                      sx={{
+                        textTransform: 'none',
+                        color: '#374151',
+                        fontWeight: 600,
+                        px: 2,
+                        py: 0.75,
+                        borderRadius: '6px',
+                        '&:hover': { bgcolor: '#f3f4f6' },
+                      }}
+                    >
+                      Export
+                    </Button>
+                    <IconButton size="small" onClick={(e) => handleMenuOpen(e, project.id)}>
+                      <MoreVertIcon />
+                    </IconButton>
+                  </Box>
+                </Box>
+              </Card>
+            ))}
+          </Box>
+        )}
+      </Container>
+
+      {/* Context Menu */}
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleMenuClose}
+        PaperProps={{
+          elevation: 3,
+          sx: { minWidth: 180 },
+        }}
+      >
+        <MenuItem onClick={() => selectedProject && handleShare(selectedProject)}>
+          <ShareIcon sx={{ mr: 2, fontSize: 20 }} />
+          Share
+        </MenuItem>
+        <MenuItem onClick={() => selectedProject && handleExport(selectedProject)}>
+          <DownloadIcon sx={{ mr: 2, fontSize: 20 }} />
+          Export HTML
+        </MenuItem>
+        <Divider />
+        <MenuItem
+          onClick={() => selectedProject && handleDeleteClick(selectedProject)}
+          sx={{ color: '#ef4444' }}
+        >
+          <DeleteIcon sx={{ mr: 2, fontSize: 20 }} />
+          Delete
+        </MenuItem>
+      </Menu>
+
+      {/* Delete Dialog */}
+      <Dialog
+        open={showDeleteDialog}
+        onClose={() => setShowDeleteDialog(false)}
+        PaperProps={{
+          sx: { borderRadius: 3, p: 1 },
+        }}
+      >
+        <DialogTitle sx={{ fontWeight: 700 }}>Delete Project?</DialogTitle>
+        <DialogContent>
+          <Typography>
+            This action cannot be undone. The project will be permanently deleted.
+          </Typography>
+        </DialogContent>
+        <DialogActions sx={{ px: 3, pb: 2 }}>
+          <Button onClick={() => setShowDeleteDialog(false)} sx={{ textTransform: 'none' }}>
+            Cancel
+          </Button>
+          <Button
+            onClick={handleDeleteConfirm}
+            variant="contained"
+            color="error"
+            sx={{ textTransform: 'none', fontWeight: 600 }}
+          >
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Share Dialog */}
+      <Dialog
+        open={showShareDialog}
+        onClose={handleCloseShareDialog}
+        maxWidth="sm"
+        fullWidth
+        PaperProps={{
+          sx: { borderRadius: 3, p: 1 },
+        }}
+      >
+        <DialogTitle sx={{ fontWeight: 700, pb: 1 }}>Share Your Project</DialogTitle>
+        <DialogContent>
+          <Typography sx={{ mb: 3, color: '#666', fontSize: 14 }}>
+            Anyone with this link can view your project
+          </Typography>
+
+          {/* Custom URL Section */}
+          <Box sx={{ mb: 3, p: 2.5, bgcolor: '#f9fafb', borderRadius: '12px', border: '1px solid #e5e7eb' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+              <Typography sx={{ fontSize: 13, fontWeight: 600, color: '#374151' }}>
+                Custom URL
+              </Typography>
+              {!isEditingUrl && (
+                <Button
+                  size="small"
+                  onClick={() => setIsEditingUrl(true)}
+                  sx={{
+                    textTransform: 'none',
+                    fontSize: 12,
+                    fontWeight: 600,
+                    color: '#8b5cf6',
+                    minWidth: 'auto',
+                    px: 1.5,
+                    py: 0.5,
+                    '&:hover': { bgcolor: '#f3e8ff' },
+                  }}
+                >
+                  {customUrl ? 'Edit' : 'Add Custom URL'}
+                </Button>
+              )}
+            </Box>
+
+            {isEditingUrl ? (
+              <Box>
+                <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, mb: 1 }}>
+                  <Typography sx={{ fontSize: 13, color: '#6b7280', pt: 1.5 }}>
+                    {window.location.origin}/share/
+                  </Typography>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    value={customUrl}
+                    onChange={(e) => {
+                      setCustomUrl(e.target.value);
+                      setCustomUrlError('');
+                    }}
+                    placeholder="my-awesome-website"
+                    error={!!customUrlError}
+                    helperText={customUrlError || 'Use letters, numbers, hyphens, and underscores'}
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        bgcolor: 'white',
+                        fontSize: 13,
+                        fontFamily: 'monospace',
+                      },
+                    }}
+                  />
+                </Box>
+                <Box sx={{ display: 'flex', gap: 1, mt: 2 }}>
+                  <Button
+                    size="small"
+                    onClick={handleSaveCustomUrl}
+                    variant="contained"
+                    sx={{
+                      textTransform: 'none',
+                      fontSize: 12,
+                      fontWeight: 600,
+                      bgcolor: '#8b5cf6',
+                      '&:hover': { bgcolor: '#7c3aed' },
+                      boxShadow: 'none',
+                    }}
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    size="small"
+                    onClick={handleCancelEditUrl}
+                    sx={{
+                      textTransform: 'none',
+                      fontSize: 12,
+                      color: '#6b7280',
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                </Box>
+              </Box>
+            ) : (
+              <Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Typography sx={{ fontSize: 13, color: '#6b7280' }}>
+                    {window.location.origin}/share/
+                  </Typography>
+                  <Typography sx={{ fontSize: 13, color: '#111827', fontWeight: 600, fontFamily: 'monospace' }}>
+                    {customUrl || selectedProject?.substring(0, 8) + '...'}
+                  </Typography>
+                </Box>
+                {customUrlSaved && (
+                  <Typography sx={{ fontSize: 12, color: '#10b981', fontWeight: 600, mt: 1 }}>
+                    ✓ Custom URL saved successfully!
+                  </Typography>
+                )}
+              </Box>
             )}
-          </div>
-        </div>
-      </div>
+          </Box>
 
-      {/* Share Link Dialog */}
-      {selectedProject && (
-        <ShareLinkDialog
-          project={selectedProject}
-          open={shareDialogOpen}
-          onOpenChange={setShareDialogOpen}
-          onSuccess={reloadLinks}
-        />
-      )}
+          {/* Shareable Link */}
+          <Typography sx={{ mb: 1, fontSize: 13, fontWeight: 600, color: '#374151' }}>
+            Shareable Link
+          </Typography>
+          <TextField
+            fullWidth
+            value={shareableLink}
+            InputProps={{
+              readOnly: true,
+              sx: { 
+                bgcolor: '#f9fafb', 
+                fontFamily: 'monospace', 
+                fontSize: 13,
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: '#e5e7eb',
+                },
+              },
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    size="small"
+                    onClick={copyToClipboard}
+                    sx={{ color: '#6b7280' }}
+                  >
+                    <ContentCopyIcon sx={{ fontSize: 18 }} />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </DialogContent>
+        <DialogActions sx={{ px: 3, pb: 2 }}>
+          <Button onClick={handleCloseShareDialog} sx={{ textTransform: 'none', color: '#6b7280' }}>
+            Close
+          </Button>
+          <Button
+            onClick={copyToClipboard}
+            variant="contained"
+            startIcon={<ContentCopyIcon />}
+            sx={{
+              bgcolor: '#8b5cf6',
+              '&:hover': { bgcolor: '#7c3aed' },
+              textTransform: 'none',
+              fontWeight: 600,
+              boxShadow: 'none',
+            }}
+          >
+            Copy Link
+          </Button>
+        </DialogActions>
+      </Dialog>
 
-    </div>
-  )
+      {/* User Profile Menu */}
+      <Menu
+        anchorEl={userMenuAnchor}
+        open={Boolean(userMenuAnchor)}
+        onClose={handleUserMenuClose}
+        PaperProps={{
+          elevation: 3,
+          sx: { minWidth: 220, mt: 1, borderRadius: '12px' },
+        }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      >
+        <Box sx={{ px: 2, py: 1.5, borderBottom: '1px solid #e5e7eb' }}>
+          <Typography sx={{ fontSize: 14, fontWeight: 600, color: '#111827' }}>
+            {currentUser?.fullName || 'User'}
+          </Typography>
+          <Typography sx={{ fontSize: 12, color: '#6b7280' }}>
+            {currentUser?.email || 'user@example.com'}
+          </Typography>
+        </Box>
+        <MenuItem onClick={handleUserMenuClose} sx={{ py: 1.5 }}>
+          <SettingsIcon sx={{ mr: 2, fontSize: 20, color: '#6b7280' }} />
+          <Typography sx={{ fontSize: 14 }}>Profile Settings</Typography>
+        </MenuItem>
+        <MenuItem onClick={handleUserMenuClose} sx={{ py: 1.5 }}>
+          <CreditCardIcon sx={{ mr: 2, fontSize: 20, color: '#6b7280' }} />
+          <Typography sx={{ fontSize: 14 }}>Billing</Typography>
+        </MenuItem>
+        <MenuItem onClick={handleUserMenuClose} sx={{ py: 1.5 }}>
+          <HelpIcon sx={{ mr: 2, fontSize: 20, color: '#6b7280' }} />
+          <Typography sx={{ fontSize: 14 }}>Help & Support</Typography>
+        </MenuItem>
+        <Divider />
+        <MenuItem onClick={handleSignOut} sx={{ py: 1.5, color: '#ef4444' }}>
+          <LogoutIcon sx={{ mr: 2, fontSize: 20 }} />
+          <Typography sx={{ fontSize: 14, fontWeight: 600 }}>Sign Out</Typography>
+        </MenuItem>
+      </Menu>
+    </Box>
+  );
 }
