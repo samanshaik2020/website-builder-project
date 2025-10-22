@@ -150,6 +150,7 @@ export const ImageSidebar: React.FC<ImageSidebarProps> = ({
 
               {uploadedImage && (
                 <div className="relative">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={uploadedImage}
                     alt="Uploaded preview"
@@ -170,6 +171,7 @@ export const ImageSidebar: React.FC<ImageSidebarProps> = ({
                 Current Image
               </h3>
               <div className="relative group">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={uploadedImage || imageUrl || currentImageUrl}
                   alt="Current"

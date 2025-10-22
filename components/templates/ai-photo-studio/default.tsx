@@ -6,13 +6,11 @@ import { EditableButton } from '@/components/editor/editable-button'
 import { EditableImage } from '@/components/editor/editable-image'
 import { BaseTemplateProps } from '@/types/template'
 
-interface AIPhotoStudioTemplateProps extends BaseTemplateProps {}
-
 export default function AIPhotoStudioTemplate({
   editable = false,
   data = {},
   onContentChange = () => {},
-}: AIPhotoStudioTemplateProps) {
+}: BaseTemplateProps) {
   const getText = (eid: string, defaultText: string) => {
     return data[eid]?.text || defaultText
   }

@@ -50,6 +50,7 @@ export const EditableImage: React.FC<EditableImageProps> = ({
       );
     }
     return (
+      // eslint-disable-next-line @next/next/no-img-element
       <img
         data-eid={eid}
         src={imageSrc}
@@ -70,6 +71,7 @@ export const EditableImage: React.FC<EditableImageProps> = ({
       >
         {imageSrc ? (
           <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={imageSrc}
               alt={alt}

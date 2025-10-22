@@ -63,7 +63,7 @@ export const SlateEditableText: React.FC<SlateEditableTextProps> = ({
       {
         type: 'paragraph',
         children: [{ text: defaultText }],
-      } as any,
+      },
     ],
     [defaultText]
   );

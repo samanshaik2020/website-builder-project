@@ -5,13 +5,11 @@ import { EditableButton } from '@/components/editor/editable-button'
 import { EditableImage } from '@/components/editor/editable-image'
 import { BaseTemplateProps } from '@/types/template'
 
-interface GroceryDeliveryTemplateProps extends BaseTemplateProps {}
-
 export default function GroceryDeliveryTemplate({
   editable = false,
   data = {},
   onContentChange = () => {},
-}: GroceryDeliveryTemplateProps) {
+}: BaseTemplateProps) {
   const getText = (eid: string, defaultText: string) => {
     return data[eid]?.text || defaultText
   }

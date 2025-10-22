@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { getTemplateById, type TemplateId } from '@/lib/templates';
 import { getProject, getProjectByCustomUrl } from '@/lib/services/project-service';
@@ -80,12 +81,12 @@ export default function SharePage() {
         <div className="text-center">
           <h1 className="text-3xl font-bold text-white mb-4">Project Not Found</h1>
           <p className="text-slate-400 mb-6">This project may have been deleted or the link is invalid.</p>
-          <a
+          <Link
             href="/"
             className="inline-block px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-colors"
           >
             Go to Homepage
-          </a>
+          </Link>
         </div>
       </div>
     );
@@ -97,12 +98,12 @@ export default function SharePage() {
       <div className="min-h-screen bg-slate-900 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-white mb-4">Template Not Found</h1>
-          <a
+          <Link
             href="/"
             className="inline-block px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-colors"
           >
             Go to Homepage
-          </a>
+          </Link>
         </div>
       </div>
     );
