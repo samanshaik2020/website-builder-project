@@ -25,7 +25,7 @@ export function generateMeditationAppHTML(data: Record<string, any>): string {
   <section class="relative bg-gradient-to-b from-indigo-900 via-indigo-800 to-blue-600 text-white py-20 overflow-hidden">
     <!-- Stars background -->
     <div class="absolute inset-0 opacity-30">
-      ${[...Array(50)].map((_, i) => `
+      ${[...Array(50)].map(() => `
         <div class="absolute w-1 h-1 bg-white rounded-full" style="top: ${Math.random() * 100}%; left: ${Math.random() * 100}%; animation: twinkle ${2 + Math.random() * 3}s infinite;"></div>
       `).join('')}
     </div>
