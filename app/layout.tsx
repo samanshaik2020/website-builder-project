@@ -10,10 +10,8 @@ export const metadata: Metadata = {
   description: "Professional website builder with modern templates and AI-powered content generation",
   icons: {
     icon: [
+      { url: '/favicon.ico', sizes: '32x32', type: 'image/x-icon' },
       { url: '/favicon.svg', type: 'image/svg+xml' },
-    ],
-    apple: [
-      { url: '/apple-icon.svg', type: 'image/svg+xml' },
     ],
   },
 }
