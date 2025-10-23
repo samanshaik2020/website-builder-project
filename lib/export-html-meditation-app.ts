@@ -41,7 +41,7 @@ export function generateMeditationAppHTML(data: Record<string, any>): string {
           </a>
         </div>
         <div class="w-1/2 flex justify-end">
-          <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=700&fit=crop" alt="App Preview" class="w-64 h-auto rounded-3xl shadow-2xl">
+          <img src="${getImage('hero_app_preview', 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=700&fit=crop')}" alt="App Preview" class="w-64 h-auto rounded-3xl shadow-2xl">
         </div>
       </div>
     </div>
@@ -52,7 +52,7 @@ export function generateMeditationAppHTML(data: Record<string, any>): string {
     <div class="container mx-auto px-6">
       <div class="flex items-start gap-16">
         <div class="w-1/3">
-          <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=300&h=600&fit=crop" alt="App Features" class="w-full rounded-3xl shadow-xl">
+          <img src="${getImage('features_app_image', 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=300&h=600&fit=crop')}" alt="App Features" class="w-full rounded-3xl shadow-xl">
         </div>
         <div class="w-2/3">
           <h2 class="text-4xl font-light mb-12 text-gray-800">${getText('features_title', 'What do you get?')}</h2>

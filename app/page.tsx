@@ -93,10 +93,10 @@ export default function HomePage() {
             <span className="text-white font-bold text-xl">Squpage</span>
           </div>
           <button
-            onClick={() => router.push('/signin')}
+            onClick={() => router.push('/signup')}
             className="px-6 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg font-medium transition-all border border-white/20 hover:border-white/40"
           >
-            Sign In
+            Create New Account
           </button>
         </div>
       </nav>
@@ -157,10 +157,10 @@ export default function HomePage() {
               <div className="absolute inset-0 bg-gradient-to-r from-purple-700 to-pink-700 opacity-0 group-hover:opacity-100 transition-opacity" />
             </button>
             <button
-              onClick={() => router.push('/signin')}
+              onClick={() => router.push('/signup')}
               className="px-10 py-5 bg-white/10 hover:bg-white/20 text-white rounded-xl text-lg font-semibold transition-all border border-white/20 hover:border-white/40 hover:scale-105"
             >
-              Sign In
+              Create New Account
             </button>
           </div>
 

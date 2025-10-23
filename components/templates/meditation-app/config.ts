@@ -10,9 +10,11 @@ export const meditationAppConfig = {
     { id: 'hero_title', type: 'text', label: 'Hero Title', section: 'Hero' },
     { id: 'hero_description', type: 'text', label: 'Hero Description', section: 'Hero' },
     { id: 'hero_cta', type: 'button', label: 'Hero CTA', section: 'Hero' },
+    { id: 'hero_app_preview', type: 'image', label: 'Hero App Preview Image', section: 'Hero' },
     
     // Features Section
     { id: 'features_title', type: 'text', label: 'Features Title', section: 'Features' },
+    { id: 'features_app_image', type: 'image', label: 'Features App Image', section: 'Features' },
     { id: 'feature1_title', type: 'text', label: 'Feature 1 Title', section: 'Features' },
     { id: 'feature1_description', type: 'text', label: 'Feature 1 Description', section: 'Features' },
     { id: 'feature2_title', type: 'text', label: 'Feature 2 Title', section: 'Features' },
@@ -59,6 +61,8 @@ export const meditationAppConfig = {
     { id: 'footer_col3_link1', type: 'text', label: 'Footer Link 1', section: 'Footer' },
     { id: 'footer_col3_link2', type: 'text', label: 'Footer Link 2', section: 'Footer' },
     { id: 'footer_col3_link3', type: 'text', label: 'Footer Link 3', section: 'Footer' },
+    { id: 'footer_facebook', type: 'button', label: 'Facebook URL', section: 'Footer' },
+    { id: 'footer_twitter', type: 'button', label: 'Twitter URL', section: 'Footer' },
     { id: 'footer_copyright', type: 'text', label: 'Copyright Text', section: 'Footer' },
   ],
 } as const;

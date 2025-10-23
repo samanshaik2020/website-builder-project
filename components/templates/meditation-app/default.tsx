@@ -1,8 +1,9 @@
 'use client'
 
-import React from 'react'
-import { EditableButton } from '@/components/editor/editable-button'
-import { EditableImage } from '@/components/editor/editable-image'
+import React, { useState } from 'react';
+import { EditableImage } from '@/components/editor/editable-image';
+import { EditableButton } from '@/components/editor/editable-button';
+import { Link2, X } from 'lucide-react';
 import { BaseTemplateProps } from '@/types/template'
 
 export default function MeditationAppTemplate({
@@ -10,6 +11,70 @@ export default function MeditationAppTemplate({
   data = {},
   onContentChange = () => {},
 }: BaseTemplateProps) {
+  const [currentStoryIndex, setCurrentStoryIndex] = useState(0)
+  const [editingSocialUrl, setEditingSocialUrl] = useState<{ eid: string; url: string } | null>(null)
+
+  const stories = [
+    {
+      imageEid: 'story1_image',
+      categoryEid: 'story1_category',
+      titleEid: 'story1_title',
+      descriptionEid: 'story1_description',
+      narratorEid: 'story1_narrator',
+      narratorImageEid: 'story1_narrator_image',
+      defaults: {
+        image: 'https://images.unsplash.com/photo-1511593358241-7eea1f3c84e5?w=300&h=400&fit=crop',
+        category: 'SLEEP STORY',
+        title: 'Serene Me Sleepy Train',
+        description: 'Join bestselling author and beloved comedian David Walliams for a sleepy adventure through the mountains of Switzerland.',
+        narrator: 'David Walliams',
+        narratorImage: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&h=50&fit=crop'
+      }
+    },
+    {
+      imageEid: 'story2_image',
+      categoryEid: 'story2_category',
+      titleEid: 'story2_title',
+      descriptionEid: 'story2_description',
+      narratorEid: 'story2_narrator',
+      narratorImageEid: 'story2_narrator_image',
+      defaults: {
+        image: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=300&h=400&fit=crop',
+        category: 'SLEEP STORY',
+        title: 'Northern Lights Journey',
+        description: 'Drift away under the magical aurora borealis as we explore the serene landscapes of Iceland.',
+        narrator: 'Stephen Fry',
+        narratorImage: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=50&h=50&fit=crop'
+      }
+    },
+    {
+      imageEid: 'story3_image',
+      categoryEid: 'story3_category',
+      titleEid: 'story3_title',
+      descriptionEid: 'story3_description',
+      narratorEid: 'story3_narrator',
+      narratorImageEid: 'story3_narrator_image',
+      defaults: {
+        image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=400&fit=crop',
+        category: 'SLEEP STORY',
+        title: 'Mountain Meditation',
+        description: 'Find peace in the tranquil peaks of the Himalayas with this calming bedtime story.',
+        narrator: 'Matthew McConaughey',
+        narratorImage: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=50&h=50&fit=crop'
+      }
+    }
+  ]
+
+  const currentStory = stories[currentStoryIndex]!
+
+  const nextStory = () => {
+    setCurrentStoryIndex((prev) => (prev + 1) % stories.length)
+  }
+
+  const prevStory = () => {
+    setCurrentStoryIndex((prev) => (prev - 1 + stories.length) % stories.length)
+  }
+
   const getText = (eid: string, defaultText: string) => {
     return data[eid]?.text || defaultText
   }
@@ -79,10 +144,13 @@ export default function MeditationAppTemplate({
             </div>
             <div className="w-1/2 flex justify-end">
               <div className="relative">
-                <img
-                  src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=700&fit=crop"
+                <EditableImage
+                  eid="hero_app_preview"
+                  defaultSrc={getImage('hero_app_preview', 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=700&fit=crop')}
                   alt="App Preview"
                   className="w-64 h-auto rounded-3xl shadow-2xl"
+                  editable={editable}
+                  onChange={onContentChange}
                 />
               </div>
             </div>
@@ -102,10 +170,13 @@ export default function MeditationAppTemplate({
         <div className="container mx-auto px-6">
           <div className="flex items-start gap-16">
             <div className="w-1/3">
-              <img
-                src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=300&h=600&fit=crop"
+              <EditableImage
+                eid="features_app_image"
+                defaultSrc={getImage('features_app_image', 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=300&h=600&fit=crop')}
                 alt="App Features"
                 className="w-full rounded-3xl shadow-xl"
+                editable={editable}
+                onChange={onContentChange}
               />
             </div>
             <div className="w-2/3">
@@ -261,7 +332,10 @@ export default function MeditationAppTemplate({
 
           <div className="flex items-center justify-center gap-12">
             {/* Navigation Arrow Left */}
-            <button className="w-12 h-12 rounded-full bg-purple-500 text-white flex items-center justify-center hover:bg-purple-600 transition-colors">
+            <button 
+              onClick={prevStory}
+              className="w-12 h-12 rounded-full bg-purple-500 text-white flex items-center justify-center hover:bg-purple-600 transition-colors"
+            >
               ←
             </button>
 
@@ -269,8 +343,8 @@ export default function MeditationAppTemplate({
             <div className="max-w-2xl">
               <div className="flex items-start gap-8">
                 <EditableImage
-                  eid="story_image"
-                  defaultSrc={getImage('story_image', 'https://images.unsplash.com/photo-1511593358241-7eea1f3c84e5?w=300&h=400&fit=crop')}
+                  eid={currentStory.imageEid}
+                  defaultSrc={getImage(currentStory.imageEid, currentStory.defaults.image)}
                   alt="Sleep Story"
                   className="w-48 h-64 object-cover rounded-2xl shadow-xl"
                   editable={editable}
@@ -278,42 +352,45 @@ export default function MeditationAppTemplate({
                 />
                 <div className="flex-1">
                   <div
-                    data-eid="story_category"
+                    data-eid={currentStory.categoryEid}
                     contentEditable={editable}
                     suppressContentEditableWarning
                     className="text-sm text-purple-600 font-semibold mb-4"
                   >
-                    {getText('story_category', 'SLEEP STORY')}
+                    {getText(currentStory.categoryEid, currentStory.defaults.category)}
                   </div>
                   <h3
-                    data-eid="story_author"
+                    data-eid={currentStory.titleEid}
                     contentEditable={editable}
                     suppressContentEditableWarning
                     className="text-3xl font-light mb-4 text-gray-800"
                   >
-                    {getText('story_author', 'Serene Me Sleepy Train')}
+                    {getText(currentStory.titleEid, currentStory.defaults.title)}
                   </h3>
                   <p
-                    data-eid="story_description"
+                    data-eid={currentStory.descriptionEid}
                     contentEditable={editable}
                     suppressContentEditableWarning
                     className="text-gray-600 mb-6 leading-relaxed"
                   >
-                    {getText('story_description', 'Join bestselling author and beloved comedian David Walliams for a sleepy adventure through the mountains of Switzerland.')}
+                    {getText(currentStory.descriptionEid, currentStory.defaults.description)}
                   </p>
                   <div className="flex items-center gap-3">
-                    <img
-                      src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&h=50&fit=crop"
+                    <EditableImage
+                      eid={currentStory.narratorImageEid}
+                      defaultSrc={getImage(currentStory.narratorImageEid, currentStory.defaults.narratorImage)}
                       alt="Narrator"
-                      className="w-12 h-12 rounded-full"
+                      className="w-12 h-12 rounded-full object-cover"
+                      editable={editable}
+                      onChange={onContentChange}
                     />
                     <div
-                      data-eid="story_narrator"
+                      data-eid={currentStory.narratorEid}
                       contentEditable={editable}
                       suppressContentEditableWarning
                       className="text-gray-700 font-medium"
                     >
-                      {getText('story_narrator', 'David Walliams')}
+                      {getText(currentStory.narratorEid, currentStory.defaults.narrator)}
                     </div>
                   </div>
                 </div>
@@ -321,16 +398,25 @@ export default function MeditationAppTemplate({
             </div>
 
             {/* Navigation Arrow Right */}
-            <button className="w-12 h-12 rounded-full bg-purple-500 text-white flex items-center justify-center hover:bg-purple-600 transition-colors">
+            <button 
+              onClick={nextStory}
+              className="w-12 h-12 rounded-full bg-purple-500 text-white flex items-center justify-center hover:bg-purple-600 transition-colors"
+            >
               →
             </button>
           </div>
 
-          {/* Pagination Dots */}
-          <div className="flex justify-center gap-2 mt-12">
-            <div className="w-2 h-2 rounded-full bg-gray-400"></div>
-            <div className="w-2 h-2 rounded-full bg-purple-500"></div>
-            <div className="w-2 h-2 rounded-full bg-gray-400"></div>
+          {/* Dots Indicator */}
+          <div className="flex justify-center gap-2 mt-8">
+            {stories.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentStoryIndex(index)}
+                className={`w-2 h-2 rounded-full transition-colors ${
+                  index === currentStoryIndex ? 'bg-purple-600' : 'bg-gray-300'
+                }`}
+              />
+            ))}
           </div>
         </div>
       </section>
@@ -509,12 +595,51 @@ export default function MeditationAppTemplate({
             {/* Column 4 - Social */}
             <div>
               <div className="flex gap-4">
-                <a href="#" className="text-gray-400 hover:text-white">
-                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-                </a>
-                <a href="#" className="text-gray-400 hover:text-white">
-                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
-                </a>
+                {editable ? (
+                  <>
+                    <button
+                      onClick={() => setEditingSocialUrl({ eid: 'footer_facebook', url: getButton('footer_facebook', '', 'https://facebook.com').url })}
+                      className="text-gray-400 hover:text-white transition-colors relative group"
+                      aria-label="Edit Facebook URL"
+                    >
+                      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                      <span className="absolute -top-1 -right-1 w-4 h-4 bg-purple-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Link2 size={10} className="text-white" />
+                      </span>
+                    </button>
+                    <button
+                      onClick={() => setEditingSocialUrl({ eid: 'footer_twitter', url: getButton('footer_twitter', '', 'https://twitter.com').url })}
+                      className="text-gray-400 hover:text-white transition-colors relative group"
+                      aria-label="Edit Twitter URL"
+                    >
+                      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+                      <span className="absolute -top-1 -right-1 w-4 h-4 bg-purple-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Link2 size={10} className="text-white" />
+                      </span>
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <a
+                      href={getButton('footer_facebook', '', 'https://facebook.com').url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-400 hover:text-white transition-colors"
+                      aria-label="Facebook"
+                    >
+                      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    </a>
+                    <a
+                      href={getButton('footer_twitter', '', 'https://twitter.com').url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-400 hover:text-white transition-colors"
+                      aria-label="Twitter"
+                    >
+                      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+                    </a>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -531,6 +656,70 @@ export default function MeditationAppTemplate({
           </div>
         </div>
       </footer>
+
+      {/* Social Media URL Edit Modal */}
+      {editingSocialUrl && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[10000]">
+          <div className="bg-white rounded-2xl p-6 max-w-md w-full mx-4 shadow-2xl">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xl font-bold text-slate-900">Edit Social Media URL</h3>
+              <button
+                onClick={() => setEditingSocialUrl(null)}
+                className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+              >
+                <X size={20} className="text-slate-600" />
+              </button>
+            </div>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  Social Media URL
+                </label>
+                <input
+                  type="text"
+                  value={editingSocialUrl.url}
+                  onChange={(e) => setEditingSocialUrl({ ...editingSocialUrl, url: e.target.value })}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      onContentChange(editingSocialUrl.eid, { button: { text: '', url: editingSocialUrl.url } });
+                      setEditingSocialUrl(null);
+                    } else if (e.key === 'Escape') {
+                      e.preventDefault();
+                      setEditingSocialUrl(null);
+                    }
+                  }}
+                  className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all"
+                  placeholder="https://facebook.com/yourpage"
+                  autoFocus
+                />
+                <p className="text-xs text-slate-500 mt-2">
+                  Enter the full URL (e.g., https://facebook.com/yourpage)
+                </p>
+              </div>
+            </div>
+
+            <div className="flex gap-3 mt-6">
+              <button
+                onClick={() => setEditingSocialUrl(null)}
+                className="flex-1 px-6 py-3 bg-slate-200 hover:bg-slate-300 text-slate-900 rounded-lg font-semibold transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  onContentChange(editingSocialUrl.eid, { button: { text: '', url: editingSocialUrl.url } });
+                  setEditingSocialUrl(null);
+                }}
+                className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-lg font-semibold transition-all shadow-lg"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
