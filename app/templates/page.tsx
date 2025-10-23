@@ -57,8 +57,12 @@ export default function TemplatesPage() {
     switch (templateId) {
       case 'portfolio':
         return '/portflio.png';
+      case 'portfolio-modern-dark':
+        return '/Portfolio - Modern Dark.png';
       case 'saas-landing':
         return '/SaaS.png';
+      case 'saas-vibrant-gradient':
+        return '/SaaS - Vibrant Gradient.png';
       case 'agency':
         return '/Agency.png';
       case 'ai-photo-studio':

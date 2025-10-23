@@ -17,8 +17,8 @@ export default function AiButton({ templateSlug, theme, onGenerated, className =
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   
-  // Check if portfolio template
-  const isPortfolio = templateSlug === 'portfolio';
+  // Check if portfolio template (both themes don't support AI)
+  const isPortfolio = templateSlug === 'portfolio' || templateSlug === 'portfolio-modern-dark';
 
   async function generate() {
     setError(null);

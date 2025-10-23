@@ -4,6 +4,8 @@ import { generateLoanLandingHTML } from './export-html-loan-landing';
 import { generateSamsungProductHTML } from './export-html-samsung-product';
 import { generateFurnitureStoreHTML } from './export-html-furniture-store';
 import { generateMeditationAppHTML } from './export-html-meditation-app';
+import { generatePortfolioModernDarkHTML } from './export-html-portfolio-modern-dark';
+import { generateSaasVibrantGradientHTML } from './export-html-saas-vibrant-gradient';
 
 interface ExportData {
   template: TemplateId;
@@ -1262,8 +1264,12 @@ export const exportToHTML = ({ template, data, projectName }: ExportData): strin
   switch (template) {
     case 'portfolio':
       return generatePortfolioHTML(data, projectName);
+    case 'portfolio-modern-dark':
+      return generatePortfolioModernDarkHTML(data);
     case 'saas-landing':
       return generateSaasLandingHTML(data, projectName);
+    case 'saas-vibrant-gradient':
+      return generateSaasVibrantGradientHTML(data);
     case 'agency':
       return generateAgencyHTML(data, projectName);
     case 'ai-photo-studio':

@@ -1,11 +1,11 @@
-import { PortfolioTemplate, portfolioConfig } from '@/components/templates/portfolio';
+import { PortfolioTemplate, PortfolioModernDark, portfolioConfig } from '@/components/templates/portfolio';
 import LoanLandingTemplate from '@/components/templates/loan-landing';
 import { loanLandingConfig } from '@/components/templates/loan-landing';
 import { AgencyTemplate, agencyConfig } from '@/components/templates/agency';
 import { AIPhotoStudioTemplate, aiPhotoStudioConfig } from '@/components/templates/ai-photo-studio';
 import { CatFoodTemplate, catFoodConfig } from '@/components/templates/cat-food';
 import { GroceryDeliveryTemplate, groceryDeliveryConfig } from '@/components/templates/grocery-delivery';
-import { SaasLandingTemplate, saasLandingConfig } from '@/components/templates/saas-landing';
+import { SaasLandingTemplate, SaasVibrantGradient, saasLandingConfig } from '@/components/templates/saas-landing';
 import { SamsungProductTemplate, samsungProductConfig } from '@/components/templates/samsung-product';
 import FurnitureStoreTemplate from '@/components/templates/furniture-store';
 import { furnitureStoreConfig } from '@/components/templates/furniture-store';
@@ -17,9 +17,29 @@ export const templates = {
     component: PortfolioTemplate,
     config: portfolioConfig,
   },
+  'portfolio-modern-dark': {
+    component: PortfolioModernDark,
+    config: {
+      ...portfolioConfig,
+      id: 'portfolio-modern-dark',
+      name: 'Portfolio - Modern Dark',
+      description: 'A sleek, modern dark theme portfolio with cyan accents',
+      thumbnail: '/Portfolio Modern Dark.png',
+    },
+  },
   'saas-landing': {
     component: SaasLandingTemplate,
     config: saasLandingConfig,
+  },
+  'saas-vibrant-gradient': {
+    component: SaasVibrantGradient,
+    config: {
+      ...saasLandingConfig,
+      id: 'saas-vibrant-gradient',
+      name: 'SaaS - Vibrant Gradient',
+      description: 'Modern SaaS landing page with vibrant pink, purple, and blue gradients',
+      thumbnail: '/SaaS - Vibrant Gradient.png',
+    },
   },
   agency: {
     component: AgencyTemplate,

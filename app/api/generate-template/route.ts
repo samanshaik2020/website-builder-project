@@ -174,6 +174,11 @@ function buildPromptForTemplate(templateSlug: string, seedText: string, theme?: 
     return buildMeditationAppPrompt(seedText, theme);
   }
 
+  // SaaS Vibrant Gradient template has its own structure
+  if (templateSlug === 'saas-vibrant-gradient') {
+    return buildSaasVibrantGradientPrompt(seedText, theme);
+  }
+
   const baseInstructions = `You are a professional web content generator. Generate content for a ${templateSlug} template based on the following description: "${seedText}"${theme ? ` using the ${theme} theme style` : ''}.
 
 Return ONLY valid JSON (no markdown, no code blocks, no comments). The JSON must follow this exact structure with ALL fields:
@@ -832,5 +837,88 @@ Important:
 - Make features sound valuable and transformative
 - Include credible publication names for testimonials
 - Adapt to the specific meditation/wellness focus (sleep, anxiety, mindfulness, etc.)
-- Return ONLY the JSON object, nothing else`;
+
+Return ONLY the JSON object, nothing else.`;
+}
+
+// Prompt builder for SaaS Vibrant Gradient template
+function buildSaasVibrantGradientPrompt(seedText: string, theme?: string) {
+  return `You are a professional web content generator. Generate content for a modern SaaS landing page based on the following description: "${seedText}"${theme ? ` using the ${theme} theme style` : ''}.
+
+Return ONLY valid JSON (no markdown, no code blocks, no comments). The JSON must include ALL fields below:
+
+{
+  "nav_logo": "Brand name (1-2 words, modern and memorable)",
+  "hero_badge": "Badge text with emoji (e.g., '🚀 New: AI-Powered Features')",
+  "hero_title": "Main headline (8-12 words, bold and transformative)",
+  "hero_description": "Hero description (20-30 words, compelling value proposition)",
+  "stat1_number": "Stat 1 number (e.g., '10K+', '99%', '24/7')",
+  "stat1_label": "Stat 1 label (2-3 words, e.g., 'Active Users', 'Satisfaction')",
+  "stat2_number": "Stat 2 number",
+  "stat2_label": "Stat 2 label (2-3 words)",
+  "stat3_number": "Stat 3 number",
+  "stat3_label": "Stat 3 label (2-3 words)",
+  "stat4_number": "Stat 4 number",
+  "stat4_label": "Stat 4 label (2-3 words)",
+  "features_title": "Features section title (3-5 words)",
+  "features_subtitle": "Features subtitle (12-18 words)",
+  "feature1_title": "Feature 1 title (2-4 words)",
+  "feature1_description": "Feature 1 description (15-25 words)",
+  "feature2_title": "Feature 2 title (2-4 words)",
+  "feature2_description": "Feature 2 description (15-25 words)",
+  "feature3_title": "Feature 3 title (2-4 words)",
+  "feature3_description": "Feature 3 description (15-25 words)",
+  "feature4_title": "Feature 4 title (2-4 words)",
+  "feature4_description": "Feature 4 description (15-25 words)",
+  "feature5_title": "Feature 5 title (2-4 words)",
+  "feature5_description": "Feature 5 description (15-25 words)",
+  "feature6_title": "Feature 6 title (2-4 words)",
+  "feature6_description": "Feature 6 description (15-25 words)",
+  "pricing_title": "Pricing section title (3-5 words)",
+  "pricing_subtitle": "Pricing subtitle (8-12 words)",
+  "plan1_name": "Plan 1 name (1-2 words, e.g., 'Starter', 'Basic')",
+  "plan1_price": "Plan 1 price (e.g., '$29', '$49')",
+  "plan1_description": "Plan 1 description (8-15 words)",
+  "plan2_name": "Plan 2 name (1-2 words, e.g., 'Professional', 'Pro')",
+  "plan2_price": "Plan 2 price (e.g., '$79', '$99')",
+  "plan2_description": "Plan 2 description (8-15 words)",
+  "plan3_name": "Plan 3 name (1-2 words, e.g., 'Enterprise', 'Business')",
+  "plan3_price": "Plan 3 price (e.g., '$199', '$299')",
+  "plan3_description": "Plan 3 description (8-15 words)",
+  "testimonials_title": "Testimonials section title (3-5 words)",
+  "testimonial1_text": "Testimonial 1 quote (20-35 words, enthusiastic)",
+  "testimonial1_name": "Customer 1 name (2-3 words)",
+  "testimonial1_role": "Customer 1 role (3-5 words, e.g., 'CEO, Tech Startup')",
+  "testimonial2_text": "Testimonial 2 quote (20-35 words, positive)",
+  "testimonial2_name": "Customer 2 name (2-3 words)",
+  "testimonial2_role": "Customer 2 role (3-5 words)",
+  "testimonial3_text": "Testimonial 3 quote (20-35 words, impactful)",
+  "testimonial3_name": "Customer 3 name (2-3 words)",
+  "testimonial3_role": "Customer 3 role (3-5 words)",
+  "cta_title": "CTA section title (4-7 words, action-oriented)",
+  "cta_description": "CTA description (15-25 words, compelling)",
+  "footer_text": "Footer copyright text (e.g., '© 2025 Brand Name. All rights reserved.')"
+}
+
+Create compelling SaaS content that:
+- Emphasizes transformation, growth, and efficiency
+- Highlights modern technology and innovation
+- Uses energetic, confident, and aspirational language
+- Focuses on business value and ROI
+- Creates urgency with social proof and statistics
+- Makes the product feel cutting-edge and essential
+- Emphasizes ease of use and quick results
+- Uses professional yet approachable tone
+
+Important:
+- Keep all text modern, energetic, and business-focused
+- Use action-oriented, results-driven language
+- Emphasize speed, efficiency, and transformation
+- Make features sound powerful and game-changing
+- Include realistic company roles for testimonials
+- Adapt to the specific SaaS type (productivity, analytics, marketing, etc.)
+- Use impressive but believable statistics
+- Create a sense of momentum and success
+
+Return ONLY the JSON object, nothing else.`;
 }
