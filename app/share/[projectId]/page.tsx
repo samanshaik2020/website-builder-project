@@ -18,11 +18,17 @@ export default function SharePage() {
     const loadProject = async () => {
       if (projectId) {
         try {
-          // Try to find by custom URL first, then by project ID
-          let foundProject = await getProjectByCustomUrl(projectId);
+          let foundProject = null;
           
-          if (!foundProject) {
+          // Check if projectId is a UUID (contains hyphens and is 36 chars)
+          const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(projectId);
+          
+          if (isUUID) {
+            // Try to find by project ID (UUID)
             foundProject = await getProject(projectId);
+          } else {
+            // Try to find by custom URL slug
+            foundProject = await getProjectByCustomUrl(projectId);
           }
           
           if (foundProject) {

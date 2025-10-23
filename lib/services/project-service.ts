@@ -64,6 +64,8 @@ export async function getUserProjects(): Promise<ProjectWithAnalytics[]> {
 export async function getProject(projectId: string): Promise<ProjectWithAnalytics | null> {
   const supabase = createClient()
   
+  console.log('[getProject] Fetching project with ID:', projectId)
+  
   const { data, error } = await supabase
     .from('projects')
     .select(`
@@ -71,15 +73,19 @@ export async function getProject(projectId: string): Promise<ProjectWithAnalytic
       analytics:project_analytics(*)
     `)
     .eq('id', projectId)
-    .single()
+    .maybeSingle() // Use maybeSingle instead of single
 
   if (error) {
-    if (error.code === 'PGRST116') {
-      return null // Project not found
-    }
+    console.error('[getProject] Error:', error)
     throw new Error(error.message)
   }
 
+  if (!data) {
+    console.log('[getProject] No project found with ID:', projectId)
+    return null
+  }
+
+  console.log('[getProject] Project found:', data.id)
   return {
     ...data,
     analytics: data.analytics?.[0] || null,
@@ -88,9 +94,12 @@ export async function getProject(projectId: string): Promise<ProjectWithAnalytic
 
 /**
  * Get a project by custom URL (for shareable links)
+ * This function allows anonymous access for public shareable links
  */
 export async function getProjectByCustomUrl(customUrl: string): Promise<ProjectWithAnalytics | null> {
   const supabase = createClient()
+  
+  console.log('[getProjectByCustomUrl] Fetching project with custom URL:', customUrl)
   
   const { data, error } = await supabase
     .from('projects')
@@ -99,15 +108,19 @@ export async function getProjectByCustomUrl(customUrl: string): Promise<ProjectW
       analytics:project_analytics(*)
     `)
     .eq('custom_url', customUrl)
-    .single()
+    .maybeSingle() // Use maybeSingle instead of single to avoid errors when not found
 
   if (error) {
-    if (error.code === 'PGRST116') {
-      return null // Project not found
-    }
+    console.error('[getProjectByCustomUrl] Error:', error)
     throw new Error(error.message)
   }
 
+  if (!data) {
+    console.log('[getProjectByCustomUrl] No project found with custom URL:', customUrl)
+    return null
+  }
+
+  console.log('[getProjectByCustomUrl] Project found:', data.id)
   return {
     ...data,
     analytics: data.analytics?.[0] || null,
