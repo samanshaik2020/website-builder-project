@@ -2,13 +2,13 @@ import React from 'react';
 import Link from 'next/link';
 import { Metadata } from 'next';
 import { getTemplateById, type TemplateId } from '@/lib/templates';
-import { getProject, getProjectByCustomUrl } from '@/lib/services/project-service';
+import { getProjectServer, getProjectByCustomUrlServer } from '@/lib/services/project-service-server';
 import SharePageClient from './share-page-client';
 
 interface SharePageProps {
-  params: {
+  params: Promise<{
     projectId: string;
-  };
+  }>;
 }
 
 // Helper function to extract text from project data
@@ -61,7 +61,7 @@ function getProjectImage(data: any): string | null {
 }
 
 export async function generateMetadata({ params }: SharePageProps): Promise<Metadata> {
-  const { projectId } = params;
+  const { projectId } = await params;
   
   try {
     // Check if projectId is a UUID
@@ -69,9 +69,9 @@ export async function generateMetadata({ params }: SharePageProps): Promise<Meta
     
     let project = null;
     if (isUUID) {
-      project = await getProject(projectId);
+      project = await getProjectServer(projectId);
     } else {
-      project = await getProjectByCustomUrl(projectId);
+      project = await getProjectByCustomUrlServer(projectId);
     }
     
     if (!project) {
@@ -132,7 +132,7 @@ export async function generateMetadata({ params }: SharePageProps): Promise<Meta
 }
 
 export default async function SharePage({ params }: SharePageProps) {
-  const { projectId } = params;
+  const { projectId } = await params;
   
   try {
     // Check if projectId is a UUID
@@ -140,9 +140,9 @@ export default async function SharePage({ params }: SharePageProps) {
     
     let project = null;
     if (isUUID) {
-      project = await getProject(projectId);
+      project = await getProjectServer(projectId);
     } else {
-      project = await getProjectByCustomUrl(projectId);
+      project = await getProjectByCustomUrlServer(projectId);
     }
     
     if (!project) {
