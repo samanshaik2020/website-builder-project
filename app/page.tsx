@@ -7,8 +7,10 @@ export default function HomePage() {
   const router = useRouter();
   const [scrollY, setScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     setIsVisible(true);
     
     const handleScroll = () => {
@@ -66,23 +68,20 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-900 overflow-hidden" suppressHydrationWarning>
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-900 overflow-hidden">
       {/* Animated Background Elements */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none" suppressHydrationWarning>
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div 
           className="absolute top-1/4 -left-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse"
-          style={{ transform: `translateY(${scrollY * 0.3}px)` }}
-          suppressHydrationWarning
+          style={mounted ? { transform: `translateY(${scrollY * 0.3}px)` } : undefined}
         />
         <div 
           className="absolute bottom-1/4 -right-20 w-96 h-96 bg-pink-500/20 rounded-full blur-3xl animate-pulse"
-          style={{ transform: `translateY(${-scrollY * 0.2}px)` }}
-          suppressHydrationWarning
+          style={mounted ? { transform: `translateY(${-scrollY * 0.2}px)` } : undefined}
         />
         <div 
           className="absolute top-1/2 left-1/2 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse"
-          style={{ transform: `translate(-50%, -50%) translateY(${scrollY * 0.15}px)` }}
-          suppressHydrationWarning
+          style={mounted ? { transform: `translate(-50%, -50%) translateY(${scrollY * 0.15}px)` } : { transform: 'translate(-50%, -50%)' }}
         />
       </div>
 
@@ -168,14 +167,13 @@ export default function HomePage() {
           </div>
 
           {/* Floating Cards Animation */}
-          <div className="relative h-64 mb-20" suppressHydrationWarning>
+          <div className="relative h-64 mb-20">
             <div 
               className="absolute left-1/2 top-0 -translate-x-1/2 w-80 h-48 bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-xl rounded-2xl border border-white/20 shadow-2xl"
-              style={{ 
+              style={mounted ? { 
                 transform: `translateX(-50%) translateY(${Math.sin(scrollY * 0.01) * 20}px) rotateX(${scrollY * 0.05}deg)`,
                 transition: 'transform 0.3s ease-out'
-              }}
-              suppressHydrationWarning
+              } : { transform: 'translateX(-50%)' }}
             >
               <div className="p-6">
                 <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg mb-4" />
@@ -185,19 +183,17 @@ export default function HomePage() {
             </div>
             <div 
               className="absolute left-1/4 top-20 w-64 h-40 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 backdrop-blur-xl rounded-2xl border border-white/20 shadow-2xl"
-              style={{ 
+              style={mounted ? { 
                 transform: `translateY(${Math.sin(scrollY * 0.01 + 1) * 15}px) rotateZ(${-5 + scrollY * 0.02}deg)`,
                 transition: 'transform 0.3s ease-out'
-              }}
-              suppressHydrationWarning
+              } : undefined}
             />
             <div 
               className="absolute right-1/4 top-20 w-64 h-40 bg-gradient-to-br from-orange-500/20 to-red-500/20 backdrop-blur-xl rounded-2xl border border-white/20 shadow-2xl"
-              style={{ 
+              style={mounted ? { 
                 transform: `translateY(${Math.sin(scrollY * 0.01 + 2) * 15}px) rotateZ(${5 - scrollY * 0.02}deg)`,
                 transition: 'transform 0.3s ease-out'
-              }}
-              suppressHydrationWarning
+              } : undefined}
             />
           </div>
         </div>

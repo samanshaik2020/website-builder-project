@@ -1,92 +1,192 @@
-'use client';
-
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { Metadata } from 'next';
 import { getTemplateById, type TemplateId } from '@/lib/templates';
 import { getProject, getProjectByCustomUrl } from '@/lib/services/project-service';
-import { trackPageView, trackButtonClick } from '@/lib/services/analytics-service';
+import SharePageClient from './share-page-client';
 
-export default function SharePage() {
-  const params = useParams();
-  const projectId = params.projectId as string;
+interface SharePageProps {
+  params: {
+    projectId: string;
+  };
+}
 
-  const [project, setProject] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+// Helper function to extract text from project data
+function getProjectDescription(data: any, template: string): string {
+  // Try to find a description or subtitle in the project data
+  const commonDescFields = [
+    'hero_description', 'hero_subtitle', 'description', 'subtitle',
+    'tagline', 'hero_tagline', 'about_description'
+  ];
+  
+  for (const field of commonDescFields) {
+    if (data[field]?.text) {
+      return data[field].text.substring(0, 160); // Limit to 160 chars for meta description
+    }
+  }
+  
+  return `Beautiful ${template} website created with Squpage`;
+}
 
-  useEffect(() => {
-    const loadProject = async () => {
-      if (projectId) {
-        try {
-          let foundProject = null;
-          
-          // Check if projectId is a UUID (contains hyphens and is 36 chars)
-          const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(projectId);
-          
-          if (isUUID) {
-            // Try to find by project ID (UUID)
-            foundProject = await getProject(projectId);
-          } else {
-            // Try to find by custom URL slug
-            foundProject = await getProjectByCustomUrl(projectId);
-          }
-          
-          if (foundProject) {
-            setProject(foundProject);
-            
-            // Track page view with metadata
-            await trackPageView(foundProject.id, {
-              userAgent: navigator.userAgent,
-              referrer: document.referrer,
-            });
-          }
-        } catch (error) {
-          console.error('Failed to load project:', error);
-        } finally {
-          setLoading(false);
-        }
-      }
-    };
+// Helper function to extract title from project data
+function getProjectTitle(data: any, projectName: string): string {
+  const commonTitleFields = [
+    'hero_title', 'hero_headline', 'title', 'headline',
+    'nav_brand', 'brand_name'
+  ];
+  
+  for (const field of commonTitleFields) {
+    if (data[field]?.text) {
+      return data[field].text;
+    }
+  }
+  
+  return projectName;
+}
+
+// Helper function to extract image from project data
+function getProjectImage(data: any): string | null {
+  const commonImageFields = [
+    'hero_image', 'hero_app_preview', 'product_image', 'featured_image',
+    'main_image', 'cover_image'
+  ];
+  
+  for (const field of commonImageFields) {
+    if (data[field]?.image) {
+      return data[field].image;
+    }
+  }
+  
+  return null;
+}
+
+export async function generateMetadata({ params }: SharePageProps): Promise<Metadata> {
+  const { projectId } = params;
+  
+  try {
+    // Check if projectId is a UUID
+    const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(projectId);
     
-    loadProject();
-  }, [projectId]);
-
-  // Track button clicks
-  useEffect(() => {
-    if (!project) return;
-
-    const handleClick = async (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      const button = target.closest('button') || target.closest('a');
-      
-      // Track clicks on buttons and links
-      if (button) {
-        const buttonId = button.getAttribute('data-eid') || undefined;
-        
-        await trackButtonClick(project.id, buttonId, {
-          userAgent: navigator.userAgent,
-        });
-      }
+    let project = null;
+    if (isUUID) {
+      project = await getProject(projectId);
+    } else {
+      project = await getProjectByCustomUrl(projectId);
+    }
+    
+    if (!project) {
+      return {
+        title: 'Project Not Found | Squpage',
+        description: 'This project may have been deleted or the link is invalid.',
+      };
+    }
+    
+    const template = getTemplateById(project.template as TemplateId);
+    const title = getProjectTitle(project.data, project.name);
+    const description = getProjectDescription(project.data, template?.config?.name || 'website');
+    const image = getProjectImage(project.data);
+    
+    // Construct the full URL for the share page
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const shareUrl = `${baseUrl}/share/${projectId}`;
+    
+    return {
+      title: `${title} | Squpage`,
+      description,
+      openGraph: {
+        title,
+        description,
+        url: shareUrl,
+        siteName: 'Squpage',
+        images: image ? [
+          {
+            url: image,
+            width: 1200,
+            height: 630,
+            alt: title,
+          }
+        ] : [
+          {
+            url: `${baseUrl}/og-default.png`,
+            width: 1200,
+            height: 630,
+            alt: 'Squpage - Create Beautiful Websites',
+          }
+        ],
+        type: 'website',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title,
+        description,
+        images: image ? [image] : [`${baseUrl}/og-default.png`],
+      },
     };
-
-    document.addEventListener('click', handleClick);
-    return () => document.removeEventListener('click', handleClick);
-  }, [project]);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
-      </div>
-    );
+  } catch (error) {
+    console.error('Error generating metadata:', error);
+    return {
+      title: 'Squpage',
+      description: 'Create beautiful websites with Squpage',
+    };
   }
+}
 
-  if (!project) {
+export default async function SharePage({ params }: SharePageProps) {
+  const { projectId } = params;
+  
+  try {
+    // Check if projectId is a UUID
+    const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(projectId);
+    
+    let project = null;
+    if (isUUID) {
+      project = await getProject(projectId);
+    } else {
+      project = await getProjectByCustomUrl(projectId);
+    }
+    
+    if (!project) {
+      return (
+        <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+          <div className="text-center">
+            <h1 className="text-3xl font-bold text-white mb-4">Project Not Found</h1>
+            <p className="text-slate-400 mb-6">This project may have been deleted or the link is invalid.</p>
+            <Link
+              href="/"
+              className="inline-block px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-colors"
+            >
+              Go to Homepage
+            </Link>
+          </div>
+        </div>
+      );
+    }
+    
+    const template = getTemplateById(project.template as TemplateId);
+    if (!template) {
+      return (
+        <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+          <div className="text-center">
+            <h1 className="text-3xl font-bold text-white mb-4">Template Not Found</h1>
+            <Link
+              href="/"
+              className="inline-block px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-colors"
+            >
+              Go to Homepage
+            </Link>
+          </div>
+        </div>
+      );
+    }
+    
+    return <SharePageClient project={project} template={template} />;
+  } catch (error) {
+    console.error('Error loading project:', error);
     return (
       <div className="min-h-screen bg-slate-900 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-white mb-4">Project Not Found</h1>
-          <p className="text-slate-400 mb-6">This project may have been deleted or the link is invalid.</p>
+          <h1 className="text-3xl font-bold text-white mb-4">Error Loading Project</h1>
+          <p className="text-slate-400 mb-6">An error occurred while loading this project.</p>
           <Link
             href="/"
             className="inline-block px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-colors"
@@ -97,35 +197,4 @@ export default function SharePage() {
       </div>
     );
   }
-
-  const template = getTemplateById(project.template as TemplateId);
-  if (!template) {
-    return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-white mb-4">Template Not Found</h1>
-          <Link
-            href="/"
-            className="inline-block px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-colors"
-          >
-            Go to Homepage
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  const TemplateComponent = template.component;
-
-  return (
-    <div className="min-h-screen bg-white">
-      {/* Render the template with saved data (read-only) */}
-      <TemplateComponent editable={false} data={project.data} />
-
-      {/* Powered by badge */}
-      <div className="fixed bottom-6 right-6 bg-slate-900 text-white px-4 py-2 rounded-lg shadow-xl text-sm">
-        <span className="opacity-70">Built with</span> <span className="font-bold">Squpage</span>
-      </div>
-    </div>
-  );
 }
