@@ -104,10 +104,94 @@ function EditorContent() {
     loadProject();
   }, [projectId]);
 
+  // Hover-to-edit functionality for text elements
+  // Force rebuild after type checking fixes
+  useEffect(() => {
+    const handleMouseEnter = (e: Event) => {
+      const target = e.target;
+      
+      // Check if target is an HTMLElement (not a text node or other node type)
+      if (!(target instanceof HTMLElement)) return;
+      
+      const eid = target.getAttribute('data-eid');
+      
+      // Only apply to contentEditable text elements (not buttons or images)
+      if (eid && target.contentEditable === 'true' && !target.closest('button') && target.tagName !== 'BUTTON') {
+        // Add visual hover indicator
+        target.style.outline = '2px dashed rgba(147, 51, 234, 0.3)';
+        target.style.outlineOffset = '4px';
+        target.style.cursor = 'text';
+        target.style.transition = 'outline 0.2s ease';
+      }
+    };
+
+    const handleMouseLeave = (e: Event) => {
+      const target = e.target;
+      
+      // Check if target is an HTMLElement (not a text node or other node type)
+      if (!(target instanceof HTMLElement)) return;
+      
+      const eid = target.getAttribute('data-eid');
+      
+      // Remove hover indicator if element is not focused
+      if (eid && target.contentEditable === 'true' && document.activeElement !== target) {
+        target.style.outline = '';
+        target.style.outlineOffset = '';
+      }
+    };
+
+    const handleFocus = (e: Event) => {
+      const target = e.target;
+      
+      // Check if target is an HTMLElement (not a text node or other node type)
+      if (!(target instanceof HTMLElement)) return;
+      
+      const eid = target.getAttribute('data-eid');
+      
+      // Change to solid outline when focused
+      if (eid && target.contentEditable === 'true') {
+        target.style.outline = '2px solid rgba(147, 51, 234, 0.6)';
+        target.style.outlineOffset = '4px';
+      }
+    };
+
+    const handleBlur = (e: Event) => {
+      const target = e.target;
+      
+      // Check if target is an HTMLElement (not a text node or other node type)
+      if (!(target instanceof HTMLElement)) return;
+      
+      const eid = target.getAttribute('data-eid');
+      
+      // Remove outline when focus is lost
+      if (eid && target.contentEditable === 'true') {
+        target.style.outline = '';
+        target.style.outlineOffset = '';
+      }
+    };
+
+    // Add event listeners to all editable elements
+    document.addEventListener('mouseenter', handleMouseEnter, true);
+    document.addEventListener('mouseleave', handleMouseLeave, true);
+    document.addEventListener('focus', handleFocus, true);
+    document.addEventListener('blur', handleBlur, true);
+
+    return () => {
+      document.removeEventListener('mouseenter', handleMouseEnter, true);
+      document.removeEventListener('mouseleave', handleMouseLeave, true);
+      document.removeEventListener('focus', handleFocus, true);
+      document.removeEventListener('blur', handleBlur, true);
+    };
+  }, []);
+
   // Legacy contentEditable support for buttons and other non-Slate elements
   useEffect(() => {
     const handleInput = (e: Event) => {
-      const target = e.target as HTMLElement;
+      const target = e.target;
+      
+      // Check if target is an HTMLElement (not a text node or other node type)
+      if (!(target instanceof HTMLElement)) return;
+      
       const eid = target.getAttribute('data-eid');
       
       if (eid && target.tagName === 'BUTTON') {
