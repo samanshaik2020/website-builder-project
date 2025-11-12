@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { CssBaseline } from '@mui/material';
 
 const theme = createTheme({
   palette: {
@@ -88,6 +89,7 @@ const theme = createTheme({
 export function MuiThemeProvider({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       {children}
     </ThemeProvider>
   );

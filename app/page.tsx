@@ -66,20 +66,23 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-900 overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-900 overflow-hidden" suppressHydrationWarning>
       {/* Animated Background Elements */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+      <div className="fixed inset-0 overflow-hidden pointer-events-none" suppressHydrationWarning>
         <div 
           className="absolute top-1/4 -left-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse"
           style={{ transform: `translateY(${scrollY * 0.3}px)` }}
+          suppressHydrationWarning
         />
         <div 
           className="absolute bottom-1/4 -right-20 w-96 h-96 bg-pink-500/20 rounded-full blur-3xl animate-pulse"
           style={{ transform: `translateY(${-scrollY * 0.2}px)` }}
+          suppressHydrationWarning
         />
         <div 
           className="absolute top-1/2 left-1/2 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse"
           style={{ transform: `translate(-50%, -50%) translateY(${scrollY * 0.15}px)` }}
+          suppressHydrationWarning
         />
       </div>
 
@@ -157,21 +160,22 @@ export default function HomePage() {
               <div className="absolute inset-0 bg-gradient-to-r from-purple-700 to-pink-700 opacity-0 group-hover:opacity-100 transition-opacity" />
             </button>
             <button
-              onClick={() => router.push('/signup')}
+              onClick={() => router.push('/signin')}
               className="px-10 py-5 bg-white/10 hover:bg-white/20 text-white rounded-xl text-lg font-semibold transition-all border border-white/20 hover:border-white/40 hover:scale-105"
             >
-              Create New Account
+              Sign In
             </button>
           </div>
 
           {/* Floating Cards Animation */}
-          <div className="relative h-64 mb-20">
+          <div className="relative h-64 mb-20" suppressHydrationWarning>
             <div 
               className="absolute left-1/2 top-0 -translate-x-1/2 w-80 h-48 bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-xl rounded-2xl border border-white/20 shadow-2xl"
               style={{ 
                 transform: `translateX(-50%) translateY(${Math.sin(scrollY * 0.01) * 20}px) rotateX(${scrollY * 0.05}deg)`,
                 transition: 'transform 0.3s ease-out'
               }}
+              suppressHydrationWarning
             >
               <div className="p-6">
                 <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg mb-4" />
@@ -185,6 +189,7 @@ export default function HomePage() {
                 transform: `translateY(${Math.sin(scrollY * 0.01 + 1) * 15}px) rotateZ(${-5 + scrollY * 0.02}deg)`,
                 transition: 'transform 0.3s ease-out'
               }}
+              suppressHydrationWarning
             />
             <div 
               className="absolute right-1/4 top-20 w-64 h-40 bg-gradient-to-br from-orange-500/20 to-red-500/20 backdrop-blur-xl rounded-2xl border border-white/20 shadow-2xl"
@@ -192,6 +197,7 @@ export default function HomePage() {
                 transform: `translateY(${Math.sin(scrollY * 0.01 + 2) * 15}px) rotateZ(${5 - scrollY * 0.02}deg)`,
                 transition: 'transform 0.3s ease-out'
               }}
+              suppressHydrationWarning
             />
           </div>
         </div>

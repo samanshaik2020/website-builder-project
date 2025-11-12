@@ -41,7 +41,7 @@ export function generateMeditationAppHTML(data: Record<string, any>): string {
           </a>
         </div>
         <div class="w-1/2 flex justify-end">
-          <img src="${getImage('hero_app_preview', 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=700&fit=crop')}" alt="App Preview" class="w-64 h-auto rounded-3xl shadow-2xl">
+          <img src="${getImage('hero_app_preview', 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&h=900&fit=crop')}" alt="App Preview" class="w-96 h-auto rounded-3xl shadow-2xl">
         </div>
       </div>
     </div>

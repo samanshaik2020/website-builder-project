@@ -425,13 +425,22 @@ export default function DashboardPage() {
   }
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: '#fafbfc' }}>
+    <Box sx={{ minHeight: '100vh', bgcolor: '#fafbfc' }} suppressHydrationWarning>
       {/* Top Header */}
       <Box sx={{ bgcolor: 'white', borderBottom: '1px solid #e5e7eb', px: 4, py: 2 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', maxWidth: '1400px', mx: 'auto' }}>
           {/* Logo & Search */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, flex: 1 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+            <Box 
+              sx={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: 1.5, 
+                cursor: 'pointer',
+                '&:hover': { opacity: 0.8 }
+              }}
+              onClick={() => router.push('/')}
+            >
               <Box sx={{ width: 36, height: 36, borderRadius: '10px', bgcolor: '#8b5cf6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <LanguageIcon sx={{ color: 'white', fontSize: 20 }} />
               </Box>

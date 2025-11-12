@@ -149,7 +149,17 @@ export default function SignInPage() {
         <Box sx={{ width: '100%', maxWidth: 440 }}>
           {/* Logo and Header */}
           <Box sx={{ textAlign: 'center', mb: 4 }}>
-            <Box sx={{ display: 'inline-flex', alignItems: 'center', gap: 1.5, mb: 3 }}>
+            <Box 
+              sx={{ 
+                display: 'inline-flex', 
+                alignItems: 'center', 
+                gap: 1.5, 
+                mb: 3, 
+                cursor: 'pointer',
+                '&:hover': { opacity: 0.8 }
+              }}
+              onClick={() => router.push('/')}
+            >
               <Box sx={{ width: 40, height: 40, borderRadius: '10px', bgcolor: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <LanguageIcon sx={{ color: 'white', fontSize: 24 }} />
               </Box>

@@ -146,9 +146,9 @@ export default function MeditationAppTemplate({
               <div className="relative">
                 <EditableImage
                   eid="hero_app_preview"
-                  defaultSrc={getImage('hero_app_preview', 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=700&fit=crop')}
+                  defaultSrc={getImage('hero_app_preview', 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&h=900&fit=crop')}
                   alt="App Preview"
-                  className="w-64 h-auto rounded-3xl shadow-2xl"
+                  className="w-96 h-auto rounded-3xl shadow-2xl"
                   editable={editable}
                   onChange={onContentChange}
                 />

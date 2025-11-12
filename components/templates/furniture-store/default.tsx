@@ -86,9 +86,9 @@ export default function FurnitureStoreTemplate({
             <div className="w-1/2 flex justify-end">
               <EditableImage
                 eid="hero_image"
-                defaultSrc={getImage('hero_image', 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&h=600&fit=crop')}
+                defaultSrc={getImage('hero_image', 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800&h=800&fit=crop')}
                 alt="Bedroom"
-                className="rounded-full w-80 h-80 object-cover shadow-2xl"
+                className="rounded-3xl w-full max-w-2xl h-96 object-cover shadow-2xl"
                 editable={editable}
                 onChange={onContentChange}
               />
