@@ -3,54 +3,171 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OG Image Generator</title>
+  <title>OG Image Generator - Squpage</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      background: #1e293b;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .container {
+      text-align: center;
+      max-width: 800px;
+    }
+    h1 {
+      color: #8b5cf6;
+      margin-bottom: 10px;
+    }
+    .instructions {
+      background: #334155;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px 0;
+      text-align: left;
+    }
+    button {
+      background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+      color: white;
+      border: none;
+      padding: 15px 40px;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+      margin: 10px;
+    }
+    button:hover {
+      transform: scale(1.05);
+    }
+    canvas {
+      border: 2px solid #475569;
+      border-radius: 10px;
+      margin: 20px 0;
+      max-width: 100%;
+      height: auto;
+    }
+    .success {
+      background: #10b981;
+      padding: 15px;
+      border-radius: 10px;
+      margin: 20px 0;
+      display: none;
+    }
+    code {
+      background: #1e293b;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #ec4899;
+    }
+  </style>
 </head>
 <body>
-  <canvas id="canvas" width="1200" height="630"></canvas>
+  <div class="container">
+    <h1>🎨 Squpage OG Image Generator</h1>
+    <p>Generate a default Open Graph image for social media previews</p>
+    
+    <div class="instructions">
+      <h3>📋 Instructions:</h3>
+      <ol>
+        <li>Click "Generate Image" button below</li>
+        <li>The image will be created on the canvas</li>
+        <li>Click "Download Image" to save it</li>
+        <li>Replace <code>public/og-default.png</code> with the downloaded file</li>
+        <li>Deploy to production</li>
+      </ol>
+    </div>
+
+    <button onclick="generateImage()">🎨 Generate Image</button>
+    <button id="downloadBtn" onclick="downloadImage()" style="display: none;">💾 Download Image</button>
+    
+    <canvas id="canvas" width="1200" height="630"></canvas>
+    
+    <div id="success" class="success">
+      ✅ Image generated successfully! Click "Download Image" to save it.
+    </div>
+  </div>
+
   <script>
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
+    let imageGenerated = false;
 
-    // Background gradient (purple to pink)
-    const gradient = ctx.createLinearGradient(0, 0, 1200, 630);
-    gradient.addColorStop(0, '#8b5cf6');
-    gradient.addColorStop(1, '#ec4899');
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, 1200, 630);
+    function generateImage() {
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
 
-    // Add subtle pattern overlay
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
-    for (let i = 0; i < 1200; i += 40) {
-      for (let j = 0; j < 630; j += 40) {
-        ctx.fillRect(i, j, 20, 20);
+      // Background gradient (purple to pink)
+      const gradient = ctx.createLinearGradient(0, 0, 1200, 630);
+      gradient.addColorStop(0, '#8b5cf6');
+      gradient.addColorStop(1, '#ec4899');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, 1200, 630);
+
+      // Add subtle pattern overlay
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+      for (let i = 0; i < 1200; i += 40) {
+        for (let j = 0; j < 630; j += 40) {
+          ctx.fillRect(i, j, 20, 20);
+        }
       }
+
+      // Draw large "S" logo with shadow
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+      ctx.shadowBlur = 20;
+      ctx.shadowOffsetX = 5;
+      ctx.shadowOffsetY = 5;
+      
+      ctx.fillStyle = 'white';
+      ctx.font = 'bold 200px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('S', 600, 250);
+
+      // Reset shadow
+      ctx.shadowColor = 'transparent';
+      ctx.shadowBlur = 0;
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = 0;
+
+      // Draw "Squpage" text
+      ctx.font = 'bold 80px Arial';
+      ctx.fillText('Squpage', 600, 400);
+
+      // Draw tagline
+      ctx.font = '32px Arial';
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      ctx.fillText('Create Beautiful Websites', 600, 480);
+
+      // Show success message and download button
+      document.getElementById('success').style.display = 'block';
+      document.getElementById('downloadBtn').style.display = 'inline-block';
+      imageGenerated = true;
     }
 
-    // Draw large "S" logo
-    ctx.fillStyle = 'white';
-    ctx.font = 'bold 200px Arial';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('S', 600, 250);
+    function downloadImage() {
+      if (!imageGenerated) {
+        alert('Please generate the image first!');
+        return;
+      }
 
-    // Draw "Squpage" text
-    ctx.font = 'bold 80px Arial';
-    ctx.fillText('Squpage', 600, 400);
-
-    // Draw tagline
-    ctx.font = '32px Arial';
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-    ctx.fillText('Create Beautiful Websites', 600, 480);
-
-    // Download the image
-    setTimeout(() => {
+      const canvas = document.getElementById('canvas');
       const link = document.createElement('a');
       link.download = 'og-default.png';
-      link.href = canvas.toDataURL();
+      link.href = canvas.toDataURL('image/png');
       link.click();
       
-      document.body.innerHTML = '<div style="text-align: center; padding: 50px; font-family: Arial;"><h1>Image Generated!</h1><p>Check your downloads folder for og-default.png</p><p>Copy this file to the public folder of your project.</p></div>';
-    }, 100);
+      alert('Image downloaded! Now replace public/og-default.png with this file.');
+    }
+
+    // Auto-generate on page load
+    window.addEventListener('load', () => {
+      setTimeout(generateImage, 500);
+    });
   </script>
 </body>
 </html>

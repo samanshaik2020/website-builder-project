@@ -48,12 +48,27 @@ function getProjectTitle(data: any, projectName: string): string {
 function getProjectImage(data: any): string | null {
   const commonImageFields = [
     'hero_image', 'hero_app_preview', 'product_image', 'featured_image',
-    'main_image', 'cover_image'
+    'main_image', 'cover_image', 'profile_image', 'about_image'
   ];
   
+  // Try different data structures
   for (const field of commonImageFields) {
-    if (data[field]?.image) {
+    // Check for {image: "url"} structure
+    if (data[field]?.image && typeof data[field].image === 'string') {
       return data[field].image;
+    }
+    // Check for direct string value
+    if (typeof data[field] === 'string' && data[field].startsWith('http')) {
+      return data[field];
+    }
+  }
+  
+  // Check in images object if it exists
+  if (data.images) {
+    for (const field of commonImageFields) {
+      if (data.images[field] && typeof data.images[field] === 'string') {
+        return data.images[field];
+      }
     }
   }
   
@@ -90,6 +105,18 @@ export async function generateMetadata({ params }: SharePageProps): Promise<Meta
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
     const shareUrl = `${baseUrl}/share/${projectId}`;
     
+    // Ensure image URL is absolute
+    let imageUrl = image;
+    if (image && !image.startsWith('http')) {
+      imageUrl = `${baseUrl}${image.startsWith('/') ? '' : '/'}${image}`;
+    }
+    if (!imageUrl) {
+      imageUrl = `${baseUrl}/og-default.png`;
+    }
+    
+    console.log('[generateMetadata] Base URL:', baseUrl);
+    console.log('[generateMetadata] Image URL:', imageUrl);
+    
     return {
       title: `${title} | Squpage`,
       description,
@@ -98,19 +125,12 @@ export async function generateMetadata({ params }: SharePageProps): Promise<Meta
         description,
         url: shareUrl,
         siteName: 'Squpage',
-        images: image ? [
+        images: [
           {
-            url: image,
+            url: imageUrl,
             width: 1200,
             height: 630,
             alt: title,
-          }
-        ] : [
-          {
-            url: `${baseUrl}/og-default.png`,
-            width: 1200,
-            height: 630,
-            alt: 'Squpage - Create Beautiful Websites',
           }
         ],
         type: 'website',
@@ -119,7 +139,7 @@ export async function generateMetadata({ params }: SharePageProps): Promise<Meta
         card: 'summary_large_image',
         title,
         description,
-        images: image ? [image] : [`${baseUrl}/og-default.png`],
+        images: [imageUrl],
       },
     };
   } catch (error) {
