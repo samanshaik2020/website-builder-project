@@ -9,6 +9,7 @@ interface EditableImageProps {
   defaultSrc?: string;
   alt?: string;
   className?: string;
+  style?: React.CSSProperties;
   editable?: boolean;
   onChange?: (eid: string, imageUrl: string) => void;
   placeholderIcon?: React.ReactNode;
@@ -19,6 +20,7 @@ export const EditableImage: React.FC<EditableImageProps> = ({
   defaultSrc = '',
   alt = 'Image',
   className = '',
+  style,
   editable = false,
   onChange,
   placeholderIcon,
@@ -44,7 +46,7 @@ export const EditableImage: React.FC<EditableImageProps> = ({
   if (!editable) {
     if (!imageSrc) {
       return (
-        <div data-eid={eid} className={`flex items-center justify-center ${className}`}>
+        <div data-eid={eid} className={`flex items-center justify-center ${className}`} style={style}>
           {placeholderIcon || <ImageIcon size={48} className="text-slate-400" />}
         </div>
       );
@@ -56,6 +58,7 @@ export const EditableImage: React.FC<EditableImageProps> = ({
         src={imageSrc}
         alt={alt}
         className={className}
+        style={style}
       />
     );
   }
@@ -65,6 +68,7 @@ export const EditableImage: React.FC<EditableImageProps> = ({
       <div
         data-eid={eid}
         className={`relative group cursor-pointer ${className}`}
+        style={style}
         onClick={handleClick}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}

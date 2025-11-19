@@ -8,6 +8,7 @@ interface EditableButtonProps {
   defaultText: string;
   defaultUrl?: string;
   className?: string;
+  style?: React.CSSProperties;
   editable?: boolean;
   onChange?: ((eid: string, value: { button: { text: string; url: string } }) => void) | undefined;
 }
@@ -17,6 +18,7 @@ export const EditableButton: React.FC<EditableButtonProps> = ({
   defaultText,
   defaultUrl = '#',
   className = '',
+  style,
   editable = false,
   onChange,
 }) => {
@@ -100,6 +102,7 @@ export const EditableButton: React.FC<EditableButtonProps> = ({
       <button
         data-eid={eid}
         className={className}
+        style={style}
         onClick={handleButtonClick}
       >
         {text}
@@ -113,6 +116,7 @@ export const EditableButton: React.FC<EditableButtonProps> = ({
         ref={buttonRef}
         data-eid={eid}
         className={`${className} relative group`}
+        style={style}
         onClick={handleClick}
       >
         <span
@@ -133,7 +137,7 @@ export const EditableButton: React.FC<EditableButtonProps> = ({
 
       {/* URL Input Modal */}
       {showUrlInput && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[10000]">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-start justify-center z-[10000] pt-32">
           <div className="bg-white rounded-2xl p-6 max-w-md w-full mx-4 shadow-2xl">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-xl font-bold text-slate-900">Edit Button Link</h3>

@@ -13,6 +13,9 @@ export type CustomText = {
   bold?: boolean;
   italic?: boolean;
   underline?: boolean;
+  strikethrough?: boolean;
+  highlight?: boolean;
+  color?: boolean;
 };
 
 declare module 'slate' {

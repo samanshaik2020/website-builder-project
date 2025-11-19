@@ -148,7 +148,7 @@ export default function MeditationAppTemplate({
                   eid="hero_app_preview"
                   defaultSrc={getImage('hero_app_preview', 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&h=900&fit=crop')}
                   alt="App Preview"
-                  className="w-96 h-auto rounded-3xl shadow-2xl"
+                  className="w-full max-w-lg h-auto rounded-3xl shadow-2xl"
                   editable={editable}
                   onChange={onContentChange}
                 />
@@ -169,17 +169,17 @@ export default function MeditationAppTemplate({
       <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
           <div className="flex items-start gap-16">
-            <div className="w-1/3">
+            <div className="w-1/2">
               <EditableImage
                 eid="features_app_image"
                 defaultSrc={getImage('features_app_image', 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=300&h=600&fit=crop')}
                 alt="App Features"
-                className="w-full rounded-3xl shadow-xl"
+                className="w-full max-w-[350px] mx-auto rounded-3xl shadow-xl"
                 editable={editable}
                 onChange={onContentChange}
               />
             </div>
-            <div className="w-2/3">
+            <div className="w-1/2">
               <h2
                 data-eid="features_title"
                 contentEditable={editable}
@@ -346,7 +346,7 @@ export default function MeditationAppTemplate({
                   eid={currentStory.imageEid}
                   defaultSrc={getImage(currentStory.imageEid, currentStory.defaults.image)}
                   alt="Sleep Story"
-                  className="w-48 h-64 object-cover rounded-2xl shadow-xl"
+                  className="w-72 h-96 object-cover rounded-2xl shadow-xl"
                   editable={editable}
                   onChange={onContentChange}
                 />

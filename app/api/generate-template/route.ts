@@ -35,9 +35,9 @@ export async function POST(req: NextRequest) {
 
     console.log('✅ API Key found:', apiKey.substring(0, 10) + '...');
 
-    // Call Google Gemini API
+    // Call Google Gemini API (using stable gemini-2.0-flash model)
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: {
@@ -177,6 +177,26 @@ function buildPromptForTemplate(templateSlug: string, seedText: string, theme?: 
   // SaaS Vibrant Gradient template has its own structure
   if (templateSlug === 'saas-vibrant-gradient') {
     return buildSaasVibrantGradientPrompt(seedText, theme);
+  }
+
+  // Phone Fun template has its own structure
+  if (templateSlug === 'phone-fun') {
+    return buildPhoneFunPrompt(seedText, theme);
+  }
+
+  // Creative Community template has its own structure
+  if (templateSlug === 'creative-community') {
+    return buildCreativeCommunityPrompt(seedText, theme);
+  }
+
+  // General Content template has its own structure
+  if (templateSlug === 'general-content') {
+    return buildGeneralContentPrompt(seedText, theme);
+  }
+
+  // Legal Center template has its own structure
+  if (templateSlug === 'legal-center') {
+    return buildLegalCenterPrompt(seedText, theme);
   }
 
   const baseInstructions = `You are a professional web content generator. Generate content for a ${templateSlug} template based on the following description: "${seedText}"${theme ? ` using the ${theme} theme style` : ''}.
@@ -921,4 +941,208 @@ Important:
 - Create a sense of momentum and success
 
 Return ONLY the JSON object, nothing else.`;
+}
+
+// Prompt builder for Phone Fun template
+// Prompt builder for Creative Community template
+function buildCreativeCommunityPrompt(seedText: string, theme?: string) {
+  return `You are a professional web content generator. Generate vibrant, inspiring, and community-focused content for a creative community platform based on the following description: "${seedText}"${theme ? ` using the ${theme} theme style` : ''}.
+
+Return ONLY valid JSON (no markdown, no code blocks, no comments). The JSON must include ALL 22 fields below:
+
+{
+  "nav_brand": "Community platform name (1-2 words, creative and memorable)",
+  "nav_login_link": "Login link text (2-3 words, e.g., 'Creator Login', 'Member Portal')",
+  "nav_cta": "Nav CTA button text (2-4 words, inviting and action-oriented)",
+  "hero_title": "Main hero headline (6-10 words, inspiring and empowering)",
+  "hero_description": "Hero description (20-35 words, emphasize community, creativity, collaboration)",
+  "hero_cta_primary": "Primary CTA button (3-5 words, action-oriented)",
+  "hero_cta_secondary": "Secondary CTA button (2-4 words, exploratory)",
+  "feature1_title": "Feature 1 title (2-3 words, about discovery/inspiration)",
+  "feature1_description": "Feature 1 description (12-20 words)",
+  "feature2_title": "Feature 2 title (2-3 words, about collaboration)",
+  "feature2_description": "Feature 2 description (12-20 words)",
+  "feature3_title": "Feature 3 title (2-3 words, about monetization)",
+  "feature3_description": "Feature 3 description (12-20 words)",
+  "feature4_title": "Feature 4 title (2-3 words, about support/community)",
+  "feature4_description": "Feature 4 description (12-20 words)",
+  "testimonial_quote": "Creator testimonial (25-40 words, enthusiastic and authentic)",
+  "testimonial_author": "Testimonial author (name, role, and specialty, e.g., '- Sarah Chen, Digital Artist & Collaborator')",
+  "stats_text": "Community stats text (8-15 words, include impressive number of members/creators)"
+}
+
+Content Guidelines:
+- Use inspiring, empowering, and inclusive language
+- Emphasize community, collaboration, and creative expression
+- Highlight benefits: discovery, networking, monetization, support
+- Make it feel welcoming and vibrant
+- Focus on passion, creativity, and artistic growth
+- Use active, energetic tone
+- Include specific, relatable examples
+- Make testimonial feel genuine and enthusiastic
+
+Tone: Vibrant, inspiring, supportive, creative, empowering, inclusive
+
+Return ONLY the JSON object, nothing else.`;
+}
+
+// Prompt builder for General Content template
+function buildGeneralContentPrompt(seedText: string, theme?: string) {
+  return `You are a professional web content generator. Generate clear, impactful, and engaging content for a general content page based on the following description: "${seedText}"${theme ? ` using the ${theme} theme style` : ''}.
+
+Return ONLY valid JSON (no markdown, no code blocks, no comments). The JSON must include ALL 5 fields below:
+
+{
+  "headline": "Main headline (6-12 words, short and impactful, summarizing the core message)",
+  "paragraph1": "First paragraph (30-50 words, explaining the concept, benefit, or story clearly and concisely)",
+  "paragraph2": "Second paragraph (30-50 words, elaborating on key points, focusing on user benefits or unique value proposition)",
+  "cta_button": "CTA button text (2-3 words, action-oriented, e.g., 'Get Started', 'Learn More', 'Sign Up')"
+}
+
+Content Guidelines:
+- Keep headline short, powerful, and benefit-focused
+- Write paragraphs that are clear, concise, and easy to read
+- Use active voice and direct language
+- Focus on user benefits and value proposition
+- Make content engaging and compelling
+- Ensure smooth flow between paragraphs
+- CTA should be action-oriented and relevant
+- Avoid jargon and complex terminology
+- Keep sentences focused and paragraphs scannable
+
+Tone: Professional, clear, engaging, benefit-focused, direct
+
+Return ONLY the JSON object, nothing else.`;
+}
+
+function buildPhoneFunPrompt(seedText: string, theme?: string) {
+  return `You are a professional web content generator. Generate playful, fun, and energetic content for a phone product landing page based on the following description: "${seedText}"${theme ? ` using the ${theme} theme style` : ''}.
+
+Return ONLY valid JSON (no markdown, no code blocks, no comments). The JSON must include ALL fields below:
+
+{
+  "nav_brand": "Brand name (1-2 words, fun and catchy, e.g., 'AwesomePhone', 'FunPhone')",
+  "nav_link1": "Nav link 1 (2-3 words, playful, e.g., 'Cool Stuff', 'Features')",
+  "nav_link2": "Nav link 2 (2-3 words, playful, e.g., 'The Nitty-Gritty', 'Specs')",
+  "nav_link3": "Nav link 3 (2-3 words, playful, e.g., 'Happy Talk', 'Reviews')",
+  "nav_cta": "Nav CTA button (2-3 words, fun, e.g., 'Snag Yours!', 'Get It!')",
+  "hero_title": "Hero title (8-15 words, super enthusiastic and fun with emojis)",
+  "hero_subtitle": "Hero subtitle (20-30 words, playful description of phone awesomeness)",
+  "hero_image_caption": "Hero image caption (3-5 words, fun comment, e.g., 'Look, it\\'s a phone!')",
+  "hero_cta": "Hero CTA button (3-5 words with emoji, e.g., 'Grab It Now! 🎉')",
+  "gallery_title": "Gallery title (8-12 words with emoji, fun photography angle)",
+  "gallery_subtitle": "Gallery subtitle (15-25 words, playful camera description)",
+  "gallery_caption1": "Gallery caption 1 (2-4 words, fun, e.g., 'So many lenses!')",
+  "gallery_caption2": "Gallery caption 2 (2-4 words, fun, e.g., 'Flower power!')",
+  "gallery_caption3": "Gallery caption 3 (2-4 words, fun, e.g., 'Night mode magic!')",
+  "features_title": "Features title (5-10 words with emoji, super enthusiastic)",
+  "features_subtitle": "Features subtitle (15-25 words, playful feature intro)",
+  "feature_title1": "Feature 1 title (4-8 words, fun and exciting)",
+  "feature_desc1": "Feature 1 description (20-30 words, playful benefit explanation)",
+  "feature_title2": "Feature 2 title (4-8 words, fun and exciting)",
+  "feature_desc2": "Feature 2 description (20-30 words, playful benefit explanation)",
+  "feature_title3": "Feature 3 title (4-8 words, fun and exciting)",
+  "feature_desc3": "Feature 3 description (20-30 words, playful benefit explanation)",
+  "specs_title": "Specs title (5-8 words with emoji, fun tech angle)",
+  "specs_subtitle": "Specs subtitle (15-25 words, playful specs intro)",
+  "spec_title1": "Spec 1 title (3-5 words, e.g., 'Awesome Display!')",
+  "spec_desc1": "Spec 1 description (20-30 words, fun spec explanation)",
+  "spec_title2": "Spec 2 title (3-5 words, e.g., 'Brainy Processor!')",
+  "spec_desc2": "Spec 2 description (20-30 words, fun spec explanation)",
+  "spec_title3": "Spec 3 title (3-5 words, e.g., 'Super Camera System!')",
+  "spec_desc3": "Spec 3 description (20-30 words, fun spec explanation)",
+  "spec_title4": "Spec 4 title (3-5 words, e.g., 'Epic Battery!')",
+  "spec_desc4": "Spec 4 description (20-30 words, fun spec explanation)",
+  "reviews_title": "Reviews title (6-10 words with emoji, enthusiastic)",
+  "reviews_subtitle": "Reviews subtitle (15-25 words, playful testimonial intro)",
+  "review_text1": "Review 1 quote (20-35 words, super enthusiastic with emoji)",
+  "review_name1": "Review 1 name and role (e.g., '— Sarah J. (Super Happy Customer)')",
+  "review_text2": "Review 2 quote (20-35 words, super enthusiastic with emoji)",
+  "review_name2": "Review 2 name and role (e.g., '— Mike R. (Gamer Extraordinaire)')",
+  "review_text3": "Review 3 quote (20-35 words, super enthusiastic with emoji)",
+  "review_name3": "Review 3 name and role (e.g., '— Emily C. (Smooth Operator)')",
+  "cta_title": "CTA title (6-10 words with emoji, super exciting)",
+  "cta_subtitle": "CTA subtitle (20-30 words, fun final pitch)",
+  "cta_button": "CTA button (5-10 words, enthusiastic with emoji)",
+  "footer_brand": "Footer brand (same as nav_brand)",
+  "footer_text": "Footer tagline (8-15 words, fun and memorable)",
+  "footer_copyright": "Copyright (e.g., '© 2024 AwesomePhone Adventures. All rights reserved.')",
+  "footer_disclaimer": "Footer disclaimer (20-30 words, playful affiliate/earnings disclosure)",
+  "footer_privacy": "Privacy link text (2-3 words, e.g., 'Secret Privacy Stuff')"
+}
+
+Create super fun, playful phone landing page content that uses enthusiastic, casual, and humorous language with lots of emojis. Make tech specs sound exciting and accessible, not boring! Use playful metaphors and create a sense of fun about the phone.
+
+Important:
+- Keep all text fun, energetic, and emoji-filled
+- Make boring specs sound exciting and magical
+- Use lots of exclamation points!
+- Make testimonials super enthusiastic and specific
+- Create a playful, youthful, energetic vibe
+- Return ONLY the JSON object, nothing else`;
+}
+
+// Prompt builder for Legal Center template
+function buildLegalCenterPrompt(seedText: string, theme?: string) {
+  return `You are a professional legal content generator. Generate content for a legal center page with Terms of Service and Privacy Policy based on the following description: "${seedText}"${theme ? ` using the ${theme} theme style` : ''}.
+
+Return ONLY valid JSON (no markdown, no code blocks, no comments). The JSON must include ALL 37 fields below:
+
+{
+  "nav_brand": "Company/website name (e.g., 'squpage.com', 'YourCompany.com')",
+  "nav_link_1": "Navigation link 1 (e.g., 'Home')",
+  "nav_link_2": "Navigation link 2 (e.g., 'Features')",
+  "nav_link_3": "Navigation link 3 (e.g., 'Pricing')",
+  "nav_link_4": "Navigation link 4 (e.g., 'About Us')",
+  "nav_login_btn": { "text": "Login button text", "url": "#" },
+  "nav_signup_btn": { "text": "Sign up button text", "url": "#" },
+  
+  "hero_title": "Page title (e.g., 'Legal Center', 'Terms & Privacy')",
+  "hero_description": "Brief description of the page purpose (2-3 sentences)",
+  "hero_last_updated": "Last updated date (e.g., 'Last updated: October 26, 2023')",
+  
+  "tos_title": "Terms section title (e.g., 'Terms of Service')",
+  "tos_subtitle": "Terms section subtitle (1 sentence)",
+  "tos_section1_title": "First ToS section title (e.g., '1. User Agreement')",
+  "tos_section1_content": "First ToS section content (2-3 sentences about user agreement)",
+  "tos_section2_title": "Second ToS section title (e.g., '2. User Conduct')",
+  "tos_section2_content": "Second ToS section intro (1-2 sentences)",
+  "tos_section2_bullet1": "First conduct rule (1 sentence)",
+  "tos_section2_bullet2": "Second conduct rule (1 sentence)",
+  "tos_section2_bullet3": "Third conduct rule (1 sentence)",
+  "tos_section3_title": "Third ToS section title (e.g., '3. Termination of Use')",
+  "tos_section3_content": "Third ToS section content (2-3 sentences about termination)",
+  
+  "privacy_title": "Privacy section title (e.g., 'Privacy Policy')",
+  "privacy_subtitle": "Privacy section subtitle (1 sentence)",
+  "privacy_section1_title": "First privacy section title (e.g., '1. Information We Collect')",
+  "privacy_section1_content1": "First privacy section intro (2-3 sentences)",
+  "privacy_section1_content2": "Personal data details (1-2 sentences with 'Personal Data:' prefix)",
+  "privacy_section2_title": "Second privacy section title (e.g., '2. How We Use Information')",
+  "privacy_section2_content": "Second privacy section content (2-3 sentences)",
+  "privacy_section3_title": "Third privacy section title (e.g., '3. How We Share Information')",
+  "privacy_section3_content": "Third privacy section content (2-3 sentences)",
+  
+  "cta_title": "CTA box title (e.g., 'Have questions about your data?')",
+  "cta_description": "CTA box description (1-2 sentences)",
+  "cta_button": { "text": "CTA button text", "url": "#" },
+  
+  "footer_copyright": "Copyright text (e.g., '© 2024 company.com. All rights reserved.')",
+  "footer_link_1": "Footer link 1 (e.g., 'Terms of Service')",
+  "footer_link_2": "Footer link 2 (e.g., 'Privacy Policy')"
+}
+
+Content Guidelines:
+- Use professional, clear, and trustworthy language
+- Make legal content accessible and easy to understand
+- Avoid overly complex legal jargon
+- Be specific about the service/product based on seedText
+- Keep sections concise but comprehensive
+- Use proper legal structure (numbered sections)
+- Emphasize user rights and data protection
+- Make the CTA friendly and approachable
+- Adapt all content to the specific business/service described in seedText
+
+Tone: Professional, trustworthy, clear, and user-friendly
+Return ONLY the JSON object, nothing else`;
 }

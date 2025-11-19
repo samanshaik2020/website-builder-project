@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phone Fun Preview Generator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    #preview {
+      width: 1200px;
+      height: 800px;
+      transform-origin: top left;
+    }
+  </style>
+</head>
+<body>
+  <div style="padding: 20px; background: #f5f5f5;">
+    <h1 style="margin-bottom: 20px;">Phone Fun Template Preview Generator</h1>
+    <button onclick="downloadPreview()" style="padding: 10px 20px; background: #6366f1; color: white; border: none; border-radius: 8px; cursor: pointer; margin-bottom: 20px;">
+      Download Preview Image
+    </button>
+  </div>
+
+  <div id="preview" class="bg-gradient-to-b from-orange-50 via-pink-50 to-blue-50">
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-md shadow-sm">
+      <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          AwesomePhone
+        </div>
+        <div class="flex items-center gap-8">
+          <span class="text-gray-700">Features</span>
+          <span class="text-gray-700">Gallery</span>
+          <button class="px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full text-sm">
+            Get Started
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-16 pb-12 px-6">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div class="space-y-4">
+            <h1 class="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent leading-tight">
+              Unleash Your Inner Awesome with AwesomePhone!
+            </h1>
+            <p class="text-lg text-gray-700">
+              Hey there! 🌟 Ready to level up your mobile game?
+            </p>
+            <button class="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full font-semibold">
+              Get Yours Now! 🚀
+            </button>
+          </div>
+          <div class="relative">
+            <div class="absolute inset-0 bg-gradient-to-r from-pink-300 to-orange-300 rounded-3xl transform rotate-6 opacity-50 blur-2xl"></div>
+            <div class="relative bg-gradient-to-br from-pink-200 to-orange-200 rounded-3xl p-6">
+              <div class="w-full h-64 bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl flex items-center justify-center text-white text-6xl">
+                📱
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery Section Preview -->
+    <section class="py-12 px-6 bg-white/50">
+      <div class="max-w-7xl mx-auto">
+        <h2 class="text-3xl font-bold text-center mb-8">
+          Shoot Like a Pro! 📸
+        </h2>
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="bg-white p-3 rounded-lg shadow-xl border-4 border-gray-800">
+            <div class="w-full h-40 bg-gradient-to-br from-purple-400 to-pink-400 rounded flex items-center justify-center text-white text-4xl">
+              📷
+            </div>
+            <div class="mt-3 text-center">
+              <p class="text-sm font-bold">Ultra-Wide Magic ✨</p>
+            </div>
+          </div>
+          <div class="bg-white p-3 rounded-lg shadow-xl border-4 border-pink-400">
+            <div class="w-full h-40 bg-gradient-to-br from-pink-400 to-orange-400 rounded flex items-center justify-center text-white text-4xl">
+              🌸
+            </div>
+            <div class="mt-3 text-center">
+              <p class="text-sm font-bold">Macro Madness 🌸</p>
+            </div>
+          </div>
+          <div class="bg-white p-3 rounded-lg shadow-xl border-4 border-blue-400">
+            <div class="w-full h-40 bg-gradient-to-br from-blue-400 to-purple-400 rounded flex items-center justify-center text-white text-4xl">
+              🌙
+            </div>
+            <div class="mt-3 text-center">
+              <p class="text-sm font-bold">Night Mode Ninja 🌙</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    async function downloadPreview() {
+      const preview = document.getElementById('preview');
+      
+      // Use html2canvas library
+      const script = document.createElement('script');
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+      document.head.appendChild(script);
+      
+      script.onload = async () => {
+        const canvas = await html2canvas(preview, {
+          width: 1200,
+          height: 800,
+          scale: 1,
+          backgroundColor: null
+        });
+        
+        // Convert to blob and download
+        canvas.toBlob((blob) => {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'phone-fun.png';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        });
+      };
+    }
+  </script>
+</body>
+</html>

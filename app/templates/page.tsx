@@ -79,6 +79,16 @@ export default function TemplatesPage() {
         return '/Furniture Store.png';
       case 'meditation-app':
         return '/Meditation App.png';
+      case 'phone-fun':
+        return '/Phone Fun.png';
+      case 'creative-community':
+        return '/Creative Community Hub.png';
+      case 'general-content':
+        return '/General Content Page.png';
+      case 'squpage-promo':
+        return '/Squpage Promotion.png';
+      case 'legal-center':
+        return '/Legal Center.png';
       default:
         return null;
     }

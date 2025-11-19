@@ -3,7 +3,6 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { getTemplateById, type TemplateId } from '@/lib/templates';
-import { ContentEditableToolbar } from '@/components/editor/content-editable-toolbar';
 import AiButton from '@/components/editor/ai-button';
 import { MobileWarning } from '@/components/editor/mobile-warning';
 import { getCurrentUser } from '@/lib/services/auth-service';
@@ -19,7 +18,6 @@ function EditorContent() {
   const [projectData, setProjectData] = useState<Record<string, any>>({});
   const [isSaving, setIsSaving] = useState(false);
   const [showSaveDialog, setShowSaveDialog] = useState(false);
-  const [showToolbar, setShowToolbar] = useState(false);
   const [backupData, setBackupData] = useState<Record<string, any> | null>(null);
   const [showRevertButton, setShowRevertButton] = useState(false);
 
@@ -206,66 +204,6 @@ function EditorContent() {
     return () => document.removeEventListener('input', handleInput);
   }, []);
 
-  // Text selection handler for floating toolbar
-  useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
-
-    const handleSelectionChange = () => {
-      // Clear previous timeout to debounce
-      clearTimeout(timeoutId);
-
-      timeoutId = setTimeout(() => {
-        const selection = window.getSelection();
-        if (!selection || selection.isCollapsed) {
-          setShowToolbar(false);
-          return;
-        }
-
-        const selectedText = selection.toString().trim();
-        if (!selectedText) {
-          setShowToolbar(false);
-          return;
-        }
-
-        // Check if selection is within an editable element
-        const anchorNode = selection.anchorNode;
-        const focusNode = selection.focusNode;
-        
-        if (!anchorNode && !focusNode) {
-          setShowToolbar(false);
-          return;
-        }
-
-        const node = anchorNode || focusNode;
-        const element = node?.nodeType === Node.TEXT_NODE 
-          ? node.parentElement 
-          : node as HTMLElement;
-
-        if (!element) {
-          setShowToolbar(false);
-          return;
-        }
-
-        // Check if element or its parent has data-eid or contenteditable
-        // Also check for common text elements (h1-h6, p, span, div, etc.)
-        const isEditable = !!(
-          element.closest('[data-eid]') || 
-          element.closest('[contenteditable="true"]') ||
-          element.hasAttribute('contenteditable') ||
-          element.hasAttribute('data-eid') ||
-          element.closest('h1, h2, h3, h4, h5, h6, p, span, div, li, td, th')?.hasAttribute('data-eid')
-        );
-
-        setShowToolbar(isEditable);
-      }, 10); // Small debounce to prevent flickering
-    };
-
-    document.addEventListener('selectionchange', handleSelectionChange);
-    return () => {
-      clearTimeout(timeoutId);
-      document.removeEventListener('selectionchange', handleSelectionChange);
-    };
-  }, []);
 
   const handleSave = async () => {
     setIsSaving(true);
@@ -458,8 +396,6 @@ function EditorContent() {
         </div>
       )}
 
-      {/* Floating Toolbar */}
-      <ContentEditableToolbar visible={showToolbar} />
 
       {/* Editing Hint */}
       <div className="fixed bottom-6 right-6 bg-slate-900 text-white px-6 py-4 rounded-lg shadow-xl border border-slate-700">

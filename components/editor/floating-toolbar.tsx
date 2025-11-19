@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Editor, Transforms, Element } from 'slate';
 import { useSlate } from 'slate-react';
-import { Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight } from 'lucide-react';
+import { Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight, Strikethrough, Highlighter, Type } from 'lucide-react';
 
 interface FloatingToolbarProps {
   visible: boolean;
@@ -111,6 +111,50 @@ export const FloatingToolbar: React.FC<FloatingToolbarProps> = ({ visible }) => 
         title="Underline (Ctrl+U)"
       >
         <Underline size={18} />
+      </button>
+
+      {/* Strikethrough */}
+      <button
+        onMouseDown={(e) => {
+          e.preventDefault();
+          toggleMark('strikethrough');
+        }}
+        className={`p-2 rounded hover:bg-slate-800 transition-colors ${
+          isMarkActive('strikethrough') ? 'bg-purple-600 text-white' : 'text-slate-300'
+        }`}
+        title="Strikethrough"
+      >
+        <Strikethrough size={18} />
+      </button>
+
+      <div className="w-px h-6 bg-slate-700 mx-1"></div>
+
+      {/* Text Color */}
+      <button
+        onMouseDown={(e) => {
+          e.preventDefault();
+          toggleMark('color');
+        }}
+        className={`p-2 rounded hover:bg-slate-800 transition-colors ${
+          isMarkActive('color') ? 'bg-purple-600 text-white' : 'text-slate-300'
+        }`}
+        title="Text Color"
+      >
+        <Type size={18} />
+      </button>
+
+      {/* Highlight */}
+      <button
+        onMouseDown={(e) => {
+          e.preventDefault();
+          toggleMark('highlight');
+        }}
+        className={`p-2 rounded hover:bg-slate-800 transition-colors ${
+          isMarkActive('highlight') ? 'bg-purple-600 text-white' : 'text-slate-300'
+        }`}
+        title="Highlight"
+      >
+        <Highlighter size={18} />
       </button>
 
       <div className="w-px h-6 bg-slate-700 mx-1"></div>

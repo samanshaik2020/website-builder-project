@@ -6,6 +6,11 @@ import { generateFurnitureStoreHTML } from './export-html-furniture-store';
 import { generateMeditationAppHTML } from './export-html-meditation-app';
 import { generatePortfolioModernDarkHTML } from './export-html-portfolio-modern-dark';
 import { generateSaasVibrantGradientHTML } from './export-html-saas-vibrant-gradient';
+import { generatePhoneFunHTML } from './export-html-phone-fun';
+import { generateCreativeCommunityHTML } from './export-html-creative-community';
+import { generateGeneralContentHTML } from './export-html-general-content';
+import { generateSqupagePromoHTML } from './export-html-squpage-promo';
+import { generateLegalCenterHTML } from './export-html-legal-center';
 
 interface ExportData {
   template: TemplateId;
@@ -1286,6 +1291,16 @@ export const exportToHTML = ({ template, data, projectName }: ExportData): strin
       return generateFurnitureStoreHTML(data);
     case 'meditation-app':
       return generateMeditationAppHTML(data);
+    case 'phone-fun':
+      return generatePhoneFunHTML(data);
+    case 'creative-community':
+      return generateCreativeCommunityHTML(data);
+    case 'general-content':
+      return generateGeneralContentHTML(data);
+    case 'squpage-promo':
+      return generateSqupagePromoHTML(data);
+    case 'legal-center':
+      return generateLegalCenterHTML(data);
     default:
       return `<!DOCTYPE html><html><head><title>Error</title></head><body><h1>Template not found</h1></body></html>`;
   }

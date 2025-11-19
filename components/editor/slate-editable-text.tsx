@@ -10,6 +10,7 @@ interface SlateEditableTextProps {
   eid: string;
   defaultText: string;
   className?: string;
+  style?: React.CSSProperties;
   editable?: boolean;
   onChange?: (eid: string, value: string) => void;
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span' | 'div';
@@ -28,6 +29,18 @@ const Leaf = ({ attributes, children, leaf }: RenderLeafProps) => {
 
   if (leaf.underline) {
     styledChildren = <u>{styledChildren}</u>;
+  }
+
+  if (leaf.strikethrough) {
+    styledChildren = <s>{styledChildren}</s>;
+  }
+
+  if (leaf.highlight) {
+    styledChildren = <mark className="bg-yellow-200">{styledChildren}</mark>;
+  }
+
+  if (leaf.color) {
+    styledChildren = <span className="text-purple-600">{styledChildren}</span>;
   }
 
   return <span {...attributes}>{styledChildren}</span>;
@@ -51,6 +64,7 @@ export const SlateEditableText: React.FC<SlateEditableTextProps> = ({
   eid,
   defaultText,
   className = '',
+  style,
   editable = false,
   onChange,
 }) => {
@@ -141,14 +155,14 @@ export const SlateEditableText: React.FC<SlateEditableTextProps> = ({
 
   if (!editable) {
     return (
-      <div data-eid={eid} className={className}>
+      <div data-eid={eid} className={className} style={style}>
         {defaultText}
       </div>
     );
   }
 
   return (
-    <div data-eid={eid} className={className}>
+    <div data-eid={eid} className={className} style={style}>
       <Slate editor={editor} initialValue={initialValue} onChange={handleChange}>
         <FloatingToolbar visible={showToolbar} />
         <Editable
