@@ -3,11 +3,7 @@
 import React from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
-import { CacheProvider } from '@emotion/react';
-import createEmotionCache from '@/lib/createEmotionCache';
-
-// Create emotion cache on client side
-const clientSideEmotionCache = createEmotionCache();
+import NextAppDirEmotionCacheProvider from './emotion-cache-provider';
 
 const theme = createTheme({
   palette: {
@@ -93,11 +89,11 @@ const theme = createTheme({
 
 export function MuiThemeProvider({ children }: { children: React.ReactNode }) {
   return (
-    <CacheProvider value={clientSideEmotionCache}>
+    <NextAppDirEmotionCacheProvider options={{ key: 'mui' }}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         {children}
       </ThemeProvider>
-    </CacheProvider>
+    </NextAppDirEmotionCacheProvider>
   );
 }

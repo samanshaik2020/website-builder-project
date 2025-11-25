@@ -1,6 +1,7 @@
 "use client"
 
 import { cn } from "@/lib/utils"
+import { useEffect, useState } from "react"
 
 interface LoadingSpinnerProps {
   size?: "sm" | "md" | "lg" | "xl"
@@ -15,6 +16,21 @@ export function LoadingSpinner({
   className,
   text 
 }: LoadingSpinnerProps) {
+  const [mounted, setMounted] = useState(false)
+  const [particleStyles, setParticleStyles] = useState<Array<{left: string, top: string, animation: string, animationDelay: string}>>([])
+
+  useEffect(() => {
+    setMounted(true)
+    // Generate particle positions on client only
+    const styles = Array.from({ length: 8 }, () => ({
+      left: `${20 + Math.random() * 60}%`,
+      top: `${20 + Math.random() * 60}%`,
+      animation: `float ${2 + Math.random() * 2}s ease-in-out infinite`,
+      animationDelay: `${Math.random() * 1}s`
+    }))
+    setParticleStyles(styles)
+  }, [])
+
   const sizeClasses = {
     sm: "w-6 h-6",
     md: "w-8 h-8", 
@@ -74,20 +90,17 @@ export function LoadingSpinner({
     <div className={cn("flex flex-col items-center gap-3", className)}>
       <div className={cn("relative", sizeClasses[size])}>
         {/* Background particles */}
-        <div className="absolute inset-0 overflow-hidden rounded-full">
-          {[...Array(8)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-0.5 h-0.5 bg-indigo-400 rounded-full opacity-40"
-              style={{
-                left: `${20 + Math.random() * 60}%`,
-                top: `${20 + Math.random() * 60}%`,
-                animation: `float ${2 + Math.random() * 2}s ease-in-out infinite`,
-                animationDelay: `${Math.random() * 1}s`
-              }}
-            />
-          ))}
-        </div>
+        {mounted && (
+          <div className="absolute inset-0 overflow-hidden rounded-full">
+            {particleStyles.map((style, i) => (
+              <div
+                key={i}
+                className="absolute w-0.5 h-0.5 bg-indigo-400 rounded-full opacity-40"
+                style={style}
+              />
+            ))}
+          </div>
+        )}
 
         {/* Main spinner */}
         <svg className={cn("animate-spin", sizeClasses[size])} viewBox="0 0 24 24">

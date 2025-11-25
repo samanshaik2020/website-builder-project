@@ -15,8 +15,11 @@ interface Particle {
 
 export function FloatingParticles() {
   const [particles, setParticles] = useState<Particle[]>([])
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
+    
     const colors = [
       'rgba(59, 130, 246, 0.6)',   // blue
       'rgba(147, 51, 234, 0.6)',   // purple
@@ -53,6 +56,11 @@ export function FloatingParticles() {
     const interval = setInterval(animateParticles, 50)
     return () => clearInterval(interval)
   }, [])
+
+  // Don't render anything until mounted on client to prevent hydration mismatch
+  if (!mounted) {
+    return <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" />
+  }
 
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">

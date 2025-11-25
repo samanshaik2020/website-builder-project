@@ -1,727 +1,508 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useEffect, useState, useRef } from 'react';
+import { Button } from '@mui/material';
+import { Sparkles, Zap, Palette, Code, Star, ArrowRight, ChevronDown, Globe, Play, Rocket, MousePointer, Download, Eye, Share2 } from 'lucide-react';
+import { motion, useScroll, useTransform, useInView, useSpring, Variants } from 'framer-motion';
+import { useRef, useState, useEffect } from 'react';
 
 export default function HomePage() {
   const router = useRouter();
-  const [scrollY, setScrollY] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
-  const sectionRefs = useRef<{ [key: string]: HTMLElement | null }>({});
+  
+  // Refs for scroll animations
+  const heroRef = useRef<HTMLDivElement>(null);
+  const featuresRef = useRef<HTMLDivElement>(null);
+  const howItWorksRef = useRef<HTMLDivElement>(null);
+  const statsRef = useRef<HTMLDivElement>(null);
+  const testimonialsRef = useRef<HTMLDivElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
+  
+  // InView hooks
+  const featuresInView = useInView(featuresRef, { once: true, margin: "-100px" });
+  const howItWorksInView = useInView(howItWorksRef, { once: true, margin: "-100px" });
+  const statsInView = useInView(statsRef, { once: true, margin: "-100px" });
+  const testimonialsInView = useInView(testimonialsRef, { once: true, margin: "-100px" });
+  const ctaInView = useInView(ctaRef, { once: true, margin: "-100px" });
+  
+  // Scroll progress
+  const { scrollYProgress } = useScroll();
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+  
+  // Hero parallax
+  const { scrollYProgress: heroScrollProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"]
+  });
+  const heroY = useTransform(heroScrollProgress, [0, 1], [0, 200]);
+  const heroOpacity = useTransform(heroScrollProgress, [0, 0.5], [1, 0]);
+  const heroScale = useTransform(heroScrollProgress, [0, 0.5], [1, 0.9]);
 
-  useEffect(() => {
-    setMounted(true);
-    setIsVisible(true);
-    
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-      
-      // Check which sections are visible
-      const visible = new Set<string>();
-      Object.entries(sectionRefs.current).forEach(([key, element]) => {
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top < window.innerHeight * 0.75 && rect.bottom > 0) {
-            visible.add(key);
-          }
-        }
-      });
-      setVisibleSections(visible);
-    };
+  // Animation variants
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2,
+      },
+    },
+  };
 
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
+  const itemVariants: Variants = {
+    hidden: { y: 40, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 80,
+        damping: 15,
+      },
+    },
+  };
 
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('mousemove', handleMouseMove);
-    handleScroll(); // Initial check
-    
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, []);
+  const letterContainerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.03,
+        delayChildren: 0.3,
+      },
+    },
+  };
 
-  const features = [
-    {
-      icon: '🎨',
-      title: 'Beautiful Templates',
-      description: 'Choose from professionally designed templates for any purpose.',
-      gradient: 'from-purple-500 to-pink-500'
+  const letterVariants: Variants = {
+    hidden: { y: 100, opacity: 0, rotateX: -90, scale: 0.5 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      rotateX: 0,
+      scale: 1,
+      transition: {
+        type: "spring",
+        damping: 12,
+        stiffness: 100,
+      },
     },
-    {
-      icon: '✏️',
-      title: 'Live Editing',
-      description: 'Edit text and content directly with real-time preview.',
-      gradient: 'from-blue-500 to-cyan-500'
-    },
-    {
-      icon: '🔗',
-      title: 'Easy Sharing',
-      description: 'Generate shareable links and export your website instantly.',
-      gradient: 'from-orange-500 to-red-500'
-    },
-    {
-      icon: '⚡',
-      title: 'Lightning Fast',
-      description: 'Built with Next.js for optimal performance and speed.',
-      gradient: 'from-yellow-500 to-orange-500'
-    },
-    {
-      icon: '🎯',
-      title: 'SEO Optimized',
-      description: 'All templates are optimized for search engines out of the box.',
-      gradient: 'from-green-500 to-emerald-500'
-    },
-    {
-      icon: '📱',
-      title: 'Fully Responsive',
-      description: 'Your website looks perfect on all devices and screen sizes.',
-      gradient: 'from-indigo-500 to-purple-500'
-    }
-  ];
+  };
 
+  const floatingVariants: Variants = {
+    animate: {
+      y: [-10, 10, -10],
+      rotate: [-2, 2, -2],
+      transition: {
+        duration: 6,
+        repeat: Infinity,
+        ease: "easeInOut",
+      },
+    },
+  };
+
+  const glowVariants: Variants = {
+    animate: {
+      boxShadow: [
+        "0 0 20px rgba(139, 92, 246, 0.3)",
+        "0 0 60px rgba(139, 92, 246, 0.6)",
+        "0 0 20px rgba(139, 92, 246, 0.3)",
+      ],
+      transition: {
+        duration: 3,
+        repeat: Infinity,
+        ease: "easeInOut",
+      },
+    },
+  };
+
+  const titleText1 = "Create Beautiful Websites".split("");
+  const titleText2 = "In Minutes".split("");
+  
+  // Stats data
   const stats = [
-    { value: '50+', label: 'Templates' },
-    { value: '10K+', label: 'Websites Created' },
-    { value: '99.9%', label: 'Uptime' },
-    { value: '24/7', label: 'Support' }
+    { number: 50000, suffix: "+", label: "Websites Created" },
+    { number: 17, suffix: "+", label: "Templates" },
+    { number: 99, suffix: "%", label: "Satisfaction Rate" },
+    { number: 24, suffix: "/7", label: "Support" },
+  ];
+  
+  // Testimonials data
+  const testimonials = [
+    {
+      name: "Sarah Johnson",
+      role: "Startup Founder",
+      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop",
+      quote: "Squpage transformed how we build landing pages. What used to take weeks now takes hours.",
+      rating: 5,
+    },
+    {
+      name: "Michael Chen",
+      role: "Marketing Director",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
+      quote: "The AI content generation is incredible. It understands our brand voice perfectly.",
+      rating: 5,
+    },
+    {
+      name: "Emily Davis",
+      role: "Freelance Designer",
+      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
+      quote: "Finally, a website builder that doesn't compromise on design quality. Absolutely love it!",
+      rating: 5,
+    },
+  ];
+  
+  // How it works steps
+  const steps = [
+    {
+      icon: <MousePointer className="w-8 h-8" />,
+      title: "Choose a Template",
+      description: "Browse our collection of 17+ professionally designed templates for any industry.",
+    },
+    {
+      icon: <Palette className="w-8 h-8" />,
+      title: "Customize Everything",
+      description: "Edit text, images, colors, and layouts with our intuitive visual editor.",
+    },
+    {
+      icon: <Zap className="w-8 h-8" />,
+      title: "Generate with AI",
+      description: "Let AI create compelling content tailored to your brand and audience.",
+    },
+    {
+      icon: <Share2 className="w-8 h-8" />,
+      title: "Publish & Share",
+      description: "Export your website or share it instantly with a unique link.",
+    },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 overflow-hidden" suppressHydrationWarning>
-      {/* Animated Background Elements */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div 
-          className="absolute top-1/4 -left-20 w-96 h-96 bg-gradient-to-br from-purple-200 to-pink-200 rounded-full blur-3xl opacity-60 animate-pulse"
-          style={{ transform: mounted ? `translateY(${scrollY * 0.3}px)` : 'translateY(0)' }}
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-900 overflow-x-hidden">
+      {/* Scroll Progress Bar */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 z-[100] origin-left"
+        style={{ scaleX: smoothProgress }}
+      />
+      
+      {/* Floating Background Elements */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        <motion.div
+          animate={{ x: [0, 100, 0], y: [0, -50, 0], scale: [1, 1.2, 1] }}
+          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"
         />
-        <div 
-          className="absolute bottom-1/4 -right-20 w-96 h-96 bg-gradient-to-br from-blue-200 to-cyan-200 rounded-full blur-3xl opacity-60 animate-pulse"
-          style={{ transform: mounted ? `translateY(${-scrollY * 0.2}px)` : 'translateY(0)' }}
-        />
-        <div 
-          className="absolute top-1/2 left-1/2 w-96 h-96 bg-gradient-to-br from-indigo-200 to-purple-200 rounded-full blur-3xl opacity-40 animate-pulse"
-          style={{ transform: mounted ? `translate(-50%, -50%) translateY(${scrollY * 0.15}px)` : 'translate(-50%, -50%)' }}
+        <motion.div
+          animate={{ x: [0, -80, 0], y: [0, 80, 0], scale: [1, 0.8, 1] }}
+          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-1/2 right-1/4 w-80 h-80 bg-pink-500/10 rounded-full blur-3xl"
         />
       </div>
 
       {/* Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrollY > 50 ? 'bg-white/90 backdrop-blur-xl border-b border-slate-200 shadow-sm' : 'bg-transparent'}`}>
+      <motion.nav
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="fixed top-0 left-0 right-0 z-50 backdrop-blur-2xl bg-white/5 border-b border-white/10"
+      >
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-pink-600 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-lg">
+          <div className="flex items-center gap-3">
+            <motion.div
+              whileHover={{ rotate: 180, scale: 1.1 }}
+              transition={{ duration: 0.5 }}
+              className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-xl cursor-pointer"
+            >
               S
-            </div>
-            <span className="text-slate-900 font-bold text-xl">Squpage</span>
+            </motion.div>
+            <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              Squpage
+            </span>
           </div>
-          <button
-            onClick={() => router.push('/signup')}
-            className="px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg font-medium transition-all shadow-md hover:shadow-lg"
-          >
-            Create New Account
-          </button>
+          <div className="hidden md:flex items-center gap-8">
+            <motion.a href="#features" className="text-white/70 hover:text-white transition-colors text-sm font-medium" whileHover={{ y: -2 }}>Features</motion.a>
+            <motion.a href="#how-it-works" className="text-white/70 hover:text-white transition-colors text-sm font-medium" whileHover={{ y: -2 }}>How It Works</motion.a>
+            <motion.a href="#testimonials" className="text-white/70 hover:text-white transition-colors text-sm font-medium" whileHover={{ y: -2 }}>Testimonials</motion.a>
+          </div>
+          <div className="flex items-center gap-4">
+            <Button variant="text" onClick={() => router.push('/signin')} sx={{ color: 'white', textTransform: 'none', fontSize: '16px' }}>Sign In</Button>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button
+                variant="contained"
+                onClick={() => router.push('/signup')}
+                sx={{ background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)', textTransform: 'none', fontSize: '16px', px: 3, py: 1.5, borderRadius: '12px', '&:hover': { background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)' } }}
+              >
+                Get Started
+              </Button>
+            </motion.div>
+          </div>
         </div>
-      </nav>
+      </motion.nav>
 
       {/* Hero Section */}
-      <section 
-        ref={(el) => { sectionRefs.current['hero'] = el; }}
-        className="relative min-h-screen flex items-center justify-center px-6 pt-20 overflow-hidden"
+      <motion.div
+        ref={heroRef}
+        className="relative pt-32 pb-20 px-6 min-h-screen flex flex-col justify-center"
       >
-        {/* Mouse-following gradient orb */}
-        <div 
-          className="fixed w-96 h-96 bg-gradient-to-br from-purple-400/30 to-pink-400/30 rounded-full blur-3xl pointer-events-none transition-all duration-1000 ease-out"
-          style={{
-            left: mounted ? `${mousePosition.x - 192}px` : '-192px',
-            top: mounted ? `${mousePosition.y - 192}px` : '-192px',
-          }}
-        />
+        {/* Floating decorations */}
+        <motion.div variants={floatingVariants} animate="animate" className="absolute top-40 left-10 w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-sm border border-white/10 hidden lg:flex items-center justify-center">
+          <Sparkles className="w-8 h-8 text-purple-400" />
+        </motion.div>
+        <motion.div variants={floatingVariants} animate="animate" className="absolute top-60 right-20 w-16 h-16 rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 backdrop-blur-sm border border-white/10 hidden lg:flex items-center justify-center" style={{ animationDelay: "2s" }}>
+          <Code className="w-6 h-6 text-blue-400" />
+        </motion.div>
+        
+        <motion.div style={{ opacity: heroOpacity, scale: heroScale, y: heroY }} className="max-w-6xl mx-auto text-center relative z-10">
+          {/* Badge */}
+          <motion.div initial={{ opacity: 0, scale: 0.5, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.6, type: "spring" }} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-10">
+            <motion.div animate={{ rotate: [0, 15, -15, 0], scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 2, repeatDelay: 3 }}>
+              <Sparkles className="w-5 h-5 text-purple-400" />
+            </motion.div>
+            <span className="text-sm font-medium text-white/90">AI-Powered Website Builder</span>
+            <motion.span className="px-2 py-0.5 rounded-full bg-purple-500/30 text-purple-300 text-xs font-semibold" animate={{ opacity: [1, 0.7, 1] }} transition={{ duration: 2, repeat: Infinity }}>NEW</motion.span>
+          </motion.div>
 
-        <div className="max-w-7xl mx-auto text-center relative z-10">
-          <div 
-            className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-            style={{ transitionDelay: '100ms' }}
-          >
-            <div className="inline-block mb-6 px-6 py-3 bg-gradient-to-r from-purple-100 to-pink-100 rounded-full border-2 border-purple-300 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-default animate-pulse">
-              <span className="text-purple-700 font-semibold">✨ Build Your Dream Website Today</span>
-            </div>
+          {/* Main Heading with enhanced letter animation */}
+          <div className="mb-8 leading-tight perspective-1000">
+            <motion.h1 variants={letterContainerVariants} initial="hidden" animate="visible" className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white inline-block">
+              {titleText1.map((char, index) => (
+                <motion.span key={index} variants={letterVariants} className="inline-block hover:text-purple-400 transition-colors cursor-default" whileHover={{ scale: 1.2, color: "#a855f7" }}>
+                  {char === " " ? "\u00A0" : char}
+                </motion.span>
+              ))}
+              <br />
+              <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent bg-300% animate-gradient">
+                {titleText2.map((char, index) => (
+                  <motion.span key={index} variants={letterVariants} className="inline-block" whileHover={{ scale: 1.2 }}>
+                    {char === " " ? "\u00A0" : char}
+                  </motion.span>
+                ))}
+              </span>
+            </motion.h1>
           </div>
 
-          <h1 
-            className={`text-6xl md:text-8xl font-bold text-slate-900 mb-6 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-            style={{ 
-              transitionDelay: '200ms',
-              transform: mounted ? `translateY(${scrollY * -0.3}px)` : 'translateY(0)'
-            }}
-          >
-            Create Stunning
-            <br />
-            <span className="relative inline-block">
-              <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-clip-text text-transparent animate-gradient-x">
-                Websites
-              </span>
-              <span className="absolute -inset-1 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 blur-2xl opacity-20 animate-pulse" />
-            </span>
-          </h1>
+          {/* Subheading */}
+          <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.2, duration: 0.8 }} className="text-lg sm:text-xl md:text-2xl text-white/70 mb-12 max-w-3xl mx-auto leading-relaxed">
+            Professional website builder with modern templates, AI-powered content generation, and live editing. <span className="text-purple-400 font-semibold">No coding required.</span>
+          </motion.p>
 
-          <p 
-            className={`text-xl md:text-2xl text-slate-700 mb-4 max-w-3xl mx-auto transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-            style={{ 
-              transitionDelay: '300ms',
-              transform: mounted ? `translateY(${scrollY * -0.2}px)` : 'translateY(0)'
-            }}
-          >
-            Build professional websites in minutes with our intuitive drag-and-drop builder
-          </p>
+          {/* CTA Buttons */}
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.4, duration: 0.8 }} className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+            <motion.div whileHover={{ scale: 1.05, y: -3 }} whileTap={{ scale: 0.95 }} variants={glowVariants} animate="animate">
+              <Button variant="contained" size="large" onClick={() => router.push('/templates')} endIcon={<ArrowRight className="w-5 h-5" />}
+                sx={{ background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)', textTransform: 'none', fontSize: '18px', px: 6, py: 2, borderRadius: '16px', boxShadow: '0 8px 32px rgba(99, 102, 241, 0.4)', '&:hover': { background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)', boxShadow: '0 12px 40px rgba(99, 102, 241, 0.6)' } }}>
+                Start Building Free
+              </Button>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.05, y: -3 }} whileTap={{ scale: 0.95 }}>
+              <Button variant="outlined" size="large" onClick={() => router.push('/dashboard')} startIcon={<Play className="w-5 h-5" />}
+                sx={{ color: 'white', borderColor: 'rgba(255, 255, 255, 0.3)', textTransform: 'none', fontSize: '18px', px: 6, py: 2, borderRadius: '16px', backdropFilter: 'blur(10px)', backgroundColor: 'rgba(255, 255, 255, 0.05)', '&:hover': { borderColor: 'rgba(255, 255, 255, 0.5)', backgroundColor: 'rgba(255, 255, 255, 0.1)' } }}>
+                View Dashboard
+              </Button>
+            </motion.div>
+          </motion.div>
 
-          <p 
-            className={`text-lg text-slate-600 mb-12 max-w-2xl mx-auto transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-            style={{ 
-              transitionDelay: '400ms',
-              transform: mounted ? `translateY(${scrollY * -0.15}px)` : 'translateY(0)'
-            }}
-          >
-            No coding required. Choose from beautiful templates, customize with live editing, and publish instantly.
-          </p>
-
-          <div 
-            className={`flex flex-col sm:flex-row gap-4 justify-center mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-            style={{ 
-              transitionDelay: '500ms',
-              transform: mounted ? `translateY(${scrollY * -0.1}px)` : 'translateY(0)'
-            }}
-          >
-            <button
-              onClick={() => router.push('/signup')}
-              className="group relative px-10 py-5 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl text-lg font-semibold overflow-hidden transition-all hover:scale-110 hover:shadow-2xl hover:shadow-purple-500/40 hover:-translate-y-1"
-            >
-              <span className="relative z-10 flex items-center justify-center gap-2">
-                Get Started Free
-                <span className="group-hover:translate-x-1 transition-transform">→</span>
-              </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-700 to-pink-700 opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 blur-xl opacity-0 group-hover:opacity-50 transition-opacity" />
-            </button>
-            <button
-              onClick={() => router.push('/signin')}
-              className="group px-10 py-5 bg-white hover:bg-slate-50 text-slate-900 rounded-xl text-lg font-semibold transition-all border-2 border-slate-300 hover:border-purple-400 hover:scale-110 shadow-md hover:shadow-xl hover:-translate-y-1"
-            >
-              <span className="flex items-center justify-center gap-2">
-                Sign In
-                <span className="group-hover:translate-x-1 transition-transform">→</span>
-              </span>
-            </button>
-          </div>
-
-          {/* Enhanced Floating Cards with 3D transforms */}
-          <div 
-            className="relative h-64 mb-20"
-            style={{
-              transform: mounted ? `translateY(${scrollY * 0.5}px)` : 'translateY(0)',
-              transition: 'transform 0.3s ease-out'
-            }}
-          >
-            <div 
-              className="absolute left-1/2 top-0 -translate-x-1/2 w-80 h-48 bg-white rounded-2xl border-2 border-purple-200 shadow-2xl shadow-purple-200/50 hover:shadow-purple-300/60 transition-all duration-500 cursor-pointer group"
-              style={{ 
-                transform: mounted 
-                  ? `translateX(-50%) translateY(${Math.sin(scrollY * 0.01) * 20}px) rotateX(${scrollY * 0.05}deg) rotateY(${(mousePosition.x - (typeof window !== 'undefined' ? window.innerWidth : 1920) / 2) * 0.01}deg)`
-                  : 'translateX(-50%)',
-                transition: 'transform 0.3s ease-out, box-shadow 0.3s ease'
-              }}
-            >
-              <div className="p-6 relative">
-                <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg mb-4 shadow-md group-hover:scale-110 group-hover:rotate-12 transition-all duration-300" />
-                <div className="h-3 bg-slate-200 rounded mb-2 w-3/4 group-hover:bg-slate-300 transition-colors" />
-                <div className="h-3 bg-slate-100 rounded w-1/2 group-hover:bg-slate-200 transition-colors" />
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/0 to-pink-500/0 group-hover:from-purple-500/5 group-hover:to-pink-500/5 rounded-2xl transition-all duration-300" />
-              </div>
+          {/* Social Proof */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.8, duration: 0.6 }} className="flex flex-col sm:flex-row items-center justify-center gap-6 text-white/60">
+            <div className="flex -space-x-3">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <motion.div key={i} initial={{ scale: 0, x: -20 }} animate={{ scale: 1, x: 0 }} transition={{ delay: 1.8 + i * 0.1 }} className="w-10 h-10 rounded-full border-2 border-slate-900 bg-gradient-to-br from-purple-400 to-pink-400" />
+              ))}
             </div>
-            <div 
-              className="absolute left-1/4 top-20 w-64 h-40 bg-white rounded-2xl border-2 border-blue-200 shadow-2xl shadow-blue-200/50 hover:shadow-blue-300/60 transition-all duration-500 cursor-pointer group"
-              style={{ 
-                transform: mounted 
-                  ? `translateY(${Math.sin(scrollY * 0.01 + 1) * 15}px) rotateZ(${-5 + scrollY * 0.02}deg) scale(${1 + Math.sin(scrollY * 0.005) * 0.05})`
-                  : 'translateY(0)',
-                transition: 'transform 0.3s ease-out, box-shadow 0.3s ease'
-              }}
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-cyan-500/0 group-hover:from-blue-500/5 group-hover:to-cyan-500/5 rounded-2xl transition-all duration-300" />
+            <div className="flex items-center gap-2">
+              <div className="flex">{[1, 2, 3, 4, 5].map((i) => (<Star key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />))}</div>
+              <span className="text-sm">Trusted by <span className="text-white font-semibold">50,000+</span> creators</span>
             </div>
-            <div 
-              className="absolute right-1/4 top-20 w-64 h-40 bg-white rounded-2xl border-2 border-pink-200 shadow-2xl shadow-pink-200/50 hover:shadow-pink-300/60 transition-all duration-500 cursor-pointer group"
-              style={{ 
-                transform: mounted 
-                  ? `translateY(${Math.sin(scrollY * 0.01 + 2) * 15}px) rotateZ(${5 - scrollY * 0.02}deg) scale(${1 + Math.cos(scrollY * 0.005) * 0.05})`
-                  : 'translateY(0)',
-                transition: 'transform 0.3s ease-out, box-shadow 0.3s ease'
-              }}
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-pink-500/0 to-red-500/0 group-hover:from-pink-500/5 group-hover:to-red-500/5 rounded-2xl transition-all duration-300" />
-            </div>
-          </div>
+          </motion.div>
+        </motion.div>
+
+        {/* Scroll indicator */}
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.5 }} className="absolute bottom-10 left-1/2 -translate-x-1/2">
+          <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 2, repeat: Infinity }} className="flex flex-col items-center gap-2 cursor-pointer" onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}>
+            <span className="text-white/50 text-sm">Scroll to explore</span>
+            <ChevronDown className="w-6 h-6 text-white/50" />
+          </motion.div>
+        </motion.div>
+      </motion.div>
+
+      {/* Features Section */}
+      <section id="features" ref={featuresRef} className="py-32 px-6 relative">
+        <div className="max-w-7xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 50 }} animate={featuresInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8 }} className="text-center mb-20">
+            <motion.span className="inline-block px-4 py-2 rounded-full bg-purple-500/20 text-purple-300 text-sm font-semibold mb-6" initial={{ scale: 0 }} animate={featuresInView ? { scale: 1 } : {}} transition={{ delay: 0.2, type: "spring" }}>POWERFUL FEATURES</motion.span>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">Everything You Need to<br /><span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Build Amazing Websites</span></h2>
+            <p className="text-xl text-white/60 max-w-2xl mx-auto">From AI content generation to beautiful templates, we've got you covered.</p>
+          </motion.div>
+          <motion.div variants={containerVariants} initial="hidden" animate={featuresInView ? "visible" : "hidden"} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              { icon: <Zap className="w-7 h-7" />, title: "AI Content Generation", description: "Generate professional copy with a single click using advanced AI.", gradient: "from-purple-500 to-pink-500" },
+              { icon: <Palette className="w-7 h-7" />, title: "17+ Premium Templates", description: "Choose from professionally designed templates for any industry.", gradient: "from-blue-500 to-cyan-500" },
+              { icon: <MousePointer className="w-7 h-7" />, title: "Visual Editor", description: "Edit text, images, and layouts directly on the page.", gradient: "from-green-500 to-emerald-500" },
+              { icon: <Download className="w-7 h-7" />, title: "One-Click Export", description: "Export your website as clean, standalone HTML.", gradient: "from-orange-500 to-red-500" },
+              { icon: <Share2 className="w-7 h-7" />, title: "Instant Sharing", description: "Share your website with a unique link instantly.", gradient: "from-pink-500 to-rose-500" },
+              { icon: <Eye className="w-7 h-7" />, title: "Real-Time Preview", description: "See your changes instantly as you edit.", gradient: "from-violet-500 to-purple-500" },
+            ].map((feature, index) => (
+              <motion.div key={index} variants={itemVariants} whileHover={{ y: -10, scale: 1.02 }} className="group p-8 rounded-3xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-purple-500/30 transition-all duration-300">
+                <motion.div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>{feature.icon}</motion.div>
+                <h3 className="text-xl font-bold text-white mb-3">{feature.title}</h3>
+                <p className="text-white/60 leading-relaxed">{feature.description}</p>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section 
-        ref={(el) => { sectionRefs.current['stats'] = el; }}
-        className="relative py-20 px-6"
-      >
+      {/* How It Works Section */}
+      <section id="how-it-works" ref={howItWorksRef} className="py-32 px-6 relative bg-gradient-to-b from-transparent via-purple-950/30 to-transparent">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <div 
-                key={index}
-                className={`text-center transform transition-all duration-700 hover:scale-110 ${
-                  visibleSections.has('stats') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                }`}
-                style={{
-                  transitionDelay: `${index * 100}ms`
-                }}
-              >
-                <div className="relative group cursor-default">
-                  <div className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">
-                    {stat.value}
-                  </div>
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 blur-2xl opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
-                </div>
-                <div className="text-slate-600 font-semibold group-hover:text-slate-900 transition-colors">{stat.label}</div>
-                <div className="mt-2 h-1 w-0 group-hover:w-full mx-auto bg-gradient-to-r from-purple-600 to-pink-600 rounded-full transition-all duration-500" />
-              </div>
+          <motion.div initial={{ opacity: 0, y: 50 }} animate={howItWorksInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8 }} className="text-center mb-20">
+            <motion.span className="inline-block px-4 py-2 rounded-full bg-blue-500/20 text-blue-300 text-sm font-semibold mb-6" initial={{ scale: 0 }} animate={howItWorksInView ? { scale: 1 } : {}} transition={{ delay: 0.2, type: "spring" }}>SIMPLE PROCESS</motion.span>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">How It <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">Works</span></h2>
+            <p className="text-xl text-white/60 max-w-2xl mx-auto">Create your website in four simple steps.</p>
+          </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
+            <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-purple-500/0 via-purple-500/50 to-purple-500/0 -translate-y-1/2" />
+            {steps.map((step, index) => (
+              <motion.div key={index} initial={{ opacity: 0, y: 50 }} animate={howItWorksInView ? { opacity: 1, y: 0 } : {}} transition={{ delay: index * 0.2, duration: 0.6 }} className="relative text-center">
+                <motion.div whileHover={{ scale: 1.1, rotate: 5 }} className="w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mx-auto mb-6 relative z-10 shadow-lg shadow-purple-500/30">
+                  <span className="text-white">{step.icon}</span>
+                </motion.div>
+                <motion.div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-white text-purple-600 font-bold flex items-center justify-center text-sm z-20 shadow-lg" whileHover={{ scale: 1.2 }}>{index + 1}</motion.div>
+                <h3 className="text-xl font-bold text-white mb-3">{step.title}</h3>
+                <p className="text-white/60">{step.description}</p>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Showcase Section */}
-      <section 
-        ref={(el) => { sectionRefs.current['showcase'] = el; }}
-        className="relative py-32 px-6 bg-gradient-to-b from-white to-slate-50"
-      >
-        <div className="max-w-7xl mx-auto">
-          <div 
-            className={`text-center mb-20 transition-all duration-1000 ${
-              visibleSections.has('showcase') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-            }`}
-          >
-            <h2 className="text-5xl md:text-6xl font-bold text-slate-900 mb-6">
-              Build Anything You Imagine
-            </h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              From portfolios to e-commerce stores, create stunning websites with our powerful builder
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-12">
-            {/* Showcase Card 1 */}
-            <div 
-              className={`group relative transition-all duration-1000 ${
-                visibleSections.has('showcase') ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'
-              }`}
-              style={{ transitionDelay: '200ms' }}
-            >
-              <div className="relative bg-white rounded-3xl p-8 shadow-2xl border-2 border-slate-200 hover:border-purple-300 transition-all duration-500 overflow-hidden group-hover:shadow-purple-200/50">
-                <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700" />
-                
-                <div className="relative">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center text-2xl shadow-lg group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
-                      🎨
-                    </div>
-                    <h3 className="text-2xl font-bold text-slate-900">50+ Templates</h3>
-                  </div>
-                  
-                  <p className="text-slate-600 mb-6 leading-relaxed">
-                    Choose from our extensive collection of professionally designed templates for any industry or purpose.
-                  </p>
-
-                  {/* Mini template preview cards */}
-                  <div className="grid grid-cols-3 gap-3">
-                    {[1, 2, 3].map((i) => (
-                      <div 
-                        key={i}
-                        className="aspect-video bg-gradient-to-br from-slate-100 to-slate-200 rounded-lg border border-slate-300 group-hover:scale-105 transition-transform duration-500 shadow-sm"
-                        style={{ transitionDelay: `${i * 100}ms` }}
-                      >
-                        <div className="p-2 space-y-1">
-                          <div className="h-1 bg-slate-300 rounded w-3/4" />
-                          <div className="h-1 bg-slate-300 rounded w-1/2" />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Showcase Card 2 */}
-            <div 
-              className={`group relative transition-all duration-1000 ${
-                visibleSections.has('showcase') ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'
-              }`}
-              style={{ transitionDelay: '400ms' }}
-            >
-              <div className="relative bg-white rounded-3xl p-8 shadow-2xl border-2 border-slate-200 hover:border-blue-300 transition-all duration-500 overflow-hidden group-hover:shadow-blue-200/50">
-                <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700" />
-                
-                <div className="relative">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center text-2xl shadow-lg group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
-                      ⚡
-                    </div>
-                    <h3 className="text-2xl font-bold text-slate-900">Live Editing</h3>
-                  </div>
-                  
-                  <p className="text-slate-600 mb-6 leading-relaxed">
-                    Edit your website in real-time with our intuitive visual editor. See changes instantly as you type.
-                  </p>
-
-                  {/* Animated editing preview */}
-                  <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-lg p-4 border border-slate-300">
-                    <div className="space-y-2">
-                      <div className="h-2 bg-slate-300 rounded w-full group-hover:bg-blue-400 transition-colors duration-500" />
-                      <div className="h-2 bg-slate-300 rounded w-5/6 group-hover:bg-blue-400 transition-colors duration-500 delay-100" />
-                      <div className="h-2 bg-slate-300 rounded w-4/6 group-hover:bg-blue-400 transition-colors duration-500 delay-200" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Showcase Card 3 */}
-            <div 
-              className={`group relative transition-all duration-1000 ${
-                visibleSections.has('showcase') ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'
-              }`}
-              style={{ transitionDelay: '600ms' }}
-            >
-              <div className="relative bg-white rounded-3xl p-8 shadow-2xl border-2 border-slate-200 hover:border-orange-300 transition-all duration-500 overflow-hidden group-hover:shadow-orange-200/50">
-                <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-orange-500/10 to-red-500/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700" />
-                
-                <div className="relative">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl flex items-center justify-center text-2xl shadow-lg group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
-                      🚀
-                    </div>
-                    <h3 className="text-2xl font-bold text-slate-900">One-Click Deploy</h3>
-                  </div>
-                  
-                  <p className="text-slate-600 mb-6 leading-relaxed">
-                    Publish your website instantly with shareable links. Export as HTML or deploy to your domain.
-                  </p>
-
-                  {/* Deploy animation */}
-                  <div className="flex items-center justify-center gap-2">
-                    <div className="w-16 h-16 bg-gradient-to-br from-orange-100 to-red-100 rounded-lg border-2 border-orange-300 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                      <span className="text-2xl">📄</span>
-                    </div>
-                    <div className="flex-1 h-1 bg-gradient-to-r from-orange-300 to-red-300 rounded-full group-hover:animate-pulse" />
-                    <div className="w-16 h-16 bg-gradient-to-br from-orange-100 to-red-100 rounded-lg border-2 border-orange-300 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                      <span className="text-2xl">🌐</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Showcase Card 4 */}
-            <div 
-              className={`group relative transition-all duration-1000 ${
-                visibleSections.has('showcase') ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'
-              }`}
-              style={{ transitionDelay: '800ms' }}
-            >
-              <div className="relative bg-white rounded-3xl p-8 shadow-2xl border-2 border-slate-200 hover:border-green-300 transition-all duration-500 overflow-hidden group-hover:shadow-green-200/50">
-                <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-green-500/10 to-emerald-500/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700" />
-                
-                <div className="relative">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center text-2xl shadow-lg group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
-                      🤖
-                    </div>
-                    <h3 className="text-2xl font-bold text-slate-900">AI-Powered</h3>
-                  </div>
-                  
-                  <p className="text-slate-600 mb-6 leading-relaxed">
-                    Generate professional content with AI. Get suggestions, optimize SEO, and create engaging copy.
-                  </p>
-
-                  {/* AI sparkle effect */}
-                  <div className="relative h-20 flex items-center justify-center">
-                    <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 via-emerald-500/20 to-green-500/20 rounded-lg blur-xl group-hover:animate-pulse" />
-                    <div className="relative text-4xl animate-pulse">✨</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+      {/* Stats Section */}
+      <section ref={statsRef} className="py-24 px-6 relative">
+        <div className="max-w-6xl mx-auto">
+          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={statsInView ? { opacity: 1, scale: 1 } : {}} transition={{ duration: 0.8 }} className="grid grid-cols-2 md:grid-cols-4 gap-8 p-10 rounded-3xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 backdrop-blur-sm border border-white/10">
+            {stats.map((stat, index) => (
+              <motion.div key={index} initial={{ opacity: 0, y: 30 }} animate={statsInView ? { opacity: 1, y: 0 } : {}} transition={{ delay: index * 0.1, duration: 0.6 }} className="text-center">
+                <motion.div className="text-4xl md:text-5xl font-bold text-white mb-2" whileHover={{ scale: 1.1 }}>
+                  {statsInView ? <CountUp end={stat.number} /> : 0}{stat.suffix}
+                </motion.div>
+                <p className="text-white/60 text-sm md:text-base">{stat.label}</p>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section 
-        ref={(el) => { sectionRefs.current['features'] = el; }}
-        className="relative py-20 px-6"
-      >
+      {/* Testimonials Section */}
+      <section id="testimonials" ref={testimonialsRef} className="py-32 px-6 relative">
         <div className="max-w-7xl mx-auto">
-          <div 
-            className={`text-center mb-16 transition-all duration-1000 ${
-              visibleSections.has('features') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-            }`}
-          >
-            <h2 className="text-5xl md:text-6xl font-bold text-slate-900 mb-6 relative inline-block">
-              Everything You Need
-              <span className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-purple-600 to-transparent" />
-            </h2>
-            <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-              Powerful features to help you create the perfect website
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <div
-                key={index}
-                className={`group relative bg-white rounded-2xl p-8 border-2 border-slate-200 hover:border-purple-300 transition-all duration-700 hover:shadow-2xl shadow-lg cursor-pointer ${
-                  visibleSections.has('features') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
-                }`}
-                style={{
-                  transitionDelay: `${index * 100}ms`,
-                  transform: visibleSections.has('features') ? 'perspective(1000px) rotateX(0deg)' : 'perspective(1000px) rotateX(10deg)'
-                }}
-                onMouseMove={(e) => {
-                  const rect = e.currentTarget.getBoundingClientRect();
-                  const x = e.clientX - rect.left;
-                  const y = e.clientY - rect.top;
-                  const centerX = rect.width / 2;
-                  const centerY = rect.height / 2;
-                  const rotateX = (y - centerY) / 20;
-                  const rotateY = (centerX - x) / 20;
-                  e.currentTarget.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
-                }}
-              >
-                <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-10 rounded-2xl transition-opacity duration-500`} />
-                
-                <div className="relative">
-                  <div className={`w-16 h-16 bg-gradient-to-br ${feature.gradient} rounded-xl flex items-center justify-center text-3xl mb-6 transform group-hover:rotate-12 group-hover:scale-110 transition-all duration-500 shadow-md group-hover:shadow-xl`}>
-                    {feature.icon}
-                  </div>
-                  
-                  <h3 className="text-2xl font-bold text-slate-900 mb-3 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-pink-600 group-hover:bg-clip-text transition-all duration-300">
-                    {feature.title}
-                  </h3>
-                  
-                  <p className="text-slate-600 leading-relaxed group-hover:text-slate-700 transition-colors">
-                    {feature.description}
-                  </p>
-
-                  {/* Animated corner accent */}
-                  <div className="absolute top-0 right-0 w-20 h-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <div className={`absolute top-0 right-0 w-full h-full bg-gradient-to-br ${feature.gradient} opacity-10 rounded-bl-full`} />
+          <motion.div initial={{ opacity: 0, y: 50 }} animate={testimonialsInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8 }} className="text-center mb-20">
+            <motion.span className="inline-block px-4 py-2 rounded-full bg-pink-500/20 text-pink-300 text-sm font-semibold mb-6" initial={{ scale: 0 }} animate={testimonialsInView ? { scale: 1 } : {}} transition={{ delay: 0.2, type: "spring" }}>TESTIMONIALS</motion.span>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">Loved by <span className="bg-gradient-to-r from-pink-400 to-rose-400 bg-clip-text text-transparent">Creators</span></h2>
+            <p className="text-xl text-white/60 max-w-2xl mx-auto">See what our users have to say about Squpage.</p>
+          </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <motion.div key={index} initial={{ opacity: 0, y: 50 }} animate={testimonialsInView ? { opacity: 1, y: 0 } : {}} transition={{ delay: index * 0.2, duration: 0.6 }} whileHover={{ y: -10, scale: 1.02 }} className="p-8 rounded-3xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-pink-500/30 transition-all">
+                <div className="flex mb-4">{[...Array(testimonial.rating)].map((_, i) => (<Star key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400" />))}</div>
+                <p className="text-white/80 text-lg mb-6 leading-relaxed">"{testimonial.quote}"</p>
+                <div className="flex items-center gap-4">
+                  <img src={testimonial.image} alt={testimonial.name} className="w-12 h-12 rounded-full object-cover" />
+                  <div>
+                    <p className="text-white font-semibold">{testimonial.name}</p>
+                    <p className="text-white/50 text-sm">{testimonial.role}</p>
                   </div>
                 </div>
-
-                {/* Shine effect on hover */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 rounded-2xl" />
-                </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section 
-        ref={(el) => { sectionRefs.current['cta'] = el; }}
-        className="relative py-32 px-6"
-      >
-        <div className="max-w-5xl mx-auto text-center">
-          <div 
-            className={`relative bg-gradient-to-br from-purple-100 to-pink-100 rounded-3xl p-12 md:p-20 border-2 border-purple-200 overflow-hidden shadow-2xl transition-all duration-1000 ${
-              visibleSections.has('cta') ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
-            }`}
-          >
-            {/* Animated background particles */}
-            <div className="absolute inset-0 overflow-hidden">
-              <div className="absolute top-10 left-10 w-20 h-20 bg-purple-300/30 rounded-full blur-xl animate-float" />
-              <div className="absolute top-20 right-20 w-32 h-32 bg-pink-300/30 rounded-full blur-xl animate-float-delayed" />
-              <div className="absolute bottom-10 left-1/4 w-24 h-24 bg-blue-300/30 rounded-full blur-xl animate-float-slow" />
-            </div>
-            
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-50 to-pink-50 opacity-50" />
-            
-            <div className="relative z-10">
-              <h2 className="text-4xl md:text-6xl font-bold text-slate-900 mb-6 animate-fade-in-up">
-                Ready to Get Started?
-              </h2>
-              <p className="text-xl text-slate-700 mb-10 max-w-2xl mx-auto animate-fade-in-up" style={{ animationDelay: '200ms' }}>
-                Join thousands of creators building amazing websites with our platform
-              </p>
-              
-              <button
-                onClick={() => router.push('/signup')}
-                className="group relative px-12 py-6 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl text-xl font-bold overflow-hidden transition-all hover:scale-110 hover:shadow-2xl hover:shadow-purple-500/40 hover:-translate-y-2 animate-fade-in-up"
-                style={{ animationDelay: '400ms' }}
-              >
-                <span className="relative z-10 flex items-center justify-center gap-2">
+      <section ref={ctaRef} className="py-32 px-6 relative">
+        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={ctaInView ? { opacity: 1, scale: 1 } : {}} transition={{ duration: 0.8 }} className="max-w-5xl mx-auto text-center p-16 rounded-3xl bg-gradient-to-br from-purple-600/30 to-pink-600/30 backdrop-blur-sm border border-white/20 relative overflow-hidden">
+          <motion.div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-pink-500/10" animate={{ opacity: [0.5, 1, 0.5] }} transition={{ duration: 3, repeat: Infinity }} />
+          <div className="relative z-10">
+            <motion.h2 initial={{ opacity: 0, y: 20 }} animate={ctaInView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.2 }} className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">Ready to Build Your<br /><span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Dream Website?</span></motion.h2>
+            <motion.p initial={{ opacity: 0, y: 20 }} animate={ctaInView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.4 }} className="text-xl text-white/70 mb-10 max-w-2xl mx-auto">Join thousands of creators who are building beautiful websites with Squpage. Start for free today.</motion.p>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={ctaInView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.6 }} className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <motion.div whileHover={{ scale: 1.05, y: -3 }} whileTap={{ scale: 0.95 }}>
+                <Button variant="contained" size="large" onClick={() => router.push('/templates')} endIcon={<Rocket className="w-5 h-5" />}
+                  sx={{ background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)', textTransform: 'none', fontSize: '18px', px: 8, py: 2.5, borderRadius: '16px', boxShadow: '0 8px 32px rgba(99, 102, 241, 0.5)', '&:hover': { background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)', boxShadow: '0 12px 40px rgba(99, 102, 241, 0.7)' } }}>
                   Get Started Free
-                  <span className="group-hover:translate-x-2 transition-transform">→</span>
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-700 to-pink-700 opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 blur-xl opacity-0 group-hover:opacity-50 transition-opacity" />
-              </button>
-            </div>
+                </Button>
+              </motion.div>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Footer */}
-      <footer className="relative py-12 px-6 border-t-2 border-slate-200 bg-white/50">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="flex items-center justify-center space-x-2 mb-4">
-            <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-pink-600 rounded-lg flex items-center justify-center text-white font-bold shadow-md">
-              S
+      <footer className="border-t border-white/10 bg-white/5 backdrop-blur-sm py-16">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+            <div className="md:col-span-2">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-xl">S</div>
+                <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Squpage</span>
+              </div>
+              <p className="text-white/60 max-w-sm mb-6">Create beautiful, professional websites in minutes with our AI-powered builder. No coding required.</p>
+              <div className="flex gap-4">
+                {['twitter', 'github', 'linkedin'].map((social) => (
+                  <motion.a key={social} href="#" whileHover={{ scale: 1.1, y: -2 }} className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/20 transition-colors">
+                    <Globe className="w-5 h-5" />
+                  </motion.a>
+                ))}
+              </div>
             </div>
-            <span className="text-slate-900 font-bold text-lg">Squpage</span>
+            <div>
+              <h4 className="text-white font-semibold mb-4">Product</h4>
+              <ul className="space-y-3">
+                {['Templates', 'Features', 'Pricing', 'Updates'].map((item) => (
+                  <li key={item}><a href="#" className="text-white/60 hover:text-white transition-colors">{item}</a></li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-white font-semibold mb-4">Company</h4>
+              <ul className="space-y-3">
+                {['About', 'Blog', 'Careers', 'Contact'].map((item) => (
+                  <li key={item}><a href="#" className="text-white/60 hover:text-white transition-colors">{item}</a></li>
+                ))}
+              </ul>
+            </div>
           </div>
-          <p className="text-slate-600">
-            © 2025 Squpage. All rights reserved.
-          </p>
+          <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-white/50 text-sm">© 2025 Squpage. All rights reserved.</p>
+            <div className="flex gap-6">
+              <a href="#" className="text-white/50 hover:text-white text-sm transition-colors">Privacy Policy</a>
+              <a href="#" className="text-white/50 hover:text-white text-sm transition-colors">Terms of Service</a>
+            </div>
+          </div>
         </div>
       </footer>
-
-      <style jsx>{`
-        @keyframes shimmer {
-          0% { background-position: 0% center; }
-          100% { background-position: 200% center; }
-        }
-
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes gradient-x {
-          0%, 100% {
-            background-size: 200% 200%;
-            background-position: left center;
-          }
-          50% {
-            background-size: 200% 200%;
-            background-position: right center;
-          }
-        }
-
-        @keyframes float {
-          0%, 100% {
-            transform: translateY(0px) translateX(0px);
-          }
-          25% {
-            transform: translateY(-20px) translateX(10px);
-          }
-          50% {
-            transform: translateY(-10px) translateX(20px);
-          }
-          75% {
-            transform: translateY(-15px) translateX(5px);
-          }
-        }
-
-        @keyframes float-delayed {
-          0%, 100% {
-            transform: translateY(0px) translateX(0px);
-          }
-          25% {
-            transform: translateY(15px) translateX(-10px);
-          }
-          50% {
-            transform: translateY(25px) translateX(-20px);
-          }
-          75% {
-            transform: translateY(10px) translateX(-5px);
-          }
-        }
-
-        @keyframes float-slow {
-          0%, 100% {
-            transform: translateY(0px) scale(1);
-          }
-          50% {
-            transform: translateY(-30px) scale(1.1);
-          }
-        }
-
-        @keyframes fade-in-up {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        .animate-gradient-x {
-          animation: gradient-x 3s ease infinite;
-        }
-
-        .animate-float {
-          animation: float 6s ease-in-out infinite;
-        }
-
-        .animate-float-delayed {
-          animation: float-delayed 8s ease-in-out infinite;
-        }
-
-        .animate-float-slow {
-          animation: float-slow 10s ease-in-out infinite;
-        }
-
-        .animate-fade-in-up {
-          animation: fade-in-up 1s ease-out forwards;
-          opacity: 0;
-        }
-
-        /* Smooth scroll behavior */
-        html {
-          scroll-behavior: smooth;
-        }
-
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-          width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-          background: #f1f5f9;
-        }
-
-        ::-webkit-scrollbar-thumb {
-          background: linear-gradient(to bottom, #9333ea, #ec4899);
-          border-radius: 5px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-          background: linear-gradient(to bottom, #7e22ce, #db2777);
-        }
-      `}</style>
     </div>
   );
+}
+
+// CountUp component for animated numbers
+function CountUp({ end }: { end: number }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true });
+  
+  useEffect(() => {
+    if (!inView) return;
+    let startTime: number;
+    const duration = 2000;
+    
+    const animate = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      setCount(Math.floor(progress * end));
+      if (progress < 1) requestAnimationFrame(animate);
+    };
+    
+    requestAnimationFrame(animate);
+  }, [end, inView]);
+  
+  return <span ref={ref}>{count.toLocaleString()}</span>;
 }

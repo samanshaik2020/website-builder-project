@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { EditableImage } from '@/components/editor/editable-image';
 import { EditableButton } from '@/components/editor/editable-button';
 import { Link2, X } from 'lucide-react';
@@ -13,6 +13,19 @@ export default function MeditationAppTemplate({
 }: BaseTemplateProps) {
   const [currentStoryIndex, setCurrentStoryIndex] = useState(0)
   const [editingSocialUrl, setEditingSocialUrl] = useState<{ eid: string; url: string } | null>(null)
+  const [mounted, setMounted] = useState(false)
+  const [starStyles, setStarStyles] = useState<Array<{top: string, left: string, animation: string}>>([])
+
+  useEffect(() => {
+    setMounted(true)
+    // Generate star positions on client only
+    const styles = Array.from({ length: 50 }, () => ({
+      top: `${Math.random() * 100}%`,
+      left: `${Math.random() * 100}%`,
+      animation: `twinkle ${2 + Math.random() * 3}s infinite`
+    }))
+    setStarStyles(styles)
+  }, [])
 
   const stories = [
     {
@@ -92,19 +105,17 @@ export default function MeditationAppTemplate({
       {/* Hero Section */}
       <section className="relative bg-gradient-to-b from-indigo-900 via-indigo-800 to-blue-600 text-white py-20 overflow-hidden">
         {/* Stars background effect */}
-        <div className="absolute inset-0 opacity-30">
-          {[...Array(50)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-1 h-1 bg-white rounded-full"
-              style={{
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-                animation: `twinkle ${2 + Math.random() * 3}s infinite`,
-              }}
-            />
-          ))}
-        </div>
+        {mounted && (
+          <div className="absolute inset-0 opacity-30">
+            {starStyles.map((style, i) => (
+              <div
+                key={i}
+                className="absolute w-1 h-1 bg-white rounded-full"
+                style={style}
+              />
+            ))}
+          </div>
+        )}
 
         <div className="container mx-auto px-6 relative z-10">
           <div className="flex items-center justify-between">
