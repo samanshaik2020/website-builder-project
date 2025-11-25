@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   Box,
-  Container,
   Typography,
   Button,
   Card,
@@ -19,7 +18,6 @@ import {
   Divider,
   Avatar,
   InputAdornment,
-  Paper,
 } from '@mui/material';
 import {
   Add as AddIcon,
@@ -36,7 +34,6 @@ import {
   Language as LanguageIcon,
   Notifications as NotificationsIcon,
   CalendarToday as CalendarIcon,
-  Folder as FolderIcon,
   Logout as LogoutIcon,
   Settings as SettingsIcon,
   Help as HelpIcon,
@@ -423,57 +420,23 @@ export default function DashboardPage() {
 
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: '#f8fafc' }} suppressHydrationWarning>
-      {/* Top Header - Compact */}
-      <Box sx={{ bgcolor: 'white', borderBottom: '1px solid #e5e7eb', px: 3, py: 1.5 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', maxWidth: '1600px', mx: 'auto' }}>
-          {/* Logo */}
-          <Box 
-            sx={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: 1.5, 
-              cursor: 'pointer',
-              '&:hover': { opacity: 0.8 }
-            }}
-            onClick={() => router.push('/')}
-          >
-            <Box sx={{ width: 32, height: 32, borderRadius: '8px', background: 'linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px rgba(139, 92, 246, 0.3)' }}>
-              <Typography sx={{ color: 'white', fontSize: 16, fontWeight: 700 }}>S</Typography>
+      {/* Header */}
+      <Box sx={{ bgcolor: 'white', borderBottom: '1px solid #e2e8f0', position: 'sticky', top: 0, zIndex: 10, backdropFilter: 'blur(8px)' }}>
+        <Box sx={{ maxWidth: '1280px', mx: 'auto', px: { xs: 2, sm: 3, lg: 4 } }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => router.push('/')}>
+              <Box sx={{ width: 32, height: 32, borderRadius: '8px', bgcolor: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Typography sx={{ color: 'white', fontSize: 18, fontWeight: 700 }}>S</Typography>
+              </Box>
+              <Typography sx={{ ml: 1.5, fontSize: 18, fontWeight: 700, color: '#0f172a' }}>Squpage</Typography>
             </Box>
-            <Typography sx={{ fontSize: 17, fontWeight: 700, color: '#111827' }}>
-              Squpage
-            </Typography>
-          </Box>
-          
-          {/* Right Actions */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <Button
-              variant="contained"
-              startIcon={<AddIcon />}
-              onClick={() => router.push('/templates')}
-              sx={{
-                textTransform: 'none',
-                background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
-                color: 'white',
-                fontWeight: 600,
-                fontSize: 13,
-                px: 2.5,
-                py: 0.75,
-                borderRadius: '8px',
-                boxShadow: '0 2px 8px rgba(139, 92, 246, 0.3)',
-                '&:hover': { background: 'linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%)', boxShadow: '0 4px 12px rgba(139, 92, 246, 0.4)' },
-              }}
-            >
-              New Website
-            </Button>
-            <IconButton size="small" sx={{ color: '#6b7280' }}>
-              <NotificationsIcon sx={{ fontSize: 20 }} />
-            </IconButton>
-            <Box
-              sx={{ display: 'flex', alignItems: 'center', gap: 1, cursor: 'pointer', borderRadius: '8px', px: 1, py: 0.5, '&:hover': { bgcolor: '#f3f4f6' } }}
-              onClick={handleUserMenuOpen}
-            >
-              <Avatar sx={{ width: 28, height: 28, bgcolor: '#8b5cf6', fontSize: 12, fontWeight: 600 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <Button variant="contained" startIcon={<AddIcon />} onClick={() => router.push('/templates')}
+                sx={{ textTransform: 'none', bgcolor: '#6366f1', fontWeight: 600, fontSize: 14, px: 2, py: 1, borderRadius: '8px', boxShadow: 'none', '&:hover': { bgcolor: '#4f46e5' } }}>
+                New Website
+              </Button>
+              <IconButton sx={{ color: '#64748b' }}><NotificationsIcon /></IconButton>
+              <Avatar sx={{ width: 32, height: 32, bgcolor: '#6366f1', fontSize: 14, fontWeight: 600, cursor: 'pointer' }} onClick={handleUserMenuOpen}>
                 {getUserInitials()}
               </Avatar>
             </Box>
@@ -481,192 +444,120 @@ export default function DashboardPage() {
         </Box>
       </Box>
 
-      <Container maxWidth="xl" sx={{ py: 3 }}>
-        {/* Welcome Header - Compact */}
-        <Box sx={{ mb: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <Box sx={{ maxWidth: '1280px', mx: 'auto', px: { xs: 2, sm: 3, lg: 4 }, py: 4 }}>
+        {/* Welcome Header */}
+        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, alignItems: { xs: 'flex-start', sm: 'center' }, justifyContent: 'space-between', mb: 4 }}>
           <Box>
-            <Typography sx={{ fontSize: 24, fontWeight: 700, color: '#111827', mb: 0.5 }}>
-              Dashboard
+            <Typography sx={{ fontSize: { xs: 28, sm: 32, lg: 36 }, fontWeight: 700, color: '#0f172a', letterSpacing: '-0.02em' }}>
+              Welcome to your Dashboard!
             </Typography>
-            <Typography sx={{ fontSize: 13, color: '#6b7280' }}>
-              Manage and track your website projects
+            <Typography sx={{ mt: 1, fontSize: { xs: 16, lg: 18 }, color: '#64748b' }}>
+              Your launchpad for creating amazing websites.
             </Typography>
           </Box>
-          <Box sx={{ display: 'flex', gap: 1.5 }}>
-            <Button
-              variant="outlined"
-              startIcon={<LanguageIcon />}
-              onClick={() => router.push('/templates')}
-              sx={{
-                textTransform: 'none',
-                borderColor: '#e5e7eb',
-                color: '#374151',
-                fontWeight: 600,
-                fontSize: 13,
-                px: 2,
-                py: 0.75,
-                borderRadius: '8px',
-                '&:hover': { borderColor: '#8b5cf6', bgcolor: '#faf5ff' },
-              }}
-            >
-              Templates
-            </Button>
-          </Box>
+          <Button variant="outlined" startIcon={<LanguageIcon />} onClick={() => router.push('/templates')}
+            sx={{ mt: { xs: 2, sm: 0 }, textTransform: 'none', borderColor: '#e2e8f0', color: '#475569', fontWeight: 500, fontSize: 14, px: 2, py: 1, borderRadius: '8px', bgcolor: 'white', '&:hover': { bgcolor: '#f1f5f9', borderColor: '#cbd5e1' } }}>
+            Explore Templates
+          </Button>
         </Box>
 
-        {/* Analytics Stats - Compact */}
-        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' }, gap: 2, mb: 3 }}>
-          {/* Total Websites */}
-          <Card
-            elevation={0}
-            sx={{
-              p: 2,
-              borderRadius: '10px',
-              border: '1px solid #e5e7eb',
-              bgcolor: 'white',
-              transition: 'all 0.2s',
-              '&:hover': { boxShadow: '0 4px 12px rgba(0,0,0,0.05)', borderColor: '#8b5cf6' },
-            }}
-          >
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
-              <Box sx={{ width: 32, height: 32, borderRadius: '8px', bgcolor: '#ede9fe', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <LanguageIcon sx={{ color: '#8b5cf6', fontSize: 18 }} />
+        {/* Stats Cards */}
+        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' }, gap: 3, mb: 6 }}>
+          {/* Websites */}
+          <Card elevation={0} sx={{ p: 3, borderRadius: '12px', border: '1px solid #e2e8f0', bgcolor: 'white' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+              <Box sx={{ width: 48, height: 48, borderRadius: '12px', bgcolor: '#e0e7ff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <LanguageIcon sx={{ color: '#6366f1', fontSize: 24 }} />
               </Box>
-              <TrendingUpIcon sx={{ fontSize: 16, color: '#10b981' }} />
+              <TrendingUpIcon sx={{ color: '#22c55e', fontSize: 20 }} />
             </Box>
-            <Typography sx={{ fontSize: 11, color: '#6b7280', fontWeight: 600, mb: 0.5, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-              Websites
-            </Typography>
-            <Typography sx={{ fontSize: 28, fontWeight: 700, color: '#111827', lineHeight: 1 }}>
-              {projects.length}
-            </Typography>
+            <Box sx={{ mt: 2 }}>
+              <Typography sx={{ fontSize: 12, fontWeight: 500, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>WEBSITES</Typography>
+              <Typography sx={{ fontSize: 30, fontWeight: 700, color: '#0f172a', mt: 0.5 }}>{projects.length}</Typography>
+            </Box>
           </Card>
 
           {/* Total Views */}
-          <Card
-            elevation={0}
-            sx={{
-              p: 2,
-              borderRadius: '10px',
-              border: '1px solid #e5e7eb',
-              bgcolor: 'white',
-              transition: 'all 0.2s',
-              '&:hover': { boxShadow: '0 4px 12px rgba(0,0,0,0.05)', borderColor: '#22c55e' },
-            }}
-          >
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
-              <Box sx={{ width: 32, height: 32, borderRadius: '8px', bgcolor: '#dcfce7', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <RemoveRedEyeIcon sx={{ color: '#22c55e', fontSize: 18 }} />
+          <Card elevation={0} sx={{ p: 3, borderRadius: '12px', border: '1px solid #e2e8f0', bgcolor: 'white' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+              <Box sx={{ width: 48, height: 48, borderRadius: '12px', bgcolor: '#d1fae5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <RemoveRedEyeIcon sx={{ color: '#10b981', fontSize: 24 }} />
               </Box>
-              <Typography sx={{ fontSize: 11, color: '#10b981', fontWeight: 700 }}>+{monthlyStats.totalVisitors}</Typography>
+              <Typography sx={{ fontSize: 14, fontWeight: 600, color: '#22c55e' }}>+{monthlyStats.totalVisitors}</Typography>
             </Box>
-            <Typography sx={{ fontSize: 11, color: '#6b7280', fontWeight: 600, mb: 0.5, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-              Total Views
-            </Typography>
-            <Typography sx={{ fontSize: 28, fontWeight: 700, color: '#111827', lineHeight: 1 }}>
-              {projects.reduce((sum, p) => sum + (p.views || 0), 0).toLocaleString()}
-            </Typography>
+            <Box sx={{ mt: 2 }}>
+              <Typography sx={{ fontSize: 12, fontWeight: 500, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>TOTAL VIEWS</Typography>
+              <Typography sx={{ fontSize: 30, fontWeight: 700, color: '#0f172a', mt: 0.5 }}>{projects.reduce((sum, p) => sum + (p.views || 0), 0).toLocaleString()}</Typography>
+            </Box>
           </Card>
 
           {/* Total Clicks */}
-          <Card
-            elevation={0}
-            sx={{
-              p: 2,
-              borderRadius: '10px',
-              border: '1px solid #e5e7eb',
-              bgcolor: 'white',
-              transition: 'all 0.2s',
-              '&:hover': { boxShadow: '0 4px 12px rgba(0,0,0,0.05)', borderColor: '#ec4899' },
-            }}
-          >
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
-              <Box sx={{ width: 32, height: 32, borderRadius: '8px', bgcolor: '#fce7f3', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <TouchAppIcon sx={{ color: '#ec4899', fontSize: 18 }} />
+          <Card elevation={0} sx={{ p: 3, borderRadius: '12px', border: '1px solid #e2e8f0', bgcolor: 'white' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+              <Box sx={{ width: 48, height: 48, borderRadius: '12px', bgcolor: '#fce7f3', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <TouchAppIcon sx={{ color: '#ec4899', fontSize: 24 }} />
               </Box>
-              <Typography sx={{ fontSize: 11, color: '#ec4899', fontWeight: 700 }}>+{monthlyStats.leadsGenerated}</Typography>
+              <Typography sx={{ fontSize: 14, fontWeight: 600, color: '#ef4444' }}>+{monthlyStats.leadsGenerated}</Typography>
             </Box>
-            <Typography sx={{ fontSize: 11, color: '#6b7280', fontWeight: 600, mb: 0.5, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-              Total Clicks
-            </Typography>
-            <Typography sx={{ fontSize: 28, fontWeight: 700, color: '#111827', lineHeight: 1 }}>
-              {projects.reduce((sum, p) => sum + (p.clicks || 0), 0).toLocaleString()}
-            </Typography>
+            <Box sx={{ mt: 2 }}>
+              <Typography sx={{ fontSize: 12, fontWeight: 500, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>TOTAL CLICKS</Typography>
+              <Typography sx={{ fontSize: 30, fontWeight: 700, color: '#0f172a', mt: 0.5 }}>{projects.reduce((sum, p) => sum + (p.clicks || 0), 0).toLocaleString()}</Typography>
+            </Box>
           </Card>
 
-          {/* Avg. Conversion */}
-          <Card
-            elevation={0}
-            sx={{
-              p: 2,
-              borderRadius: '10px',
-              border: '1px solid #e5e7eb',
-              bgcolor: 'white',
-              transition: 'all 0.2s',
-              '&:hover': { boxShadow: '0 4px 12px rgba(0,0,0,0.05)', borderColor: '#f97316' },
-            }}
-          >
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
-              <Box sx={{ width: 32, height: 32, borderRadius: '8px', bgcolor: '#fed7aa', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <TrendingUpIcon sx={{ color: '#f97316', fontSize: 18 }} />
+          {/* Conversion */}
+          <Card elevation={0} sx={{ p: 3, borderRadius: '12px', border: '1px solid #e2e8f0', bgcolor: 'white' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+              <Box sx={{ width: 48, height: 48, borderRadius: '12px', bgcolor: '#ffedd5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <TrendingUpIcon sx={{ color: '#f97316', fontSize: 24 }} />
               </Box>
-              <Typography sx={{ fontSize: 11, color: '#f97316', fontWeight: 700 }}>{monthlyStats.conversionRate}%</Typography>
+              <Typography sx={{ fontSize: 14, fontWeight: 600, color: '#f97316' }}>{monthlyStats.conversionRate}%</Typography>
             </Box>
-            <Typography sx={{ fontSize: 11, color: '#6b7280', fontWeight: 600, mb: 0.5, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-              Conversion
-            </Typography>
-            <Typography sx={{ fontSize: 28, fontWeight: 700, color: '#111827', lineHeight: 1 }}>
-              {projects.length > 0 ? Math.round((projects.reduce((sum, p) => sum + (p.clicks || 0), 0) / projects.reduce((sum, p) => sum + (p.views || 0), 0)) * 100) || 0 : 0}%
-            </Typography>
+            <Box sx={{ mt: 2 }}>
+              <Typography sx={{ fontSize: 12, fontWeight: 500, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>CONVERSION</Typography>
+              <Typography sx={{ fontSize: 30, fontWeight: 700, color: '#0f172a', mt: 0.5 }}>{projects.length > 0 ? Math.round((projects.reduce((sum, p) => sum + (p.clicks || 0), 0) / Math.max(projects.reduce((sum, p) => sum + (p.views || 0), 0), 1)) * 100) : 0}%</Typography>
+            </Box>
           </Card>
         </Box>
 
-        {/* Projects Section Header */}
-        <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Typography sx={{ fontSize: 16, fontWeight: 700, color: '#111827' }}>
-            My Projects ({projects.length})
-          </Typography>
-          <Typography sx={{ fontSize: 12, color: '#6b7280' }}>
-            {monthlyStats.websitesCreated} created this month
-          </Typography>
-        </Box>
-
-        {/* Projects Grid */}
+        {/* Empty State - Beautiful Gradient CTA */}
         {projects.length === 0 ? (
-          <Paper
-            elevation={0}
-            sx={{
-              textAlign: 'center',
-              py: 12,
-              bgcolor: 'white',
-              borderRadius: 3,
-              border: '2px dashed #e0e0e0',
-            }}
-          >
-            <FolderIcon sx={{ fontSize: 80, color: '#ccc', mb: 3 }} />
-            <Typography variant="h4" sx={{ fontWeight: 700, color: '#1a1a1a', mb: 2 }}>
-              No Projects Yet
-            </Typography>
-            <Typography variant="body1" sx={{ color: '#666', mb: 4 }}>
-              Create your first website project to get started
-            </Typography>
-            <Button
-              variant="contained"
-              size="large"
-              startIcon={<AddIcon />}
-              onClick={() => router.push('/templates')}
-              sx={{
-                bgcolor: '#6366f1',
-                '&:hover': { bgcolor: '#4f46e5' },
-                textTransform: 'none',
-                fontWeight: 600,
-                px: 4,
-                py: 1.5,
-              }}
-            >
-              Create Your First Project
-            </Button>
-          </Paper>
+          <Box sx={{ position: 'relative', minHeight: 'calc(100vh - 450px)', borderRadius: '24px', overflow: 'hidden', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)' }}>
+            <Box sx={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%)', opacity: 0.9 }} />
+            <Box sx={{ position: 'relative', zIndex: 1, p: { xs: 4, sm: 6, md: 8, lg: 12 }, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: 'inherit' }}>
+              <Typography sx={{ fontSize: { xs: 28, sm: 36, lg: 48 }, fontWeight: 800, color: 'white', lineHeight: 1.1, letterSpacing: '-0.02em', textShadow: '0 4px 12px rgba(0,0,0,0.15)' }}>
+                Let's Build Something Amazing!
+              </Typography>
+              <Typography sx={{ mt: 3, maxWidth: 600, fontSize: { xs: 16, sm: 18, lg: 20 }, color: 'white', opacity: 0.9, fontWeight: 300, lineHeight: 1.6, textShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
+                Ready to bring your ideas to life? Create your first website project in minutes, no coding required.
+              </Typography>
+              <Button
+                variant="contained"
+                size="large"
+                startIcon={<AddIcon />}
+                onClick={() => router.push('/templates')}
+                sx={{
+                  mt: 5,
+                  bgcolor: 'white',
+                  color: '#6366f1',
+                  fontWeight: 700,
+                  fontSize: 18,
+                  px: 4,
+                  py: 2,
+                  borderRadius: '50px',
+                  boxShadow: '0 10px 40px rgba(0,0,0,0.2)',
+                  textTransform: 'none',
+                  '&:hover': { bgcolor: '#f8fafc', transform: 'scale(1.05)', boxShadow: '0 15px 50px rgba(0,0,0,0.25)' },
+                  transition: 'all 0.3s ease',
+                }}
+              >
+                Launch Your First Project!
+              </Button>
+              <Typography sx={{ mt: 4, fontSize: 14, color: 'white', opacity: 0.8 }}>
+                It's fast, intuitive, and fun.
+              </Typography>
+            </Box>
+          </Box>
         ) : (
           <Box>
             {projects.map((project) => (
@@ -790,7 +681,7 @@ export default function DashboardPage() {
             ))}
           </Box>
         )}
-      </Container>
+      </Box>
 
       {/* Context Menu */}
       <Menu
