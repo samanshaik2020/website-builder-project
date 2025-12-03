@@ -16,6 +16,11 @@ import { CreativeCommunityTemplate, creativeCommunityConfig } from '@/components
 import { GeneralContentTemplate, generalContentConfig } from '@/components/templates/general-content';
 import { SqupagePromoTemplate, squpagePromoConfig } from '@/components/templates/squpage-promo';
 import { LegalCenterTemplate, legalCenterConfig } from '@/components/templates/legal-center';
+import { FlashSaleTemplate, flashSaleConfig } from '@/components/templates/flash-sale';
+import { MegaDiscountTemplate, megaDiscountConfig } from '@/components/templates/mega-discount';
+import { FestivalSaleTemplate, festivalSaleConfig } from '@/components/templates/festival-sale';
+import { MobileShopTemplate, mobileShopConfig } from '@/components/templates/mobile-shop';
+import { GadgetDealsTemplate, gadgetDealsConfig } from '@/components/templates/gadget-deals';
 
 export const templates = {
   portfolio: {
@@ -97,6 +102,26 @@ export const templates = {
   'legal-center': {
     component: LegalCenterTemplate,
     config: legalCenterConfig,
+  },
+  'flash-sale': {
+    component: FlashSaleTemplate,
+    config: flashSaleConfig,
+  },
+  'mega-discount': {
+    component: MegaDiscountTemplate,
+    config: megaDiscountConfig,
+  },
+  'festival-sale': {
+    component: FestivalSaleTemplate,
+    config: festivalSaleConfig,
+  },
+  'mobile-shop': {
+    component: MobileShopTemplate,
+    config: mobileShopConfig,
+  },
+  'gadget-deals': {
+    component: GadgetDealsTemplate,
+    config: gadgetDealsConfig,
   },
 } as const;
 

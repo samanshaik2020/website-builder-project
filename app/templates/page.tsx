@@ -46,6 +46,7 @@ export default function TemplatesPage() {
     { id: 'pro', label: 'Pro' },
     { id: 'finance', label: 'Finance' },
     { id: 'product', label: 'Product' },
+    { id: 'ecommerce', label: 'E-commerce' },
   ];
 
   const filteredTemplates = templates.filter((template) => {
@@ -89,6 +90,16 @@ export default function TemplatesPage() {
         return '/Squpage Promotion.png';
       case 'legal-center':
         return '/Legal Center.png';
+      case 'flash-sale':
+        return '/Flash sale landing.png';
+      case 'mega-discount':
+        return '/Mega Discount Sale.png';
+      case 'festival-sale':
+        return '/Festival Sale Poster.png';
+      case 'mobile-shop':
+        return '/Mobile Shop.png';
+      case 'gadget-deals':
+        return '/Gadget Deals.png';
       default:
         return null;
     }

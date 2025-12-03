@@ -199,6 +199,31 @@ function buildPromptForTemplate(templateSlug: string, seedText: string, theme?: 
     return buildLegalCenterPrompt(seedText, theme);
   }
 
+  // Flash Sale template has its own structure
+  if (templateSlug === 'flash-sale') {
+    return buildFlashSalePrompt(seedText, theme);
+  }
+
+  // Mega Discount template has its own structure
+  if (templateSlug === 'mega-discount') {
+    return buildMegaDiscountPrompt(seedText, theme);
+  }
+
+  // Festival Sale template has its own structure
+  if (templateSlug === 'festival-sale') {
+    return buildFestivalSalePrompt(seedText, theme);
+  }
+
+  // Mobile Shop template has its own structure
+  if (templateSlug === 'mobile-shop') {
+    return buildMobileShopPrompt(seedText, theme);
+  }
+
+  // Gadget Deals template has its own structure
+  if (templateSlug === 'gadget-deals') {
+    return buildGadgetDealsPrompt(seedText, theme);
+  }
+
   const baseInstructions = `You are a professional web content generator. Generate content for a ${templateSlug} template based on the following description: "${seedText}"${theme ? ` using the ${theme} theme style` : ''}.
 
 Return ONLY valid JSON (no markdown, no code blocks, no comments). The JSON must follow this exact structure with ALL fields:
@@ -1144,5 +1169,365 @@ Content Guidelines:
 - Adapt all content to the specific business/service described in seedText
 
 Tone: Professional, trustworthy, clear, and user-friendly
+Return ONLY the JSON object, nothing else`;
+}
+
+// Prompt builder for Flash Sale template
+function buildFlashSalePrompt(seedText: string, theme?: string) {
+  return `You are a professional e-commerce content generator specializing in high-converting flash sale landing pages. Generate content for a flash sale landing page based on the following description: "${seedText}"${theme ? ` using the ${theme} theme style` : ''}.
+
+Return ONLY valid JSON (no markdown, no code blocks, no comments). The JSON must include ALL fields below:
+
+{
+  "top_banner_text": "Urgency banner text with emoji (e.g., '⚡ FLASH SALE: UP TO 70% OFF Today Only! Use Code:')",
+  "top_banner_code": "Discount code (e.g., 'FLASH70', 'SAVE50')",
+  
+  "hero_title": "Main headline (8-12 words, UPPERCASE, urgent and exciting)",
+  "hero_description": "Supporting text (15-25 words, emphasize value and urgency)",
+  "hero_timer_hours": "Timer hours (2 digits, e.g., '03')",
+  "hero_timer_mins": "Timer minutes (2 digits, e.g., '45')",
+  "hero_timer_secs": "Timer seconds (2 digits, e.g., '20')",
+  "hero_cta": { "text": "CTA button text (5-8 words, action-oriented)", "url": "#buy" },
+  "hero_badge_1": "Trust badge 1 (e.g., '1-Year Warranty')",
+  "hero_badge_2": "Trust badge 2 (e.g., 'Free Shipping')",
+  "hero_badge_3": "Trust badge 3 (e.g., 'Secure Payment')",
+  
+  "urgency_bar_text": "Urgency bar text (UPPERCASE, 10-15 words, create FOMO)",
+  
+  "offers_title": "Offers section title (3-5 words)",
+  "offer_1_title": "Offer 1 title (UPPERCASE, 3-5 words)",
+  "offer_1_description": "Offer 1 description (8-12 words)",
+  "offer_2_title": "Offer 2 title (UPPERCASE, 3-5 words)",
+  "offer_2_description": "Offer 2 description (8-12 words)",
+  "offer_3_title": "Offer 3 title (UPPERCASE, 3-5 words)",
+  "offer_3_description": "Offer 3 description (8-12 words)",
+  
+  "benefits_title": "Benefits section title (2-4 words)",
+  "benefit_1_title": "Benefit 1 title (3-5 words)",
+  "benefit_1_description": "Benefit 1 description (10-15 words)",
+  "benefit_2_title": "Benefit 2 title (3-5 words)",
+  "benefit_2_description": "Benefit 2 description (10-15 words)",
+  "benefit_3_title": "Benefit 3 title (3-5 words)",
+  "benefit_3_description": "Benefit 3 description (10-15 words)",
+  "benefit_4_title": "Benefit 4 title (3-5 words)",
+  "benefit_4_description": "Benefit 4 description (10-15 words)",
+  
+  "features_title": "Features section title (3-5 words)",
+  "feature_1_title": "Feature 1 title (3-5 words)",
+  "feature_1_description": "Feature 1 description (20-30 words)",
+  "feature_1_bullet_1": "Feature 1 bullet point 1 (3-5 words)",
+  "feature_1_bullet_2": "Feature 1 bullet point 2 (3-5 words)",
+  "feature_2_title": "Feature 2 title (3-5 words)",
+  "feature_2_description": "Feature 2 description (20-30 words)",
+  "feature_2_bullet_1": "Feature 2 bullet point 1 (3-5 words)",
+  "feature_2_bullet_2": "Feature 2 bullet point 2 (3-5 words)",
+  
+  "gallery_title": "Gallery section title (2-4 words)",
+  
+  "stock_percentage": "Stock sold percentage (number only, e.g., '85')",
+  "stock_message": "Stock urgency message (15-25 words, create scarcity)",
+  "pricing_badge": "Pricing badge text (2-4 words, e.g., 'Best Deal Ever')",
+  "pricing_label": "Pricing label (UPPERCASE, e.g., 'FLASH SALE PRICE')",
+  "pricing_original": "Original price (e.g., '$299.99')",
+  "pricing_sale": "Sale price (e.g., '$89.99')",
+  "pricing_cta": { "text": "Pricing CTA button (5-8 words, UPPERCASE)", "url": "#checkout" },
+  
+  "reviews_title": "Reviews section title (2-4 words)",
+  "reviews_subtitle": "Reviews subtitle (e.g., '4.9/5 Stars based on 500+ reviews')",
+  "review_1_text": "Review 1 quote (10-20 words, enthusiastic)",
+  "review_1_author": "Review 1 author (e.g., '- Sarah J.')",
+  "review_2_text": "Review 2 quote (10-20 words, enthusiastic)",
+  "review_2_author": "Review 2 author (e.g., '- Mike T.')",
+  "review_3_text": "Review 3 quote (10-20 words, enthusiastic)",
+  "review_3_author": "Review 3 author (e.g., '- Emily K.')",
+  
+  "how_it_works_title": "How It Works title (2-4 words)",
+  "step_1_title": "Step 1 title (2-4 words)",
+  "step_1_description": "Step 1 description (8-12 words)",
+  "step_2_title": "Step 2 title (2-4 words)",
+  "step_2_description": "Step 2 description (8-12 words)",
+  "step_3_title": "Step 3 title (2-4 words)",
+  "step_3_description": "Step 3 description (8-12 words)",
+  
+  "faq_title": "FAQ section title (2-4 words)",
+  "faq_1_question": "FAQ 1 question (5-10 words)",
+  "faq_1_answer": "FAQ 1 answer (15-25 words)",
+  "faq_2_question": "FAQ 2 question (5-10 words)",
+  "faq_2_answer": "FAQ 2 answer (15-25 words)",
+  "faq_3_question": "FAQ 3 question (5-10 words)",
+  "faq_3_answer": "FAQ 3 answer (15-25 words)",
+  
+  "footer_cta_title": "Footer CTA title (5-8 words, urgent)",
+  "footer_cta_button": { "text": "Footer CTA button (4-6 words, UPPERCASE)", "url": "#buy" },
+  "footer_link_1": "Footer link 1 (e.g., 'About Us')",
+  "footer_link_2": "Footer link 2 (e.g., 'Contact')",
+  "footer_link_3": "Footer link 3 (e.g., 'Privacy Policy')",
+  "footer_link_4": "Footer link 4 (e.g., 'Terms of Service')",
+  "footer_copyright": "Copyright text (e.g., '© 2024 FlashDeals Inc. All Rights Reserved.')"
+}
+
+Content Guidelines:
+- Create HIGH-CONVERTING sales copy with urgency and scarcity
+- Use UPPERCASE for headlines and key offers
+- Emphasize massive discounts and limited-time offers
+- Create FOMO (Fear Of Missing Out) with stock levels and timers
+- Use action-oriented, benefit-focused language
+- Include trust signals (warranty, shipping, secure payment)
+- Make pricing comparison dramatic (original vs sale price)
+- Reviews should be short, enthusiastic, and specific
+- FAQs should address common purchase objections
+- Adapt all content to the specific product/service described in seedText
+
+Tone: Urgent, exciting, persuasive, and trustworthy
+Return ONLY the JSON object, nothing else`;
+}
+
+// Prompt builder for Mega Discount template
+function buildMegaDiscountPrompt(seedText: string, theme?: string) {
+  return `You are a professional e-commerce content generator specializing in clean, modern flash sale landing pages. Generate content for a mega discount sale page based on the following description: "${seedText}"${theme ? ` using the ${theme} theme style` : ''}.
+
+Return ONLY valid JSON (no markdown, no code blocks, no comments). The JSON must include ALL fields below:
+
+{
+  "flash_banner_text": "Flash banner text (UPPERCASE, 5-10 words, e.g., 'FLASH SALE LIVE — UP TO 70% OFF')",
+  
+  "hero_title": "Main headline with emoji (8-15 words, exciting and urgent, e.g., '🔥 Mega Discount Sale Is Live — Grab It Now!')",
+  "hero_description": "Supporting text (15-25 words, emphasize value, urgency, and scarcity)",
+  
+  "timer_title": "Timer section title (2-4 words, e.g., 'Time Remaining:')",
+  "timer_days": "Days remaining (2 digits, e.g., '01')",
+  "timer_hours": "Hours remaining (2 digits, e.g., '18')",
+  "timer_minutes": "Minutes remaining (2 digits, e.g., '45')",
+  "timer_seconds": "Seconds remaining (2 digits, e.g., '33')",
+  
+  "features_title": "Features section title (2-4 words, e.g., 'Key Features:')",
+  "feature_1_label": "Feature 1 label (2-3 words, e.g., 'Battery life')",
+  "feature_1_value": "Feature 1 value (2-4 words, e.g., '24 Hours')",
+  "feature_2_label": "Feature 2 label (2-3 words, e.g., 'Warranty info')",
+  "feature_2_value": "Feature 2 value (2-4 words, e.g., '2-Year Full')",
+  "feature_3_label": "Feature 3 label (2-3 words, e.g., 'Quality rating')",
+  "feature_3_value": "Feature 3 value (2-4 words, e.g., '★ 4.8/5')",
+  "feature_4_label": "Feature 4 label (2-3 words, e.g., 'Material')",
+  "feature_4_value": "Feature 4 value (2-4 words, e.g., 'Aero-grade Aluminum')",
+  
+  "cta_button": { "text": "CTA button text (4-6 words, action-oriented, e.g., 'Buy Now & Save 70%')", "url": "#buy" },
+  "cta_subtext": "Trust badges text (8-15 words, e.g., 'Free Shipping · 30-Day Guarantee · Secure Checkout')",
+  
+  "discount_badge": "Discount badge (e.g., '-70%', '-50%', 'SAVE $100')"
+}
+
+Content Guidelines:
+- Create clean, modern sales copy that's urgent but not overwhelming
+- Use emojis sparingly (mainly in hero title)
+- Emphasize the discount percentage prominently
+- Include trust signals (warranty, shipping, guarantee)
+- Make features specific and relevant to the product
+- Timer values should create urgency (low days, varied hours/minutes)
+- Adapt all content to the specific product/service described in seedText
+
+Tone: Modern, clean, urgent, and trustworthy
+Return ONLY the JSON object, nothing else`;
+}
+
+// Prompt builder for Festival Sale template
+function buildFestivalSalePrompt(seedText: string, theme?: string) {
+  return `You are a professional e-commerce content generator specializing in high-impact festival sale product posters. Generate content for a festival sale poster page based on the following description: "${seedText}"${theme ? ` using the ${theme} theme style` : ''}.
+
+Return ONLY valid JSON (no markdown, no code blocks, no comments). The JSON must include ALL fields below:
+
+{
+  "top_banner_text": "Top banner text with emoji (6-12 words, UPPERCASE, e.g., '🔥 MEGA SALE — UP TO 80% OFF')",
+  
+  "hero_title": "Main headline (2-4 words, bold and impactful, e.g., 'Unbelievable Discounts')",
+  "hero_subtitle": "Supporting subtitle (4-8 words, creates urgency, e.g., 'Grab It Before It's Gone!')",
+  "discount_percentage": "Discount percentage (e.g., '-80%', '-50%', '-70%')",
+  
+  "product_name": "Product name (2-4 words, e.g., 'Aero-Boost Runners')",
+  "product_tagline": "Product tagline (6-12 words, italic, e.g., 'Experience the future of speed and comfort.')",
+  
+  "feature_1_text": "Feature 1 text (2-3 words, e.g., 'Premium Build')",
+  "feature_2_text": "Feature 2 text (2-3 words, e.g., 'Top Performance')",
+  "feature_3_text": "Feature 3 text (2-3 words, e.g., '2-Year Warranty')",
+  "feature_4_text": "Feature 4 text (2-3 words, e.g., 'Bestseller')",
+  
+  "cta_button": { "text": "CTA button text (2-4 words, e.g., 'Shop Now')", "url": "#" },
+  "meta_text": "Meta text (8-15 words, trust signals, e.g., 'Fast Delivery · Easy Returns · Secure Payments')",
+  
+  "urgency_text": "Urgency text (10-15 words, creates scarcity, e.g., 'Limited stock • Today only • Prices will increase soon')",
+  "timer_hours": "Timer hours (2 digits, e.g., '23')",
+  "timer_minutes": "Timer minutes (2 digits, e.g., '59')",
+  "timer_seconds": "Timer seconds (2 digits, e.g., '45')"
+}
+
+Content Guidelines:
+- Create HIGH-IMPACT festival sale poster content
+- Use bold, attention-grabbing headlines
+- Emphasize massive discounts prominently
+- Create urgency with countdown timer and scarcity messaging
+- Include trust signals (delivery, returns, payment security)
+- Features should highlight key product benefits with icons
+- Product tagline should be aspirational and exciting
+- Timer values should create urgency (high hours, varied minutes/seconds)
+- Adapt all content to the specific product/service described in seedText
+
+Tone: Bold, exciting, urgent, and premium
+Return ONLY the JSON object, nothing else`;
+}
+
+// Prompt builder for Mobile Shop template
+function buildMobileShopPrompt(seedText: string, theme?: string) {
+  return `You are a professional e-commerce content generator specializing in mobile phone product listings. Generate content for a mobile shop product listing page based on the following description: "${seedText}"${theme ? ` using the ${theme} theme style` : ''}.
+
+Return ONLY valid JSON (no markdown, no code blocks, no comments). The JSON must include ALL fields below:
+
+{
+  "nav_brand": "Store brand name (1-2 words, e.g., 'MobileShop', 'TechZone')",
+  "nav_link_1": "Navigation link 1 (1-2 words, e.g., 'Deals')",
+  "nav_link_2": "Navigation link 2 (1-2 words, e.g., 'New Arrivals')",
+  "nav_link_3": "Navigation link 3 (1-2 words, e.g., 'Best Sellers')",
+  
+  "hero_title": "Main headline (8-15 words, attention-grabbing, e.g., 'Top 50 Best-Selling Mobiles – Big Discounts Live!')",
+  "hero_description": "Supporting description (10-20 words, e.g., 'Explore our curated list of the best-selling phones with unbeatable discounts.')",
+  
+  "filter_1": "Filter button 1 (1-2 words, e.g., 'Brand')",
+  "filter_2": "Filter button 2 (1-2 words, e.g., 'Price Range')",
+  "filter_3": "Filter button 3 (1-2 words, e.g., 'Discount')",
+  
+  "product_1_discount": "Product 1 discount badge (e.g., '15% OFF', '20% OFF')",
+  "product_1_name": "Product 1 name (2-4 words, e.g., 'Smartphone Pro X')",
+  "product_1_price": "Product 1 price (e.g., '$799', '$999')",
+  "product_1_cta": { "text": "Product 1 CTA (2-3 words, e.g., 'Buy Now')", "url": "#" },
+  
+  "product_2_discount": "Product 2 discount badge (e.g., '20% OFF')",
+  "product_2_name": "Product 2 name (2-4 words)",
+  "product_2_price": "Product 2 price",
+  "product_2_cta": { "text": "Product 2 CTA", "url": "#" },
+  
+  "product_3_discount": "Product 3 discount badge (e.g., '10% OFF')",
+  "product_3_name": "Product 3 name (2-4 words)",
+  "product_3_price": "Product 3 price",
+  "product_3_cta": { "text": "Product 3 CTA", "url": "#" },
+  
+  "product_4_discount": "Product 4 discount badge (e.g., '25% OFF')",
+  "product_4_name": "Product 4 name (2-4 words)",
+  "product_4_price": "Product 4 price",
+  "product_4_cta": { "text": "Product 4 CTA", "url": "#" },
+  
+  "product_5_discount": "Product 5 discount badge (e.g., '30% OFF')",
+  "product_5_name": "Product 5 name (2-4 words)",
+  "product_5_price": "Product 5 price",
+  "product_5_cta": { "text": "Product 5 CTA", "url": "#" },
+  
+  "product_6_discount": "Product 6 discount badge (e.g., '10% OFF')",
+  "product_6_name": "Product 6 name (2-4 words)",
+  "product_6_price": "Product 6 price",
+  "product_6_cta": { "text": "Product 6 CTA", "url": "#" },
+  
+  "product_7_discount": "Product 7 discount badge (e.g., '15% OFF')",
+  "product_7_name": "Product 7 name (2-4 words)",
+  "product_7_price": "Product 7 price",
+  "product_7_cta": { "text": "Product 7 CTA", "url": "#" },
+  
+  "product_8_discount": "Product 8 discount badge (e.g., '20% OFF')",
+  "product_8_name": "Product 8 name (2-4 words)",
+  "product_8_price": "Product 8 price",
+  "product_8_cta": { "text": "Product 8 CTA", "url": "#" }
+}
+
+Content Guidelines:
+- Create compelling mobile phone product listings
+- Use varied discount percentages (5% to 40% OFF)
+- Product names should sound like real smartphone models (e.g., 'Galaxy Pro Max', 'Pixel Ultra', 'Nova X1')
+- Prices should range from budget ($299) to premium ($1499)
+- Hero title should emphasize deals and discounts
+- Navigation links should be relevant to e-commerce (Deals, New Arrivals, Best Sellers)
+- Filter buttons should be relevant to mobile shopping (Brand, Price Range, Discount, Storage)
+- Adapt all content to the specific store type or product focus described in seedText
+
+Tone: Modern, trustworthy, deal-focused, and customer-friendly
+Return ONLY the JSON object, nothing else`;
+}
+
+// Prompt builder for Gadget Deals template
+function buildGadgetDealsPrompt(seedText: string, theme?: string) {
+  return `You are a professional e-commerce content generator specializing in gadget and electronics product listings. Generate content for a gadget deals listing page based on the following description: "${seedText}"${theme ? ` using the ${theme} theme style` : ''}.
+
+Return ONLY valid JSON (no markdown, no code blocks, no comments). The JSON must include ALL fields below:
+
+{
+  "nav_brand": "Store brand name (1-2 words, e.g., 'GadgetStore', 'TechDeals')",
+  "nav_link_1": "Navigation link 1 (1-2 words, e.g., 'Deals')",
+  "nav_link_2": "Navigation link 2 (1-2 words, e.g., 'New Arrivals')",
+  "nav_link_3": "Navigation link 3 (1-2 words, e.g., 'Categories')",
+  "nav_link_4": "Navigation link 4 (1-2 words, e.g., 'Support')",
+  
+  "hero_title": "Main headline (8-15 words, attention-grabbing, e.g., 'Top Deals on Gadgets — Big Discounts Live!')",
+  
+  "filter_1": "Filter button 1 (1-2 words, e.g., 'Category')",
+  "filter_2": "Filter button 2 (1-2 words, e.g., 'Price')",
+  "filter_3": "Filter button 3 (1-2 words, e.g., 'Discount')",
+  "filter_4": "Filter button 4 (1-2 words, e.g., 'Popularity')",
+  
+  "product_1_discount": "Product 1 discount badge (e.g., '25% OFF')",
+  "product_1_name": "Product 1 name (2-4 words, e.g., 'Aura Wireless Headphones')",
+  "product_1_description": "Product 1 description (3-6 words, e.g., 'Bluetooth 5.3 · 40hr Battery')",
+  "product_1_price": "Product 1 sale price (e.g., '$149')",
+  "product_1_original_price": "Product 1 original price (e.g., '$199')",
+  
+  "product_2_discount": "Product 2 discount badge (e.g., '15% OFF')",
+  "product_2_name": "Product 2 name (2-4 words)",
+  "product_2_description": "Product 2 description (3-6 words)",
+  "product_2_price": "Product 2 sale price",
+  "product_2_original_price": "Product 2 original price",
+  
+  "product_3_discount": "Product 3 discount badge (e.g., '10% OFF')",
+  "product_3_name": "Product 3 name (2-4 words)",
+  "product_3_description": "Product 3 description (3-6 words)",
+  "product_3_price": "Product 3 sale price",
+  "product_3_original_price": "Product 3 original price",
+  
+  "product_4_discount": "Product 4 discount badge (e.g., '30% OFF')",
+  "product_4_name": "Product 4 name (2-4 words)",
+  "product_4_description": "Product 4 description (3-6 words)",
+  "product_4_price": "Product 4 sale price",
+  "product_4_original_price": "Product 4 original price",
+  
+  "product_5_discount": "Product 5 discount badge (e.g., '20% OFF')",
+  "product_5_name": "Product 5 name (2-4 words)",
+  "product_5_description": "Product 5 description (3-6 words)",
+  "product_5_price": "Product 5 sale price",
+  "product_5_original_price": "Product 5 original price",
+  
+  "product_6_discount": "Product 6 discount badge (e.g., '35% OFF')",
+  "product_6_name": "Product 6 name (2-4 words)",
+  "product_6_description": "Product 6 description (3-6 words)",
+  "product_6_price": "Product 6 sale price",
+  "product_6_original_price": "Product 6 original price",
+  
+  "product_7_discount": "Product 7 discount badge (e.g., '22% OFF')",
+  "product_7_name": "Product 7 name (2-4 words)",
+  "product_7_description": "Product 7 description (3-6 words)",
+  "product_7_price": "Product 7 sale price",
+  "product_7_original_price": "Product 7 original price",
+  
+  "product_8_discount": "Product 8 discount badge (e.g., '18% OFF')",
+  "product_8_name": "Product 8 name (2-4 words)",
+  "product_8_description": "Product 8 description (3-6 words)",
+  "product_8_price": "Product 8 sale price",
+  "product_8_original_price": "Product 8 original price"
+}
+
+Content Guidelines:
+- Create compelling gadget and electronics product listings
+- Use varied discount percentages (10% to 40% OFF)
+- Product names should sound like real gadget products (e.g., 'Quantum Earbuds Pro', 'Nova Smartwatch', 'PowerUp Bank')
+- Descriptions should highlight key features (e.g., 'Bluetooth 5.3 · 40hr Battery', '4K Video · Waterproof')
+- Prices should range from budget ($29) to premium ($449)
+- Hero title should emphasize deals and discounts
+- Navigation links should be relevant to e-commerce
+- Filter buttons should be relevant to gadget shopping
+- Adapt all content to the specific store type or product focus described in seedText
+
+Tone: Modern, tech-savvy, deal-focused, and customer-friendly
 Return ONLY the JSON object, nothing else`;
 }

@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { getTemplateById, type TemplateId } from '@/lib/templates';
 import AiButton from '@/components/editor/ai-button';
 import { MobileWarning } from '@/components/editor/mobile-warning';
+import { ContentEditableToolbar } from '@/components/editor/content-editable-toolbar';
 import { getCurrentUser } from '@/lib/services/auth-service';
 import { getProject, createProject, updateProject } from '@/lib/services/project-service';
 
@@ -20,6 +21,7 @@ function EditorContent() {
   const [showSaveDialog, setShowSaveDialog] = useState(false);
   const [backupData, setBackupData] = useState<Record<string, any> | null>(null);
   const [showRevertButton, setShowRevertButton] = useState(false);
+  const [showTextToolbar, setShowTextToolbar] = useState(false);
 
   // Check authentication
   useEffect(() => {
@@ -204,6 +206,57 @@ function EditorContent() {
     return () => document.removeEventListener('input', handleInput);
   }, []);
 
+  // Text selection detection for floating toolbar
+  useEffect(() => {
+    const handleSelectionChange = () => {
+      const selection = window.getSelection();
+      
+      if (!selection || selection.isCollapsed || selection.rangeCount === 0) {
+        setShowTextToolbar(false);
+        return;
+      }
+
+      // Check if selection is within a contentEditable element with data-eid
+      const range = selection.getRangeAt(0);
+      const container = range.commonAncestorContainer;
+      const element = container.nodeType === Node.TEXT_NODE 
+        ? container.parentElement 
+        : container as HTMLElement;
+      
+      if (!element) {
+        setShowTextToolbar(false);
+        return;
+      }
+
+      // Find the closest element with data-eid or contentEditable
+      const editableElement = element.closest('[data-eid][contenteditable="true"]') ||
+                              element.closest('[contenteditable="true"]');
+      
+      if (editableElement && selection.toString().trim().length > 0) {
+        setShowTextToolbar(true);
+      } else {
+        setShowTextToolbar(false);
+      }
+    };
+
+    // Listen for selection changes
+    document.addEventListener('selectionchange', handleSelectionChange);
+    
+    // Also hide toolbar on mousedown outside contentEditable elements
+    const handleMouseDown = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('[contenteditable="true"]') && !target.closest('.content-editable-toolbar')) {
+        setShowTextToolbar(false);
+      }
+    };
+    
+    document.addEventListener('mousedown', handleMouseDown);
+
+    return () => {
+      document.removeEventListener('selectionchange', handleSelectionChange);
+      document.removeEventListener('mousedown', handleMouseDown);
+    };
+  }, []);
 
   const handleSave = async () => {
     setIsSaving(true);
@@ -304,6 +357,9 @@ function EditorContent() {
     <div className="min-h-screen bg-slate-100 relative">
       {/* Mobile Warning Popup */}
       <MobileWarning />
+
+      {/* Floating Text Formatting Toolbar */}
+      <ContentEditableToolbar visible={showTextToolbar} />
 
       {/* Editor Toolbar */}
       <div className="fixed top-0 left-0 right-0 bg-slate-900 border-b border-slate-700 z-[100]">
