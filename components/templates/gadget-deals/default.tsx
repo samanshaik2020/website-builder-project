@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { SlateEditableText } from '@/components/editor/slate-editable-text';
 import { EditableImage } from '@/components/editor/editable-image';
 import { EditableButton } from '@/components/editor/editable-button';
 
@@ -31,19 +30,13 @@ const GadgetDealsTemplate: React.FC<GadgetDealsTemplateProps> = ({
     };
   };
 
-  const handleTextChange = (elementId: string, value: any) => {
+  const handleImageChange = (eid: string, imageUrl: string) => {
     if (onContentChange) {
-      onContentChange(elementId, value);
+      onContentChange(eid, { image: imageUrl });
     }
   };
 
-  const handleImageChange = (elementId: string, value: any) => {
-    if (onContentChange) {
-      onContentChange(elementId, value);
-    }
-  };
-
-  // Default product data for 30 items
+  // Default product data for 12 items (manageable number)
   const defaultProductData = [
     { name: 'Aura Wireless Headphones', description: 'Bluetooth 5.3 · 40hr Battery', price: '$149', originalPrice: '$199', discount: '25% OFF' },
     { name: 'Explorer Action Camera', description: '4K Video · Waterproof to 50m', price: '$255', originalPrice: '$300', discount: '15% OFF' },
@@ -57,49 +50,27 @@ const GadgetDealsTemplate: React.FC<GadgetDealsTemplateProps> = ({
     { name: 'MegaBlast Bluetooth Speaker', description: '360° Sound · Rich Bass', price: '$99', originalPrice: '$149', discount: '33% OFF' },
     { name: 'Stealth Noise-Cancelling Buds', description: 'Secure Fit · 8hr Battery', price: '$126', originalPrice: '$149', discount: '15% OFF' },
     { name: 'ChargeFast Power Bank', description: 'Slim Design · 18W PD Output', price: '$29', originalPrice: '$49', discount: '40% OFF' },
-    { name: 'VisionPro VR Headset', description: '4K Display · 120Hz Refresh', price: '$449', originalPrice: '$599', discount: '25% OFF' },
-    { name: 'TechFit Smart Scale', description: 'Body Composition Analysis', price: '$45', originalPrice: '$65', discount: '30% OFF' },
-    { name: 'AirPods Max Clone', description: 'Premium Sound · ANC', price: '$199', originalPrice: '$279', discount: '28% OFF' },
-    { name: 'DroneX Pro 4K', description: '30min Flight · GPS Return', price: '$399', originalPrice: '$549', discount: '27% OFF' },
-    { name: 'Gaming Mouse RGB', description: '16000 DPI · Wireless', price: '$59', originalPrice: '$89', discount: '33% OFF' },
-    { name: 'Mechanical Keyboard', description: 'Cherry MX · RGB Backlit', price: '$129', originalPrice: '$169', discount: '23% OFF' },
-    { name: 'Webcam 4K Pro', description: 'Auto Focus · Low Light', price: '$89', originalPrice: '$129', discount: '31% OFF' },
-    { name: 'USB-C Hub 10-in-1', description: 'HDMI · SD Card · Ethernet', price: '$39', originalPrice: '$59', discount: '33% OFF' },
-    { name: 'Wireless Charger Pad', description: '15W Fast Charge · MagSafe', price: '$25', originalPrice: '$39', discount: '35% OFF' },
-    { name: 'Smart Home Hub', description: 'Alexa · Google · HomeKit', price: '$79', originalPrice: '$119', discount: '33% OFF' },
-    { name: 'LED Desk Lamp', description: 'Wireless Charging · Touch', price: '$49', originalPrice: '$69', discount: '28% OFF' },
-    { name: 'Portable SSD 1TB', description: 'USB 3.2 · 1050MB/s', price: '$89', originalPrice: '$129', discount: '31% OFF' },
-    { name: 'Smart Doorbell Camera', description: '2K Video · Night Vision', price: '$99', originalPrice: '$149', discount: '33% OFF' },
-    { name: 'Robot Vacuum Cleaner', description: 'LiDAR · Auto Empty', price: '$299', originalPrice: '$449', discount: '33% OFF' },
-    { name: 'Air Purifier HEPA', description: 'Smart Sensor · Quiet Mode', price: '$149', originalPrice: '$199', discount: '25% OFF' },
-    { name: 'Electric Toothbrush', description: 'Sonic · 5 Modes · Timer', price: '$49', originalPrice: '$79', discount: '37% OFF' },
-    { name: 'Smart Thermostat', description: 'Energy Saving · App Control', price: '$129', originalPrice: '$179', discount: '27% OFF' },
-    { name: 'Security Camera System', description: '4 Cameras · NVR · 2TB', price: '$299', originalPrice: '$449', discount: '33% OFF' },
   ];
 
-  // Product images (cycle through these for variety)
+  // Product images
   const productImages = [
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuAIiIs8mg1OT0y8D-jr2tOwr_bWp6UvdF3R6duMgRiNsZ1foiYD805DltUYE62PikJOOIlSdQbSEJ2gDh66mZQx7TGM3XB4hc5c-2Ctw1UikOuCwsFDpKHSOx-UN05EcyVg-N6oCWDQZEwMYvvLeY4if_ftmLnbGRurB8F6GOBdFxPASZdCDm6rFvcb103KoSg1_ojXDxcf8ia2hXg21vPdARgbkqFeX-EJLc3pjyEbBzDhoaXHktbPUmHdFMD8FrycKaN9UdEGYAA',
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuBX8SYtfnRlRKfw3s44AIZkfqlK4DDwXjSMdqthHqqGYOcTvYsVLF9vCNaHAp78YjFJUd-gbmM9bzYBUcLGE9gb13xxFJQd3jGuc1-vNXAcd_23ca6jHYKorQDyzgK_NiwxQESfz6YTTMK9UBAQ4mqzRJeGQUFxbSU16FEFtvsksvuHa7C7sEHPgxLlhV9oc0eAm4YSreTwB_knVzIVc4pCeF6HEel4i0YQlbsHq-FZzSe1jmQ_OqVlB4LbDjW9blGJDrLEfI1eo40',
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuDvxWSspAi-zTTLg05TY_PC-ME-zZ99bVUiqc8J1ExjY8nlInRAem3cV1Zklx8BXBeyPaXL-b0C-bkmGH_hTKqmqqJNxyPs64iUgrL1t_wJbhBQbNfUrJ-CC8nNSY731PvLkjVb6p9nwZ9aygHV8cHaDHxjm9aVUof72H5r1-m4cDQW9A9Uge1bsP5JnRQ911lNdZNQzwuEcqbrnPKBDwmLWvWjcWvXwwETWiYOkK45BnvnVqxg2iQLCm5UBnWrzsjBL5CaOU3IXHM',
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuBUbAiqdM1ISDdviIUp0snyhHmgIQxCOWaWYfbToKdlRCv-HqLmR0BkdWQObwLKuQm7Y9qfbnvkjbRNZcR6ow-5zfsejpmSSo4duv195J5LULDI9bsiAsk3Gf45uMQr6-R2cGyDTjrSKYjGSojHb3wNj1NJpYDeKuk3NOP7XKq4fQGvrPbmAp1nyF0c8-ihLYluZVkOaVdLjeHK0VA6bwE51-CWuxYs1r5XwJb7Z_iHS3QMb6A3cJu2339UZGDBEjbVlFcYMREk1-s',
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuDAjgmWyaET_FCtm89ZKpwBspNaO9nkBb6k6eo8UZsrc1F2GEp34L0KF6iZuJnIB2t1NTonE0rPFRkoJh8YSOpbeVB_HhVEtRzFChHjdY4GVpNBXfy8meQxXHEi9f3wqsqc3JSpuUdn207VUcZIVEYeL846Fv-n8tIBoqaaxf9w_-HvC_i8D2HKuzMZC_n_7yNJxDj5MOjgyy5L78Ip-VeWlCLY7nTpshJNVuEMicBo4fHwX7u9HaRRcNBceoiQQTW5RUBG5ffbRME',
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuBy3NxO5HzIRNLU1prOXUlU22f8KwRJVbHP8adjUYxCTsM2pwhPrW3dPfNPOGCVCbz6vVdDl18aiRFp5meJXrEnWggxzC_Slp6EzxGHZ05FZWD-1JYDTO_T9BXwrWWStTjBVZ5_CqI2QmFoQ0XBTwciFu8f6WO6aOn99_am9FOoexqlugKWak5hx34YYcXzOQxcmdUaGG5w7EcPEyZB65VAkCOxDodYGzqeznTxqAJFRY3K2ceMmQPsQaBWAfI1nFGfVE9pxiTDvtI',
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuCWTbdvYQ3XS30taZwKJrefzdidQFupxiZS_5iGVRU0rBEZoPf7gqH9k9-PmI2NSOKbOFl2J2Dq97QMHy4Kh5p5CwSEyIcS3W4cFd4usAn4LU8rXxu6X6VQ-RV84e90KJlEtEk5Yc7pyI1cg8FeIBahEVumdkhwA8QtKemt89xEIUkL2TvzkCihcTEi7-XJtHzeuxK5ZZ4kJkywvZJWyWSRBQSno0h9LxVQPde8NAIzG-7M_md8rR7VkjJ3mUoqgJvnkaBq_SyUOSE',
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuBZdAbEad6sAnc_ETmt8jaFZK_m8nX26vfI0qEhKblIE_oHr0riTeNqq1hTGIHkd0v7iD-xF5yZBi6fFgSX4rTC804iDlbTxybbL-w2CV7-urdDC6L7c37PN0n5RUbidbtH8bF6meKAH4IJHBkzZeMolnPHvlEfkaN-GuKRM03nErAzy8jIEmJ9nqZ4dPvEutfGSonVStPkUAa4_GJwIMwso_K53mXnBTt5XHNqpzgBv_rp2NMQldCqdAYh5hH8Sqj_-3uJxjOhdbc',
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuApmNAs0W73e55Go8sNURJ6ON35OBdaIjPeai_guY23rvSz6IpOzeXgJTRNl91GGz_f58ZUht3DO3LUAly5xDVlBmTzcboAB1VkZLYdfEWdgl8-aPwjq4tCU3UhuhABpXae8GPzPd4XicrYER2671VfT2ZHA6XKVsWfNMsdelXpjeYb3dC94a1Itvm9DFdGcEE7X-m4ftch9G3RoXrQ9gtGNOK3MSkeVSFjn_9i-bz1uOf-BZhk-huU0krzFtlr2u1rdCeqzlXfIqo',
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuB1FVvz4BpcNCxyStPqp4BAS8VG0X5j0pKNVESVh1_7Zv7aOCPewZQFuQevCbBhuYHHj2o9fGwPo70qhavhhGm5ya_SRafJZL0m8uRhIQ8WquwtnbD-cRN1tsIJTe7-e9LegaQclkAwGXCIUSp98h_oOr_AJVY0ZGckH66D4O_029LfGv_oOQ2z_pnfadl9-7yBTK8xFEzwtUdjeQhDiZI8MSYdaaotmwWZFUUU42Jdxhmykj5CwdbITpjiVZj5zQ6D4M6VCT15IvM',
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuCb03XEwoPHhyjYl3XLyzO8qNAfUYggtNx0GWXPjZTWtLX5kuwIqkceMe2DvVYkTCezqlnMbgJSMl9Oa-Z8N4F5iHwJjcIBjX4xBrQvI8igN-5nvd7l87jTxD2c3o1rJshWZ21lrc2eINYJgf3ZRHyJUE884TV5sJmDT5q5uzToY0RQDAIaKcduppqiyrEtnEbHFC-kss8FRxzbwdIh8ik9UbmZJR6f_bu0r-D3AhUGKhmpZ8d5sV7St8dUEBZ3OjMm9E_vOBXgAHg',
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuDSi0wlLqg7i9MUlCljuaFyAEQsuHGyhM7ExGQQ4eoviD_EFn5PESZ4NWHI2HjMgauqMOxF8B5Q3OpvPKFb9rWrHsbklNnNyDfwu5m2m_knLLKm3PebD-gDiLMLNUjzajuAW68Szeu9WDcWqRX2Sj3Xdu_8fiCmDJ_LreSWfgU1ONDPSSGmDdeY2Vcj-0k5bKYjHIauv7xzDo__Pvv8ola49W8_9Yf8us9VFwzZxb4jXt1D6dz0HNFIM9kgJ9SwexrYQmgd0eY0-jQ',
+    'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop',
+    'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=400&h=400&fit=crop',
+    'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop',
+    'https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=400&h=400&fit=crop',
+    'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&h=400&fit=crop',
+    'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400&h=400&fit=crop',
+    'https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=400&h=400&fit=crop',
+    'https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=400&fit=crop',
+    'https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?w=400&h=400&fit=crop',
+    'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&h=400&fit=crop',
+    'https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?w=400&h=400&fit=crop',
+    'https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=400&h=400&fit=crop',
   ];
 
-  // Default fallback image
-  const fallbackImage = 'https://lh3.googleusercontent.com/aida-public/AB6AXuAIiIs8mg1OT0y8D-jr2tOwr_bWp6UvdF3R6duMgRiNsZ1foiYD805DltUYE62PikJOOIlSdQbSEJ2gDh66mZQx7TGM3XB4hc5c-2Ctw1UikOuCwsFDpKHSOx-UN05EcyVg-N6oCWDQZEwMYvvLeY4if_ftmLnbGRurB8F6GOBdFxPASZdCDm6rFvcb103KoSg1_ojXDxcf8ia2hXg21vPdARgbkqFeX-EJLc3pjyEbBzDhoaXHktbPUmHdFMD8FrycKaN9UdEGYAA';
-
-  // Generate 30 products dynamically
-  const products = Array.from({ length: 30 }, (_, i) => {
-    const productData = defaultProductData[i] || { name: `Gadget ${i + 1}`, description: 'Premium Quality', price: '$99', originalPrice: '$149', discount: '33% OFF' };
-    const defaultImg = productImages[i % productImages.length] ?? fallbackImage;
+  // Generate 12 products dynamically
+  const products = defaultProductData.map((productData, i) => {
+    const defaultImg = productImages[i] ?? productImages[0]!;
     return {
       id: i + 1,
       imageId: `product_${i + 1}_image`,
@@ -119,219 +90,269 @@ const GadgetDealsTemplate: React.FC<GadgetDealsTemplateProps> = ({
   });
 
   return (
-    <div className="font-['Inter',sans-serif] bg-[#f6f6f8] text-gray-900 min-h-screen">
+    <div className="font-sans bg-gray-50 text-gray-900 min-h-screen">
       {/* Header */}
-      <header className="flex items-center justify-center whitespace-nowrap border-b border-solid border-gray-200 bg-white sticky top-0 z-20 backdrop-blur-sm">
-        <div className="flex items-center justify-between w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-3">
-          <div className="flex items-center gap-8">
-            <div className="flex items-center gap-2 text-gray-900">
-              <span className="material-symbols-outlined text-[#135bec] text-3xl">devices</span>
-              <SlateEditableText
-                eid="nav_brand"
-                defaultText={getText('nav_brand', 'GadgetStore')}
-                className="text-xl font-bold leading-tight tracking-[-0.015em]"
-                editable={editable}
-                onChange={handleTextChange}
-              />
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <span
+                data-eid="nav_brand"
+                contentEditable={editable}
+                suppressContentEditableWarning
+                className="text-xl font-bold text-gray-900"
+                onBlur={(e) => onContentChange?.('nav_brand', { text: e.currentTarget.textContent })}
+              >
+                {getText('nav_brand', 'GadgetStore')}
+              </span>
             </div>
-            <div className="hidden md:flex items-center gap-8">
-              <SlateEditableText
-                eid="nav_link_1"
-                defaultText={getText('nav_link_1', 'Deals')}
-                className="text-gray-800 text-sm font-medium leading-normal cursor-pointer hover:text-[#135bec]"
-                editable={editable}
-                onChange={handleTextChange}
-              />
-              <SlateEditableText
-                eid="nav_link_2"
-                defaultText={getText('nav_link_2', 'New Arrivals')}
-                className="text-gray-800 text-sm font-medium leading-normal cursor-pointer hover:text-[#135bec]"
-                editable={editable}
-                onChange={handleTextChange}
-              />
-              <SlateEditableText
-                eid="nav_link_3"
-                defaultText={getText('nav_link_3', 'Categories')}
-                className="text-gray-800 text-sm font-medium leading-normal cursor-pointer hover:text-[#135bec]"
-                editable={editable}
-                onChange={handleTextChange}
-              />
-              <SlateEditableText
-                eid="nav_link_4"
-                defaultText={getText('nav_link_4', 'Support')}
-                className="text-gray-800 text-sm font-medium leading-normal cursor-pointer hover:text-[#135bec]"
-                editable={editable}
-                onChange={handleTextChange}
-              />
+            <nav className="hidden md:flex items-center gap-8">
+              <span
+                data-eid="nav_link_1"
+                contentEditable={editable}
+                suppressContentEditableWarning
+                className="text-sm font-medium text-gray-700 hover:text-blue-600 cursor-pointer"
+                onBlur={(e) => onContentChange?.('nav_link_1', { text: e.currentTarget.textContent })}
+              >
+                {getText('nav_link_1', 'Deals')}
+              </span>
+              <span
+                data-eid="nav_link_2"
+                contentEditable={editable}
+                suppressContentEditableWarning
+                className="text-sm font-medium text-gray-700 hover:text-blue-600 cursor-pointer"
+                onBlur={(e) => onContentChange?.('nav_link_2', { text: e.currentTarget.textContent })}
+              >
+                {getText('nav_link_2', 'New Arrivals')}
+              </span>
+              <span
+                data-eid="nav_link_3"
+                contentEditable={editable}
+                suppressContentEditableWarning
+                className="text-sm font-medium text-gray-700 hover:text-blue-600 cursor-pointer"
+                onBlur={(e) => onContentChange?.('nav_link_3', { text: e.currentTarget.textContent })}
+              >
+                {getText('nav_link_3', 'Categories')}
+              </span>
+              <span
+                data-eid="nav_link_4"
+                contentEditable={editable}
+                suppressContentEditableWarning
+                className="text-sm font-medium text-gray-700 hover:text-blue-600 cursor-pointer"
+                onBlur={(e) => onContentChange?.('nav_link_4', { text: e.currentTarget.textContent })}
+              >
+                {getText('nav_link_4', 'Support')}
+              </span>
+            </nav>
+            <div className="flex items-center gap-3">
+              <button className="p-2 hover:bg-gray-100 rounded-lg">
+                <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </button>
+              <button className="p-2 hover:bg-gray-100 rounded-lg">
+                <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+              </button>
+              <button className="p-2 hover:bg-gray-100 rounded-lg relative">
+                <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">3</span>
+              </button>
             </div>
-          </div>
-          <div className="flex flex-1 justify-end items-center gap-2">
-            <button className="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-transparent text-gray-800 gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 hover:bg-[#135bec]/10">
-              <span className="material-symbols-outlined">search</span>
-            </button>
-            <button className="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-transparent text-gray-800 gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 hover:bg-[#135bec]/10">
-              <span className="material-symbols-outlined">favorite</span>
-            </button>
-            <button className="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-transparent text-gray-800 gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 hover:bg-[#135bec]/10">
-              <span className="material-symbols-outlined">shopping_cart</span>
-            </button>
-            <div 
-              className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
-              style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuD-ba9q40n4A3azUV3DbJ7hnPsPT76CYEIJ3IZZg5q3jnC4jtzCXSsIrK6l7m9F_wYTyHQITA_y5lvYscMXbp369HtJU-fqow6WsCAChnDIXLp5g1-_KGFx93YvmzVCBegUy9sdvQufq0ql9LoQk7H6YSQqzS9oKq3VWNbkfuxnZ0_4sq-eBwEjokQ0wt79LRFe-QmepxMuoTx0cMGkvobnfxyAbwQgV2eYEvAdKD08Qjb665a-fgFy6LEcSSBO3eewqtaU9MkI0L4")' }}
-            />
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="flex flex-1 justify-center py-5 sm:py-8 lg:py-12">
-        <div className="flex flex-col max-w-7xl flex-1 px-4 sm:px-6 lg:px-8">
-          {/* Hero Title */}
-          <div className="flex flex-wrap justify-between items-baseline gap-4 mb-6">
-            <SlateEditableText
-              eid="hero_title"
-              defaultText={getText('hero_title', 'Top Deals on Gadgets — Big Discounts Live!')}
-              className="text-gray-900 text-3xl sm:text-4xl font-black leading-tight tracking-[-0.033em] min-w-72"
-              editable={editable}
-              onChange={handleTextChange}
-            />
-          </div>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Hero Title */}
+        <div className="mb-8">
+          <h1
+            data-eid="hero_title"
+            contentEditable={editable}
+            suppressContentEditableWarning
+            className="text-3xl sm:text-4xl font-black text-gray-900 mb-2"
+            onBlur={(e) => onContentChange?.('hero_title', { text: e.currentTarget.textContent })}
+          >
+            {getText('hero_title', 'Top Deals on Gadgets — Big Discounts Live!')}
+          </h1>
+          <p
+            data-eid="hero_subtitle"
+            contentEditable={editable}
+            suppressContentEditableWarning
+            className="text-gray-600"
+            onBlur={(e) => onContentChange?.('hero_subtitle', { text: e.currentTarget.textContent })}
+          >
+            {getText('hero_subtitle', 'Shop the best tech deals before they\'re gone')}
+          </p>
+        </div>
 
-          {/* Filter Buttons */}
-          <div className="flex gap-2 sm:gap-3 p-1 mb-6 sm:mb-8 overflow-x-auto">
-            <button className="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-white shadow-sm pl-4 pr-3 hover:bg-gray-50 transition-colors">
-              <SlateEditableText
-                eid="filter_1"
-                defaultText={getText('filter_1', 'Category')}
-                className="text-gray-800 text-sm font-medium leading-normal"
-                editable={editable}
-                onChange={handleTextChange}
-              />
-              <span className="material-symbols-outlined text-gray-600 !text-xl">expand_more</span>
-            </button>
-            <button className="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-white shadow-sm pl-4 pr-3 hover:bg-gray-50 transition-colors">
-              <SlateEditableText
-                eid="filter_2"
-                defaultText={getText('filter_2', 'Price')}
-                className="text-gray-800 text-sm font-medium leading-normal"
-                editable={editable}
-                onChange={handleTextChange}
-              />
-              <span className="material-symbols-outlined text-gray-600 !text-xl">expand_more</span>
-            </button>
-            <button className="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-white shadow-sm pl-4 pr-3 hover:bg-gray-50 transition-colors">
-              <SlateEditableText
-                eid="filter_3"
-                defaultText={getText('filter_3', 'Discount')}
-                className="text-gray-800 text-sm font-medium leading-normal"
-                editable={editable}
-                onChange={handleTextChange}
-              />
-              <span className="material-symbols-outlined text-gray-600 !text-xl">expand_more</span>
-            </button>
-            <button className="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-white shadow-sm pl-4 pr-3 hover:bg-gray-50 transition-colors">
-              <SlateEditableText
-                eid="filter_4"
-                defaultText={getText('filter_4', 'Popularity')}
-                className="text-gray-800 text-sm font-medium leading-normal"
-                editable={editable}
-                onChange={handleTextChange}
-              />
-              <span className="material-symbols-outlined text-gray-600 !text-xl">expand_more</span>
-            </button>
-          </div>
+        {/* Filter Buttons */}
+        <div className="flex gap-3 mb-8 overflow-x-auto pb-2">
+          <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 whitespace-nowrap">
+            <span
+              data-eid="filter_1"
+              contentEditable={editable}
+              suppressContentEditableWarning
+              className="text-sm font-medium text-gray-700"
+              onBlur={(e) => onContentChange?.('filter_1', { text: e.currentTarget.textContent })}
+            >
+              {getText('filter_1', 'Category')}
+            </span>
+            <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 whitespace-nowrap">
+            <span
+              data-eid="filter_2"
+              contentEditable={editable}
+              suppressContentEditableWarning
+              className="text-sm font-medium text-gray-700"
+              onBlur={(e) => onContentChange?.('filter_2', { text: e.currentTarget.textContent })}
+            >
+              {getText('filter_2', 'Price')}
+            </span>
+            <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 whitespace-nowrap">
+            <span
+              data-eid="filter_3"
+              contentEditable={editable}
+              suppressContentEditableWarning
+              className="text-sm font-medium text-gray-700"
+              onBlur={(e) => onContentChange?.('filter_3', { text: e.currentTarget.textContent })}
+            >
+              {getText('filter_3', 'Discount')}
+            </span>
+            <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 whitespace-nowrap">
+            <span
+              data-eid="filter_4"
+              contentEditable={editable}
+              suppressContentEditableWarning
+              className="text-sm font-medium text-gray-700"
+              onBlur={(e) => onContentChange?.('filter_4', { text: e.currentTarget.textContent })}
+            >
+              {getText('filter_4', 'Popularity')}
+            </span>
+            <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+        </div>
 
-          {/* Product Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
-            {products.map((product) => (
-              <div 
-                key={product.id}
-                className="flex flex-col gap-3 rounded-xl bg-white shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-in-out cursor-pointer"
-              >
-                <div className="relative w-full aspect-square overflow-hidden rounded-t-xl">
-                  <EditableImage
-                    eid={product.imageId}
-                    defaultSrc={getImage(product.imageId, product.defaultImage)}
-                    alt={getText(product.nameId, product.defaultName)}
-                    className="w-full h-full object-cover"
-                    editable={editable}
-                    onChange={handleImageChange}
-                  />
-                  <div className="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                    <SlateEditableText
-                      eid={product.discountId}
-                      defaultText={getText(product.discountId, product.defaultDiscount)}
-                      className="text-xs font-bold"
-                      editable={editable}
-                      onChange={handleTextChange}
-                    />
-                  </div>
-                </div>
-                <div className="p-4 pt-0">
-                  <SlateEditableText
-                    eid={product.nameId}
-                    defaultText={getText(product.nameId, product.defaultName)}
-                    className="text-gray-900 text-base font-bold leading-normal"
-                    editable={editable}
-                    onChange={handleTextChange}
-                  />
-                  <SlateEditableText
-                    eid={product.descriptionId}
-                    defaultText={getText(product.descriptionId, product.defaultDescription)}
-                    className="text-gray-500 text-sm font-normal leading-normal"
-                    editable={editable}
-                    onChange={handleTextChange}
-                  />
-                  <div className="flex items-baseline gap-2 mt-2">
-                    <SlateEditableText
-                      eid={product.priceId}
-                      defaultText={getText(product.priceId, product.defaultPrice)}
-                      className="text-gray-900 text-xl font-bold"
-                      editable={editable}
-                      onChange={handleTextChange}
-                    />
-                    <SlateEditableText
-                      eid={product.originalPriceId}
-                      defaultText={getText(product.originalPriceId, product.defaultOriginalPrice)}
-                      className="text-gray-400 text-sm font-normal leading-normal line-through"
-                      editable={editable}
-                      onChange={handleTextChange}
-                    />
-                  </div>
-                  <EditableButton
-                    eid={product.ctaId}
-                    defaultText={getButton(product.ctaId, 'Add to Cart').text}
-                    defaultUrl={getButton(product.ctaId, 'Add to Cart').url}
-                    className="w-full h-10 bg-[#135bec] text-white text-sm font-bold rounded-lg hover:bg-blue-600 transition-colors mt-3"
-                    editable={editable}
-                    onChange={handleTextChange}
-                  />
+        {/* Product Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {products.map((product) => (
+            <div 
+              key={product.id}
+              className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group"
+            >
+              <div className="relative aspect-square overflow-hidden">
+                <EditableImage
+                  eid={product.imageId}
+                  defaultSrc={getImage(product.imageId, product.defaultImage)}
+                  alt={getText(product.nameId, product.defaultName)}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  editable={editable}
+                  onChange={handleImageChange}
+                />
+                <div className="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                  <span
+                    data-eid={product.discountId}
+                    contentEditable={editable}
+                    suppressContentEditableWarning
+                    onBlur={(e) => onContentChange?.(product.discountId, { text: e.currentTarget.textContent })}
+                  >
+                    {getText(product.discountId, product.defaultDiscount)}
+                  </span>
                 </div>
               </div>
-            ))}
-          </div>
+              <div className="p-4">
+                <h3
+                  data-eid={product.nameId}
+                  contentEditable={editable}
+                  suppressContentEditableWarning
+                  className="font-bold text-gray-900 mb-1"
+                  onBlur={(e) => onContentChange?.(product.nameId, { text: e.currentTarget.textContent })}
+                >
+                  {getText(product.nameId, product.defaultName)}
+                </h3>
+                <p
+                  data-eid={product.descriptionId}
+                  contentEditable={editable}
+                  suppressContentEditableWarning
+                  className="text-sm text-gray-500 mb-3"
+                  onBlur={(e) => onContentChange?.(product.descriptionId, { text: e.currentTarget.textContent })}
+                >
+                  {getText(product.descriptionId, product.defaultDescription)}
+                </p>
+                <div className="flex items-baseline gap-2 mb-4">
+                  <span
+                    data-eid={product.priceId}
+                    contentEditable={editable}
+                    suppressContentEditableWarning
+                    className="text-xl font-bold text-gray-900"
+                    onBlur={(e) => onContentChange?.(product.priceId, { text: e.currentTarget.textContent })}
+                  >
+                    {getText(product.priceId, product.defaultPrice)}
+                  </span>
+                  <span
+                    data-eid={product.originalPriceId}
+                    contentEditable={editable}
+                    suppressContentEditableWarning
+                    className="text-sm text-gray-400 line-through"
+                    onBlur={(e) => onContentChange?.(product.originalPriceId, { text: e.currentTarget.textContent })}
+                  >
+                    {getText(product.originalPriceId, product.defaultOriginalPrice)}
+                  </span>
+                </div>
+                <EditableButton
+                  eid={product.ctaId}
+                  defaultText={getButton(product.ctaId, 'Add to Cart', '#').text}
+                  defaultUrl={getButton(product.ctaId, 'Add to Cart', '#').url}
+                  className="w-full py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+                  editable={editable}
+                  onChange={onContentChange}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
 
-          {/* Pagination */}
-          <div className="flex items-center justify-center p-4 mt-8">
-            <a className="flex size-10 items-center justify-center text-gray-600 hover:text-[#135bec]" href="#">
-              <span className="material-symbols-outlined">chevron_left</span>
-            </a>
-            <a className="text-sm font-bold leading-normal tracking-[0.015em] flex size-10 items-center justify-center text-white rounded-full bg-[#135bec]" href="#">1</a>
-            <a className="text-sm font-normal leading-normal flex size-10 items-center justify-center text-gray-800 rounded-full hover:bg-[#135bec]/10" href="#">2</a>
-            <a className="text-sm font-normal leading-normal flex size-10 items-center justify-center text-gray-800 rounded-full hover:bg-[#135bec]/10" href="#">3</a>
-            <span className="text-sm font-normal leading-normal flex size-10 items-center justify-center text-gray-800 rounded-full">...</span>
-            <a className="text-sm font-normal leading-normal flex size-10 items-center justify-center text-gray-800 rounded-full hover:bg-[#135bec]/10" href="#">8</a>
-            <a className="text-sm font-normal leading-normal flex size-10 items-center justify-center text-gray-800 rounded-full hover:bg-[#135bec]/10" href="#">9</a>
-            <a className="text-sm font-normal leading-normal flex size-10 items-center justify-center text-gray-800 rounded-full hover:bg-[#135bec]/10" href="#">10</a>
-            <a className="flex size-10 items-center justify-center text-gray-600 hover:text-[#135bec]" href="#">
-              <span className="material-symbols-outlined">chevron_right</span>
-            </a>
-          </div>
+        {/* Pagination */}
+        <div className="flex items-center justify-center gap-2 mt-10">
+          <button className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-gray-100">
+            <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-600 text-white font-semibold">1</button>
+          <button className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-700">2</button>
+          <button className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-700">3</button>
+          <span className="w-10 h-10 flex items-center justify-center text-gray-500">...</span>
+          <button className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-700">10</button>
+          <button className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-gray-100">
+            <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
         </div>
       </main>
-
-      {/* Material Symbols Font */}
-      <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
     </div>
   );
 };

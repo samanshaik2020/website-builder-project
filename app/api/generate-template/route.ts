@@ -219,11 +219,6 @@ function buildPromptForTemplate(templateSlug: string, seedText: string, theme?: 
     return buildMobileShopPrompt(seedText, theme);
   }
 
-  // Gadget Deals template has its own structure
-  if (templateSlug === 'gadget-deals') {
-    return buildGadgetDealsPrompt(seedText, theme);
-  }
-
   const baseInstructions = `You are a professional web content generator. Generate content for a ${templateSlug} template based on the following description: "${seedText}"${theme ? ` using the ${theme} theme style` : ''}.
 
 Return ONLY valid JSON (no markdown, no code blocks, no comments). The JSON must follow this exact structure with ALL fields:
@@ -1445,89 +1440,5 @@ Content Guidelines:
 - Adapt all content to the specific store type or product focus described in seedText
 
 Tone: Modern, trustworthy, deal-focused, and customer-friendly
-Return ONLY the JSON object, nothing else`;
-}
-
-// Prompt builder for Gadget Deals template
-function buildGadgetDealsPrompt(seedText: string, theme?: string) {
-  return `You are a professional e-commerce content generator specializing in gadget and electronics product listings. Generate content for a gadget deals listing page based on the following description: "${seedText}"${theme ? ` using the ${theme} theme style` : ''}.
-
-Return ONLY valid JSON (no markdown, no code blocks, no comments). The JSON must include ALL fields below:
-
-{
-  "nav_brand": "Store brand name (1-2 words, e.g., 'GadgetStore', 'TechDeals')",
-  "nav_link_1": "Navigation link 1 (1-2 words, e.g., 'Deals')",
-  "nav_link_2": "Navigation link 2 (1-2 words, e.g., 'New Arrivals')",
-  "nav_link_3": "Navigation link 3 (1-2 words, e.g., 'Categories')",
-  "nav_link_4": "Navigation link 4 (1-2 words, e.g., 'Support')",
-  
-  "hero_title": "Main headline (8-15 words, attention-grabbing, e.g., 'Top Deals on Gadgets — Big Discounts Live!')",
-  
-  "filter_1": "Filter button 1 (1-2 words, e.g., 'Category')",
-  "filter_2": "Filter button 2 (1-2 words, e.g., 'Price')",
-  "filter_3": "Filter button 3 (1-2 words, e.g., 'Discount')",
-  "filter_4": "Filter button 4 (1-2 words, e.g., 'Popularity')",
-  
-  "product_1_discount": "Product 1 discount badge (e.g., '25% OFF')",
-  "product_1_name": "Product 1 name (2-4 words, e.g., 'Aura Wireless Headphones')",
-  "product_1_description": "Product 1 description (3-6 words, e.g., 'Bluetooth 5.3 · 40hr Battery')",
-  "product_1_price": "Product 1 sale price (e.g., '$149')",
-  "product_1_original_price": "Product 1 original price (e.g., '$199')",
-  
-  "product_2_discount": "Product 2 discount badge (e.g., '15% OFF')",
-  "product_2_name": "Product 2 name (2-4 words)",
-  "product_2_description": "Product 2 description (3-6 words)",
-  "product_2_price": "Product 2 sale price",
-  "product_2_original_price": "Product 2 original price",
-  
-  "product_3_discount": "Product 3 discount badge (e.g., '10% OFF')",
-  "product_3_name": "Product 3 name (2-4 words)",
-  "product_3_description": "Product 3 description (3-6 words)",
-  "product_3_price": "Product 3 sale price",
-  "product_3_original_price": "Product 3 original price",
-  
-  "product_4_discount": "Product 4 discount badge (e.g., '30% OFF')",
-  "product_4_name": "Product 4 name (2-4 words)",
-  "product_4_description": "Product 4 description (3-6 words)",
-  "product_4_price": "Product 4 sale price",
-  "product_4_original_price": "Product 4 original price",
-  
-  "product_5_discount": "Product 5 discount badge (e.g., '20% OFF')",
-  "product_5_name": "Product 5 name (2-4 words)",
-  "product_5_description": "Product 5 description (3-6 words)",
-  "product_5_price": "Product 5 sale price",
-  "product_5_original_price": "Product 5 original price",
-  
-  "product_6_discount": "Product 6 discount badge (e.g., '35% OFF')",
-  "product_6_name": "Product 6 name (2-4 words)",
-  "product_6_description": "Product 6 description (3-6 words)",
-  "product_6_price": "Product 6 sale price",
-  "product_6_original_price": "Product 6 original price",
-  
-  "product_7_discount": "Product 7 discount badge (e.g., '22% OFF')",
-  "product_7_name": "Product 7 name (2-4 words)",
-  "product_7_description": "Product 7 description (3-6 words)",
-  "product_7_price": "Product 7 sale price",
-  "product_7_original_price": "Product 7 original price",
-  
-  "product_8_discount": "Product 8 discount badge (e.g., '18% OFF')",
-  "product_8_name": "Product 8 name (2-4 words)",
-  "product_8_description": "Product 8 description (3-6 words)",
-  "product_8_price": "Product 8 sale price",
-  "product_8_original_price": "Product 8 original price"
-}
-
-Content Guidelines:
-- Create compelling gadget and electronics product listings
-- Use varied discount percentages (10% to 40% OFF)
-- Product names should sound like real gadget products (e.g., 'Quantum Earbuds Pro', 'Nova Smartwatch', 'PowerUp Bank')
-- Descriptions should highlight key features (e.g., 'Bluetooth 5.3 · 40hr Battery', '4K Video · Waterproof')
-- Prices should range from budget ($29) to premium ($449)
-- Hero title should emphasize deals and discounts
-- Navigation links should be relevant to e-commerce
-- Filter buttons should be relevant to gadget shopping
-- Adapt all content to the specific store type or product focus described in seedText
-
-Tone: Modern, tech-savvy, deal-focused, and customer-friendly
 Return ONLY the JSON object, nothing else`;
 }

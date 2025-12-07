@@ -115,8 +115,8 @@ export default function HomePage() {
     },
   };
 
-  const titleText1 = "Create Beautiful Websites".split("");
-  const titleText2 = "In Minutes".split("");
+  const titleWords1 = "Create Beautiful Websites".split(" ");
+  const titleWords2 = "In Minutes".split(" ");
   
   // Stats data
   const stats = [
@@ -260,19 +260,19 @@ export default function HomePage() {
             <motion.span className="px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-600 text-xs font-semibold" animate={{ opacity: [1, 0.7, 1] }} transition={{ duration: 2, repeat: Infinity }}>NEW</motion.span>
           </motion.div>
 
-          {/* Main Heading with enhanced letter animation */}
+          {/* Main Heading with word animation */}
           <div className="mb-8 leading-tight perspective-1000">
-            <motion.h1 variants={letterContainerVariants} initial="hidden" animate="visible" className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-slate-900 inline-block">
-              {titleText1.map((char, index) => (
-                <motion.span key={index} variants={letterVariants} className="inline-block hover:text-indigo-600 transition-colors cursor-default" whileHover={{ scale: 1.2, color: "#4f46e5" }}>
-                  {char === " " ? "\u00A0" : char}
+            <motion.h1 variants={letterContainerVariants} initial="hidden" animate="visible" className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-slate-900">
+              {titleWords1.map((word, index) => (
+                <motion.span key={index} variants={letterVariants} className="inline-block hover:text-indigo-600 transition-colors cursor-default mr-[0.25em]" whileHover={{ scale: 1.05, color: "#4f46e5" }}>
+                  {word}
                 </motion.span>
               ))}
               <br />
               <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent bg-300% animate-gradient">
-                {titleText2.map((char, index) => (
-                  <motion.span key={index} variants={letterVariants} className="inline-block" whileHover={{ scale: 1.2 }}>
-                    {char === " " ? "\u00A0" : char}
+                {titleWords2.map((word, index) => (
+                  <motion.span key={index} variants={letterVariants} className="inline-block mr-[0.25em]" whileHover={{ scale: 1.05 }}>
+                    {word}
                   </motion.span>
                 ))}
               </span>

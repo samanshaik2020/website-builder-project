@@ -1,7 +1,7 @@
-// Generate product fields dynamically for 30 products
+// Generate product fields dynamically for 12 products
 const generateProductFields = () => {
   const fields: Array<{ id: string; type: string; label: string }> = [];
-  for (let i = 1; i <= 30; i++) {
+  for (let i = 1; i <= 12; i++) {
     fields.push(
       { id: `product_${i}_image`, type: 'image', label: `Product ${i} Image` },
       { id: `product_${i}_discount`, type: 'text', label: `Product ${i} Discount` },
@@ -18,9 +18,9 @@ const generateProductFields = () => {
 export const gadgetDealsConfig = {
   id: 'gadget-deals',
   name: 'Gadget Deals',
-  description: 'E-commerce gadget deals listing page with 30 product cards, filters, discount badges, and dark mode support',
+  description: 'E-commerce gadget deals listing page with product cards, filters, and discount badges',
   category: 'ecommerce',
-  thumbnail: '/gadget-deals.png',
+  thumbnail: '/Gadget Deals.png',
   editableFields: [
     // Header
     { id: 'nav_brand', type: 'text', label: 'Brand Name' },
@@ -30,12 +30,13 @@ export const gadgetDealsConfig = {
     { id: 'nav_link_4', type: 'text', label: 'Nav Link 4' },
     // Hero
     { id: 'hero_title', type: 'text', label: 'Hero Title' },
+    { id: 'hero_subtitle', type: 'text', label: 'Hero Subtitle' },
     // Filters
     { id: 'filter_1', type: 'text', label: 'Filter 1' },
     { id: 'filter_2', type: 'text', label: 'Filter 2' },
     { id: 'filter_3', type: 'text', label: 'Filter 3' },
     { id: 'filter_4', type: 'text', label: 'Filter 4' },
-    // Products (30 items)
+    // Products (12 items)
     ...generateProductFields(),
   ],
 };
