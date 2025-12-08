@@ -21,6 +21,8 @@ import { MegaDiscountTemplate, megaDiscountConfig } from '@/components/templates
 import { FestivalSaleTemplate, festivalSaleConfig } from '@/components/templates/festival-sale';
 import { MobileShopTemplate, mobileShopConfig } from '@/components/templates/mobile-shop';
 import { GadgetDealsTemplate, gadgetDealsConfig } from '@/components/templates/gadget-deals';
+import { GalaxyPhoneTemplate, galaxyPhoneConfig } from '@/components/templates/galaxy-phone';
+import { GlassmorphismProductTemplate, glassmorphismProductConfig } from '@/components/templates/glassmorphism-product';
 
 export const templates = {
   portfolio: {
@@ -122,6 +124,14 @@ export const templates = {
   'gadget-deals': {
     component: GadgetDealsTemplate,
     config: gadgetDealsConfig,
+  },
+  'galaxy-phone': {
+    component: GalaxyPhoneTemplate,
+    config: galaxyPhoneConfig,
+  },
+  'glassmorphism-product': {
+    component: GlassmorphismProductTemplate,
+    config: glassmorphismProductConfig,
   },
 } as const;
 

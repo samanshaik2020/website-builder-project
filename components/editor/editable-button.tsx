@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Link2, X } from 'lucide-react';
 
 interface EditableButtonProps {
@@ -25,8 +26,13 @@ export const EditableButton: React.FC<EditableButtonProps> = ({
   const [text, setText] = useState(defaultText);
   const [url, setUrl] = useState(defaultUrl);
   const [showUrlInput, setShowUrlInput] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const urlInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     setText(defaultText);
@@ -135,8 +141,8 @@ export const EditableButton: React.FC<EditableButtonProps> = ({
         )}
       </button>
 
-      {/* URL Input Modal */}
-      {showUrlInput && (
+      {/* URL Input Modal - Use portal to render outside template DOM */}
+      {mounted && showUrlInput && createPortal(
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-start justify-center z-[10000] pt-32">
           <div className="bg-white rounded-2xl p-6 max-w-md w-full mx-4 shadow-2xl">
             <div className="flex items-center justify-between mb-4">
@@ -197,7 +203,8 @@ export const EditableButton: React.FC<EditableButtonProps> = ({
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

@@ -262,7 +262,7 @@ function EditorContent() {
     setIsSaving(true);
 
     try {
-      // Merge projectData (which has button URLs) with DOM content
+      // Merge projectData (which has button URLs and images) with DOM content
       const elements = document.querySelectorAll('[data-eid]');
       const data: Record<string, any> = { ...projectData };
 
@@ -270,6 +270,11 @@ function EditorContent() {
         const eid = element.getAttribute('data-eid');
         if (eid) {
           const isButton = element.tagName === 'BUTTON';
+          // Check if this is an image element (either IMG tag, or has image data, or contains an IMG child)
+          const isImage = element.tagName === 'IMG' || 
+                          data[eid]?.image || 
+                          element.querySelector('img') !== null;
+          
           if (isButton) {
             // Preserve existing button data (URL) and only update text if needed
             if (!data[eid]?.button) {
@@ -283,8 +288,11 @@ function EditorContent() {
                 } 
               };
             }
+          } else if (isImage) {
+            // Preserve existing image data - don't overwrite with text
+            // Image data is already in projectData from handleContentChange
           } else {
-            // For non-button elements, update text from DOM
+            // For non-button, non-image elements, update text from DOM
             data[eid] = { text: element.textContent || '' };
           }
         }

@@ -100,6 +100,10 @@ export default function TemplatesPage() {
         return '/Mobile Shop.png';
       case 'gadget-deals':
         return '/Gadget Deals.png';
+      case 'galaxy-phone':
+        return '/Galaxy Phone Product.png';
+      case 'glassmorphism-product':
+        return '/Glassmorphism Product.png';
       default:
         return null;
     }

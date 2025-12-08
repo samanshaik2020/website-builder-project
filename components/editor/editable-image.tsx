@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { ImageIcon, Edit } from 'lucide-react';
 import { ImageSidebar } from './image-sidebar';
 
@@ -28,6 +29,12 @@ export const EditableImage: React.FC<EditableImageProps> = ({
   const [imageSrc, setImageSrc] = useState(defaultSrc);
   const [showSidebar, setShowSidebar] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  // Ensure we're mounted before using portal (for SSR compatibility)
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleImageSelect = (imageUrl: string) => {
     setImageSrc(imageUrl);
@@ -101,12 +108,16 @@ export const EditableImage: React.FC<EditableImageProps> = ({
         )}
       </div>
 
-      <ImageSidebar
-        isOpen={showSidebar}
-        onClose={() => setShowSidebar(false)}
-        onImageSelect={handleImageSelect}
-        currentImageUrl={imageSrc}
-      />
+      {/* Use portal to render sidebar outside of template DOM to avoid stacking context issues */}
+      {mounted && createPortal(
+        <ImageSidebar
+          isOpen={showSidebar}
+          onClose={() => setShowSidebar(false)}
+          onImageSelect={handleImageSelect}
+          currentImageUrl={imageSrc}
+        />,
+        document.body
+      )}
     </>
   );
 };

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight, Link2, Type, Palette } from 'lucide-react';
 
 interface ContentEditableToolbarProps {
@@ -14,6 +14,26 @@ export const ContentEditableToolbar: React.FC<ContentEditableToolbarProps> = ({ 
   const [showFontSize, setShowFontSize] = useState(false);
   const [showLinkInput, setShowLinkInput] = useState(false);
   const [linkUrl, setLinkUrl] = useState('');
+  const savedSelectionRef = useRef<Range | null>(null);
+
+  // Save the current selection
+  const saveSelection = useCallback(() => {
+    const selection = window.getSelection();
+    if (selection && selection.rangeCount > 0) {
+      savedSelectionRef.current = selection.getRangeAt(0).cloneRange();
+    }
+  }, []);
+
+  // Restore the saved selection
+  const restoreSelection = useCallback(() => {
+    if (savedSelectionRef.current) {
+      const selection = window.getSelection();
+      if (selection) {
+        selection.removeAllRanges();
+        selection.addRange(savedSelectionRef.current);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     const el = ref.current;
@@ -23,7 +43,14 @@ export const ContentEditableToolbar: React.FC<ContentEditableToolbarProps> = ({ 
       setShowColorPicker(false);
       setShowFontSize(false);
       setShowLinkInput(false);
+      savedSelectionRef.current = null;
       return;
+    }
+
+    // Save selection when toolbar becomes visible
+    const selection = window.getSelection();
+    if (selection && selection.rangeCount > 0) {
+      savedSelectionRef.current = selection.getRangeAt(0).cloneRange();
     }
 
     const updatePosition = () => {
@@ -72,31 +99,65 @@ export const ContentEditableToolbar: React.FC<ContentEditableToolbarProps> = ({ 
     };
   }, [visible]);
 
-  const applyFormat = (command: string, value?: string) => {
+  const applyFormat = useCallback((command: string, value?: string) => {
+    restoreSelection();
     document.execCommand(command, false, value);
-  };
+    // Re-save selection after applying format
+    saveSelection();
+  }, [restoreSelection, saveSelection]);
 
   const isFormatActive = (command: string): boolean => {
     return document.queryCommandState(command);
   };
 
-  const applyColor = (color: string) => {
-    applyFormat('foreColor', color);
+  const applyColor = useCallback((color: string) => {
+    restoreSelection();
+    document.execCommand('foreColor', false, color);
+    saveSelection();
     setShowColorPicker(false);
-  };
+  }, [restoreSelection, saveSelection]);
 
-  const applyFontSize = (size: string) => {
-    applyFormat('fontSize', size);
+  const applyFontSize = useCallback((size: string) => {
+    restoreSelection();
+    document.execCommand('fontSize', false, size);
+    saveSelection();
     setShowFontSize(false);
-  };
+  }, [restoreSelection, saveSelection]);
 
-  const applyLink = () => {
+  const applyLink = useCallback(() => {
     if (linkUrl) {
-      applyFormat('createLink', linkUrl);
+      restoreSelection();
+      document.execCommand('createLink', false, linkUrl);
+      saveSelection();
       setLinkUrl('');
       setShowLinkInput(false);
     }
-  };
+  }, [linkUrl, restoreSelection, saveSelection]);
+
+  // Handle alignment - needs to work on the parent element
+  const applyAlignment = useCallback((alignment: 'left' | 'center' | 'right') => {
+    restoreSelection();
+    const selection = window.getSelection();
+    if (selection && selection.rangeCount > 0) {
+      const range = selection.getRangeAt(0);
+      let element = range.commonAncestorContainer as HTMLElement;
+      
+      // Get the actual element if it's a text node
+      if (element.nodeType === Node.TEXT_NODE) {
+        element = element.parentElement as HTMLElement;
+      }
+      
+      // Find the contentEditable parent or a block-level element
+      const editableParent = element.closest('[contenteditable="true"]') || 
+                             element.closest('[data-eid]') ||
+                             element;
+      
+      if (editableParent && editableParent instanceof HTMLElement) {
+        editableParent.style.textAlign = alignment;
+      }
+    }
+    saveSelection();
+  }, [restoreSelection, saveSelection]);
 
   if (!visible) return null;
 
@@ -116,17 +177,23 @@ export const ContentEditableToolbar: React.FC<ContentEditableToolbarProps> = ({ 
   return (
     <div
       ref={ref}
-      className="absolute z-[9999] bg-slate-900 border border-slate-700 rounded-lg shadow-2xl px-2 py-2 flex items-center gap-1 pointer-events-auto"
+      className="content-editable-toolbar absolute z-[9999] bg-slate-900 border border-slate-700 rounded-lg shadow-2xl px-2 py-2 flex items-center gap-1 pointer-events-auto"
       style={{
         top: `${position.top}px`,
         left: `${position.left}px`,
         visibility: position.top === 0 && position.left === 0 ? 'hidden' : 'visible',
+      }}
+      onMouseDown={(e) => {
+        // Prevent toolbar clicks from deselecting text
+        e.preventDefault();
+        e.stopPropagation();
       }}
     >
       {/* Bold */}
       <button
         onMouseDown={(e) => {
           e.preventDefault();
+          e.stopPropagation();
           applyFormat('bold');
         }}
         className={`p-2 rounded hover:bg-slate-800 transition-colors ${
@@ -141,6 +208,7 @@ export const ContentEditableToolbar: React.FC<ContentEditableToolbarProps> = ({ 
       <button
         onMouseDown={(e) => {
           e.preventDefault();
+          e.stopPropagation();
           applyFormat('italic');
         }}
         className={`p-2 rounded hover:bg-slate-800 transition-colors ${
@@ -155,6 +223,7 @@ export const ContentEditableToolbar: React.FC<ContentEditableToolbarProps> = ({ 
       <button
         onMouseDown={(e) => {
           e.preventDefault();
+          e.stopPropagation();
           applyFormat('underline');
         }}
         className={`p-2 rounded hover:bg-slate-800 transition-colors ${
@@ -172,6 +241,8 @@ export const ContentEditableToolbar: React.FC<ContentEditableToolbarProps> = ({ 
         <button
           onMouseDown={(e) => {
             e.preventDefault();
+            e.stopPropagation();
+            saveSelection(); // Save selection before opening dropdown
             setShowColorPicker(!showColorPicker);
             setShowFontSize(false);
             setShowLinkInput(false);
@@ -188,6 +259,7 @@ export const ContentEditableToolbar: React.FC<ContentEditableToolbarProps> = ({ 
                 key={color}
                 onMouseDown={(e) => {
                   e.preventDefault();
+                  e.stopPropagation();
                   applyColor(color);
                 }}
                 className="w-6 h-6 rounded border-2 border-slate-600 hover:border-purple-500 transition-colors"
@@ -204,6 +276,8 @@ export const ContentEditableToolbar: React.FC<ContentEditableToolbarProps> = ({ 
         <button
           onMouseDown={(e) => {
             e.preventDefault();
+            e.stopPropagation();
+            saveSelection(); // Save selection before opening dropdown
             setShowFontSize(!showFontSize);
             setShowColorPicker(false);
             setShowLinkInput(false);
@@ -220,6 +294,7 @@ export const ContentEditableToolbar: React.FC<ContentEditableToolbarProps> = ({ 
                 key={size.value}
                 onMouseDown={(e) => {
                   e.preventDefault();
+                  e.stopPropagation();
                   applyFontSize(size.value);
                 }}
                 className="w-full px-4 py-2 text-left text-slate-300 hover:bg-slate-700 transition-colors first:rounded-t-lg last:rounded-b-lg"
@@ -236,6 +311,8 @@ export const ContentEditableToolbar: React.FC<ContentEditableToolbarProps> = ({ 
         <button
           onMouseDown={(e) => {
             e.preventDefault();
+            e.stopPropagation();
+            saveSelection(); // Save selection before opening dropdown
             setShowLinkInput(!showLinkInput);
             setShowColorPicker(false);
             setShowFontSize(false);
@@ -263,6 +340,7 @@ export const ContentEditableToolbar: React.FC<ContentEditableToolbarProps> = ({ 
             <button
               onMouseDown={(e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 applyLink();
               }}
               className="w-full px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded text-sm font-medium transition-colors"
@@ -279,7 +357,8 @@ export const ContentEditableToolbar: React.FC<ContentEditableToolbarProps> = ({ 
       <button
         onMouseDown={(e) => {
           e.preventDefault();
-          applyFormat('justifyLeft');
+          e.stopPropagation();
+          applyAlignment('left');
         }}
         className="p-2 rounded hover:bg-slate-800 transition-colors text-slate-300"
         title="Align Left"
@@ -291,7 +370,8 @@ export const ContentEditableToolbar: React.FC<ContentEditableToolbarProps> = ({ 
       <button
         onMouseDown={(e) => {
           e.preventDefault();
-          applyFormat('justifyCenter');
+          e.stopPropagation();
+          applyAlignment('center');
         }}
         className="p-2 rounded hover:bg-slate-800 transition-colors text-slate-300"
         title="Align Center"
@@ -303,7 +383,8 @@ export const ContentEditableToolbar: React.FC<ContentEditableToolbarProps> = ({ 
       <button
         onMouseDown={(e) => {
           e.preventDefault();
-          applyFormat('justifyRight');
+          e.stopPropagation();
+          applyAlignment('right');
         }}
         className="p-2 rounded hover:bg-slate-800 transition-colors text-slate-300"
         title="Align Right"

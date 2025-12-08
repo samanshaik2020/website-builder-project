@@ -11,7 +11,6 @@ export async function POST(req: NextRequest) {
     const body = await req.json() as ReqBody;
     const { templateSlug, seedText, theme } = body;
 
-    console.log('🤖 AI Generation Request:', { templateSlug, seedText: seedText.substring(0, 50) + '...', theme });
 
     if (!templateSlug || !seedText) {
       return NextResponse.json(
@@ -26,14 +25,12 @@ export async function POST(req: NextRequest) {
     // Get API key from environment (supports both GOOGLE_API_KEY and GEMINI_API_KEY)
     const apiKey = process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      console.error('❌ API key not found in environment variables');
       return NextResponse.json(
         { error: 'Google/Gemini API key not configured. Please add GOOGLE_API_KEY or GEMINI_API_KEY to your .env.local file' },
         { status: 500 }
       );
     }
 
-    console.log('✅ API Key found:', apiKey.substring(0, 10) + '...');
 
     // Call Google Gemini API (using stable gemini-2.0-flash model)
     const response = await fetch(
@@ -59,26 +56,22 @@ export async function POST(req: NextRequest) {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('❌ Gemini API error:', response.status, errorText);
       return NextResponse.json(
         { error: 'AI provider error', detail: errorText, status: response.status },
         { status: 502 }
       );
     }
 
-    console.log('✅ Gemini API response received');
     const data = await response.json();
     const raw = data?.candidates?.[0]?.content?.parts?.[0]?.text;
     
     if (!raw) {
-      console.error('❌ No content in AI response:', JSON.stringify(data, null, 2));
       return NextResponse.json(
         { error: 'No content from AI', response: data },
         { status: 502 }
       );
     }
 
-    console.log('✅ AI content extracted, parsing JSON...');
 
     // Parse JSON robustly (AI sometimes adds markdown code blocks)
     let generatedJson;
@@ -86,24 +79,19 @@ export async function POST(req: NextRequest) {
       // Remove markdown code blocks if present
       const cleanedRaw = raw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
       generatedJson = JSON.parse(cleanedRaw);
-      console.log('✅ JSON parsed successfully');
-    } catch (parseError) {
-      console.error('❌ JSON parse error:', parseError);
+    } catch {
       // Try to extract JSON from the response
       const jsonMatch = raw.match(/\{[\s\S]*\}/);
       if (jsonMatch) {
         try {
           generatedJson = JSON.parse(jsonMatch[0]);
-          console.log('✅ JSON extracted and parsed from text');
-        } catch (e) {
-          console.error('❌ Failed to parse extracted JSON:', e);
+        } catch {
           return NextResponse.json(
             { error: 'Could not parse JSON from AI response', raw: raw.substring(0, 500) },
             { status: 400 }
           );
         }
       } else {
-        console.error('❌ No JSON found in response');
         return NextResponse.json(
           { error: 'Could not parse JSON from AI response', raw: raw.substring(0, 500) },
           { status: 400 }
@@ -113,18 +101,14 @@ export async function POST(req: NextRequest) {
 
     // Basic validation
     if (!generatedJson || typeof generatedJson !== 'object') {
-      console.error('❌ Invalid JSON structure:', generatedJson);
       return NextResponse.json(
         { error: 'Generated JSON is invalid', sample: generatedJson },
         { status: 400 }
       );
     }
 
-    console.log('✅ Content generation successful!');
     return NextResponse.json({ data: generatedJson });
   } catch (err: any) {
-    console.error('❌ generate-template error:', err);
-    console.error('Error stack:', err.stack);
     return NextResponse.json(
       { error: err.message || String(err), stack: err.stack },
       { status: 500 }
@@ -217,6 +201,11 @@ function buildPromptForTemplate(templateSlug: string, seedText: string, theme?: 
   // Mobile Shop template has its own structure
   if (templateSlug === 'mobile-shop') {
     return buildMobileShopPrompt(seedText, theme);
+  }
+
+  // Galaxy Phone template has its own structure
+  if (templateSlug === 'galaxy-phone') {
+    return buildGalaxyPhonePrompt(seedText, theme);
   }
 
   const baseInstructions = `You are a professional web content generator. Generate content for a ${templateSlug} template based on the following description: "${seedText}"${theme ? ` using the ${theme} theme style` : ''}.
@@ -1440,5 +1429,87 @@ Content Guidelines:
 - Adapt all content to the specific store type or product focus described in seedText
 
 Tone: Modern, trustworthy, deal-focused, and customer-friendly
+Return ONLY the JSON object, nothing else`;
+}
+
+// Prompt builder for Galaxy Phone template
+function buildGalaxyPhonePrompt(seedText: string, theme?: string) {
+  return `You are a professional product page content generator specializing in flagship smartphones. Generate content for a Galaxy-style phone product page based on the following description: "${seedText}"${theme ? ` using the ${theme} theme style` : ''}.
+
+Return ONLY valid JSON (no markdown, no code blocks, no comments). The JSON must include ALL fields below:
+
+{
+  "nav_brand": "Brand name (1-2 words, e.g., 'Galaxy', 'Pixel', 'iPhone')",
+  "nav_link_1": "Navigation link 1 (1-2 words, e.g., 'Phones')",
+  "nav_link_2": "Navigation link 2 (1-2 words, e.g., 'Tablets')",
+  "nav_link_3": "Navigation link 3 (1-2 words, e.g., 'Watches')",
+  "nav_link_4": "Navigation link 4 (1-2 words, e.g., 'Deals')",
+  
+  "hero_title": "Product name with model (3-6 words, e.g., 'Galaxy S25 Ultra 5G')",
+  "hero_rating": "Rating score (e.g., '4.8', '4.9')",
+  "hero_reviews_count": "Reviews count text (e.g., '1,284 reviews')",
+  
+  "price_current": "Current sale price (e.g., '$999.00')",
+  "price_original": "Original price (e.g., '$1299.00')",
+  "price_discount": "Discount badge (e.g., '-30%', '-25%')",
+  "price_savings": "Savings text (15-25 words, e.g., 'You save $300.00. Free delivery by Tomorrow.')",
+  
+  "color_label": "Color label (1 word, e.g., 'Color:')",
+  "color_name": "Selected color name (1-3 words, e.g., 'Titanium Gray')",
+  
+  "storage_label": "Storage label (1 word, e.g., 'Storage:')",
+  "storage_selected": "Selected storage (e.g., '256GB')",
+  "storage_option_1": "Storage option 1 (e.g., '256GB')",
+  "storage_option_2": "Storage option 2 (e.g., '512GB')",
+  "storage_option_3": "Storage option 3 (e.g., '1TB')",
+  
+  "cta_buy_now": { "text": "Buy button text (2-3 words, e.g., 'Buy Now')", "url": "#" },
+  "cta_add_cart": { "text": "Cart button text (2-4 words, e.g., 'Add to Cart')", "url": "#" },
+  
+  "highlights_title": "Highlights section title (2-4 words, e.g., 'Quick Highlights')",
+  "highlight_1_title": "Highlight 1 title (2-4 words, e.g., 'Pro-Grade Camera')",
+  "highlight_1_description": "Highlight 1 description (10-15 words, camera feature)",
+  "highlight_2_title": "Highlight 2 title (2-4 words, e.g., 'All-Day Battery')",
+  "highlight_2_description": "Highlight 2 description (10-15 words, battery feature)",
+  "highlight_3_title": "Highlight 3 title (2-4 words, e.g., 'Dynamic Display')",
+  "highlight_3_description": "Highlight 3 description (10-15 words, display feature)",
+  "highlight_4_title": "Highlight 4 title (2-4 words, e.g., 'Ultimate Performance')",
+  "highlight_4_description": "Highlight 4 description (10-15 words, performance feature)",
+  
+  "specs_title": "Specs section title (2-4 words, e.g., 'Detailed Specifications')",
+  "spec_1_label": "Spec 1 label (1-2 words, e.g., 'Display')",
+  "spec_1_value": "Spec 1 value (technical spec, e.g., '6.8\" Quad HD+ Dynamic AMOLED 2X, 120Hz')",
+  "spec_2_label": "Spec 2 label (1-2 words, e.g., 'Processor')",
+  "spec_2_value": "Spec 2 value (technical spec, e.g., 'Snapdragon 9 Gen 4')",
+  "spec_3_label": "Spec 3 label (1-2 words, e.g., 'RAM')",
+  "spec_3_value": "Spec 3 value (technical spec, e.g., '12GB / 16GB')",
+  "spec_4_label": "Spec 4 label (1-2 words, e.g., 'Camera')",
+  "spec_4_value": "Spec 4 value (technical spec, e.g., '200MP Wide, 12MP Ultra-Wide, 50MP Telephoto')",
+  "spec_5_label": "Spec 5 label (1-2 words, e.g., 'Battery')",
+  "spec_5_value": "Spec 5 value (technical spec, e.g., '5,000mAh, 45W Super Fast Charging')",
+  
+  "reviews_title": "Reviews section title (2-4 words, e.g., 'Customer Reviews')",
+  "reviews_rating": "Overall rating (e.g., '4.8')",
+  "reviews_total": "Total reviews text (e.g., 'Based on 1,284 reviews')",
+  "reviews_5_star": "5 star percentage (e.g., '85%')",
+  "reviews_4_star": "4 star percentage (e.g., '10%')",
+  "reviews_3_star": "3 star percentage (e.g., '3%')",
+  "reviews_2_star": "2 star percentage (e.g., '1%')",
+  "reviews_1_star": "1 star percentage (e.g., '1%')"
+}
+
+Content Guidelines:
+- Create premium flagship smartphone product page content
+- Product name should sound like a real flagship phone model
+- Pricing should be premium ($799-$1499 range)
+- Highlights should focus on camera, battery, display, and performance
+- Specifications should be realistic and detailed
+- Reviews should show high satisfaction (4.5+ rating)
+- Star percentages should add up to 100%
+- Use technical but accessible language
+- Emphasize innovation, quality, and premium experience
+- Adapt all content to the specific phone/product described in seedText
+
+Tone: Premium, innovative, trustworthy, and aspirational
 Return ONLY the JSON object, nothing else`;
 }

@@ -91,8 +91,8 @@ export default function DashboardPage() {
         
         setCurrentUser(user);
         await loadProjects();
-      } catch (error) {
-        console.error('Failed to initialize dashboard:', error);
+      } catch {
+        // Failed to initialize dashboard
         router.push('/signin');
       }
     };
@@ -108,10 +108,6 @@ export default function DashboardPage() {
     return () => window.removeEventListener('focus', handleFocus);
   }, [router]);
 
-  // Debug: Track selectedProject changes
-  useEffect(() => {
-    console.log('selectedProject changed to:', selectedProject);
-  }, [selectedProject]);
 
   const loadProjects = async () => {
     try {
@@ -133,8 +129,8 @@ export default function DashboardPage() {
       }));
       
       setProjects(transformedProjects);
-    } catch (error) {
-      console.error('Failed to load projects:', error);
+    } catch {
+      // Failed to load projects
     }
   };
 
@@ -155,7 +151,7 @@ export default function DashboardPage() {
   const handleShare = (projectId: string) => {
     const project = projects.find(p => p.id === projectId);
     if (!project) {
-      console.error('Project not found:', projectId);
+      // Project not found
       return;
     }
     
@@ -174,7 +170,6 @@ export default function DashboardPage() {
     setShowShareDialog(true);
     handleMenuClose();
     
-    console.log('Share dialog opened for project:', projectId);
   };
 
   const handleDeleteClick = (projectId: string) => {
@@ -191,8 +186,8 @@ export default function DashboardPage() {
         setProjects(savedProjects);
         setShowDeleteDialog(false);
         setProjectToDelete(null);
-      } catch (error) {
-        console.error('Failed to delete project:', error);
+      } catch {
+        // Failed to delete project
         alert('Failed to delete project. Please try again.');
       }
     }
@@ -234,25 +229,19 @@ export default function DashboardPage() {
   };
 
   const handleSaveCustomUrl = async () => {
-    console.log('=== SAVE CUSTOM URL STARTED ===');
-    console.log('Selected Project ID:', selectedProject);
-    console.log('Current Dialog Project:', currentDialogProject?.id);
-    console.log('Custom URL Input:', customUrl);
     
     // Use currentDialogProject as fallback if selectedProject is null
     const projectId = selectedProject || currentDialogProject?.id;
     
     if (!projectId) {
-      console.error('No project selected - this should not happen!');
+      // No project selected
       return;
     }
 
     const trimmedUrl = customUrl.trim();
-    console.log('Trimmed URL:', trimmedUrl);
 
     // Validate custom URL (only if not empty)
     if (trimmedUrl && !validateCustomUrl(trimmedUrl)) {
-      console.log('Validation failed');
       setCustomUrlError('Only letters, numbers, hyphens, and underscores are allowed');
       return;
     }
@@ -262,12 +251,11 @@ export default function DashboardPage() {
       try {
         const available = await isCustomUrlAvailable(trimmedUrl, projectId);
         if (!available) {
-          console.log('URL already taken');
-          setCustomUrlError('This URL is already taken by another project');
+            setCustomUrlError('This URL is already taken by another project');
           return;
         }
-      } catch (error) {
-        console.error('Failed to check URL availability:', error);
+      } catch {
+        // Failed to check URL availability
         setCustomUrlError('Failed to validate URL. Please try again.');
         return;
       }
@@ -292,7 +280,6 @@ export default function DashboardPage() {
           } else {
             delete updated.customUrl;
           }
-          console.log('Updated project:', updated);
           return updated;
         }
         return p;
@@ -304,7 +291,6 @@ export default function DashboardPage() {
       const baseUrl = window.location.origin;
       const urlSlug = trimmedUrl || projectId;
       const link = `${baseUrl}/share/${urlSlug}`;
-      console.log('New shareable link:', link);
       
       setShareableLink(link);
       setCustomUrl(trimmedUrl);
@@ -312,13 +298,11 @@ export default function DashboardPage() {
       setCustomUrlError('');
       setCustomUrlSaved(true);
       
-      console.log('✓ Custom URL saved successfully:', trimmedUrl || '(removed)');
-      console.log('=== SAVE COMPLETE ===');
       
       // Hide success message after 2 seconds
       setTimeout(() => setCustomUrlSaved(false), 2000);
-    } catch (error) {
-      console.error('Failed to save custom URL:', error);
+    } catch {
+      // Failed to save custom URL
       setCustomUrlError('Failed to save URL. Please try again.');
     }
   };
@@ -393,8 +377,8 @@ export default function DashboardPage() {
     handleUserMenuClose();
     try {
       await authSignOut();
-    } catch (error) {
-      console.error('Failed to sign out:', error);
+    } catch {
+      // Failed to sign out
     }
   };
 

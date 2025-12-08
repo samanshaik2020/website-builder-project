@@ -114,8 +114,6 @@ export async function generateMetadata({ params }: SharePageProps): Promise<Meta
       imageUrl = `${baseUrl}/og-default.png`;
     }
     
-    console.log('[generateMetadata] Base URL:', baseUrl);
-    console.log('[generateMetadata] Image URL:', imageUrl);
     
     return {
       title: `${title} | Squpage`,
@@ -142,8 +140,8 @@ export async function generateMetadata({ params }: SharePageProps): Promise<Meta
         images: [imageUrl],
       },
     };
-  } catch (error) {
-    console.error('Error generating metadata:', error);
+  } catch {
+    // Error generating metadata
     return {
       title: 'Squpage',
       description: 'Create beautiful websites with Squpage',
@@ -200,8 +198,8 @@ export default async function SharePage({ params }: SharePageProps) {
     }
     
     return <SharePageClient project={project} template={template} />;
-  } catch (error) {
-    console.error('Error loading project:', error);
+  } catch {
+    // Error loading project
     return (
       <div className="min-h-screen bg-slate-900 flex items-center justify-center">
         <div className="text-center">

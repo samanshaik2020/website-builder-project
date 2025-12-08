@@ -16,6 +16,8 @@ import { generateMegaDiscountHTML } from './export-html-mega-discount';
 import { generateFestivalSaleHTML } from './export-html-festival-sale';
 import { generateMobileShopHTML } from './export-html-mobile-shop';
 import { generateGadgetDealsHTML } from './export-html-gadget-deals';
+import { generateGalaxyPhoneHTML } from './export-html-galaxy-phone';
+import { generateGlassmorphismProductHTML } from './export-html-glassmorphism-product';
 
 interface ExportData {
   template: TemplateId;
@@ -1316,6 +1318,10 @@ export const exportToHTML = ({ template, data, projectName }: ExportData): strin
       return generateMobileShopHTML(data, projectName);
     case 'gadget-deals':
       return generateGadgetDealsHTML(data, projectName);
+    case 'galaxy-phone':
+      return generateGalaxyPhoneHTML(data);
+    case 'glassmorphism-product':
+      return generateGlassmorphismProductHTML(data);
     default:
       return `<!DOCTYPE html><html><head><title>Error</title></head><body><h1>Template not found</h1></body></html>`;
   }
