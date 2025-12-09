@@ -9,6 +9,7 @@ export interface ContentData {
   text?: string;
   button?: ButtonData;
   image?: string;
+  linkUrl?: string;  // Optional link URL for clickable images
 }
 
 export type TemplateData = Record<string, ContentData>;

@@ -6,8 +6,9 @@ import { X, Upload, Link as LinkIcon, Image as ImageIcon } from 'lucide-react';
 interface ImageSidebarProps {
   isOpen: boolean;
   onClose: () => void;
-  onImageSelect: (imageUrl: string) => void;
+  onImageSelect: (imageUrl: string, linkUrl?: string) => void;
   currentImageUrl?: string;
+  currentLinkUrl?: string;
 }
 
 export const ImageSidebar: React.FC<ImageSidebarProps> = ({
@@ -15,9 +16,11 @@ export const ImageSidebar: React.FC<ImageSidebarProps> = ({
   onClose,
   onImageSelect,
   currentImageUrl = '',
+  currentLinkUrl = '',
 }) => {
   const [activeTab, setActiveTab] = useState<'upload' | 'url'>('url');
   const [imageUrl, setImageUrl] = useState(currentImageUrl);
+  const [linkUrl, setLinkUrl] = useState(currentLinkUrl);
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,7 +30,7 @@ export const ImageSidebar: React.FC<ImageSidebarProps> = ({
       reader.onloadend = () => {
         const result = reader.result as string;
         setUploadedImage(result);
-        onImageSelect(result);
+        onImageSelect(result, linkUrl);
       };
       reader.readAsDataURL(file);
     }
@@ -35,13 +38,14 @@ export const ImageSidebar: React.FC<ImageSidebarProps> = ({
 
   const handleUrlSubmit = () => {
     if (imageUrl.trim()) {
-      onImageSelect(imageUrl);
+      onImageSelect(imageUrl, linkUrl);
     }
   };
 
   const handleRemoveImage = () => {
-    onImageSelect('');
+    onImageSelect('', '');
     setImageUrl('');
+    setLinkUrl('');
     setUploadedImage(null);
   };
 
@@ -122,6 +126,38 @@ export const ImageSidebar: React.FC<ImageSidebarProps> = ({
               </button>
             </div>
           )}
+
+          {/* Link URL Section */}
+          <div className="mt-6 pt-6 border-t border-slate-700">
+            <h3 className="text-sm font-medium text-slate-300 mb-3 flex items-center gap-2">
+              <LinkIcon size={16} className="text-purple-400" />
+              Image Link (Optional)
+            </h3>
+            <p className="text-xs text-slate-500 mb-3">
+              Add a clickable link to this image. When shared, clicking the image will open this URL.
+            </p>
+            <input
+              type="text"
+              value={linkUrl}
+              onChange={(e) => setLinkUrl(e.target.value)}
+              placeholder="https://example.com"
+              className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+            {linkUrl && (
+              <button
+                onClick={() => {
+                  // Apply link to current image
+                  const currentSrc = uploadedImage || imageUrl || currentImageUrl;
+                  if (currentSrc) {
+                    onImageSelect(currentSrc, linkUrl);
+                  }
+                }}
+                className="w-full mt-3 px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg font-medium transition-colors text-sm"
+              >
+                Apply Link
+              </button>
+            )}
+          </div>
 
           {/* Upload Tab */}
           {activeTab === 'upload' && (

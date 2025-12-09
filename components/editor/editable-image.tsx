@@ -8,17 +8,19 @@ import { ImageSidebar } from './image-sidebar';
 interface EditableImageProps {
   eid: string;
   defaultSrc?: string;
+  defaultLinkUrl?: string;
   alt?: string;
   className?: string;
   style?: React.CSSProperties;
   editable?: boolean;
-  onChange?: (eid: string, imageUrl: string) => void;
+  onChange?: (eid: string, data: { image: string; linkUrl?: string | undefined }) => void;
   placeholderIcon?: React.ReactNode;
 }
 
 export const EditableImage: React.FC<EditableImageProps> = ({
   eid,
   defaultSrc = '',
+  defaultLinkUrl = '',
   alt = 'Image',
   className = '',
   style,
@@ -27,6 +29,7 @@ export const EditableImage: React.FC<EditableImageProps> = ({
   placeholderIcon,
 }) => {
   const [imageSrc, setImageSrc] = useState(defaultSrc);
+  const [linkUrl, setLinkUrl] = useState(defaultLinkUrl);
   const [showSidebar, setShowSidebar] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -36,10 +39,11 @@ export const EditableImage: React.FC<EditableImageProps> = ({
     setMounted(true);
   }, []);
 
-  const handleImageSelect = (imageUrl: string) => {
+  const handleImageSelect = (imageUrl: string, newLinkUrl?: string) => {
     setImageSrc(imageUrl);
+    setLinkUrl(newLinkUrl || '');
     if (onChange) {
-      onChange(eid, imageUrl);
+      onChange(eid, { image: imageUrl, linkUrl: newLinkUrl });
     }
     setShowSidebar(false);
   };
@@ -58,7 +62,8 @@ export const EditableImage: React.FC<EditableImageProps> = ({
         </div>
       );
     }
-    return (
+    
+    const imageElement = (
       // eslint-disable-next-line @next/next/no-img-element
       <img
         data-eid={eid}
@@ -68,6 +73,22 @@ export const EditableImage: React.FC<EditableImageProps> = ({
         style={style}
       />
     );
+    
+    // Wrap in link if linkUrl exists
+    if (linkUrl) {
+      return (
+        <a 
+          href={linkUrl} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="cursor-pointer"
+        >
+          {imageElement}
+        </a>
+      );
+    }
+    
+    return imageElement;
   }
 
   return (
@@ -115,6 +136,7 @@ export const EditableImage: React.FC<EditableImageProps> = ({
           onClose={() => setShowSidebar(false)}
           onImageSelect={handleImageSelect}
           currentImageUrl={imageSrc}
+          currentLinkUrl={linkUrl}
         />,
         document.body
       )}

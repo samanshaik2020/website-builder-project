@@ -22,7 +22,7 @@ export default function PhoneFunTemplate({
     data[eid]?.button || { text: defaultText, url: defaultUrl };
 
   const handleSlateTextChange = (eid: string, value: string) => onContentChange(eid, { text: value });
-  const handleImageChange = (eid: string, imageUrl: string) => onContentChange(eid, { image: imageUrl });
+  const handleImageChange = (eid: string, data: { image: string; linkUrl?: string | undefined }) => onContentChange(eid, data);
   const handleButtonChange = (eid: string, content: { button: { text: string; url: string } }) => 
     onContentChange(eid, content);
 

@@ -25,9 +25,9 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
     return data[id]?.image || defaultValue;
   };
 
-  const handleImageChange = (eid: string, imageUrl: string) => {
+  const handleImageChange = (eid: string, data: { image: string; linkUrl?: string | undefined }) => {
     if (onContentChange) {
-      onContentChange(eid, { image: imageUrl });
+      onContentChange(eid, data);
     }
   };
 

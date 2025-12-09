@@ -30,9 +30,9 @@ export const MegaDiscountTemplate: React.FC<MegaDiscountTemplateProps> = ({
     return data[id]?.image || defaultSrc;
   };
 
-  const handleImageChange = (id: string, imageData: string) => {
+  const handleImageChange = (id: string, imageData: { image: string; linkUrl?: string | undefined }) => {
     if (onContentChange) {
-      onContentChange(id, { image: imageData });
+      onContentChange(id, { image: imageData.image });
     }
   };
 
@@ -295,7 +295,7 @@ export const MegaDiscountTemplate: React.FC<MegaDiscountTemplateProps> = ({
                       defaultSrc={getImage('product_image', 'https://lh3.googleusercontent.com/aida-public/AB6AXuA2HSG1Ii_9pAfHTrf2_UxsSGgA1DkVK2hv5_q7I89y0ilfTucZNtouuhFPNQZv3YOmesnJGqlsd9KOea0w8vbIt16DhPiRNbnLKsNmLhtJsPfD3NRF02XFb4tBexXd67ckY66XWBkfiAUL7CCXHFt9VIKVxD-sfiC-zUTG-JIyk90lN3p_w4ozSYN33PW886KxCdza7lZ_kxiziAfkoqyhap0qL0lU8Rc1oxy8NlP66qwISd9aEPkMoqKly3OQEKJsHw0ggs6k1g')}
                       alt="Product Image"
                       editable={editable}
-                      onChange={(eid: string, imageData: string) => handleImageChange(eid, imageData)}
+                      onChange={handleImageChange}
                       className="w-full h-full object-contain rounded-lg"
                     />
                     <div 

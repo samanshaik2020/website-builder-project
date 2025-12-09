@@ -52,9 +52,9 @@ export default function PortfolioModernDark({ editable = false, data = {}, onCon
     }
   };
 
-  const handleImageChange = (eid: string, imageUrl: string) => {
+  const handleImageChange = (eid: string, data: { image: string; linkUrl?: string | undefined }) => {
     if (onContentChange) {
-      onContentChange(eid, { image: imageUrl });
+      onContentChange(eid, data);
     }
   };
 

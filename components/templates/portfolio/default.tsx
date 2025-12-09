@@ -41,6 +41,10 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
     return data[id]?.image || defaultValue;
   };
 
+  const getImageLink = (id: string) => {
+    return data[id]?.linkUrl || '';
+  };
+
   const getButton = (id: string, defaultText: string, defaultUrl: string) => {
     return {
       text: data[id]?.button?.text || defaultText,
@@ -48,9 +52,9 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
     };
   };
 
-  const handleImageChange = (eid: string, imageUrl: string) => {
+  const handleImageChange = (eid: string, imageData: { image: string; linkUrl?: string | undefined }) => {
     if (onContentChange) {
-      onContentChange(eid, { image: imageUrl });
+      onContentChange(eid, imageData);
     }
   };
 
@@ -163,6 +167,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
               <EditableImage
                 eid="hero_photo"
                 defaultSrc={getImage('hero_photo', '')}
+                defaultLinkUrl={getImageLink('hero_photo')}
                 alt="Professional Photo"
                 className="relative w-80 h-80 rounded-full object-cover border-4 border-white/20 shadow-2xl"
                 editable={editable}
@@ -236,6 +241,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
               <EditableImage
                 eid="about_image"
                 defaultSrc={getImage('about_image', '')}
+                defaultLinkUrl={getImageLink('about_image')}
                 alt="About Me"
                 className="relative w-full h-96 rounded-2xl object-cover shadow-xl"
                 editable={editable}
@@ -335,6 +341,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                 <EditableImage
                   eid="project_1_image"
                   defaultSrc={getImage('project_1_image', '')}
+                  defaultLinkUrl={getImageLink('project_1_image')}
                   alt="Project 1"
                   className="h-full min-h-[400px] bg-gradient-to-br from-purple-500 to-pink-500"
                   editable={editable}
@@ -504,6 +511,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                 <EditableImage
                   eid="project_2_image"
                   defaultSrc={getImage('project_2_image', '')}
+                  defaultLinkUrl={getImageLink('project_2_image')}
                   alt="Project 2"
                   className="h-full min-h-[400px] bg-gradient-to-br from-blue-500 to-cyan-500 order-1 md:order-2"
                   editable={editable}
@@ -519,6 +527,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                 <EditableImage
                   eid="project_3_image"
                   defaultSrc={getImage('project_3_image', '')}
+                  defaultLinkUrl={getImageLink('project_3_image')}
                   alt="Project 3"
                   className="h-full min-h-[400px] bg-gradient-to-br from-green-500 to-emerald-500"
                   editable={editable}
@@ -758,6 +767,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                 <EditableImage
                   eid="testimonial_1_image"
                   defaultSrc={getImage('testimonial_1_image', '')}
+                  defaultLinkUrl={getImageLink('testimonial_1_image')}
                   alt="Testimonial 1"
                   className="w-16 h-16 rounded-full object-cover bg-gradient-to-br from-purple-400 to-pink-400"
                   editable={editable}
@@ -800,6 +810,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                 <EditableImage
                   eid="testimonial_2_image"
                   defaultSrc={getImage('testimonial_2_image', '')}
+                  defaultLinkUrl={getImageLink('testimonial_2_image')}
                   alt="Testimonial 2"
                   className="w-16 h-16 rounded-full object-cover bg-gradient-to-br from-blue-400 to-cyan-400"
                   editable={editable}
@@ -842,6 +853,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                 <EditableImage
                   eid="testimonial_3_image"
                   defaultSrc={getImage('testimonial_3_image', '')}
+                  defaultLinkUrl={getImageLink('testimonial_3_image')}
                   alt="Testimonial 3"
                   className="w-16 h-16 rounded-full object-cover bg-gradient-to-br from-green-400 to-emerald-400"
                   editable={editable}

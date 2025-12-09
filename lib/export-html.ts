@@ -66,6 +66,29 @@ const escapeHtml = (text: string) => {
   return div.innerHTML;
 };
 
+// Helper to generate image HTML with optional link wrapper
+export const generateImageWithLink = (
+  src: string, 
+  alt: string, 
+  className: string, 
+  linkUrl?: string
+): string => {
+  const imgTag = `<img src="${src}" alt="${alt}" class="${className}">`;
+  if (linkUrl) {
+    return `<a href="${linkUrl}" target="_blank" rel="noopener noreferrer">${imgTag}</a>`;
+  }
+  return imgTag;
+};
+
+// Helper to get image data (src and linkUrl) from template data
+export const getImageData = (data: TemplateData, key: string, defaultSrc: string): { src: string; linkUrl: string | undefined } => {
+  const imageData = data[key];
+  if (imageData?.image) {
+    return { src: imageData.image, linkUrl: imageData.linkUrl };
+  }
+  return { src: defaultSrc, linkUrl: undefined };
+};
+
 export const generatePortfolioHTML = (data: TemplateData, projectName: string): string => {
   const getText = (id: string, defaultValue: string) => {
     return escapeHtml(data[id]?.text || defaultValue);
