@@ -51,7 +51,7 @@ export const MegaDiscountTemplate: React.FC<MegaDiscountTemplateProps> = ({
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
         let { days, hours, minutes, seconds } = prev;
-        
+
         if (seconds > 0) {
           seconds--;
         } else if (minutes > 0) {
@@ -67,7 +67,7 @@ export const MegaDiscountTemplate: React.FC<MegaDiscountTemplateProps> = ({
           minutes = 59;
           seconds = 59;
         }
-        
+
         return { days, hours, minutes, seconds };
       });
     }, 1000);
@@ -87,10 +87,10 @@ export const MegaDiscountTemplate: React.FC<MegaDiscountTemplateProps> = ({
         <div className="flex h-full grow flex-col">
           <div className="flex flex-1 justify-center py-8 md:py-12 lg:py-16">
             <div className="flex flex-col w-full max-w-7xl flex-1 px-4 sm:px-6 lg:px-8">
-              
+
               {/* Flash Sale Banner */}
               <div className="w-full text-center mb-6">
-                <p 
+                <p
                   data-eid="flash_banner_text"
                   contentEditable={editable}
                   suppressContentEditableWarning
@@ -103,26 +103,26 @@ export const MegaDiscountTemplate: React.FC<MegaDiscountTemplateProps> = ({
 
               {/* Main Content */}
               <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-stretch py-4 lg:py-8">
-                
+
                 {/* Left Column */}
                 <div className="flex flex-col gap-6 w-full lg:w-1/2">
-                  
+
                   {/* Hero Card */}
                   <div className="p-6 md:p-8 bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col gap-4">
-                    <h1 
+                    <h1
                       data-eid="hero_title"
                       contentEditable={editable}
                       suppressContentEditableWarning
-                      className="text-[#1F2937] text-4xl md:text-5xl lg:text-6xl font-black leading-tight tracking-tighter"
+                      className="text-[#1F2937] text-4xl md:text-5xl lg:text-6xl font-black leading-tight tracking-tighter whitespace-pre-wrap break-words"
                       style={{ fontFamily: "'Rubik', sans-serif" }}
                     >
                       {getText('hero_title', '🔥 Mega Discount Sale Is Live — Grab It Now!')}
                     </h1>
-                    <p 
+                    <p
                       data-eid="hero_description"
                       contentEditable={editable}
                       suppressContentEditableWarning
-                      className="text-[#4B5563] text-base md:text-lg font-normal leading-normal"
+                      className="text-[#4B5563] text-base md:text-lg font-normal leading-normal whitespace-pre-wrap break-words"
                     >
                       {getText('hero_description', 'Limited-time offer. Prices slashed up to 70%. Hurry before stock runs out!')}
                     </p>
@@ -130,18 +130,18 @@ export const MegaDiscountTemplate: React.FC<MegaDiscountTemplateProps> = ({
 
                   {/* Countdown Timer Card */}
                   <div className="p-6 md:p-8 bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col gap-4">
-                    <h3 
+                    <h3
                       data-eid="timer_title"
                       contentEditable={editable}
                       suppressContentEditableWarning
-                      className="text-[#1F2937] text-xl font-bold mb-2"
+                      className="text-[#1F2937] text-xl font-bold mb-2 whitespace-pre-wrap break-words"
                       style={{ fontFamily: "'Rubik', sans-serif" }}
                     >
                       {getText('timer_title', 'Time Remaining:')}
                     </h3>
                     <div className="grid grid-cols-4 gap-4">
                       <div className="flex flex-col items-center justify-center p-3 rounded-lg bg-[#67E8F9] text-[#1F2937]">
-                        <p 
+                        <p
                           className="text-3xl md:text-4xl font-bold"
                           style={{ fontFamily: "'Rubik', sans-serif" }}
                         >
@@ -150,7 +150,7 @@ export const MegaDiscountTemplate: React.FC<MegaDiscountTemplateProps> = ({
                         <p className="text-xs sm:text-sm">Days</p>
                       </div>
                       <div className="flex flex-col items-center justify-center p-3 rounded-lg bg-[#67E8F9] text-[#1F2937]">
-                        <p 
+                        <p
                           className="text-3xl md:text-4xl font-bold"
                           style={{ fontFamily: "'Rubik', sans-serif" }}
                         >
@@ -159,7 +159,7 @@ export const MegaDiscountTemplate: React.FC<MegaDiscountTemplateProps> = ({
                         <p className="text-xs sm:text-sm">Hours</p>
                       </div>
                       <div className="flex flex-col items-center justify-center p-3 rounded-lg bg-[#67E8F9] text-[#1F2937]">
-                        <p 
+                        <p
                           className="text-3xl md:text-4xl font-bold"
                           style={{ fontFamily: "'Rubik', sans-serif" }}
                         >
@@ -168,7 +168,7 @@ export const MegaDiscountTemplate: React.FC<MegaDiscountTemplateProps> = ({
                         <p className="text-xs sm:text-sm">Minutes</p>
                       </div>
                       <div className="flex flex-col items-center justify-center p-3 rounded-lg bg-[#67E8F9] text-[#1F2937]">
-                        <p 
+                        <p
                           className="text-3xl md:text-4xl font-bold"
                           style={{ fontFamily: "'Rubik', sans-serif" }}
                         >
@@ -181,18 +181,18 @@ export const MegaDiscountTemplate: React.FC<MegaDiscountTemplateProps> = ({
 
                   {/* Key Features Card */}
                   <div className="p-6 md:p-8 bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col gap-4">
-                    <h3 
+                    <h3
                       data-eid="features_title"
                       contentEditable={editable}
                       suppressContentEditableWarning
-                      className="text-[#1F2937] text-xl font-bold mb-2"
+                      className="text-[#1F2937] text-xl font-bold mb-2 whitespace-pre-wrap break-words"
                       style={{ fontFamily: "'Rubik', sans-serif" }}
                     >
                       {getText('features_title', 'Key Features:')}
                     </h3>
                     <div className="grid grid-cols-2 gap-x-6 gap-y-4">
                       <div className="flex flex-col">
-                        <p 
+                        <p
                           data-eid="feature_1_label"
                           contentEditable={editable}
                           suppressContentEditableWarning
@@ -200,7 +200,7 @@ export const MegaDiscountTemplate: React.FC<MegaDiscountTemplateProps> = ({
                         >
                           {getText('feature_1_label', 'Battery life')}
                         </p>
-                        <p 
+                        <p
                           data-eid="feature_1_value"
                           contentEditable={editable}
                           suppressContentEditableWarning
@@ -210,7 +210,7 @@ export const MegaDiscountTemplate: React.FC<MegaDiscountTemplateProps> = ({
                         </p>
                       </div>
                       <div className="flex flex-col">
-                        <p 
+                        <p
                           data-eid="feature_2_label"
                           contentEditable={editable}
                           suppressContentEditableWarning
@@ -218,7 +218,7 @@ export const MegaDiscountTemplate: React.FC<MegaDiscountTemplateProps> = ({
                         >
                           {getText('feature_2_label', 'Warranty info')}
                         </p>
-                        <p 
+                        <p
                           data-eid="feature_2_value"
                           contentEditable={editable}
                           suppressContentEditableWarning
@@ -228,7 +228,7 @@ export const MegaDiscountTemplate: React.FC<MegaDiscountTemplateProps> = ({
                         </p>
                       </div>
                       <div className="flex flex-col">
-                        <p 
+                        <p
                           data-eid="feature_3_label"
                           contentEditable={editable}
                           suppressContentEditableWarning
@@ -236,7 +236,7 @@ export const MegaDiscountTemplate: React.FC<MegaDiscountTemplateProps> = ({
                         >
                           {getText('feature_3_label', 'Quality rating')}
                         </p>
-                        <p 
+                        <p
                           data-eid="feature_3_value"
                           contentEditable={editable}
                           suppressContentEditableWarning
@@ -246,7 +246,7 @@ export const MegaDiscountTemplate: React.FC<MegaDiscountTemplateProps> = ({
                         </p>
                       </div>
                       <div className="flex flex-col">
-                        <p 
+                        <p
                           data-eid="feature_4_label"
                           contentEditable={editable}
                           suppressContentEditableWarning
@@ -254,7 +254,7 @@ export const MegaDiscountTemplate: React.FC<MegaDiscountTemplateProps> = ({
                         >
                           {getText('feature_4_label', 'Material')}
                         </p>
-                        <p 
+                        <p
                           data-eid="feature_4_value"
                           contentEditable={editable}
                           suppressContentEditableWarning
@@ -276,11 +276,11 @@ export const MegaDiscountTemplate: React.FC<MegaDiscountTemplateProps> = ({
                       onChange={onContentChange}
                       className="flex min-w-[84px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 px-5 bg-[#EF4444] text-white text-base font-bold leading-normal tracking-wide hover:opacity-90 transition-opacity"
                     />
-                    <p 
+                    <p
                       data-eid="cta_subtext"
                       contentEditable={editable}
                       suppressContentEditableWarning
-                      className="text-[#6B7280] text-sm font-normal leading-normal text-center"
+                      className="text-[#6B7280] text-sm font-normal leading-normal text-center whitespace-pre-wrap break-words"
                     >
                       {getText('cta_subtext', 'Free Shipping · 30-Day Guarantee · Secure Checkout')}
                     </p>
@@ -298,7 +298,7 @@ export const MegaDiscountTemplate: React.FC<MegaDiscountTemplateProps> = ({
                       onChange={handleImageChange}
                       className="w-full h-full object-contain rounded-lg"
                     />
-                    <div 
+                    <div
                       data-eid="discount_badge"
                       contentEditable={editable}
                       suppressContentEditableWarning

@@ -8,7 +8,7 @@ import { BaseTemplateProps } from '@/types/template'
 export default function FurnitureStoreTemplate({
   editable = false,
   data = {},
-  onContentChange = () => {},
+  onContentChange = () => { },
 }: BaseTemplateProps) {
   const getText = (eid: string, defaultText: string) => {
     return data[eid]?.text || defaultText
@@ -31,21 +31,21 @@ export default function FurnitureStoreTemplate({
             data-eid="nav_brand"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-2xl font-bold text-gray-800"
+            className="text-2xl font-bold text-gray-800 whitespace-pre-wrap break-words"
           >
             {getText('nav_brand', 'cocoVillage')}
           </div>
           <div className="flex gap-8">
-            <div data-eid="nav_link1" contentEditable={editable} suppressContentEditableWarning className="text-gray-600 hover:text-gray-900 cursor-pointer">
+            <div data-eid="nav_link1" contentEditable={editable} suppressContentEditableWarning className="text-gray-600 hover:text-gray-900 cursor-pointer whitespace-pre-wrap break-words">
               {getText('nav_link1', 'Home')}
             </div>
-            <div data-eid="nav_link2" contentEditable={editable} suppressContentEditableWarning className="text-gray-600 hover:text-gray-900 cursor-pointer">
+            <div data-eid="nav_link2" contentEditable={editable} suppressContentEditableWarning className="text-gray-600 hover:text-gray-900 cursor-pointer whitespace-pre-wrap break-words">
               {getText('nav_link2', 'Products')}
             </div>
-            <div data-eid="nav_link3" contentEditable={editable} suppressContentEditableWarning className="text-gray-600 hover:text-gray-900 cursor-pointer">
+            <div data-eid="nav_link3" contentEditable={editable} suppressContentEditableWarning className="text-gray-600 hover:text-gray-900 cursor-pointer whitespace-pre-wrap break-words">
               {getText('nav_link3', 'About')}
             </div>
-            <div data-eid="nav_link4" contentEditable={editable} suppressContentEditableWarning className="text-gray-600 hover:text-gray-900 cursor-pointer">
+            <div data-eid="nav_link4" contentEditable={editable} suppressContentEditableWarning className="text-gray-600 hover:text-gray-900 cursor-pointer whitespace-pre-wrap break-words">
               {getText('nav_link4', 'Contact')}
             </div>
           </div>
@@ -57,19 +57,19 @@ export default function FurnitureStoreTemplate({
         <div className="container mx-auto px-6">
           <div className="flex items-center justify-between">
             <div className="w-1/2">
-              <div data-eid="hero_badge" contentEditable={editable} suppressContentEditableWarning className="text-teal-600 text-sm font-semibold mb-2">
+              <div data-eid="hero_badge" contentEditable={editable} suppressContentEditableWarning className="text-teal-600 text-sm font-semibold mb-2 whitespace-pre-wrap break-words">
                 {getText('hero_badge', 'GET')}
               </div>
-              <div data-eid="hero_discount" contentEditable={editable} suppressContentEditableWarning className="text-6xl font-bold text-teal-700 mb-2">
+              <div data-eid="hero_discount" contentEditable={editable} suppressContentEditableWarning className="text-6xl font-bold text-teal-700 mb-2 whitespace-pre-wrap break-words">
                 {getText('hero_discount', '50%')}
               </div>
-              <div data-eid="hero_discount_text" contentEditable={editable} suppressContentEditableWarning className="text-4xl font-bold text-gray-700 mb-4">
+              <div data-eid="hero_discount_text" contentEditable={editable} suppressContentEditableWarning className="text-4xl font-bold text-gray-700 mb-4 whitespace-pre-wrap break-words">
                 {getText('hero_discount_text', 'OFF')}
               </div>
-              <h1 data-eid="hero_title" contentEditable={editable} suppressContentEditableWarning className="text-3xl font-bold text-gray-800 mb-4">
+              <h1 data-eid="hero_title" contentEditable={editable} suppressContentEditableWarning className="text-3xl font-bold text-gray-800 mb-4 whitespace-pre-wrap break-words">
                 {getText('hero_title', 'BEDS AND BEDDING SETS!')}
               </h1>
-              <p data-eid="hero_description" contentEditable={editable} suppressContentEditableWarning className="text-gray-600 mb-6 max-w-md">
+              <p data-eid="hero_description" contentEditable={editable} suppressContentEditableWarning className="text-gray-600 mb-6 max-w-md whitespace-pre-wrap break-words">
                 {getText('hero_description', 'Transform your bedroom into a cozy sanctuary with our premium collection of beds and bedding sets.')}
               </p>
               <div style={{ backgroundColor: '#ff7f6e' }} className="inline-block rounded-full">
@@ -101,11 +101,11 @@ export default function FurnitureStoreTemplate({
       <section id="products" className="py-16 bg-white">
         <div className="container mx-auto px-6">
           <div className="flex items-start gap-12 mb-12">
-            <h2 data-eid="beds_title" contentEditable={editable} suppressContentEditableWarning className="text-5xl font-bold" style={{ color: '#ffb5a7' }}>
+            <h2 data-eid="beds_title" contentEditable={editable} suppressContentEditableWarning className="text-5xl font-bold whitespace-pre-wrap break-words" style={{ color: '#ffb5a7' }}>
               {getText('beds_title', 'BEDS')}
             </h2>
             <div className="flex-1">
-              <p data-eid="beds_description" contentEditable={editable} suppressContentEditableWarning className="text-gray-600 leading-relaxed">
+              <p data-eid="beds_description" contentEditable={editable} suppressContentEditableWarning className="text-gray-600 leading-relaxed whitespace-pre-wrap break-words">
                 {getText('beds_description', "Let's make right bed choice and bright design, we have beautiful and solid wood beds available in various sizes and designs including modern beds, bunk beds, and storage beds.")}
               </p>
             </div>
@@ -123,10 +123,10 @@ export default function FurnitureStoreTemplate({
                   editable={editable}
                   onChange={onContentChange}
                 />
-                <h3 data-eid={`bed${i}_title`} contentEditable={editable} suppressContentEditableWarning className="text-xl font-bold text-gray-800 mb-2">
+                <h3 data-eid={`bed${i}_title`} contentEditable={editable} suppressContentEditableWarning className="text-xl font-bold text-gray-800 mb-2 whitespace-pre-wrap break-words">
                   {getText(`bed${i}_title`, `HOUSE BEDS`)}
                 </h3>
-                <p data-eid={`bed${i}_price`} contentEditable={editable} suppressContentEditableWarning className="text-gray-600 mb-4">
+                <p data-eid={`bed${i}_price`} contentEditable={editable} suppressContentEditableWarning className="text-gray-600 mb-4 whitespace-pre-wrap break-words">
                   {getText(`bed${i}_price`, `Starting at $${299 + i * 50}`)}
                 </p>
                 <div style={{ borderColor: '#ff7f6e', color: '#ff7f6e' }} className="inline-block">
@@ -155,10 +155,10 @@ export default function FurnitureStoreTemplate({
                   editable={editable}
                   onChange={onContentChange}
                 />
-                <h3 data-eid={`bed${i}_title`} contentEditable={editable} suppressContentEditableWarning className="text-xl font-bold text-gray-800 mb-2">
+                <h3 data-eid={`bed${i}_title`} contentEditable={editable} suppressContentEditableWarning className="text-xl font-bold text-gray-800 mb-2 whitespace-pre-wrap break-words">
                   {getText(`bed${i}_title`, `LOFT BED`)}
                 </h3>
-                <p data-eid={`bed${i}_price`} contentEditable={editable} suppressContentEditableWarning className="text-gray-600 mb-4">
+                <p data-eid={`bed${i}_price`} contentEditable={editable} suppressContentEditableWarning className="text-gray-600 mb-4 whitespace-pre-wrap break-words">
                   {getText(`bed${i}_price`, `$${2500 + i * 200}.00 $${2300 + i * 200}`)}
                 </p>
                 <div style={{ borderColor: '#ff7f6e', color: '#ff7f6e' }} className="inline-block">
@@ -181,11 +181,11 @@ export default function FurnitureStoreTemplate({
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-6">
           <div className="flex items-start gap-12 mb-12">
-            <h2 data-eid="bedding_title" contentEditable={editable} suppressContentEditableWarning className="text-5xl font-bold" style={{ color: '#ffb5a7' }}>
+            <h2 data-eid="bedding_title" contentEditable={editable} suppressContentEditableWarning className="text-5xl font-bold whitespace-pre-wrap break-words" style={{ color: '#ffb5a7' }}>
               {getText('bedding_title', 'BEDDING SETS')}
             </h2>
             <div className="flex-1">
-              <p data-eid="bedding_description" contentEditable={editable} suppressContentEditableWarning className="text-gray-600 leading-relaxed">
+              <p data-eid="bedding_description" contentEditable={editable} suppressContentEditableWarning className="text-gray-600 leading-relaxed whitespace-pre-wrap break-words">
                 {getText('bedding_description', 'The bed linen is an indispensable should have to construct a bed. It not only can make the bed more soft and warm, but also can decorate the bed and make it more beautiful.')}
               </p>
             </div>
@@ -203,10 +203,10 @@ export default function FurnitureStoreTemplate({
                   editable={editable}
                   onChange={onContentChange}
                 />
-                <h3 data-eid={`bedding${i}_title`} contentEditable={editable} suppressContentEditableWarning className="text-lg font-bold text-gray-800 mb-2">
+                <h3 data-eid={`bedding${i}_title`} contentEditable={editable} suppressContentEditableWarning className="text-lg font-bold text-gray-800 mb-2 whitespace-pre-wrap break-words">
                   {getText(`bedding${i}_title`, `BEDDING SET ${i}`)}
                 </h3>
-                <p data-eid={`bedding${i}_price`} contentEditable={editable} suppressContentEditableWarning className="text-gray-600 mb-4">
+                <p data-eid={`bedding${i}_price`} contentEditable={editable} suppressContentEditableWarning className="text-gray-600 mb-4 whitespace-pre-wrap break-words">
                   {getText(`bedding${i}_price`, `$${79 + i * 5}.99`)}
                 </p>
                 <div style={{ borderColor: '#ff7f6e', color: '#ff7f6e' }} className="inline-block">
@@ -228,10 +228,10 @@ export default function FurnitureStoreTemplate({
       {/* Pillows Section */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-6">
-          <h2 data-eid="pillows_title" contentEditable={editable} suppressContentEditableWarning className="text-4xl font-bold text-teal-600 text-center mb-4">
+          <h2 data-eid="pillows_title" contentEditable={editable} suppressContentEditableWarning className="text-4xl font-bold text-teal-600 text-center mb-4 whitespace-pre-wrap break-words">
             {getText('pillows_title', 'AND MANY FUN PILLOWS')}
           </h2>
-          <p data-eid="pillows_subtitle" contentEditable={editable} suppressContentEditableWarning className="text-2xl text-gray-600 text-center mb-12">
+          <p data-eid="pillows_subtitle" contentEditable={editable} suppressContentEditableWarning className="text-2xl text-gray-600 text-center mb-12 whitespace-pre-wrap break-words">
             {getText('pillows_subtitle', 'AT $29.99 $20')}
           </p>
 
@@ -280,7 +280,7 @@ export default function FurnitureStoreTemplate({
                   onChange={onContentChange}
                 />
                 <div className="absolute bottom-4 left-4 bg-white px-4 py-2 rounded-lg">
-                  <div data-eid={`instagram${i}_handle`} contentEditable={editable} suppressContentEditableWarning className="text-sm font-semibold">
+                  <div data-eid={`instagram${i}_handle`} contentEditable={editable} suppressContentEditableWarning className="text-sm font-semibold whitespace-pre-wrap break-words">
                     {getText(`instagram${i}_handle`, '@cocovillage')}
                   </div>
                 </div>
@@ -293,10 +293,10 @@ export default function FurnitureStoreTemplate({
       {/* About Section */}
       <section className="py-16 bg-gradient-to-br from-blue-50 via-white to-teal-50">
         <div className="container mx-auto px-6 text-center max-w-3xl">
-          <h2 data-eid="about_title" contentEditable={editable} suppressContentEditableWarning className="text-4xl font-bold text-teal-700 mb-6">
+          <h2 data-eid="about_title" contentEditable={editable} suppressContentEditableWarning className="text-4xl font-bold text-teal-700 mb-6 whitespace-pre-wrap break-words">
             {getText('about_title', 'ABOUT COCO VILLAGE')}
           </h2>
-          <p data-eid="about_description" contentEditable={editable} suppressContentEditableWarning className="text-gray-600 leading-relaxed">
+          <p data-eid="about_description" contentEditable={editable} suppressContentEditableWarning className="text-gray-600 leading-relaxed whitespace-pre-wrap break-words">
             {getText('about_description', 'Coco Village is proud to offer unique furniture and accessories for the importance of children. We believe every child deserves a comfortable and inspiring space to grow, learn, and dream. Our carefully curated collection combines safety, quality, and beautiful design.')}
           </p>
         </div>
@@ -305,10 +305,10 @@ export default function FurnitureStoreTemplate({
       {/* Footer */}
       <footer className="bg-gray-800 text-white py-8">
         <div className="container mx-auto px-6 text-center">
-          <div data-eid="footer_brand" contentEditable={editable} suppressContentEditableWarning className="text-2xl font-bold mb-4">
+          <div data-eid="footer_brand" contentEditable={editable} suppressContentEditableWarning className="text-2xl font-bold mb-4 whitespace-pre-wrap break-words">
             {getText('footer_brand', 'cocoVillage')}
           </div>
-          <p data-eid="footer_copyright" contentEditable={editable} suppressContentEditableWarning className="text-gray-400">
+          <p data-eid="footer_copyright" contentEditable={editable} suppressContentEditableWarning className="text-gray-400 whitespace-pre-wrap break-words">
             {getText('footer_copyright', '© 2025 cocoVillage. All rights reserved.')}
           </p>
         </div>

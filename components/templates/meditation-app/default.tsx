@@ -9,12 +9,12 @@ import { BaseTemplateProps } from '@/types/template'
 export default function MeditationAppTemplate({
   editable = false,
   data = {},
-  onContentChange = () => {},
+  onContentChange = () => { },
 }: BaseTemplateProps) {
   const [currentStoryIndex, setCurrentStoryIndex] = useState(0)
   const [editingSocialUrl, setEditingSocialUrl] = useState<{ eid: string; url: string } | null>(null)
   const [mounted, setMounted] = useState(false)
-  const [starStyles, setStarStyles] = useState<Array<{top: string, left: string, animation: string}>>([])
+  const [starStyles, setStarStyles] = useState<Array<{ top: string, left: string, animation: string }>>([])
 
   useEffect(() => {
     setMounted(true)
@@ -124,7 +124,7 @@ export default function MeditationAppTemplate({
                 data-eid="hero_brand"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-3xl font-light mb-8"
+                className="text-3xl font-light mb-8 whitespace-pre-wrap break-words"
               >
                 {getText('hero_brand', 'Calm')}
               </div>
@@ -132,7 +132,7 @@ export default function MeditationAppTemplate({
                 data-eid="hero_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-5xl font-light mb-6 leading-tight"
+                className="text-5xl font-light mb-6 leading-tight whitespace-pre-wrap break-words"
               >
                 {getText('hero_title', 'Meet Calm, the #1 app for sleep and meditation')}
               </h1>
@@ -140,7 +140,7 @@ export default function MeditationAppTemplate({
                 data-eid="hero_description"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-lg mb-8 opacity-90 max-w-md"
+                className="text-lg mb-8 opacity-90 max-w-md whitespace-pre-wrap break-words"
               >
                 {getText('hero_description', 'Join millions around the globe who are experiencing better sleep, lower stress and less anxiety.')}
               </p>
@@ -219,7 +219,7 @@ export default function MeditationAppTemplate({
                       data-eid="feature1_description"
                       contentEditable={editable}
                       suppressContentEditableWarning
-                      className="text-gray-600"
+                      className="text-gray-600 whitespace-pre-wrap break-words"
                     >
                       {getText('feature1_description', 'Drift off with a library of Sleep Stories designed to lull you into a deep and restful slumber.')}
                     </p>
@@ -244,7 +244,7 @@ export default function MeditationAppTemplate({
                       data-eid="feature2_description"
                       contentEditable={editable}
                       suppressContentEditableWarning
-                      className="text-gray-600"
+                      className="text-gray-600 whitespace-pre-wrap break-words"
                     >
                       {getText('feature2_description', 'Find peace with guided meditations for stress, anxiety, and relaxation.')}
                     </p>
@@ -294,7 +294,7 @@ export default function MeditationAppTemplate({
                       data-eid="feature4_description"
                       contentEditable={editable}
                       suppressContentEditableWarning
-                      className="text-gray-600"
+                      className="text-gray-600 whitespace-pre-wrap break-words"
                     >
                       {getText('feature4_description', 'Build your practice, including programs, tips, and techniques to help build a life.')}
                     </p>
@@ -343,7 +343,7 @@ export default function MeditationAppTemplate({
 
           <div className="flex items-center justify-center gap-12">
             {/* Navigation Arrow Left */}
-            <button 
+            <button
               onClick={prevStory}
               className="w-12 h-12 rounded-full bg-purple-500 text-white flex items-center justify-center hover:bg-purple-600 transition-colors"
             >
@@ -409,7 +409,7 @@ export default function MeditationAppTemplate({
             </div>
 
             {/* Navigation Arrow Right */}
-            <button 
+            <button
               onClick={nextStory}
               className="w-12 h-12 rounded-full bg-purple-500 text-white flex items-center justify-center hover:bg-purple-600 transition-colors"
             >
@@ -423,9 +423,8 @@ export default function MeditationAppTemplate({
               <button
                 key={index}
                 onClick={() => setCurrentStoryIndex(index)}
-                className={`w-2 h-2 rounded-full transition-colors ${
-                  index === currentStoryIndex ? 'bg-purple-600' : 'bg-gray-300'
-                }`}
+                className={`w-2 h-2 rounded-full transition-colors ${index === currentStoryIndex ? 'bg-purple-600' : 'bg-gray-300'
+                  }`}
               />
             ))}
           </div>
@@ -459,7 +458,7 @@ export default function MeditationAppTemplate({
                 data-eid="testimonial1_text"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-gray-600 leading-relaxed"
+                className="text-gray-600 leading-relaxed whitespace-pre-wrap break-words"
               >
                 {getText('testimonial1_text', '"Calm has app-based meditation for every mood, from anxiety to work stress to sleep. It\'s like having a personal meditation coach in your pocket."')}
               </p>
@@ -479,7 +478,7 @@ export default function MeditationAppTemplate({
                 data-eid="testimonial2_text"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-gray-600 leading-relaxed"
+                className="text-gray-600 leading-relaxed whitespace-pre-wrap break-words"
               >
                 {getText('testimonial2_text', '"Today, the magic of the Calm App is that it not only can help you fall asleep, but it also can help you feel more relaxed and less anxious during the day."')}
               </p>
@@ -499,7 +498,7 @@ export default function MeditationAppTemplate({
                 data-eid="testimonial3_text"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-gray-600 leading-relaxed"
+                className="text-gray-600 leading-relaxed whitespace-pre-wrap break-words"
               >
                 {getText('testimonial3_text', '"The only sounds Calm app is as if you\'re lounging in the Bahamas (if there is such a place) and you get guided meditations, along with music and other programs."')}
               </p>
@@ -613,7 +612,7 @@ export default function MeditationAppTemplate({
                       className="text-gray-400 hover:text-white transition-colors relative group"
                       aria-label="Edit Facebook URL"
                     >
-                      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
                       <span className="absolute -top-1 -right-1 w-4 h-4 bg-purple-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                         <Link2 size={10} className="text-white" />
                       </span>
@@ -623,7 +622,7 @@ export default function MeditationAppTemplate({
                       className="text-gray-400 hover:text-white transition-colors relative group"
                       aria-label="Edit Twitter URL"
                     >
-                      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+                      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" /></svg>
                       <span className="absolute -top-1 -right-1 w-4 h-4 bg-purple-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                         <Link2 size={10} className="text-white" />
                       </span>
@@ -638,7 +637,7 @@ export default function MeditationAppTemplate({
                       className="text-gray-400 hover:text-white transition-colors"
                       aria-label="Facebook"
                     >
-                      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
                     </a>
                     <a
                       href={getButton('footer_twitter', '', 'https://twitter.com').url}
@@ -647,7 +646,7 @@ export default function MeditationAppTemplate({
                       className="text-gray-400 hover:text-white transition-colors"
                       aria-label="Twitter"
                     >
-                      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+                      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" /></svg>
                     </a>
                   </>
                 )}
@@ -681,7 +680,7 @@ export default function MeditationAppTemplate({
                 <X size={20} className="text-slate-600" />
               </button>
             </div>
-            
+
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-semibold text-slate-700 mb-2">

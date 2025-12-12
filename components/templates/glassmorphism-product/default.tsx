@@ -62,7 +62,7 @@ export default function GlassmorphismProductTemplate({
     <div className="bg-gradient-to-br from-orange-50 via-purple-50 to-cyan-50 text-[#0e121b] min-h-screen" style={{ fontFamily: "'Manrope', sans-serif" }}>
       <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
       <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-      
+
       <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden">
         {/* Header */}
         <header className="sticky top-0 z-50 px-4 md:px-10 lg:px-20 py-3 backdrop-blur-md bg-white/30 border-b border-white/50">
@@ -80,7 +80,7 @@ export default function GlassmorphismProductTemplate({
                   data-eid="nav_brand"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-[#0e121b] text-xl font-bold tracking-tighter"
+                  className="text-[#0e121b] text-xl font-bold tracking-tighter whitespace-pre-wrap break-words"
                 >
                   {getText('nav_brand', 'Glassify')}
                 </span>
@@ -146,9 +146,8 @@ export default function GlassmorphismProductTemplate({
                   {sliderImages.map((img, index) => (
                     <div
                       key={img.eid}
-                      className={`absolute inset-0 transition-opacity duration-500 ${
-                        index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
-                      }`}
+                      className={`absolute inset-0 transition-opacity duration-500 ${index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                        }`}
                     >
                       <EditableImage
                         eid={img.eid}
@@ -185,18 +184,17 @@ export default function GlassmorphismProductTemplate({
                       <button
                         key={index}
                         onClick={() => setCurrentSlide(index)}
-                        className={`size-2.5 rounded-full transition-all ${
-                          index === currentSlide
+                        className={`size-2.5 rounded-full transition-all ${index === currentSlide
                             ? 'bg-[#3670e2] scale-110'
                             : 'bg-white/50 hover:bg-white/70'
-                        }`}
+                          }`}
                         aria-label={`Go to slide ${index + 1}`}
                       />
                     ))}
                   </div>
                 </div>
               </div>
-              
+
               {/* Thumbnail Navigation */}
               <div className="w-full overflow-x-auto">
                 <div className="flex items-stretch p-2 gap-3 justify-center">
@@ -204,11 +202,10 @@ export default function GlassmorphismProductTemplate({
                     <button
                       key={img.eid}
                       onClick={() => !editable && setCurrentSlide(index)}
-                      className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden cursor-pointer transition-all hover:-translate-y-1 hover:shadow-lg ${
-                        index === currentSlide
+                      className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden cursor-pointer transition-all hover:-translate-y-1 hover:shadow-lg ${index === currentSlide
                           ? 'ring-2 ring-[#3670e2] ring-offset-2 ring-offset-white/50 shadow-md opacity-100'
                           : 'opacity-60 hover:opacity-100'
-                      }`}
+                        }`}
                     >
                       <EditableImage
                         eid={img.eid}
@@ -232,7 +229,7 @@ export default function GlassmorphismProductTemplate({
                     data-eid="product_title"
                     contentEditable={editable}
                     suppressContentEditableWarning
-                    className="text-3xl md:text-4xl font-bold tracking-tight text-[#0e121b]"
+                    className="text-3xl md:text-4xl font-bold tracking-tight text-[#0e121b] whitespace-pre-wrap break-words"
                   >
                     {getText('product_title', 'AuraWave Speaker')}
                   </h1>
@@ -240,7 +237,7 @@ export default function GlassmorphismProductTemplate({
                     data-eid="product_subtitle"
                     contentEditable={editable}
                     suppressContentEditableWarning
-                    className="text-slate-600"
+                    className="text-slate-600 whitespace-pre-wrap break-words"
                   >
                     {getText('product_subtitle', 'Experience sound in its purest form. Visually stunning, acoustically brilliant.')}
                   </p>
@@ -249,7 +246,7 @@ export default function GlassmorphismProductTemplate({
                   data-eid="product_price"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="flex-shrink-0 text-3xl md:text-4xl font-bold text-[#3670e2]"
+                  className="flex-shrink-0 text-3xl md:text-4xl font-bold text-[#3670e2] whitespace-pre-wrap break-words"
                 >
                   {getText('product_price', '$249.00')}
                 </span>
@@ -403,6 +400,7 @@ export default function GlassmorphismProductTemplate({
                   data-eid="product_description"
                   contentEditable={editable}
                   suppressContentEditableWarning
+                  className="whitespace-pre-wrap break-words"
                 >
                   {getText('product_description', 'The AuraWave Speaker is not just a device; it\'s an experience. Crafted with a unique transparent casing, it reveals the intricate technology within. Our proprietary sound engine delivers crystal-clear highs and deep, resonant bass, filling any room with rich, multi-dimensional audio. Sync the ambient LED lights to your music for a mesmerizing visual spectacle that moves with the beat.')}
                 </p>
@@ -469,7 +467,7 @@ export default function GlassmorphismProductTemplate({
                 data-eid="reviews_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-2xl font-bold tracking-tight text-[#0e121b]"
+                className="text-2xl font-bold tracking-tight text-[#0e121b] whitespace-pre-wrap break-words"
               >
                 {getText('reviews_title', 'Customer Reviews')}
               </h2>

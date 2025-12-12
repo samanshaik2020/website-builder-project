@@ -131,7 +131,7 @@ const MobileShopTemplate: React.FC<MobileShopTemplateProps> = ({
             <SlateEditableText
               eid="nav_brand"
               defaultText={getText('nav_brand', 'MobileShop')}
-              className="text-lg font-bold leading-tight tracking-[-0.015em]"
+              className="text-lg font-bold leading-tight tracking-[-0.015em] whitespace-pre-wrap break-words"
               editable={editable}
               onChange={handleTextChange}
             />
@@ -174,7 +174,7 @@ const MobileShopTemplate: React.FC<MobileShopTemplateProps> = ({
                 <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
               </svg>
             </button>
-            <div 
+            <div
               className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
               style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face")' }}
             ></div>
@@ -191,14 +191,14 @@ const MobileShopTemplate: React.FC<MobileShopTemplateProps> = ({
               <SlateEditableText
                 eid="hero_title"
                 defaultText={getText('hero_title', 'Top 50 Best-Selling Mobiles – Big Discounts Live!')}
-                className="text-[#111418] text-4xl font-black leading-tight tracking-[-0.033em]"
+                className="text-[#111418] text-4xl font-black leading-tight tracking-[-0.033em] whitespace-pre-wrap break-words"
                 editable={editable}
                 onChange={handleTextChange}
               />
               <SlateEditableText
                 eid="hero_description"
                 defaultText={getText('hero_description', 'Explore our curated list of the best-selling phones with unbeatable discounts.')}
-                className="text-[#617589] text-base font-normal leading-normal"
+                className="text-[#617589] text-base font-normal leading-normal whitespace-pre-wrap break-words"
                 editable={editable}
                 onChange={handleTextChange}
               />
@@ -248,7 +248,7 @@ const MobileShopTemplate: React.FC<MobileShopTemplateProps> = ({
           {/* Product Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
             {products.map((product) => (
-              <div 
+              <div
                 key={product.id}
                 className="flex flex-col gap-3 pb-3 bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-300"
               >
@@ -276,14 +276,14 @@ const MobileShopTemplate: React.FC<MobileShopTemplateProps> = ({
                     <SlateEditableText
                       eid={product.nameId}
                       defaultText={getText(product.nameId, product.defaultName)}
-                      className="text-base font-bold leading-normal"
+                      className="text-base font-bold leading-normal whitespace-pre-wrap break-words"
                       editable={editable}
                       onChange={handleTextChange}
                     />
                     <SlateEditableText
                       eid={product.priceId}
                       defaultText={getText(product.priceId, product.defaultPrice)}
-                      className="text-lg font-black text-[#FF4500] leading-normal"
+                      className="text-lg font-black text-[#FF4500] leading-normal whitespace-pre-wrap break-words"
                       editable={editable}
                       onChange={handleTextChange}
                     />

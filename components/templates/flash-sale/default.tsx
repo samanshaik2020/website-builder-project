@@ -43,7 +43,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
         let { hours, minutes, seconds } = prev;
-        
+
         if (seconds > 0) {
           seconds--;
         } else if (minutes > 0) {
@@ -54,7 +54,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
           minutes = 59;
           seconds = 59;
         }
-        
+
         return { hours, minutes, seconds };
       });
     }, 1000);
@@ -80,7 +80,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
           data-eid="top_banner_code"
           contentEditable={editable}
           suppressContentEditableWarning
-          className="bg-yellow-400 text-red-900 px-1 rounded"
+          className="bg-yellow-400 text-red-900 px-1 rounded whitespace-pre-wrap break-words"
         >
           {getText('top_banner_code', 'FLASH70')}
         </span>
@@ -97,7 +97,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
               data-eid="hero_title"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-4xl md:text-6xl font-black uppercase leading-tight"
+              className="text-4xl md:text-6xl font-black uppercase leading-tight whitespace-pre-wrap break-words"
               style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.3)' }}
             >
               {getText('hero_title', 'Limited-Time Flash Deal: Up to 70% Off!')}
@@ -106,7 +106,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
               data-eid="hero_description"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-lg md:text-xl text-red-100 max-w-lg mx-auto md:mx-0"
+              className="text-lg md:text-xl text-red-100 max-w-lg mx-auto md:mx-0 whitespace-pre-wrap break-words"
             >
               {getText('hero_description', "Experience superior sound quality and comfort. Don't miss our biggest sale of the year!")}
             </p>
@@ -210,7 +210,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
             data-eid="offers_title"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-3xl font-bold text-center mb-10 text-gray-900"
+            className="text-3xl font-bold text-center mb-10 text-gray-900 whitespace-pre-wrap break-words"
           >
             {getText('offers_title', 'Quick Offer Highlights')}
           </h2>
@@ -223,7 +223,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
                   data-eid="offer_1_title"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="font-bold text-lg"
+                  className="font-bold text-lg whitespace-pre-wrap break-words"
                 >
                   {getText('offer_1_title', '70% OFF HEADPHONES')}
                 </h3>
@@ -231,7 +231,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
                   data-eid="offer_1_description"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-sm text-gray-600"
+                  className="text-sm text-gray-600 whitespace-pre-wrap break-words"
                 >
                   {getText('offer_1_description', 'Massive discount on our best selling model.')}
                 </p>
@@ -246,7 +246,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
                   data-eid="offer_2_title"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="font-bold text-lg"
+                  className="font-bold text-lg whitespace-pre-wrap break-words"
                 >
                   {getText('offer_2_title', 'FREE CARRY CASE')}
                 </h3>
@@ -254,7 +254,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
                   data-eid="offer_2_description"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-sm text-gray-600"
+                  className="text-sm text-gray-600 whitespace-pre-wrap break-words"
                 >
                   {getText('offer_2_description', 'Includes premium protective case.')}
                 </p>
@@ -269,7 +269,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
                   data-eid="offer_3_title"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="font-bold text-lg"
+                  className="font-bold text-lg whitespace-pre-wrap break-words"
                 >
                   {getText('offer_3_title', 'NEXT DAY DELIVERY')}
                 </h3>
@@ -277,7 +277,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
                   data-eid="offer_3_description"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-sm text-gray-600"
+                  className="text-sm text-gray-600 whitespace-pre-wrap break-words"
                 >
                   {getText('offer_3_description', 'Order by 2 PM for fast shipping.')}
                 </p>
@@ -294,7 +294,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
             data-eid="benefits_title"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-3xl font-bold text-center mb-10"
+            className="text-3xl font-bold text-center mb-10 whitespace-pre-wrap break-words"
           >
             {getText('benefits_title', 'Product Benefits')}
           </h2>
@@ -306,7 +306,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
                 data-eid="benefit_1_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="font-bold text-lg mb-2"
+                className="font-bold text-lg mb-2 whitespace-pre-wrap break-words"
               >
                 {getText('benefit_1_title', 'Active Noise Cancellation')}
               </h3>
@@ -314,7 +314,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
                 data-eid="benefit_1_description"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-sm text-gray-600"
+                className="text-sm text-gray-600 whitespace-pre-wrap break-words"
               >
                 {getText('benefit_1_description', 'Immerse yourself in music without distractions.')}
               </p>
@@ -327,7 +327,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
                 data-eid="benefit_2_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="font-bold text-lg mb-2"
+                className="font-bold text-lg mb-2 whitespace-pre-wrap break-words"
               >
                 {getText('benefit_2_title', '30+ Hour Battery Life')}
               </h3>
@@ -335,7 +335,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
                 data-eid="benefit_2_description"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-sm text-gray-600"
+                className="text-sm text-gray-600 whitespace-pre-wrap break-words"
               >
                 {getText('benefit_2_description', 'Long lasting power for all-day listening.')}
               </p>
@@ -348,7 +348,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
                 data-eid="benefit_3_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="font-bold text-lg mb-2"
+                className="font-bold text-lg mb-2 whitespace-pre-wrap break-words"
               >
                 {getText('benefit_3_title', 'Supreme Comfort')}
               </h3>
@@ -356,7 +356,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
                 data-eid="benefit_3_description"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-sm text-gray-600"
+                className="text-sm text-gray-600 whitespace-pre-wrap break-words"
               >
                 {getText('benefit_3_description', 'Ergonomic design for extended wear.')}
               </p>
@@ -369,7 +369,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
                 data-eid="benefit_4_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="font-bold text-lg mb-2"
+                className="font-bold text-lg mb-2 whitespace-pre-wrap break-words"
               >
                 {getText('benefit_4_title', 'Crystal Clear Calls')}
               </h3>
@@ -377,7 +377,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
                 data-eid="benefit_4_description"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-sm text-gray-600"
+                className="text-sm text-gray-600 whitespace-pre-wrap break-words"
               >
                 {getText('benefit_4_description', 'Built-in mic for seamless communication.')}
               </p>
@@ -393,7 +393,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
             data-eid="features_title"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-3xl font-bold text-center mb-8"
+            className="text-3xl font-bold text-center mb-8 whitespace-pre-wrap break-words"
           >
             {getText('features_title', 'Detailed Product Features')}
           </h2>
@@ -413,7 +413,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
                 data-eid="feature_1_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-2xl font-bold mb-4"
+                className="text-2xl font-bold mb-4 whitespace-pre-wrap break-words"
               >
                 {getText('feature_1_title', 'Intuitive Touch Controls')}
               </h3>
@@ -421,7 +421,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
                 data-eid="feature_1_description"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-gray-600 mb-4"
+                className="text-gray-600 mb-4 whitespace-pre-wrap break-words"
               >
                 {getText('feature_1_description', 'Effortlessly manage volume, tracks, and calls with a simple tap on the ear cup. No need to reach for your phone.')}
               </p>
@@ -467,7 +467,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
                 data-eid="feature_2_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-2xl font-bold mb-4"
+                className="text-2xl font-bold mb-4 whitespace-pre-wrap break-words"
               >
                 {getText('feature_2_title', 'Portable and Foldable Design')}
               </h3>
@@ -475,7 +475,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
                 data-eid="feature_2_description"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-gray-600 mb-4"
+                className="text-gray-600 mb-4 whitespace-pre-wrap break-words"
               >
                 {getText('feature_2_description', 'Compact and easy to carry anywhere. The premium hinges allow the headphones to fold flat into the included travel case.')}
               </p>
@@ -513,7 +513,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
             data-eid="gallery_title"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-3xl font-bold text-center mb-10"
+            className="text-3xl font-bold text-center mb-10 whitespace-pre-wrap break-words"
           >
             {getText('gallery_title', 'Product Gallery')}
           </h2>
@@ -571,7 +571,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
           <div className="mb-10 text-center">
             <h3 className="text-xl font-bold mb-2 text-red-600">Stock & Scarcity</h3>
             <div className="w-full bg-gray-200 rounded-full h-6 mb-2 relative overflow-hidden">
-              <div 
+              <div
                 className="bg-red-600 h-6 rounded-full text-xs text-white flex items-center justify-center font-bold"
                 style={{ width: `${getText('stock_percentage', '85')}%` }}
               >
@@ -588,7 +588,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
               data-eid="stock_message"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-sm font-bold text-gray-800"
+              className="text-sm font-bold text-gray-800 whitespace-pre-wrap break-words"
             >
               {getText('stock_message', 'HURRY! Only 150 units left at this price. 500+ people viewing this product right now!')}
             </p>
@@ -610,7 +610,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
               data-eid="pricing_label"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-2xl font-light text-gray-400 mb-2"
+              className="text-2xl font-light text-gray-400 mb-2 whitespace-pre-wrap break-words"
             >
               {getText('pricing_label', 'FLASH SALE PRICE')}
             </h2>
@@ -619,7 +619,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
                 data-eid="pricing_original"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-3xl text-gray-500 line-through"
+                className="text-3xl text-gray-500 line-through whitespace-pre-wrap break-words"
               >
                 {getText('pricing_original', '$299.99')}
               </span>
@@ -627,7 +627,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
                 data-eid="pricing_sale"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-6xl md:text-7xl font-black text-red-500"
+                className="text-6xl md:text-7xl font-black text-red-500 whitespace-pre-wrap break-words"
               >
                 {getText('pricing_sale', '$89.99')}
               </span>
@@ -659,7 +659,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
             data-eid="reviews_title"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-3xl font-bold text-center mb-2"
+            className="text-3xl font-bold text-center mb-2 whitespace-pre-wrap break-words"
           >
             {getText('reviews_title', 'Customer Reviews')}
           </h2>
@@ -667,7 +667,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
             data-eid="reviews_subtitle"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-center text-gray-600 mb-10"
+            className="text-center text-gray-600 mb-10 whitespace-pre-wrap break-words"
           >
             {getText('reviews_subtitle', '4.9/5 Stars based on 500+ reviews')}
           </p>
@@ -689,7 +689,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
                   data-eid="review_1_text"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="font-bold text-sm"
+                  className="font-bold text-sm whitespace-pre-wrap break-words"
                 >
                   {getText('review_1_text', '"Amazing sound quality and comfort!"')}
                 </p>
@@ -720,7 +720,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
                   data-eid="review_2_text"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="font-bold text-sm"
+                  className="font-bold text-sm whitespace-pre-wrap break-words"
                 >
                   {getText('review_2_text', '"Best deal ever, incredible value."')}
                 </p>
@@ -751,7 +751,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
                   data-eid="review_3_text"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="font-bold text-sm"
+                  className="font-bold text-sm whitespace-pre-wrap break-words"
                 >
                   {getText('review_3_text', '"Great headphones, fast delivery."')}
                 </p>
@@ -776,7 +776,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
             data-eid="how_it_works_title"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-2xl font-bold mb-8"
+            className="text-2xl font-bold mb-8 whitespace-pre-wrap break-words"
           >
             {getText('how_it_works_title', 'How It Works')}
           </h2>
@@ -788,7 +788,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
                 data-eid="step_1_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="font-bold"
+                className="font-bold whitespace-pre-wrap break-words"
               >
                 {getText('step_1_title', 'Add to Cart')}
               </h3>
@@ -796,7 +796,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
                 data-eid="step_1_description"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-sm text-gray-600"
+                className="text-sm text-gray-600 whitespace-pre-wrap break-words"
               >
                 {getText('step_1_description', 'Select your quantity and click buy.')}
               </p>
@@ -809,7 +809,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
                 data-eid="step_2_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="font-bold"
+                className="font-bold whitespace-pre-wrap break-words"
               >
                 {getText('step_2_title', 'Checkout Securely')}
               </h3>
@@ -817,7 +817,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
                 data-eid="step_2_description"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-sm text-gray-600"
+                className="text-sm text-gray-600 whitespace-pre-wrap break-words"
               >
                 {getText('step_2_description', 'Enter your shipping details.')}
               </p>
@@ -830,7 +830,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
                 data-eid="step_3_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="font-bold"
+                className="font-bold whitespace-pre-wrap break-words"
               >
                 {getText('step_3_title', 'Enjoy Your Headphones')}
               </h3>
@@ -838,7 +838,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
                 data-eid="step_3_description"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-sm text-gray-600"
+                className="text-sm text-gray-600 whitespace-pre-wrap break-words"
               >
                 {getText('step_3_description', 'Fast delivery to your door.')}
               </p>
@@ -854,7 +854,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
             data-eid="faq_title"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-2xl font-bold text-center mb-8"
+            className="text-2xl font-bold text-center mb-8 whitespace-pre-wrap break-words"
           >
             {getText('faq_title', 'FAQ Section')}
           </h2>
@@ -934,7 +934,7 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
           data-eid="footer_cta_title"
           contentEditable={editable}
           suppressContentEditableWarning
-          className="text-2xl font-bold mb-4"
+          className="text-2xl font-bold mb-4 whitespace-pre-wrap break-words"
         >
           {getText('footer_cta_title', "Don't Miss Out - Sale Ends Soon!")}
         </h3>

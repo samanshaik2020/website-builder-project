@@ -14,16 +14,16 @@ interface PhoneFunTemplateProps {
 export default function PhoneFunTemplate({
   data = {},
   editable = false,
-  onContentChange = () => {},
+  onContentChange = () => { },
 }: PhoneFunTemplateProps) {
   const getText = (eid: string, defaultValue: string) => data[eid]?.text || defaultValue;
   const getImage = (eid: string, defaultValue: string) => data[eid]?.image || defaultValue;
-  const getButton = (eid: string, defaultText: string, defaultUrl: string) => 
+  const getButton = (eid: string, defaultText: string, defaultUrl: string) =>
     data[eid]?.button || { text: defaultText, url: defaultUrl };
 
   const handleSlateTextChange = (eid: string, value: string) => onContentChange(eid, { text: value });
   const handleImageChange = (eid: string, data: { image: string; linkUrl?: string | undefined }) => onContentChange(eid, data);
-  const handleButtonChange = (eid: string, content: { button: { text: string; url: string } }) => 
+  const handleButtonChange = (eid: string, content: { button: { text: string; url: string } }) =>
     onContentChange(eid, content);
 
   return (
@@ -33,7 +33,7 @@ export default function PhoneFunTemplate({
         .font-fredoka { font-family: 'Fredoka', sans-serif; }
         .font-architects { font-family: 'Architects Daughter', cursive; }
       `}</style>
-      
+
       <div className="min-h-screen bg-[#FDFCEE] text-[#222] overflow-x-hidden font-architects">
         {/* Header */}
         <header className="sticky top-0 z-50 w-full border-b-4 border-dashed border-[#0074D9]/30 bg-[#FDFCEE]/90 backdrop-blur-sm shadow-md">
@@ -48,21 +48,21 @@ export default function PhoneFunTemplate({
                 <SlateEditableText
                   eid="nav_brand"
                   defaultText={getText('nav_brand', 'AwesomePhone')}
-                  className="text-2xl font-bold text-[#0074D9]"
+                  className="text-2xl font-bold text-[#0074D9] whitespace-pre-wrap break-words"
                   editable={editable}
                   onChange={handleSlateTextChange}
                 />
               </div>
             </div>
             <nav className="hidden md:flex items-center gap-8">
-              <SlateEditableText eid="nav_link1" defaultText={getText('nav_link1', 'Cool Stuff')} 
-                className="text-base hover:text-[#FF4136] transition-colors cursor-pointer" 
+              <SlateEditableText eid="nav_link1" defaultText={getText('nav_link1', 'Cool Stuff')}
+                className="text-base hover:text-[#FF4136] transition-colors cursor-pointer"
                 editable={editable} onChange={handleSlateTextChange} />
-              <SlateEditableText eid="nav_link2" defaultText={getText('nav_link2', 'The Nitty-Gritty')} 
-                className="text-base hover:text-[#FF4136] transition-colors cursor-pointer" 
+              <SlateEditableText eid="nav_link2" defaultText={getText('nav_link2', 'The Nitty-Gritty')}
+                className="text-base hover:text-[#FF4136] transition-colors cursor-pointer"
                 editable={editable} onChange={handleSlateTextChange} />
-              <SlateEditableText eid="nav_link3" defaultText={getText('nav_link3', 'Happy Talk')} 
-                className="text-base hover:text-[#FF4136] transition-colors cursor-pointer" 
+              <SlateEditableText eid="nav_link3" defaultText={getText('nav_link3', 'Happy Talk')}
+                className="text-base hover:text-[#FF4136] transition-colors cursor-pointer"
                 editable={editable} onChange={handleSlateTextChange} />
             </nav>
             <div className="font-fredoka">
@@ -82,7 +82,7 @@ export default function PhoneFunTemplate({
         <section className="container mx-auto px-4 py-16 sm:py-24 relative overflow-hidden">
           <div className="absolute top-1/4 left-0 -translate-x-1/2 w-48 h-48 bg-[#FFDC00] rounded-full mix-blend-multiply opacity-30"></div>
           <div className="absolute bottom-1/4 right-0 translate-x-1/2 w-64 h-64 bg-[#2ECC40] rounded-full mix-blend-multiply opacity-30"></div>
-          
+
           <div className="relative z-10">
             <div className="flex flex-col items-center gap-10 lg:flex-row lg:gap-16">
               <div className="flex w-full flex-col items-center gap-6 text-center lg:w-1/2 lg:items-start lg:text-left">
@@ -90,7 +90,7 @@ export default function PhoneFunTemplate({
                   <SlateEditableText
                     eid="hero_title"
                     defaultText={getText('hero_title', 'Unleash Your Inner Awesome with AwesomePhone!')}
-                    className="text-5xl sm:text-6xl md:text-7xl font-black leading-tight tracking-tight text-[#0074D9] -rotate-3 mb-4"
+                    className="text-5xl sm:text-6xl md:text-7xl font-black leading-tight tracking-tight text-[#0074D9] -rotate-3 mb-4 whitespace-pre-wrap break-words"
                     editable={editable}
                     onChange={handleSlateTextChange}
                   />
@@ -98,7 +98,7 @@ export default function PhoneFunTemplate({
                 <SlateEditableText
                   eid="hero_subtitle"
                   defaultText={getText('hero_subtitle', 'Super duper camera, screen so bright it\'s basically magic, and performance that zoom-zooms past the rest!')}
-                  className="text-lg sm:text-xl text-[#555] transform rotate-1"
+                  className="text-lg sm:text-xl text-[#555] transform rotate-1 whitespace-pre-wrap break-words"
                   editable={editable}
                   onChange={handleSlateTextChange}
                 />
@@ -143,7 +143,7 @@ export default function PhoneFunTemplate({
               <SlateEditableText
                 eid="gallery_title"
                 defaultText={getText('gallery_title', 'Shoot Like a Pro (Without Actually Being One!) 📸')}
-                className="text-4xl sm:text-5xl font-bold tracking-tight text-[#2ECC40] transform rotate-2"
+                className="text-4xl sm:text-5xl font-bold tracking-tight text-[#2ECC40] transform rotate-2 whitespace-pre-wrap break-words"
                 editable={editable}
                 onChange={handleSlateTextChange}
               />
@@ -151,28 +151,26 @@ export default function PhoneFunTemplate({
             <SlateEditableText
               eid="gallery_subtitle"
               defaultText={getText('gallery_subtitle', 'Capture your world in super-duper detail. From epic landscapes to silly selfies, this camera makes magic happen!')}
-              className="text-lg text-[#555] max-w-2xl mx-auto transform -rotate-1"
+              className="text-lg text-[#555] max-w-2xl mx-auto transform -rotate-1 whitespace-pre-wrap break-words"
               editable={editable}
               onChange={handleSlateTextChange}
             />
           </div>
-          
+
           <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 lg:gap-12 relative">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-[#0074D9] rounded-full mix-blend-multiply opacity-20 z-0"></div>
-            
+
             {[1, 2, 3].map((i) => (
-              <div key={i} className={`relative z-10 rounded-xl aspect-[3/4] shadow-xl border-4 ${
-                i === 1 ? 'border-solid border-[#FF4136]/50 transform rotate-3 hover:rotate-0' :
-                i === 2 ? 'border-dashed border-[#FFDC00]/50 transform -rotate-2 md:mt-16 hover:rotate-0' :
-                'border-dotted border-[#0074D9]/50 transform rotate-4 md:mt-8 hover:rotate-0'
-              } hover:scale-105 transition-transform duration-300 overflow-hidden`}>
+              <div key={i} className={`relative z-10 rounded-xl aspect-[3/4] shadow-xl border-4 ${i === 1 ? 'border-solid border-[#FF4136]/50 transform rotate-3 hover:rotate-0' :
+                  i === 2 ? 'border-dashed border-[#FFDC00]/50 transform -rotate-2 md:mt-16 hover:rotate-0' :
+                    'border-dotted border-[#0074D9]/50 transform rotate-4 md:mt-8 hover:rotate-0'
+                } hover:scale-105 transition-transform duration-300 overflow-hidden`}>
                 <EditableImage
                   eid={`gallery_image${i}`}
-                  defaultSrc={getImage(`gallery_image${i}`, `https://images.unsplash.com/photo-${
-                    i === 1 ? '1511707171634-5f897ff02aa9' :
-                    i === 2 ? '1490730141103-6cac27aaab94' :
-                    '1519389950473-47ba0277781c'
-                  }?w=400`)}
+                  defaultSrc={getImage(`gallery_image${i}`, `https://images.unsplash.com/photo-${i === 1 ? '1511707171634-5f897ff02aa9' :
+                      i === 2 ? '1490730141103-6cac27aaab94' :
+                        '1519389950473-47ba0277781c'
+                    }?w=400`)}
                   alt={`Gallery ${i}`}
                   className="w-full h-full object-cover"
                   editable={editable}
@@ -180,16 +178,15 @@ export default function PhoneFunTemplate({
                 />
                 <SlateEditableText
                   eid={`gallery_caption${i}`}
-                  defaultText={getText(`gallery_caption${i}`, 
+                  defaultText={getText(`gallery_caption${i}`,
                     i === 1 ? 'So many lenses!' :
-                    i === 2 ? 'Flower power!' :
-                    'Night mode magic!'
+                      i === 2 ? 'Flower power!' :
+                        'Night mode magic!'
                   )}
-                  className={`absolute ${
-                    i === 1 ? '-bottom-4 left-1/2 -translate-x-1/2 bg-[#FF4136] -rotate-6' :
-                    i === 2 ? '-top-4 right-4 bg-[#2ECC40] rotate-3' :
-                    '-bottom-4 right-1/2 translate-x-1/2 bg-[#0074D9] rotate-2'
-                  } text-white text-sm px-3 py-1 rounded-full shadow-md`}
+                  className={`absolute ${i === 1 ? '-bottom-4 left-1/2 -translate-x-1/2 bg-[#FF4136] -rotate-6' :
+                      i === 2 ? '-top-4 right-4 bg-[#2ECC40] rotate-3' :
+                        '-bottom-4 right-1/2 translate-x-1/2 bg-[#0074D9] rotate-2'
+                    } text-white text-sm px-3 py-1 rounded-full shadow-md`}
                   editable={editable}
                   onChange={handleSlateTextChange}
                 />
@@ -205,7 +202,7 @@ export default function PhoneFunTemplate({
               <SlateEditableText
                 eid="features_title"
                 defaultText={getText('features_title', 'All the Super-Duper Fun Stuff! ✨')}
-                className="text-4xl sm:text-5xl font-bold tracking-tight text-[#FF4136] transform -rotate-2"
+                className="text-4xl sm:text-5xl font-bold tracking-tight text-[#FF4136] transform -rotate-2 whitespace-pre-wrap break-words"
                 editable={editable}
                 onChange={handleSlateTextChange}
               />
@@ -213,7 +210,7 @@ export default function PhoneFunTemplate({
             <SlateEditableText
               eid="features_subtitle"
               defaultText={getText('features_subtitle', 'Get ready to discover the mind-blowing features that make AwesomePhone the coolest gadget ever!')}
-              className="text-lg text-[#555] max-w-2xl mx-auto transform rotate-1"
+              className="text-lg text-[#555] max-w-2xl mx-auto transform rotate-1 whitespace-pre-wrap break-words"
               editable={editable}
               onChange={handleSlateTextChange}
             />
@@ -225,15 +222,14 @@ export default function PhoneFunTemplate({
               { bg: '#0074D9', border: '#0074D9', title: 'Lightning Fast Performance!', desc: 'Apps open in a blink, games run super smooth. This chip is a total speed demon!', img: 'https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=400' },
               { bg: '#2ECC40', border: '#2ECC40', title: 'Battery That Goes All Day (and Night)!', desc: 'Forget charging! This battery keeps going and going so you can have endless fun!', img: 'https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=400' }
             ].map((feature, i) => (
-              <div key={i} className={`flex flex-col gap-4 text-center items-center p-6 rounded-xl shadow-lg border-2 border-dashed transform ${
-                i === 0 ? 'rotate-2' : i === 1 ? '-rotate-1' : 'rotate-3'
-              } hover:rotate-0 hover:scale-105 transition-transform`} >
+              <div key={i} className={`flex flex-col gap-4 text-center items-center p-6 rounded-xl shadow-lg border-2 border-dashed transform ${i === 0 ? 'rotate-2' : i === 1 ? '-rotate-1' : 'rotate-3'
+                } hover:rotate-0 hover:scale-105 transition-transform`} >
                 <EditableImage
                   eid={`feature_image${i + 1}`}
                   defaultSrc={getImage(`feature_image${i + 1}`, feature.img)}
                   alt={feature.title}
                   className="w-full aspect-video object-cover rounded-lg border-2 border-solid p-4"
-                  
+
                   editable={editable}
                   onChange={handleImageChange}
                 />
@@ -242,7 +238,7 @@ export default function PhoneFunTemplate({
                     <SlateEditableText
                       eid={`feature_title${i + 1}`}
                       defaultText={getText(`feature_title${i + 1}`, feature.title)}
-                      className="font-bold text-xl mb-2"
+                      className="font-bold text-xl mb-2 whitespace-pre-wrap break-words"
                       editable={editable}
                       onChange={handleSlateTextChange}
                     />
@@ -250,7 +246,7 @@ export default function PhoneFunTemplate({
                   <SlateEditableText
                     eid={`feature_desc${i + 1}`}
                     defaultText={getText(`feature_desc${i + 1}`, feature.desc)}
-                    className="text-base text-[#555]"
+                    className="text-base text-[#555] whitespace-pre-wrap break-words"
                     editable={editable}
                     onChange={handleSlateTextChange}
                   />
@@ -269,7 +265,7 @@ export default function PhoneFunTemplate({
                 <SlateEditableText
                   eid="specs_title"
                   defaultText={getText('specs_title', 'The Nitty-Gritty Details! 🤓')}
-                  className="text-4xl sm:text-5xl font-bold tracking-tight text-[#0074D9] transform rotate-1"
+                  className="text-4xl sm:text-5xl font-bold tracking-tight text-[#0074D9] transform rotate-1 whitespace-pre-wrap break-words"
                   editable={editable}
                   onChange={handleSlateTextChange}
                 />
@@ -277,7 +273,7 @@ export default function PhoneFunTemplate({
               <SlateEditableText
                 eid="specs_subtitle"
                 defaultText={getText('specs_subtitle', 'Wanna know what makes this phone a total superhero? Dive into the awesome specs!')}
-                className="text-lg text-[#555] max-w-2xl mx-auto transform -rotate-1"
+                className="text-lg text-[#555] max-w-2xl mx-auto transform -rotate-1 whitespace-pre-wrap break-words"
                 editable={editable}
                 onChange={handleSlateTextChange}
               />
@@ -298,7 +294,7 @@ export default function PhoneFunTemplate({
                         <SlateEditableText
                           eid={`spec_title${i + 1}`}
                           defaultText={getText(`spec_title${i + 1}`, spec.title)}
-                          className="font-bold text-xl mb-2"
+                          className="font-bold text-xl mb-2 whitespace-pre-wrap break-words"
                           editable={editable}
                           onChange={handleSlateTextChange}
                         />
@@ -306,7 +302,7 @@ export default function PhoneFunTemplate({
                       <SlateEditableText
                         eid={`spec_desc${i + 1}`}
                         defaultText={getText(`spec_desc${i + 1}`, spec.desc)}
-                        className="text-base text-[#555]"
+                        className="text-base text-[#555] whitespace-pre-wrap break-words"
                         editable={editable}
                         onChange={handleSlateTextChange}
                       />
@@ -326,7 +322,7 @@ export default function PhoneFunTemplate({
               <SlateEditableText
                 eid="reviews_title"
                 defaultText={getText('reviews_title', 'What Our Awesome Fans Are Saying! 🥰')}
-                className="text-4xl sm:text-5xl font-bold tracking-tight text-[#2ECC40] transform rotate-2"
+                className="text-4xl sm:text-5xl font-bold tracking-tight text-[#2ECC40] transform rotate-2 whitespace-pre-wrap break-words"
                 editable={editable}
                 onChange={handleSlateTextChange}
               />
@@ -334,7 +330,7 @@ export default function PhoneFunTemplate({
             <SlateEditableText
               eid="reviews_subtitle"
               defaultText={getText('reviews_subtitle', 'Hear from real people who are totally smitten with their new AwesomePhone!')}
-              className="text-lg text-[#555] max-w-2xl mx-auto transform -rotate-1"
+              className="text-lg text-[#555] max-w-2xl mx-auto transform -rotate-1 whitespace-pre-wrap break-words"
               editable={editable}
               onChange={handleSlateTextChange}
             />
@@ -356,7 +352,7 @@ export default function PhoneFunTemplate({
                 <SlateEditableText
                   eid={`review_text${i + 1}`}
                   defaultText={getText(`review_text${i + 1}`, review.text)}
-                  className="text-base italic text-[#555]"
+                  className="text-base italic text-[#555] whitespace-pre-wrap break-words"
                   editable={editable}
                   onChange={handleSlateTextChange}
                 />
@@ -364,7 +360,7 @@ export default function PhoneFunTemplate({
                   <SlateEditableText
                     eid={`review_name${i + 1}`}
                     defaultText={getText(`review_name${i + 1}`, `— ${review.name} (${review.role})`)}
-                    className="font-bold text-lg"
+                    className="font-bold text-lg whitespace-pre-wrap break-words"
                     editable={editable}
                     onChange={handleSlateTextChange}
                   />
@@ -383,7 +379,7 @@ export default function PhoneFunTemplate({
               <SlateEditableText
                 eid="cta_title"
                 defaultText={getText('cta_title', 'Ready for Your Own Awesome Adventure? 🚀')}
-                className="text-4xl sm:text-5xl font-bold tracking-tight text-[#FF4136] transform rotate-3"
+                className="text-4xl sm:text-5xl font-bold tracking-tight text-[#FF4136] transform rotate-3 whitespace-pre-wrap break-words"
                 editable={editable}
                 onChange={handleSlateTextChange}
               />
@@ -391,7 +387,7 @@ export default function PhoneFunTemplate({
             <SlateEditableText
               eid="cta_subtitle"
               defaultText={getText('cta_subtitle', 'Jump into the world of power, fun, and simplicity with the coolest AwesomePhone yet. Snag yours today and let the good times roll!')}
-              className="mt-6 max-w-xl mx-auto text-lg text-[#555] transform -rotate-2"
+              className="mt-6 max-w-xl mx-auto text-lg text-[#555] transform -rotate-2 whitespace-pre-wrap break-words"
               editable={editable}
               onChange={handleSlateTextChange}
             />
@@ -417,7 +413,7 @@ export default function PhoneFunTemplate({
               <SlateEditableText
                 eid="footer_copyright"
                 defaultText={getText('footer_copyright', '© 2024 AwesomePhone Adventures. All rights reserved.')}
-                className="text-sm text-[#555] transform rotate-1"
+                className="text-sm text-[#555] transform rotate-1 whitespace-pre-wrap break-words"
                 editable={editable}
                 onChange={handleSlateTextChange}
               />

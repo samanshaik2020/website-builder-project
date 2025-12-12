@@ -10,12 +10,12 @@ interface LegalCenterTemplateProps {
   onContentChange?: (eid: string, content: any) => void;
 }
 
-export default function LegalCenterTemplate({ 
-  data = {}, 
+export default function LegalCenterTemplate({
+  data = {},
   editable = false,
-  onContentChange = () => {}
+  onContentChange = () => { }
 }: LegalCenterTemplateProps) {
-  
+
   const getText = (eid: string, defaultText: string) => {
     return data[eid]?.text || defaultText;
   };
@@ -111,14 +111,14 @@ export default function LegalCenterTemplate({
               <SlateEditableText
                 eid="hero_title"
                 defaultText={getText('hero_title', 'Legal Center')}
-                className="text-4xl font-black tracking-tighter text-[#2D3748]"
+                className="text-4xl font-black tracking-tighter text-[#2D3748] whitespace-pre-wrap break-words"
                 editable={editable}
                 onChange={handleTextChange}
               />
               <SlateEditableText
                 eid="hero_description"
                 defaultText={getText('hero_description', "Here you'll find our Terms of Service and Privacy Policy. These documents outline your rights and responsibilities when using our services and how we handle your data.")}
-                className="text-base text-gray-500 max-w-2xl"
+                className="text-base text-gray-500 max-w-2xl whitespace-pre-wrap break-words"
                 editable={editable}
                 onChange={handleTextChange}
               />
@@ -142,14 +142,14 @@ export default function LegalCenterTemplate({
                 <SlateEditableText
                   eid="tos_title"
                   defaultText={getText('tos_title', 'Terms of Service')}
-                  className="text-2xl font-bold tracking-tight text-[#2D3748]"
+                  className="text-2xl font-bold tracking-tight text-[#2D3748] whitespace-pre-wrap break-words"
                   editable={editable}
                   onChange={handleTextChange}
                 />
                 <SlateEditableText
                   eid="tos_subtitle"
                   defaultText={getText('tos_subtitle', 'Rules and guidelines for using squpage.com.')}
-                  className="text-sm text-gray-500 mt-1"
+                  className="text-sm text-gray-500 mt-1 whitespace-pre-wrap break-words"
                   editable={editable}
                   onChange={handleTextChange}
                 />
@@ -168,7 +168,7 @@ export default function LegalCenterTemplate({
                     <SlateEditableText
                       eid="tos_section1_content"
                       defaultText={getText('tos_section1_content', 'By accessing or using squpage.com, you agree to be bound by these Terms of Service and our Privacy Policy. If you do not agree to all the terms and conditions, then you may not access the website or use any services.')}
-                      className="text-gray-600"
+                      className="text-gray-600 whitespace-pre-wrap break-words"
                       editable={editable}
                       onChange={handleTextChange}
                     />
@@ -188,7 +188,7 @@ export default function LegalCenterTemplate({
                     <SlateEditableText
                       eid="tos_section2_content"
                       defaultText={getText('tos_section2_content', 'You agree not to use the service for any unlawful purpose or any purpose prohibited under this clause. You agree not to use the service in any way that could damage the website, services, or general business of squpage.com.')}
-                      className="text-gray-600"
+                      className="text-gray-600 whitespace-pre-wrap break-words"
                       editable={editable}
                       onChange={handleTextChange}
                     />
@@ -252,7 +252,7 @@ export default function LegalCenterTemplate({
                 <SlateEditableText
                   eid="privacy_title"
                   defaultText={getText('privacy_title', 'Privacy Policy')}
-                  className="text-2xl font-bold tracking-tight text-[#2D3748]"
+                  className="text-2xl font-bold tracking-tight text-[#2D3748] whitespace-pre-wrap break-words"
                   editable={editable}
                   onChange={handleTextChange}
                 />
@@ -278,7 +278,7 @@ export default function LegalCenterTemplate({
                     <SlateEditableText
                       eid="privacy_section1_content1"
                       defaultText={getText('privacy_section1_content1', 'To provide and improve our services, we collect certain information when you use squpage.com. This information falls into three categories: information you provide to us, information collected automatically, and information from third parties.')}
-                      className="text-gray-600"
+                      className="text-gray-600 whitespace-pre-wrap break-words"
                       editable={editable}
                       onChange={handleTextChange}
                     />

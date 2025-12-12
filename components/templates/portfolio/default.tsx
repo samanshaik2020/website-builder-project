@@ -16,7 +16,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
-      
+
       const sections = ['home', 'about', 'projects', 'resume', 'testimonials', 'contact'];
       const current = sections.find(section => {
         const element = document.getElementById(section);
@@ -72,11 +72,11 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
         <nav className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${scrollY > 50 ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-slate-900/80 backdrop-blur-md'}`}>
           <div className="max-w-7xl mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
-              <h1 
+              <h1
                 data-eid="nav_logo"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className={`text-2xl font-bold transition-colors ${scrollY > 50 ? 'text-slate-900' : 'text-white'}`}
+                className={`text-2xl font-bold transition-colors ${scrollY > 50 ? 'text-slate-900' : 'text-white'} whitespace-pre-wrap break-words`}
               >
                 {getText('nav_logo', 'Portfolio')}
               </h1>
@@ -85,9 +85,8 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                   <button
                     key={item}
                     onClick={() => scrollToSection(item.toLowerCase())}
-                    className={`text-sm font-medium transition-colors hover:text-purple-400 px-3 py-2 rounded-lg ${
-                      scrollY > 50 ? 'text-slate-700 hover:bg-slate-100' : 'text-white hover:bg-white/10'
-                    } ${activeSection === item.toLowerCase() ? 'text-purple-600 bg-purple-50' : ''}`}
+                    className={`text-sm font-medium transition-colors hover:text-purple-400 px-3 py-2 rounded-lg ${scrollY > 50 ? 'text-slate-700 hover:bg-slate-100' : 'text-white hover:bg-white/10'
+                      } ${activeSection === item.toLowerCase() ? 'text-purple-600 bg-purple-50' : ''}`}
                   >
                     {item}
                   </button>
@@ -108,11 +107,11 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center relative z-10">
           <div className="text-left space-y-6" style={{ transform: `translateY(${scrollY * 0.3}px)` }}>
             <div className="inline-block px-4 py-2 bg-purple-600/30 backdrop-blur-sm rounded-full border border-purple-400/30">
-              <span 
+              <span
                 data-eid="hero_badge"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-sm text-purple-200"
+                className="text-sm text-purple-200 whitespace-pre-wrap break-words"
               >
                 {getText('hero_badge', '👋 Welcome to my portfolio')}
               </span>
@@ -121,7 +120,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
               data-eid="hero_name"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-6xl md:text-7xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-200"
+              className="text-6xl md:text-7xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-200 whitespace-pre-wrap break-words"
             >
               {getText('hero_name', 'John Doe')}
             </h1>
@@ -129,7 +128,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
               data-eid="hero_title"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-3xl md:text-4xl text-purple-300 font-semibold"
+              className="text-3xl md:text-4xl text-purple-300 font-semibold whitespace-pre-wrap break-words"
             >
               {getText('hero_title', 'Full Stack Developer & Designer')}
             </h2>
@@ -137,7 +136,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
               data-eid="hero_description"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-lg text-slate-300 leading-relaxed max-w-xl"
+              className="text-lg text-slate-300 leading-relaxed max-w-xl whitespace-pre-wrap break-words"
             >
               {getText('hero_description', 'I create beautiful, functional websites and applications that help businesses grow. With a passion for clean code and elegant design, I turn ideas into digital experiences.')}
             </p>
@@ -206,7 +205,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                 data-eid="about_story_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-3xl font-bold text-slate-900"
+                className="text-3xl font-bold text-slate-900 whitespace-pre-wrap break-words"
               >
                 {getText('about_story_title', 'My Professional Story')}
               </h3>
@@ -253,24 +252,23 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
 
           {/* Skills Grid */}
           <div className="mt-20">
-            <h3 
+            <h3
               data-eid="skills_section_title"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-3xl font-bold text-slate-900 mb-10 text-center"
+              className="text-3xl font-bold text-slate-900 mb-10 text-center whitespace-pre-wrap break-words"
             >
               {getText('skills_section_title', 'Core Skills & Expertise')}
             </h3>
             <div className="grid md:grid-cols-3 gap-8">
               {[1, 2, 3, 4, 5, 6].map((num) => (
-                <div key={num} className={`p-8 bg-gradient-to-br rounded-2xl border hover:shadow-xl transition-all transform hover:-translate-y-2 ${
-                  num === 1 ? 'from-purple-50 to-pink-50 border-purple-100' :
-                  num === 2 ? 'from-blue-50 to-cyan-50 border-blue-100' :
-                  num === 3 ? 'from-green-50 to-emerald-50 border-green-100' :
-                  num === 4 ? 'from-orange-50 to-red-50 border-orange-100' :
-                  num === 5 ? 'from-yellow-50 to-amber-50 border-yellow-100' :
-                  'from-indigo-50 to-purple-50 border-indigo-100'
-                }`}>
+                <div key={num} className={`p-8 bg-gradient-to-br rounded-2xl border hover:shadow-xl transition-all transform hover:-translate-y-2 ${num === 1 ? 'from-purple-50 to-pink-50 border-purple-100' :
+                    num === 2 ? 'from-blue-50 to-cyan-50 border-blue-100' :
+                      num === 3 ? 'from-green-50 to-emerald-50 border-green-100' :
+                        num === 4 ? 'from-orange-50 to-red-50 border-orange-100' :
+                          num === 5 ? 'from-yellow-50 to-amber-50 border-yellow-100' :
+                            'from-indigo-50 to-purple-50 border-indigo-100'
+                  }`}>
                   <div className="text-4xl mb-4">
                     {num === 1 ? '⚡' : num === 2 ? '🚀' : num === 3 ? '🎨' : num === 4 ? '☁️' : num === 5 ? '📱' : '🔧'}
                   </div>
@@ -278,30 +276,30 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                     data-eid={`skill_${num}_title`}
                     contentEditable={editable}
                     suppressContentEditableWarning
-                    className="text-xl font-bold text-slate-900 mb-3"
+                    className="text-xl font-bold text-slate-900 mb-3 whitespace-pre-wrap break-words"
                   >
-                    {getText(`skill_${num}_title`, 
+                    {getText(`skill_${num}_title`,
                       num === 1 ? 'Frontend Development' :
-                      num === 2 ? 'Backend Development' :
-                      num === 3 ? 'UI/UX Design' :
-                      num === 4 ? 'Cloud & DevOps' :
-                      num === 5 ? 'Mobile Development' :
-                      'Testing & Quality'
+                        num === 2 ? 'Backend Development' :
+                          num === 3 ? 'UI/UX Design' :
+                            num === 4 ? 'Cloud & DevOps' :
+                              num === 5 ? 'Mobile Development' :
+                                'Testing & Quality'
                     )}
                   </h4>
                   <p
                     data-eid={`skill_${num}_description`}
                     contentEditable={editable}
                     suppressContentEditableWarning
-                    className="text-slate-600"
+                    className="text-slate-600 whitespace-pre-wrap break-words"
                   >
                     {getText(`skill_${num}_description`,
                       num === 1 ? 'React, Next.js, TypeScript, Tailwind CSS, Vue.js' :
-                      num === 2 ? 'Node.js, Python, PostgreSQL, MongoDB, REST APIs' :
-                      num === 3 ? 'Figma, Adobe XD, Responsive Design, User Research' :
-                      num === 4 ? 'AWS, Docker, CI/CD, Git, Vercel, Netlify' :
-                      num === 5 ? 'React Native, Flutter, Progressive Web Apps' :
-                      'Jest, Cypress, Testing Library, Code Reviews'
+                        num === 2 ? 'Node.js, Python, PostgreSQL, MongoDB, REST APIs' :
+                          num === 3 ? 'Figma, Adobe XD, Responsive Design, User Research' :
+                            num === 4 ? 'AWS, Docker, CI/CD, Git, Vercel, Netlify' :
+                              num === 5 ? 'React Native, Flutter, Progressive Web Apps' :
+                                'Jest, Cypress, Testing Library, Code Reviews'
                     )}
                   </p>
                 </div>
@@ -315,7 +313,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
       <section id="projects" className="py-24 px-6 bg-slate-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 
+            <h2
               data-eid="projects_section_title"
               contentEditable={editable}
               suppressContentEditableWarning
@@ -324,7 +322,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
               {getText('projects_section_title', 'Featured Projects')}
             </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-purple-600 to-pink-600 mx-auto mb-6"></div>
-            <p 
+            <p
               data-eid="projects_section_subtitle"
               contentEditable={editable}
               suppressContentEditableWarning
@@ -350,7 +348,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                 />
                 <div className="p-12 flex flex-col justify-center">
                   <div className="inline-block px-4 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-semibold mb-4 w-fit">
-                    <span data-eid="project_1_category" contentEditable={editable} suppressContentEditableWarning>
+                    <span data-eid="project_1_category" contentEditable={editable} suppressContentEditableWarning className="whitespace-pre-wrap break-words">
                       {getText('project_1_category', 'Web Application')}
                     </span>
                   </div>
@@ -373,25 +371,25 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                   <div className="space-y-3 mb-6">
                     <div className="flex items-center gap-2">
                       <span className="text-purple-600">✓</span>
-                      <span data-eid="project_1_result_1" contentEditable={editable} suppressContentEditableWarning className="text-slate-600">
+                      <span data-eid="project_1_result_1" contentEditable={editable} suppressContentEditableWarning className="text-slate-600 whitespace-pre-wrap break-words">
                         {getText('project_1_result_1', '40% increase in conversion rate')}
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-purple-600">✓</span>
-                      <span data-eid="project_1_result_2" contentEditable={editable} suppressContentEditableWarning className="text-slate-600">
+                      <span data-eid="project_1_result_2" contentEditable={editable} suppressContentEditableWarning className="text-slate-600 whitespace-pre-wrap break-words">
                         {getText('project_1_result_2', '10,000+ active users')}
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-purple-600">✓</span>
-                      <span data-eid="project_1_result_3" contentEditable={editable} suppressContentEditableWarning className="text-slate-600">
+                      <span data-eid="project_1_result_3" contentEditable={editable} suppressContentEditableWarning className="text-slate-600 whitespace-pre-wrap break-words">
                         {getText('project_1_result_3', 'Featured in TechCrunch')}
                       </span>
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    <span 
+                    <span
                       data-eid="project_1_tech_1"
                       contentEditable={editable}
                       suppressContentEditableWarning
@@ -399,7 +397,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                     >
                       {getText('project_1_tech_1', 'React')}
                     </span>
-                    <span 
+                    <span
                       data-eid="project_1_tech_2"
                       contentEditable={editable}
                       suppressContentEditableWarning
@@ -407,7 +405,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                     >
                       {getText('project_1_tech_2', 'Node.js')}
                     </span>
-                    <span 
+                    <span
                       data-eid="project_1_tech_3"
                       contentEditable={editable}
                       suppressContentEditableWarning
@@ -415,7 +413,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                     >
                       {getText('project_1_tech_3', 'PostgreSQL')}
                     </span>
-                    <span 
+                    <span
                       data-eid="project_1_tech_4"
                       contentEditable={editable}
                       suppressContentEditableWarning
@@ -433,7 +431,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
               <div className="grid md:grid-cols-2 gap-0">
                 <div className="p-12 flex flex-col justify-center order-2 md:order-1">
                   <div className="inline-block px-4 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold mb-4 w-fit">
-                    <span data-eid="project_2_category" contentEditable={editable} suppressContentEditableWarning>
+                    <span data-eid="project_2_category" contentEditable={editable} suppressContentEditableWarning className="whitespace-pre-wrap break-words">
                       {getText('project_2_category', 'Mobile App')}
                     </span>
                   </div>
@@ -456,25 +454,25 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                   <div className="space-y-3 mb-6">
                     <div className="flex items-center gap-2">
                       <span className="text-blue-600">✓</span>
-                      <span data-eid="project_2_result_1" contentEditable={editable} suppressContentEditableWarning className="text-slate-600">
+                      <span data-eid="project_2_result_1" contentEditable={editable} suppressContentEditableWarning className="text-slate-600 whitespace-pre-wrap break-words">
                         {getText('project_2_result_1', '50,000+ downloads in first month')}
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-blue-600">✓</span>
-                      <span data-eid="project_2_result_2" contentEditable={editable} suppressContentEditableWarning className="text-slate-600">
+                      <span data-eid="project_2_result_2" contentEditable={editable} suppressContentEditableWarning className="text-slate-600 whitespace-pre-wrap break-words">
                         {getText('project_2_result_2', '4.8 star rating on App Store')}
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-blue-600">✓</span>
-                      <span data-eid="project_2_result_3" contentEditable={editable} suppressContentEditableWarning className="text-slate-600">
+                      <span data-eid="project_2_result_3" contentEditable={editable} suppressContentEditableWarning className="text-slate-600 whitespace-pre-wrap break-words">
                         {getText('project_2_result_3', 'Winner of Best Health App 2023')}
                       </span>
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    <span 
+                    <span
                       data-eid="project_2_tech_1"
                       contentEditable={editable}
                       suppressContentEditableWarning
@@ -482,7 +480,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                     >
                       {getText('project_2_tech_1', 'React Native')}
                     </span>
-                    <span 
+                    <span
                       data-eid="project_2_tech_2"
                       contentEditable={editable}
                       suppressContentEditableWarning
@@ -490,7 +488,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                     >
                       {getText('project_2_tech_2', 'Firebase')}
                     </span>
-                    <span 
+                    <span
                       data-eid="project_2_tech_3"
                       contentEditable={editable}
                       suppressContentEditableWarning
@@ -498,7 +496,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                     >
                       {getText('project_2_tech_3', 'TensorFlow')}
                     </span>
-                    <span 
+                    <span
                       data-eid="project_2_tech_4"
                       contentEditable={editable}
                       suppressContentEditableWarning
@@ -536,7 +534,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                 />
                 <div className="p-12 flex flex-col justify-center">
                   <div className="inline-block px-4 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold mb-4 w-fit">
-                    <span data-eid="project_3_category" contentEditable={editable} suppressContentEditableWarning>
+                    <span data-eid="project_3_category" contentEditable={editable} suppressContentEditableWarning className="whitespace-pre-wrap break-words">
                       {getText('project_3_category', 'SaaS Platform')}
                     </span>
                   </div>
@@ -559,25 +557,25 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                   <div className="space-y-3 mb-6">
                     <div className="flex items-center gap-2">
                       <span className="text-green-600">✓</span>
-                      <span data-eid="project_3_result_1" contentEditable={editable} suppressContentEditableWarning className="text-slate-600">
+                      <span data-eid="project_3_result_1" contentEditable={editable} suppressContentEditableWarning className="text-slate-600 whitespace-pre-wrap break-words">
                         {getText('project_3_result_1', '200+ enterprise clients')}
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-green-600">✓</span>
-                      <span data-eid="project_3_result_2" contentEditable={editable} suppressContentEditableWarning className="text-slate-600">
+                      <span data-eid="project_3_result_2" contentEditable={editable} suppressContentEditableWarning className="text-slate-600 whitespace-pre-wrap break-words">
                         {getText('project_3_result_2', '99.9% uptime SLA')}
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-green-600">✓</span>
-                      <span data-eid="project_3_result_3" contentEditable={editable} suppressContentEditableWarning className="text-slate-600">
+                      <span data-eid="project_3_result_3" contentEditable={editable} suppressContentEditableWarning className="text-slate-600 whitespace-pre-wrap break-words">
                         {getText('project_3_result_3', '$2M ARR in year one')}
                       </span>
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    <span 
+                    <span
                       data-eid="project_3_tech_1"
                       contentEditable={editable}
                       suppressContentEditableWarning
@@ -585,7 +583,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                     >
                       {getText('project_3_tech_1', 'Next.js')}
                     </span>
-                    <span 
+                    <span
                       data-eid="project_3_tech_2"
                       contentEditable={editable}
                       suppressContentEditableWarning
@@ -593,7 +591,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                     >
                       {getText('project_3_tech_2', 'D3.js')}
                     </span>
-                    <span 
+                    <span
                       data-eid="project_3_tech_3"
                       contentEditable={editable}
                       suppressContentEditableWarning
@@ -601,7 +599,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                     >
                       {getText('project_3_tech_3', 'AWS')}
                     </span>
-                    <span 
+                    <span
                       data-eid="project_3_tech_4"
                       contentEditable={editable}
                       suppressContentEditableWarning
@@ -620,7 +618,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
       {/* Resume Section */}
       <section id="resume" className="py-24 px-6 bg-gradient-to-br from-purple-900 via-slate-900 to-slate-900 text-white">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 
+          <h2
             data-eid="resume_section_title"
             contentEditable={editable}
             suppressContentEditableWarning
@@ -637,7 +635,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
           >
             {getText('resume_description', 'Download my complete resume to learn more about my experience, education, and professional achievements.')}
           </p>
-          
+
           <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-12 mb-8">
             <div className="flex flex-col md:flex-row items-center justify-between gap-8">
               <div className="flex items-center gap-6">
@@ -649,16 +647,16 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                     data-eid="resume_file_name"
                     contentEditable={editable}
                     suppressContentEditableWarning
-                    className="text-2xl font-bold mb-2"
+                    className="text-2xl font-bold mb-2 whitespace-pre-wrap break-words"
                   >
                     {getText('resume_file_name', 'John_Doe_Resume.pdf')}
                   </h3>
                   <p className="text-slate-300">
-                    <span data-eid="resume_file_size" contentEditable={editable} suppressContentEditableWarning>
+                    <span data-eid="resume_file_size" contentEditable={editable} suppressContentEditableWarning className="whitespace-pre-wrap break-words">
                       {getText('resume_file_size', '2.4 MB')}
                     </span>
                     {' • '}
-                    <span data-eid="resume_file_updated" contentEditable={editable} suppressContentEditableWarning>
+                    <span data-eid="resume_file_updated" contentEditable={editable} suppressContentEditableWarning className="whitespace-pre-wrap break-words">
                       {getText('resume_file_updated', 'Updated Jan 2024')}
                     </span>
                   </p>
@@ -678,7 +676,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
           <div className="grid md:grid-cols-3 gap-6 text-left">
             <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6">
               <div className="text-3xl mb-3">🎓</div>
-              <h4 
+              <h4
                 data-eid="resume_education_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
@@ -697,7 +695,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
             </div>
             <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6">
               <div className="text-3xl mb-3">💼</div>
-              <h4 
+              <h4
                 data-eid="resume_experience_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
@@ -716,7 +714,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
             </div>
             <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6">
               <div className="text-3xl mb-3">🏆</div>
-              <h4 
+              <h4
                 data-eid="resume_certifications_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
@@ -741,7 +739,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
       <section id="testimonials" className="py-24 px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 
+            <h2
               data-eid="testimonials_section_title"
               contentEditable={editable}
               suppressContentEditableWarning
@@ -750,7 +748,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
               {getText('testimonials_section_title', 'Testimonials')}
             </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-purple-600 to-pink-600 mx-auto mb-6"></div>
-            <p 
+            <p
               data-eid="testimonials_section_subtitle"
               contentEditable={editable}
               suppressContentEditableWarning
@@ -896,7 +894,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
       {/* Contact Section */}
       <section id="contact" className="py-24 px-6 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 
+          <h2
             data-eid="contact_section_title"
             contentEditable={editable}
             suppressContentEditableWarning
@@ -917,7 +915,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
           <div className="grid md:grid-cols-2 gap-6 mb-12">
             <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 text-left hover:bg-white/15 transition-all">
               <div className="text-4xl mb-4">📧</div>
-              <h3 
+              <h3
                 data-eid="contact_email_label"
                 contentEditable={editable}
                 suppressContentEditableWarning
@@ -937,7 +935,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
 
             <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 text-left hover:bg-white/15 transition-all">
               <div className="text-4xl mb-4">📱</div>
-              <h3 
+              <h3
                 data-eid="contact_phone_label"
                 contentEditable={editable}
                 suppressContentEditableWarning
@@ -957,7 +955,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
           </div>
 
           <div className="mb-12">
-            <h3 
+            <h3
               data-eid="contact_social_label"
               contentEditable={editable}
               suppressContentEditableWarning

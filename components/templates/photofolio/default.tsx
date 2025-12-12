@@ -81,7 +81,7 @@ export default function PhotoFolio({ editable = false, data = {}, onContentChang
                             data-eid="nav_logo"
                             contentEditable={editable}
                             suppressContentEditableWarning
-                            className="text-lg font-bold leading-tight tracking-[-0.015em]"
+                            className="text-lg font-bold leading-tight tracking-[-0.015em] whitespace-pre-wrap break-words"
                         >
                             {getText('nav_logo', 'PhotoFolio')}
                         </h2>
@@ -143,7 +143,7 @@ export default function PhotoFolio({ editable = false, data = {}, onContentChang
                                     data-eid="hero_title"
                                     contentEditable={editable}
                                     suppressContentEditableWarning
-                                    className="text-4xl md:text-5xl font-black leading-tight tracking-[-0.033em]"
+                                    className="text-4xl md:text-5xl font-black leading-tight tracking-[-0.033em] whitespace-pre-wrap break-words"
                                 >
                                     {getText('hero_title', 'Capturing Moments, Creating Memories')}
                                 </h1>
@@ -151,7 +151,7 @@ export default function PhotoFolio({ editable = false, data = {}, onContentChang
                                     data-eid="hero_description"
                                     contentEditable={editable}
                                     suppressContentEditableWarning
-                                    className="text-base font-normal leading-normal text-gray-600"
+                                    className="text-base font-normal leading-normal text-gray-600 whitespace-pre-wrap break-words"
                                 >
                                     {getText('hero_description', "Our passion is to frame the world's beauty through our lenses. This gallery represents a curated collection of our finest work, showcasing diverse subjects and stunning landscapes from across the globe. Each photograph tells a unique story.")}
                                 </p>
@@ -181,7 +181,7 @@ export default function PhotoFolio({ editable = false, data = {}, onContentChang
                                 data-eid="about_text_1"
                                 contentEditable={editable}
                                 suppressContentEditableWarning
-                                className="text-lg leading-relaxed"
+                                className="text-lg leading-relaxed whitespace-pre-wrap break-words"
                             >
                                 {getText('about_text_1', "Below, you'll find a more in-depth look into the techniques and stories behind our photography. We believe that a great photo is more than just a picture; it's a moment frozen in time, an emotion captured, and a story told without words. Our approach combines technical expertise with a keen artistic eye, ensuring that every image is not only visually stunning but also deeply meaningful.")}
                             </p>
@@ -189,7 +189,7 @@ export default function PhotoFolio({ editable = false, data = {}, onContentChang
                                 data-eid="about_text_2"
                                 contentEditable={editable}
                                 suppressContentEditableWarning
-                                className="text-base leading-relaxed text-gray-600"
+                                className="text-base leading-relaxed text-gray-600 whitespace-pre-wrap break-words"
                             >
                                 {getText('about_text_2', "We travel extensively to find unique perspectives, from the bustling streets of urban jungles to the serene solitude of untouched nature. Each location offers new challenges and opportunities, pushing us to constantly evolve our craft. We utilize state-of-the-art equipment and post-processing techniques to bring out the vibrant colors and intricate details of our subjects. This dedication to quality is evident in every piece we produce. Whether it's a breathtaking landscape, an intimate portrait, or a dynamic abstract shot, our goal is to evoke a sense of wonder and connection with the viewer. Thank you for exploring our portfolio.")}
                             </p>
@@ -207,7 +207,7 @@ export default function PhotoFolio({ editable = false, data = {}, onContentChang
                                 data-eid="quiz_heading"
                                 contentEditable={editable}
                                 suppressContentEditableWarning
-                                className="text-2xl font-bold mb-2 text-[#13c8ec]"
+                                className="text-2xl font-bold mb-2 text-[#13c8ec] whitespace-pre-wrap break-words"
                             >
                                 {getText('quiz_heading', 'Photography Knowledge Check')}
                             </h2>
@@ -286,7 +286,7 @@ export default function PhotoFolio({ editable = false, data = {}, onContentChang
                                 data-eid="result_title"
                                 contentEditable={editable}
                                 suppressContentEditableWarning
-                                className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight drop-shadow-sm"
+                                className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight drop-shadow-sm whitespace-pre-wrap break-words"
                             >
                                 {getText('result_title', 'Congratulations!')}
                             </h1>
@@ -295,7 +295,7 @@ export default function PhotoFolio({ editable = false, data = {}, onContentChang
                                     data-eid="result_text"
                                     contentEditable={editable}
                                     suppressContentEditableWarning
-                                    className="text-gray-600 text-lg md:text-xl leading-relaxed"
+                                    className="text-gray-600 text-lg md:text-xl leading-relaxed whitespace-pre-wrap break-words"
                                 >
                                     {getText('result_text', "You've successfully completed the quiz.")}
                                 </p>
@@ -303,7 +303,7 @@ export default function PhotoFolio({ editable = false, data = {}, onContentChang
                                     data-eid="result_subtext"
                                     contentEditable={editable}
                                     suppressContentEditableWarning
-                                    className="text-gray-500 text-sm md:text-base leading-relaxed max-w-md mx-auto"
+                                    className="text-gray-500 text-sm md:text-base leading-relaxed max-w-md mx-auto whitespace-pre-wrap break-words"
                                 >
                                     {getText('result_subtext', 'We hope you enjoyed exploring our portfolio and learning more about our work. Feel free to reach out to us for any photography needs!')}
                                 </p>

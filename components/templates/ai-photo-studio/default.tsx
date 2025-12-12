@@ -9,7 +9,7 @@ import { BaseTemplateProps } from '@/types/template'
 export default function AIPhotoStudioTemplate({
   editable = false,
   data = {},
-  onContentChange = () => {},
+  onContentChange = () => { },
 }: BaseTemplateProps) {
   const getText = (eid: string, defaultText: string) => {
     return data[eid]?.text || defaultText
@@ -35,7 +35,7 @@ export default function AIPhotoStudioTemplate({
                 data-eid="nav_logo"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-xl font-semibold text-gray-900"
+                className="text-xl font-semibold text-gray-900 whitespace-pre-wrap break-words"
               >
                 {getText('nav_logo', 'Deep agency')}
               </span>
@@ -45,7 +45,7 @@ export default function AIPhotoStudioTemplate({
                 data-eid="nav_link_1"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-gray-600 hover:text-gray-900 cursor-pointer"
+                className="text-gray-600 hover:text-gray-900 cursor-pointer whitespace-pre-wrap break-words"
               >
                 {getText('nav_link_1', 'Pricing')}
               </span>
@@ -72,7 +72,7 @@ export default function AIPhotoStudioTemplate({
                   data-eid="hero_badge"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-xs font-semibold text-orange-500 tracking-wider"
+                  className="text-xs font-semibold text-orange-500 tracking-wider whitespace-pre-wrap break-words"
                 >
                   {getText('hero_badge', 'TRUSTED BY 1M+ USERS')}
                 </span>
@@ -82,7 +82,7 @@ export default function AIPhotoStudioTemplate({
                   data-eid="hero_title_1"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-gray-900"
+                  className="text-gray-900 whitespace-pre-wrap break-words"
                 >
                   {getText('hero_title_1', 'AI Photo Studio')}
                 </span>
@@ -92,7 +92,7 @@ export default function AIPhotoStudioTemplate({
                   data-eid="hero_title_2"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-gray-900"
+                  className="text-gray-900 whitespace-pre-wrap break-words"
                 >
                   {getText('hero_title_2', 'Modelling Agency')}
                 </span>
@@ -101,7 +101,7 @@ export default function AIPhotoStudioTemplate({
                 data-eid="hero_description"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-lg text-gray-600 mb-8 leading-relaxed"
+                className="text-lg text-gray-600 mb-8 leading-relaxed whitespace-pre-wrap break-words"
               >
                 {getText(
                   'hero_description',
@@ -113,7 +113,7 @@ export default function AIPhotoStudioTemplate({
                   data-eid="hero_rating_text"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-sm text-gray-600"
+                  className="text-sm text-gray-600 whitespace-pre-wrap break-words"
                 >
                   {getText('hero_rating_text', 'Loved by 1M+ creators')}
                 </span>
@@ -126,7 +126,7 @@ export default function AIPhotoStudioTemplate({
                   data-eid="hero_rating_score"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-sm font-semibold text-gray-900"
+                  className="text-sm font-semibold text-gray-900 whitespace-pre-wrap break-words"
                 >
                   {getText('hero_rating_score', '4.9/5')}
                 </span>
@@ -174,7 +174,7 @@ export default function AIPhotoStudioTemplate({
               data-eid="features_title"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-4xl font-bold text-gray-900 mb-4"
+              className="text-4xl font-bold text-gray-900 mb-4 whitespace-pre-wrap break-words"
             >
               {getText('features_title', 'Create a virtual twin of yourself or use AI-models')}
             </h2>
@@ -187,7 +187,7 @@ export default function AIPhotoStudioTemplate({
                   data-eid="feature_1_title"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-2xl font-bold text-gray-900 mb-4"
+                  className="text-2xl font-bold text-gray-900 mb-4 whitespace-pre-wrap break-words"
                 >
                   {getText('feature_1_title', 'Virtual Twin')}
                 </h3>
@@ -195,7 +195,7 @@ export default function AIPhotoStudioTemplate({
                   data-eid="feature_1_description"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-gray-600 leading-relaxed"
+                  className="text-gray-600 leading-relaxed whitespace-pre-wrap break-words"
                 >
                   {getText(
                     'feature_1_description',
@@ -222,7 +222,7 @@ export default function AIPhotoStudioTemplate({
                   data-eid="feature_2_title"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-2xl font-bold text-gray-900 mb-4"
+                  className="text-2xl font-bold text-gray-900 mb-4 whitespace-pre-wrap break-words"
                 >
                   {getText('feature_2_title', 'Hire AI-models')}
                 </h3>
@@ -230,7 +230,7 @@ export default function AIPhotoStudioTemplate({
                   data-eid="feature_2_description"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-gray-600 leading-relaxed"
+                  className="text-gray-600 leading-relaxed whitespace-pre-wrap break-words"
                 >
                   {getText(
                     'feature_2_description',
@@ -261,7 +261,7 @@ export default function AIPhotoStudioTemplate({
               data-eid="studio_title"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-4xl font-bold text-gray-900 mb-4"
+              className="text-4xl font-bold text-gray-900 mb-4 whitespace-pre-wrap break-words"
             >
               {getText('studio_title', 'Your virtual photo studio, instantly available.')}
             </h2>
@@ -269,7 +269,7 @@ export default function AIPhotoStudioTemplate({
               data-eid="studio_subtitle"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-xl text-gray-600"
+              className="text-xl text-gray-600 whitespace-pre-wrap break-words"
             >
               {getText('studio_subtitle', 'Create professional photos in seconds with AI')}
             </p>
@@ -301,7 +301,7 @@ export default function AIPhotoStudioTemplate({
               data-eid="faq_title"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-4xl font-bold text-gray-900 mb-4"
+              className="text-4xl font-bold text-gray-900 mb-4 whitespace-pre-wrap break-words"
             >
               {getText('faq_title', 'Frequently asked questions')}
             </h2>
@@ -309,7 +309,7 @@ export default function AIPhotoStudioTemplate({
               data-eid="faq_subtitle"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-lg text-gray-600"
+              className="text-lg text-gray-600 whitespace-pre-wrap break-words"
             >
               {getText('faq_subtitle', 'Have more questions? Feel free to reach out to our support team.')}
             </p>
@@ -321,7 +321,7 @@ export default function AIPhotoStudioTemplate({
                   data-eid={`faq_question_${i}`}
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-lg font-semibold text-gray-900 mb-2"
+                  className="text-lg font-semibold text-gray-900 mb-2 whitespace-pre-wrap break-words"
                 >
                   {getText(`faq_question_${i}`, `What do you do with my photos after creating?`)}
                 </h3>
@@ -329,7 +329,7 @@ export default function AIPhotoStudioTemplate({
                   data-eid={`faq_answer_${i}`}
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-gray-600 leading-relaxed"
+                  className="text-gray-600 leading-relaxed whitespace-pre-wrap break-words"
                 >
                   {getText(
                     `faq_answer_${i}`,
@@ -349,7 +349,7 @@ export default function AIPhotoStudioTemplate({
             data-eid="cta_title"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-5xl font-bold text-gray-900 mb-6"
+            className="text-5xl font-bold text-gray-900 mb-6 whitespace-pre-wrap break-words"
           >
             {getText('cta_title', 'Ready to transform your photos?')}
           </h2>
@@ -357,7 +357,7 @@ export default function AIPhotoStudioTemplate({
             data-eid="cta_description"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-xl text-gray-600 mb-8"
+            className="text-xl text-gray-600 mb-8 whitespace-pre-wrap break-words"
           >
             {getText('cta_description', 'Join over 1 million creators using AI Photo Studio')}
           </p>
@@ -383,7 +383,7 @@ export default function AIPhotoStudioTemplate({
                   data-eid="footer_logo"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-xl font-semibold"
+                  className="text-xl font-semibold whitespace-pre-wrap break-words"
                 >
                   {getText('footer_logo', 'Deep agency')}
                 </span>
@@ -392,7 +392,7 @@ export default function AIPhotoStudioTemplate({
                 data-eid="footer_description"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-gray-400 text-sm leading-relaxed"
+                className="text-gray-400 text-sm leading-relaxed whitespace-pre-wrap break-words"
               >
                 {getText(
                   'footer_description',
@@ -405,7 +405,7 @@ export default function AIPhotoStudioTemplate({
                 data-eid="footer_col_1_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="font-semibold mb-4"
+                className="font-semibold mb-4 whitespace-pre-wrap break-words"
               >
                 {getText('footer_col_1_title', 'Studio')}
               </h3>
@@ -428,7 +428,7 @@ export default function AIPhotoStudioTemplate({
                 data-eid="footer_col_2_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="font-semibold mb-4"
+                className="font-semibold mb-4 whitespace-pre-wrap break-words"
               >
                 {getText('footer_col_2_title', 'Legal')}
               </h3>
@@ -451,7 +451,7 @@ export default function AIPhotoStudioTemplate({
                 data-eid="footer_col_3_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="font-semibold mb-4"
+                className="font-semibold mb-4 whitespace-pre-wrap break-words"
               >
                 {getText('footer_col_3_title', 'Support')}
               </h3>
@@ -475,7 +475,7 @@ export default function AIPhotoStudioTemplate({
               data-eid="footer_copyright"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-gray-400 text-sm"
+              className="text-gray-400 text-sm whitespace-pre-wrap break-words"
             >
               {getText('footer_copyright', '© 2024 Deep Agency. All rights reserved.')}
             </p>

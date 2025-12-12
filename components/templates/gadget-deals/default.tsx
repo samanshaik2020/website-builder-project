@@ -105,7 +105,7 @@ const GadgetDealsTemplate: React.FC<GadgetDealsTemplateProps> = ({
                 data-eid="nav_brand"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-xl font-bold text-gray-900"
+                className="text-xl font-bold text-gray-900 whitespace-pre-wrap break-words"
                 onBlur={(e) => onContentChange?.('nav_brand', { text: e.currentTarget.textContent })}
               >
                 {getText('nav_brand', 'GadgetStore')}
@@ -179,7 +179,7 @@ const GadgetDealsTemplate: React.FC<GadgetDealsTemplateProps> = ({
             data-eid="hero_title"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-3xl sm:text-4xl font-black text-gray-900 mb-2"
+            className="text-3xl sm:text-4xl font-black text-gray-900 mb-2 whitespace-pre-wrap break-words"
             onBlur={(e) => onContentChange?.('hero_title', { text: e.currentTarget.textContent })}
           >
             {getText('hero_title', 'Top Deals on Gadgets — Big Discounts Live!')}
@@ -188,7 +188,7 @@ const GadgetDealsTemplate: React.FC<GadgetDealsTemplateProps> = ({
             data-eid="hero_subtitle"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-gray-600"
+            className="text-gray-600 whitespace-pre-wrap break-words"
             onBlur={(e) => onContentChange?.('hero_subtitle', { text: e.currentTarget.textContent })}
           >
             {getText('hero_subtitle', 'Shop the best tech deals before they\'re gone')}
@@ -258,7 +258,7 @@ const GadgetDealsTemplate: React.FC<GadgetDealsTemplateProps> = ({
         {/* Product Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {products.map((product) => (
-            <div 
+            <div
               key={product.id}
               className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group"
             >
@@ -287,7 +287,7 @@ const GadgetDealsTemplate: React.FC<GadgetDealsTemplateProps> = ({
                   data-eid={product.nameId}
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="font-bold text-gray-900 mb-1"
+                  className="font-bold text-gray-900 mb-1 whitespace-pre-wrap break-words"
                   onBlur={(e) => onContentChange?.(product.nameId, { text: e.currentTarget.textContent })}
                 >
                   {getText(product.nameId, product.defaultName)}
@@ -296,7 +296,7 @@ const GadgetDealsTemplate: React.FC<GadgetDealsTemplateProps> = ({
                   data-eid={product.descriptionId}
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-sm text-gray-500 mb-3"
+                  className="text-sm text-gray-500 mb-3 whitespace-pre-wrap break-words"
                   onBlur={(e) => onContentChange?.(product.descriptionId, { text: e.currentTarget.textContent })}
                 >
                   {getText(product.descriptionId, product.defaultDescription)}

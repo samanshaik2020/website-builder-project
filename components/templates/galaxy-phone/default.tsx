@@ -37,7 +37,7 @@ export default function GalaxyPhoneTemplate({
 
   // Image slider state
   const [currentSlide, setCurrentSlide] = useState(0);
-  
+
   const sliderImages = [
     { eid: 'hero_image_1', default: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBcQ8vje5f3LPncIbhlcuI1VkjQdi0mxfu-02iE0W-BlV4yMzBptIc7HWITJ0a4F7VZaDdHMjfM8PT-VdaNQwaWkISCTLPOfqQ-C1iIZf3lA2mMRjnBTKJCW89dimJu-x76sR5aHZP_NzEn0gybgRkYX1CC-VCf_9Rwm6JTvNU3gs4dpgjjQ9XquSh-lRr72aBV7c17dMSawS-hx1GsuFSsag57wo51tZfrxrgOg4Keur73ypcPWal9li-B4d014XxNnQYNQGoVDJs', label: 'Front View' },
     { eid: 'hero_image_2', default: 'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=800&h=600&fit=crop', label: 'Back View' },
@@ -57,7 +57,7 @@ export default function GalaxyPhoneTemplate({
     <div className="bg-[#f6f7f8] min-h-screen" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
       <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet" />
       <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-      
+
       {/* Header */}
       <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 px-4 sm:px-10 py-3 bg-white sticky top-0 z-50">
         <div className="flex items-center gap-8">
@@ -67,7 +67,7 @@ export default function GalaxyPhoneTemplate({
               data-eid="nav_brand"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-lg font-bold leading-tight tracking-[-0.015em]"
+              className="text-lg font-bold leading-tight tracking-[-0.015em] whitespace-pre-wrap break-words"
             >
               {getText('nav_brand', 'Galaxy')}
             </h2>
@@ -141,9 +141,8 @@ export default function GalaxyPhoneTemplate({
                   {sliderImages.map((img, index) => (
                     <div
                       key={img.eid}
-                      className={`absolute inset-0 transition-opacity duration-500 ${
-                        index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
-                      }`}
+                      className={`absolute inset-0 transition-opacity duration-500 ${index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                        }`}
                     >
                       <EditableImage
                         eid={img.eid}
@@ -180,11 +179,10 @@ export default function GalaxyPhoneTemplate({
                       <button
                         key={index}
                         onClick={() => setCurrentSlide(index)}
-                        className={`size-2.5 rounded-full transition-all ${
-                          index === currentSlide
+                        className={`size-2.5 rounded-full transition-all ${index === currentSlide
                             ? 'bg-white scale-110'
                             : 'bg-white/50 hover:bg-white/70'
-                        }`}
+                          }`}
                         aria-label={`Go to slide ${index + 1}`}
                       />
                     ))}
@@ -198,11 +196,10 @@ export default function GalaxyPhoneTemplate({
                   <button
                     key={img.eid}
                     onClick={() => setCurrentSlide(index)}
-                    className={`flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full px-4 transition-all ${
-                      index === currentSlide
+                    className={`flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full px-4 transition-all ${index === currentSlide
                         ? 'bg-[#2b8cee]/20 text-[#2b8cee] border-2 border-[#2b8cee]'
                         : 'bg-slate-200 text-slate-800 hover:bg-slate-300'
-                    }`}
+                      }`}
                   >
                     <p className="text-sm font-medium leading-normal">{img.label}</p>
                   </button>
@@ -218,11 +215,11 @@ export default function GalaxyPhoneTemplate({
                 data-eid="hero_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-slate-900 tracking-tight text-4xl sm:text-5xl font-bold leading-tight text-left"
+                className="text-slate-900 tracking-tight text-4xl sm:text-5xl font-bold leading-tight text-left whitespace-pre-wrap break-words"
               >
                 {getText('hero_title', 'Galaxy S25 Ultra 5G')}
               </h1>
-              
+
               {/* Rating */}
               <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                 <div className="flex items-center gap-2">
@@ -403,7 +400,7 @@ export default function GalaxyPhoneTemplate({
                 data-eid="highlights_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-3xl font-bold text-slate-900 mb-8 text-center"
+                className="text-3xl font-bold text-slate-900 mb-8 text-center whitespace-pre-wrap break-words"
               >
                 {getText('highlights_title', 'Quick Highlights')}
               </h2>
@@ -415,7 +412,7 @@ export default function GalaxyPhoneTemplate({
                     data-eid="highlight_1_title"
                     contentEditable={editable}
                     suppressContentEditableWarning
-                    className="font-bold text-lg text-slate-800"
+                    className="font-bold text-lg text-slate-800 whitespace-pre-wrap break-words"
                   >
                     {getText('highlight_1_title', 'Pro-Grade Camera')}
                   </h3>
@@ -423,7 +420,7 @@ export default function GalaxyPhoneTemplate({
                     data-eid="highlight_1_description"
                     contentEditable={editable}
                     suppressContentEditableWarning
-                    className="text-sm text-slate-600 mt-1"
+                    className="text-sm text-slate-600 mt-1 whitespace-pre-wrap break-words"
                   >
                     {getText('highlight_1_description', '200MP sensor for incredible detail in any light.')}
                   </p>
@@ -435,7 +432,7 @@ export default function GalaxyPhoneTemplate({
                     data-eid="highlight_2_title"
                     contentEditable={editable}
                     suppressContentEditableWarning
-                    className="font-bold text-lg text-slate-800"
+                    className="font-bold text-lg text-slate-800 whitespace-pre-wrap break-words"
                   >
                     {getText('highlight_2_title', 'All-Day Battery')}
                   </h3>
@@ -443,7 +440,7 @@ export default function GalaxyPhoneTemplate({
                     data-eid="highlight_2_description"
                     contentEditable={editable}
                     suppressContentEditableWarning
-                    className="text-sm text-slate-600 mt-1"
+                    className="text-sm text-slate-600 mt-1 whitespace-pre-wrap break-words"
                   >
                     {getText('highlight_2_description', '5000mAh intelligent battery that lasts longer than your day.')}
                   </p>
@@ -455,7 +452,7 @@ export default function GalaxyPhoneTemplate({
                     data-eid="highlight_3_title"
                     contentEditable={editable}
                     suppressContentEditableWarning
-                    className="font-bold text-lg text-slate-800"
+                    className="font-bold text-lg text-slate-800 whitespace-pre-wrap break-words"
                   >
                     {getText('highlight_3_title', 'Dynamic Display')}
                   </h3>
@@ -463,7 +460,7 @@ export default function GalaxyPhoneTemplate({
                     data-eid="highlight_3_description"
                     contentEditable={editable}
                     suppressContentEditableWarning
-                    className="text-sm text-slate-600 mt-1"
+                    className="text-sm text-slate-600 mt-1 whitespace-pre-wrap break-words"
                   >
                     {getText('highlight_3_description', '6.8" Dynamic AMOLED 2X with 120Hz refresh rate.')}
                   </p>
@@ -475,7 +472,7 @@ export default function GalaxyPhoneTemplate({
                     data-eid="highlight_4_title"
                     contentEditable={editable}
                     suppressContentEditableWarning
-                    className="font-bold text-lg text-slate-800"
+                    className="font-bold text-lg text-slate-800 whitespace-pre-wrap break-words"
                   >
                     {getText('highlight_4_title', 'Ultimate Performance')}
                   </h3>
@@ -483,7 +480,7 @@ export default function GalaxyPhoneTemplate({
                     data-eid="highlight_4_description"
                     contentEditable={editable}
                     suppressContentEditableWarning
-                    className="text-sm text-slate-600 mt-1"
+                    className="text-sm text-slate-600 mt-1 whitespace-pre-wrap break-words"
                   >
                     {getText('highlight_4_description', 'Next-gen processor for unparalleled speed and power.')}
                   </p>
@@ -497,7 +494,7 @@ export default function GalaxyPhoneTemplate({
                 data-eid="specs_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-3xl font-bold text-slate-900 mb-8 text-center"
+                className="text-3xl font-bold text-slate-900 mb-8 text-center whitespace-pre-wrap break-words"
               >
                 {getText('specs_title', 'Detailed Specifications')}
               </h2>

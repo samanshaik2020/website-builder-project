@@ -13,7 +13,7 @@ interface GeneralContentTemplateProps {
 export default function GeneralContentTemplate({
   data = {},
   editable = false,
-  onContentChange = () => {},
+  onContentChange = () => { },
 }: GeneralContentTemplateProps) {
   const getText = (eid: string, defaultText: string) => {
     return data[eid]?.text || defaultText;
@@ -59,7 +59,7 @@ export default function GeneralContentTemplate({
                 data-eid="headline"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-4xl font-black leading-tight tracking-[-0.033em] sm:text-5xl"
+                className="text-4xl font-black leading-tight tracking-[-0.033em] sm:text-5xl whitespace-pre-wrap break-words"
               >
                 {getText('headline', 'A short, impactful headline summarizing the core message')}
               </h1>
@@ -67,7 +67,7 @@ export default function GeneralContentTemplate({
                 data-eid="paragraph1"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-base font-normal leading-relaxed text-[#111418]/80 sm:text-lg"
+                className="text-base font-normal leading-relaxed text-[#111418]/80 sm:text-lg whitespace-pre-wrap break-words"
               >
                 {getText('paragraph1', 'Two to three short paragraphs explaining the concept, benefit, or story in more detail. This content should be clear, concise, and easy to read, engaging the user and providing valuable context to the accompanying visual.')}
               </p>
@@ -75,7 +75,7 @@ export default function GeneralContentTemplate({
                 data-eid="paragraph2"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-base font-normal leading-relaxed text-[#111418]/80 sm:text-lg"
+                className="text-base font-normal leading-relaxed text-[#111418]/80 sm:text-lg whitespace-pre-wrap break-words"
               >
                 {getText('paragraph2', 'Elaborate further on the key points, focusing on user benefits or the unique value proposition. Keep sentences direct and paragraphs focused to maintain reader engagement.')}
               </p>

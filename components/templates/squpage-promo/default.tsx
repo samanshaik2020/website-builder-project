@@ -13,7 +13,7 @@ interface SqupagePromoTemplateProps {
 export default function SqupagePromoTemplate({
   data = {},
   editable = false,
-  onContentChange = () => {},
+  onContentChange = () => { },
 }: SqupagePromoTemplateProps) {
   const [scrollY, setScrollY] = useState(0);
   const [activeFeature, setActiveFeature] = useState(0);
@@ -63,11 +63,11 @@ export default function SqupagePromoTemplate({
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white overflow-hidden" suppressHydrationWarning>
       {/* Animated Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div 
+        <div
           className="absolute top-0 left-1/4 w-96 h-96 bg-purple-500/30 rounded-full blur-3xl animate-pulse"
           style={{ transform: `translateY(${scrollY * 0.5}px)` }}
         />
-        <div 
+        <div
           className="absolute bottom-0 right-1/4 w-96 h-96 bg-pink-500/30 rounded-full blur-3xl animate-pulse"
           style={{ transform: `translateY(${-scrollY * 0.3}px)` }}
         />
@@ -84,7 +84,7 @@ export default function SqupagePromoTemplate({
               data-eid="nav_brand"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-xl font-bold"
+              className="text-xl font-bold whitespace-pre-wrap break-words"
             >
               {getText('nav_brand', 'Squpage')}
             </span>
@@ -108,26 +108,26 @@ export default function SqupagePromoTemplate({
               data-eid="hero_badge"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="px-4 py-2 bg-purple-500/20 border border-purple-500/50 rounded-full text-sm font-medium backdrop-blur-sm"
+              className="px-4 py-2 bg-purple-500/20 border border-purple-500/50 rounded-full text-sm font-medium backdrop-blur-sm whitespace-pre-wrap break-words"
             >
               {getText('hero_badge', '🚀 The Future of Website Building')}
             </span>
           </div>
-          
+
           <h1
             data-eid="hero_title"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent animate-pulse"
+            className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent animate-pulse whitespace-pre-wrap break-words"
           >
             {getText('hero_title', 'Build Beautiful Websites in Minutes')}
           </h1>
-          
+
           <p
             data-eid="hero_description"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-xl md:text-2xl text-slate-300 mb-8 max-w-3xl mx-auto"
+            className="text-xl md:text-2xl text-slate-300 mb-8 max-w-3xl mx-auto whitespace-pre-wrap break-words"
           >
             {getText('hero_description', 'Create stunning websites with our AI-powered builder. No coding required. Choose from 50+ templates, edit live, and share instantly.')}
           </p>
@@ -181,7 +181,7 @@ export default function SqupagePromoTemplate({
                   data-eid={stat.value}
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-4xl md:text-5xl font-black bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-2"
+                  className="text-4xl md:text-5xl font-black bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-2 whitespace-pre-wrap break-words"
                 >
                   {getText(stat.value, stat.defaultValue)}
                 </div>
@@ -189,7 +189,7 @@ export default function SqupagePromoTemplate({
                   data-eid={stat.label}
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-slate-400 font-medium"
+                  className="text-slate-400 font-medium whitespace-pre-wrap break-words"
                 >
                   {getText(stat.label, stat.defaultLabel)}
                 </div>
@@ -207,7 +207,7 @@ export default function SqupagePromoTemplate({
               data-eid="features_title"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-4xl md:text-5xl font-black mb-4"
+              className="text-4xl md:text-5xl font-black mb-4 whitespace-pre-wrap break-words"
             >
               {getText('features_title', 'Everything You Need to Build Amazing Websites')}
             </h2>
@@ -215,7 +215,7 @@ export default function SqupagePromoTemplate({
               data-eid="features_subtitle"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-xl text-slate-400 max-w-2xl mx-auto"
+              className="text-xl text-slate-400 max-w-2xl mx-auto whitespace-pre-wrap break-words"
             >
               {getText('features_subtitle', 'Powerful features that make website building effortless and enjoyable')}
             </p>
@@ -225,16 +225,15 @@ export default function SqupagePromoTemplate({
             {features.map((feature, index) => (
               <div
                 key={index}
-                className={`p-8 bg-white/5 backdrop-blur-sm border border-purple-500/20 rounded-2xl hover:bg-white/10 hover:border-purple-500/40 transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 ${
-                  activeFeature === index ? 'ring-2 ring-purple-500 shadow-2xl shadow-purple-500/50' : ''
-                }`}
+                className={`p-8 bg-white/5 backdrop-blur-sm border border-purple-500/20 rounded-2xl hover:bg-white/10 hover:border-purple-500/40 transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 ${activeFeature === index ? 'ring-2 ring-purple-500 shadow-2xl shadow-purple-500/50' : ''
+                  }`}
               >
                 <div className="text-5xl mb-4">{feature.icon}</div>
                 <h3
                   data-eid={`feature${index + 1}_title`}
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-2xl font-bold mb-2"
+                  className="text-2xl font-bold mb-2 whitespace-pre-wrap break-words"
                 >
                   {getText(`feature${index + 1}_title`, feature.title)}
                 </h3>
@@ -242,7 +241,7 @@ export default function SqupagePromoTemplate({
                   data-eid={`feature${index + 1}_desc`}
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-slate-400"
+                  className="text-slate-400 whitespace-pre-wrap break-words"
                 >
                   {getText(`feature${index + 1}_desc`, feature.desc)}
                 </p>
@@ -260,7 +259,7 @@ export default function SqupagePromoTemplate({
               data-eid="how_it_works_title"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-4xl md:text-5xl font-black mb-4"
+              className="text-4xl md:text-5xl font-black mb-4 whitespace-pre-wrap break-words"
             >
               {getText('how_it_works_title', 'Build Your Website in 3 Simple Steps')}
             </h2>
@@ -281,7 +280,7 @@ export default function SqupagePromoTemplate({
                     data-eid={`step${index + 1}_title`}
                     contentEditable={editable}
                     suppressContentEditableWarning
-                    className="text-2xl font-bold mb-2"
+                    className="text-2xl font-bold mb-2 whitespace-pre-wrap break-words"
                   >
                     {getText(`step${index + 1}_title`, step.title)}
                   </h3>
@@ -289,7 +288,7 @@ export default function SqupagePromoTemplate({
                     data-eid={`step${index + 1}_desc`}
                     contentEditable={editable}
                     suppressContentEditableWarning
-                    className="text-slate-400"
+                    className="text-slate-400 whitespace-pre-wrap break-words"
                   >
                     {getText(`step${index + 1}_desc`, step.desc)}
                   </p>
@@ -313,7 +312,7 @@ export default function SqupagePromoTemplate({
               data-eid="testimonials_title"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-4xl md:text-5xl font-black mb-4"
+              className="text-4xl md:text-5xl font-black mb-4 whitespace-pre-wrap break-words"
             >
               {getText('testimonials_title', 'Loved by Creators Worldwide')}
             </h2>
@@ -336,7 +335,7 @@ export default function SqupagePromoTemplate({
                       data-eid={`testimonial${num}_name`}
                       contentEditable={editable}
                       suppressContentEditableWarning
-                      className="font-bold"
+                      className="font-bold whitespace-pre-wrap break-words"
                     >
                       {getText(`testimonial${num}_name`, `User ${num}`)}
                     </div>
@@ -344,7 +343,7 @@ export default function SqupagePromoTemplate({
                       data-eid={`testimonial${num}_role`}
                       contentEditable={editable}
                       suppressContentEditableWarning
-                      className="text-sm text-slate-400"
+                      className="text-sm text-slate-400 whitespace-pre-wrap break-words"
                     >
                       {getText(`testimonial${num}_role`, 'Creator')}
                     </div>
@@ -354,7 +353,7 @@ export default function SqupagePromoTemplate({
                   data-eid={`testimonial${num}_quote`}
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-slate-300"
+                  className="text-slate-300 whitespace-pre-wrap break-words"
                 >
                   {getText(`testimonial${num}_quote`, 'Squpage made building my website incredibly easy. The templates are beautiful and the AI feature is a game-changer!')}
                 </p>
@@ -372,7 +371,7 @@ export default function SqupagePromoTemplate({
               data-eid="cta_title"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-4xl md:text-5xl font-black mb-4"
+              className="text-4xl md:text-5xl font-black mb-4 whitespace-pre-wrap break-words"
             >
               {getText('cta_title', 'Ready to Build Your Dream Website?')}
             </h2>
@@ -380,7 +379,7 @@ export default function SqupagePromoTemplate({
               data-eid="cta_description"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-xl text-slate-300 mb-8"
+              className="text-xl text-slate-300 mb-8 whitespace-pre-wrap break-words"
             >
               {getText('cta_description', 'Join thousands of creators who trust Squpage for their web presence')}
             </p>
@@ -407,7 +406,7 @@ export default function SqupagePromoTemplate({
               data-eid="footer_brand"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-lg font-bold"
+              className="text-lg font-bold whitespace-pre-wrap break-words"
             >
               {getText('footer_brand', 'Squpage')}
             </span>
@@ -416,7 +415,7 @@ export default function SqupagePromoTemplate({
             data-eid="footer_tagline"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-slate-400 mb-4"
+            className="text-slate-400 mb-4 whitespace-pre-wrap break-words"
           >
             {getText('footer_tagline', 'Build beautiful websites in minutes, not hours')}
           </p>
@@ -424,7 +423,7 @@ export default function SqupagePromoTemplate({
             data-eid="footer_copyright"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-sm text-slate-500"
+            className="text-sm text-slate-500 whitespace-pre-wrap break-words"
           >
             {getText('footer_copyright', '© 2025 Squpage. All rights reserved.')}
           </p>

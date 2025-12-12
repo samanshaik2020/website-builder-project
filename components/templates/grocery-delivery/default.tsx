@@ -8,7 +8,7 @@ import { BaseTemplateProps } from '@/types/template'
 export default function GroceryDeliveryTemplate({
   editable = false,
   data = {},
-  onContentChange = () => {},
+  onContentChange = () => { },
 }: BaseTemplateProps) {
   const getText = (eid: string, defaultText: string) => {
     return data[eid]?.text || defaultText
@@ -37,18 +37,18 @@ export default function GroceryDeliveryTemplate({
           />
           <div className="absolute inset-0 bg-black/20 pointer-events-none"></div>
         </div>
-        
+
         <div className="relative max-w-7xl mx-auto px-6 py-20">
           <div className="max-w-xl">
             <h1
               data-eid="hero_title"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight"
+              className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight whitespace-pre-wrap break-words"
             >
               {getText('hero_title', 'Get $20 off Harmless Harvest coconut water.')}
             </h1>
-            
+
             <EditableButton
               eid="hero_cta"
               defaultText={getButton('hero_cta', 'Claim Your Coconut Water', '#').text}
@@ -57,12 +57,12 @@ export default function GroceryDeliveryTemplate({
               editable={editable}
               onChange={onContentChange}
             />
-            
+
             <p
               data-eid="hero_subtitle"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-white/90 text-sm mt-4"
+              className="text-white/90 text-sm mt-4 whitespace-pre-wrap break-words"
             >
               {getText('hero_subtitle', 'One valid $20 new Good Eggs customers only.')}
             </p>
@@ -90,7 +90,7 @@ export default function GroceryDeliveryTemplate({
                   data-eid={`feature_${i}_title`}
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-xl font-bold text-gray-900 mb-3"
+                  className="text-xl font-bold text-gray-900 mb-3 whitespace-pre-wrap break-words"
                 >
                   {getText(`feature_${i}_title`, 'Everything you need, delivered to your door.')}
                 </h3>
@@ -98,14 +98,14 @@ export default function GroceryDeliveryTemplate({
                   data-eid={`feature_${i}_description`}
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-gray-600 text-sm leading-relaxed"
+                  className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap break-words"
                 >
                   {getText(`feature_${i}_description`, 'Good Eggs carries everything you can find at the grocery store, and more. We\'ll deliver to your door the same day you order — spend $60 and delivery is free. No subscription required.')}
                 </p>
               </div>
             ))}
           </div>
-          
+
           <div className="text-center mt-12">
             <EditableButton
               eid="features_cta"
@@ -126,11 +126,11 @@ export default function GroceryDeliveryTemplate({
             data-eid="testimonials_title"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-center text-sm font-semibold tracking-widest text-gray-900 mb-16 uppercase"
+            className="text-center text-sm font-semibold tracking-widest text-gray-900 mb-16 uppercase whitespace-pre-wrap break-words"
           >
             {getText('testimonials_title', 'WHAT CUSTOMERS ARE SAYING')}
           </h2>
-          
+
           <div className="grid md:grid-cols-3 gap-12">
             {[1, 2, 3].map((i) => (
               <div key={i} className="bg-white p-8 rounded-lg">
@@ -138,7 +138,7 @@ export default function GroceryDeliveryTemplate({
                   data-eid={`testimonial_${i}_quote`}
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-gray-700 italic text-base leading-relaxed mb-6"
+                  className="text-gray-700 italic text-base leading-relaxed mb-6 whitespace-pre-wrap break-words"
                 >
                   {getText(`testimonial_${i}_quote`, 'Good Eggs has been an absolute life changer. I\'m a full time working mom of two kids and have to outsource many tasks but this is easily my favorite grocery delivery and meal kit service.')}
                 </p>
@@ -192,7 +192,7 @@ export default function GroceryDeliveryTemplate({
                 ))}
               </ul>
             </div>
-            
+
             <div>
               <h4
                 data-eid="footer_col_2_title"
@@ -217,7 +217,7 @@ export default function GroceryDeliveryTemplate({
                 ))}
               </ul>
             </div>
-            
+
             <div>
               <h4
                 data-eid="footer_col_3_title"
@@ -242,7 +242,7 @@ export default function GroceryDeliveryTemplate({
                 ))}
               </ul>
             </div>
-            
+
             <div>
               <h4
                 data-eid="footer_col_4_title"
@@ -280,7 +280,7 @@ export default function GroceryDeliveryTemplate({
               </div>
             </div>
           </div>
-          
+
           <div className="border-t border-gray-700 pt-8">
             <p
               data-eid="footer_copyright"

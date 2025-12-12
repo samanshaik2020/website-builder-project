@@ -8,7 +8,7 @@ import { BaseTemplateProps } from '@/types/template'
 export default function CatFoodTemplate({
   editable = false,
   data = {},
-  onContentChange = () => {},
+  onContentChange = () => { },
 }: BaseTemplateProps) {
   const getText = (eid: string, defaultText: string) => {
     return data[eid]?.text || defaultText
@@ -32,7 +32,7 @@ export default function CatFoodTemplate({
               data-eid="logo"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-2xl font-bold tracking-[0.2em]"
+              className="text-2xl font-bold tracking-[0.2em] whitespace-pre-wrap break-words"
             >
               {getText('logo', 'SMALLS')}
             </div>
@@ -55,7 +55,7 @@ export default function CatFoodTemplate({
             data-eid="hero_title"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-5xl md:text-6xl font-bold mb-5 tracking-wide"
+            className="text-5xl md:text-6xl font-bold mb-5 tracking-wide whitespace-pre-wrap break-words"
           >
             {getText('hero_title', 'FOR THE CURIOUS CAT.')}
           </h1>
@@ -63,7 +63,7 @@ export default function CatFoodTemplate({
             data-eid="hero_subtitle"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto"
+            className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto whitespace-pre-wrap break-words"
           >
             {getText('hero_subtitle', 'Healthy, human-grade food custom-made for your cat and delivered right to your door.')}
           </p>
@@ -98,7 +98,7 @@ export default function CatFoodTemplate({
                 data-eid={`press_logo_${i}`}
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-lg font-semibold text-black"
+                className="text-lg font-semibold text-black whitespace-pre-wrap break-words"
               >
                 {getText(`press_logo_${i}`, 'PRESS LOGO')}
               </span>
@@ -114,7 +114,7 @@ export default function CatFoodTemplate({
             data-eid="how_it_works_title"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-4xl font-bold text-center mb-16"
+            className="text-4xl font-bold text-center mb-16 whitespace-pre-wrap break-words"
           >
             {getText('how_it_works_title', 'HOW IT WORKS')}
           </h2>
@@ -134,7 +134,7 @@ export default function CatFoodTemplate({
                   data-eid={`step_${i}_title`}
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-xl font-semibold mb-4"
+                  className="text-xl font-semibold mb-4 whitespace-pre-wrap break-words"
                 >
                   {getText(`step_${i}_title`, 'Step Title')}
                 </h3>
@@ -142,7 +142,7 @@ export default function CatFoodTemplate({
                   data-eid={`step_${i}_description`}
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-gray-600 text-sm leading-relaxed"
+                  className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap break-words"
                 >
                   {getText(`step_${i}_description`, 'Step description goes here.')}
                 </p>
@@ -171,7 +171,7 @@ export default function CatFoodTemplate({
                 data-eid="health_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-5xl font-bold mb-5"
+                className="text-5xl font-bold mb-5 whitespace-pre-wrap break-words"
               >
                 {getText('health_title', 'Cat health starts with you.')}
               </h2>
@@ -179,7 +179,7 @@ export default function CatFoodTemplate({
                 data-eid="health_description"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-base text-gray-800 mb-8 leading-relaxed"
+                className="text-base text-gray-800 mb-8 leading-relaxed whitespace-pre-wrap break-words"
               >
                 {getText('health_description', 'Cats need a diet that helps you feel balanced about the food you eat. At Smalls we believe that starts with gentle, human-grade ingredients cooked with care.')}
               </p>
@@ -205,7 +205,7 @@ export default function CatFoodTemplate({
                 data-eid="fresh_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-6xl md:text-7xl font-black uppercase mb-8 tracking-wider"
+                className="text-6xl md:text-7xl font-black uppercase mb-8 tracking-wider whitespace-pre-wrap break-words"
               >
                 {getText('fresh_title', 'FRESH KILLS')}
               </h2>
@@ -214,7 +214,7 @@ export default function CatFoodTemplate({
                   data-eid="fresh_description"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-sm leading-relaxed"
+                  className="text-sm leading-relaxed whitespace-pre-wrap break-words"
                 >
                   {getText('fresh_description', 'Our beloved entry kit made fresh with real meat for cats who love wet food. Every recipe is gently cooked in small batches to lock in freshness.')}
                 </p>
@@ -253,7 +253,7 @@ export default function CatFoodTemplate({
                 data-eid="dry_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-6xl md:text-7xl font-black uppercase mb-8 tracking-wider"
+                className="text-6xl md:text-7xl font-black uppercase mb-8 tracking-wider whitespace-pre-wrap break-words"
               >
                 {getText('dry_title', 'DRY KILLS')}
               </h2>
@@ -262,7 +262,7 @@ export default function CatFoodTemplate({
                   data-eid="dry_description"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-sm leading-relaxed"
+                  className="text-sm leading-relaxed whitespace-pre-wrap break-words"
                 >
                   {getText('dry_description', 'High-protein, low-carb kibble for cats who prefer crunchy food. Made with real meat and no fillers.')}
                 </p>
@@ -279,7 +279,7 @@ export default function CatFoodTemplate({
             data-eid="benefits_title"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-4xl font-bold text-center mb-16"
+            className="text-4xl font-bold text-center mb-16 whitespace-pre-wrap break-words"
           >
             {getText('benefits_title', 'BENEFITS')}
           </h2>
@@ -301,7 +301,7 @@ export default function CatFoodTemplate({
                       data-eid={`benefit_${i}_title`}
                       contentEditable={editable}
                       suppressContentEditableWarning
-                      className="text-xl font-semibold mb-3"
+                      className="text-xl font-semibold mb-3 whitespace-pre-wrap break-words"
                     >
                       {getText(`benefit_${i}_title`, 'Benefit Title')}
                     </h3>
@@ -309,7 +309,7 @@ export default function CatFoodTemplate({
                       data-eid={`benefit_${i}_description`}
                       contentEditable={editable}
                       suppressContentEditableWarning
-                      className="text-gray-600 text-sm leading-relaxed"
+                      className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap break-words"
                     >
                       {getText(`benefit_${i}_description`, 'Benefit description goes here.')}
                     </p>
@@ -359,7 +359,7 @@ export default function CatFoodTemplate({
                   data-eid={`testimonial_${i}_quote`}
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-sm text-gray-600 leading-relaxed mb-3"
+                  className="text-sm text-gray-600 leading-relaxed mb-3 whitespace-pre-wrap break-words"
                 >
                   {getText(`testimonial_${i}_quote`, '"My cat absolutely loves Smalls! The quality of the ingredients really shows."')}
                 </p>
@@ -367,7 +367,7 @@ export default function CatFoodTemplate({
                   data-eid={`testimonial_${i}_name`}
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="font-semibold text-gray-800 text-sm"
+                  className="font-semibold text-gray-800 text-sm whitespace-pre-wrap break-words"
                 >
                   {getText(`testimonial_${i}_name`, '- Maya K.')}
                 </div>
@@ -399,7 +399,7 @@ export default function CatFoodTemplate({
                 data-eid="guarantee_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-2xl font-semibold mb-3"
+                className="text-2xl font-semibold mb-3 whitespace-pre-wrap break-words"
               >
                 {getText('guarantee_title', 'MONEY BACK GUARANTEE')}
               </h3>
@@ -407,7 +407,7 @@ export default function CatFoodTemplate({
                 data-eid="guarantee_description"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-gray-600 text-sm"
+                className="text-gray-600 text-sm whitespace-pre-wrap break-words"
               >
                 {getText('guarantee_description', "We know your cat will love Smalls! If not, we'll make it right with our 100% satisfaction guarantee.")}
               </p>
@@ -425,7 +425,7 @@ export default function CatFoodTemplate({
                 data-eid="footer_col_1_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-base font-semibold mb-4"
+                className="text-base font-semibold mb-4 whitespace-pre-wrap break-words"
               >
                 {getText('footer_col_1_title', 'Company')}
               </h4>
@@ -449,7 +449,7 @@ export default function CatFoodTemplate({
                 data-eid="footer_col_2_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-base font-semibold mb-4"
+                className="text-base font-semibold mb-4 whitespace-pre-wrap break-words"
               >
                 {getText('footer_col_2_title', 'Support')}
               </h4>
@@ -473,7 +473,7 @@ export default function CatFoodTemplate({
                 data-eid="footer_col_3_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-base font-semibold mb-4"
+                className="text-base font-semibold mb-4 whitespace-pre-wrap break-words"
               >
                 {getText('footer_col_3_title', 'Legal')}
               </h4>

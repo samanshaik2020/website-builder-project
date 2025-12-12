@@ -35,12 +35,12 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
                 data-eid="nav_logo"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+                className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent whitespace-pre-wrap break-words"
               >
                 {getText('nav_logo', 'SaaSify')}
               </span>
             </div>
-            
+
             <div className="hidden md:flex items-center gap-8">
               <EditableLink href="#features" className="text-slate-600 hover:text-blue-600 transition-colors duration-300 font-medium relative group" editable={editable}>
                 Features
@@ -73,7 +73,7 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
         {/* Animated Background */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400/30 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-400/30 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-400/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
         </div>
 
         <div className="max-w-5xl mx-auto text-center relative z-10">
@@ -84,7 +84,7 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
             data-eid="hero_headline"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
+            className="text-5xl md:text-7xl font-bold mb-6 leading-tight whitespace-pre-wrap break-words"
           >
             {getText('hero_headline', 'Build Your SaaS Product Faster')}
           </h1>
@@ -92,7 +92,7 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
             data-eid="hero_subheadline"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-xl md:text-2xl text-blue-100 mb-10 max-w-3xl mx-auto"
+            className="text-xl md:text-2xl text-blue-100 mb-10 max-w-3xl mx-auto whitespace-pre-wrap break-words"
           >
             {getText('hero_subheadline', 'The all-in-one platform to launch, grow, and scale your business with powerful tools and integrations.')}
           </p>
@@ -114,7 +114,7 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
               onChange={onContentChange}
             />
           </div>
-          
+
           <div className="mt-16 flex flex-wrap items-center justify-center gap-8 opacity-80">
             <div className="text-sm">✨ No credit card required</div>
             <div className="text-sm">🔒 Enterprise-grade security</div>
@@ -132,7 +132,7 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
                 data-eid="stat_1_number"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300"
+                className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300 whitespace-pre-wrap break-words"
               >
                 {getText('stat_1_number', '50K+')}
               </div>
@@ -140,7 +140,7 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
                 data-eid="stat_1_label"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-slate-600 font-medium"
+                className="text-slate-600 font-medium whitespace-pre-wrap break-words"
               >
                 {getText('stat_1_label', 'Active Users')}
               </div>
@@ -150,7 +150,7 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
                 data-eid="stat_2_number"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300"
+                className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300 whitespace-pre-wrap break-words"
               >
                 {getText('stat_2_number', '99.9%')}
               </div>
@@ -158,7 +158,7 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
                 data-eid="stat_2_label"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-slate-600 font-medium"
+                className="text-slate-600 font-medium whitespace-pre-wrap break-words"
               >
                 {getText('stat_2_label', 'Uptime')}
               </div>
@@ -168,7 +168,7 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
                 data-eid="stat_3_number"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-pink-600 to-orange-600 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300"
+                className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-pink-600 to-orange-600 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300 whitespace-pre-wrap break-words"
               >
                 {getText('stat_3_number', '150+')}
               </div>
@@ -176,7 +176,7 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
                 data-eid="stat_3_label"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-slate-600 font-medium"
+                className="text-slate-600 font-medium whitespace-pre-wrap break-words"
               >
                 {getText('stat_3_label', 'Countries')}
               </div>
@@ -186,7 +186,7 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
                 data-eid="stat_4_number"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300"
+                className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300 whitespace-pre-wrap break-words"
               >
                 {getText('stat_4_number', '4.9/5')}
               </div>
@@ -194,7 +194,7 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
                 data-eid="stat_4_label"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-slate-600 font-medium"
+                className="text-slate-600 font-medium whitespace-pre-wrap break-words"
               >
                 {getText('stat_4_label', 'Rating')}
               </div>
@@ -212,7 +212,7 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
               data-eid="features_heading"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-4xl md:text-5xl font-bold text-slate-900 mb-4"
+              className="text-4xl md:text-5xl font-bold text-slate-900 mb-4 whitespace-pre-wrap break-words"
             >
               {getText('features_heading', 'Everything You Need to Succeed')}
             </h2>
@@ -220,7 +220,7 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
               data-eid="features_subheading"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-xl text-slate-600 max-w-2xl mx-auto"
+              className="text-xl text-slate-600 max-w-2xl mx-auto whitespace-pre-wrap break-words"
             >
               {getText('features_subheading', 'Powerful features to help you build, launch, and scale your SaaS business')}
             </p>
@@ -235,7 +235,7 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
                 data-eid="feature_1_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-2xl font-bold text-slate-900 mb-3"
+                className="text-2xl font-bold text-slate-900 mb-3 whitespace-pre-wrap break-words"
               >
                 {getText('feature_1_title', 'Lightning Fast')}
               </h3>
@@ -243,7 +243,7 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
                 data-eid="feature_1_description"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-slate-600 leading-relaxed"
+                className="text-slate-600 leading-relaxed whitespace-pre-wrap break-words"
               >
                 {getText('feature_1_description', 'Optimized performance ensures your application runs smoothly at scale.')}
               </p>
@@ -258,7 +258,7 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
                 data-eid="feature_2_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-2xl font-bold text-slate-900 mb-3"
+                className="text-2xl font-bold text-slate-900 mb-3 whitespace-pre-wrap break-words"
               >
                 {getText('feature_2_title', 'Secure by Default')}
               </h3>
@@ -266,7 +266,7 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
                 data-eid="feature_2_description"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-slate-600 leading-relaxed"
+                className="text-slate-600 leading-relaxed whitespace-pre-wrap break-words"
               >
                 {getText('feature_2_description', 'Enterprise-grade security with encryption and compliance built-in.')}
               </p>
@@ -281,7 +281,7 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
                 data-eid="feature_3_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-2xl font-bold text-slate-900 mb-3"
+                className="text-2xl font-bold text-slate-900 mb-3 whitespace-pre-wrap break-words"
               >
                 {getText('feature_3_title', 'Beautiful Design')}
               </h3>
@@ -289,7 +289,7 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
                 data-eid="feature_3_description"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-slate-600 leading-relaxed"
+                className="text-slate-600 leading-relaxed whitespace-pre-wrap break-words"
               >
                 {getText('feature_3_description', 'Stunning UI components that delight users and boost conversions.')}
               </p>
@@ -460,13 +460,13 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
           <div className="max-w-4xl mx-auto">
             <div className="relative bg-white rounded-3xl shadow-2xl p-8 md:p-12 border-2 border-purple-200 overflow-hidden group hover:border-purple-400 transition-all duration-300">
               <div className="absolute top-0 right-8 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-2 rounded-b-xl text-sm font-bold shadow-lg">MOST POPULAR</div>
-              
+
               <div className="text-center">
                 <h3
                   data-eid="pricing_plan_name"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-3xl font-bold text-slate-900 mb-2"
+                  className="text-3xl font-bold text-slate-900 mb-2 whitespace-pre-wrap break-words"
                 >
                   {getText('pricing_plan_name', 'Pro Plan')}
                 </h3>
@@ -474,7 +474,7 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
                   data-eid="pricing_plan_description"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-slate-600 mb-8"
+                  className="text-slate-600 mb-8 whitespace-pre-wrap break-words"
                 >
                   {getText('pricing_plan_description', 'Perfect for growing teams')}
                 </p>
@@ -483,7 +483,7 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
                     data-eid="pricing_plan_price"
                     contentEditable={editable}
                     suppressContentEditableWarning
-                    className="text-6xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent"
+                    className="text-6xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent whitespace-pre-wrap break-words"
                   >
                     {getText('pricing_plan_price', '$49')}
                   </span>
@@ -556,7 +556,7 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
             data-eid="cta_heading"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-4xl md:text-5xl font-bold mb-8"
+            className="text-4xl md:text-5xl font-bold mb-8 whitespace-pre-wrap break-words"
           >
             {getText('cta_heading', 'Ready to Get Started?')}
           </h2>
@@ -564,7 +564,7 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
             data-eid="cta_description"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-xl text-blue-100 mb-10 max-w-2xl mx-auto"
+            className="text-xl text-blue-100 mb-10 max-w-2xl mx-auto whitespace-pre-wrap break-words"
           >
             {getText('cta_description', 'Join thousands of companies already using our platform')}
           </p>
@@ -590,7 +590,7 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
               data-eid="footer_brand"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-2xl font-bold"
+              className="text-2xl font-bold whitespace-pre-wrap break-words"
             >
               {getText('footer_brand', 'SaaSify')}
             </span>
@@ -599,7 +599,7 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
             data-eid="footer_tagline"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-slate-400 mb-6"
+            className="text-slate-400 mb-6 whitespace-pre-wrap break-words"
           >
             {getText('footer_tagline', 'Building the future of SaaS, one feature at a time.')}
           </p>

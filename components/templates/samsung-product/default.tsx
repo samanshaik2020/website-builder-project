@@ -41,7 +41,7 @@ export default function SamsungProduct({ editable = false, data = {}, onContentC
               data-eid="nav_brand"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-2xl font-bold tracking-wider"
+              className="text-2xl font-bold tracking-wider whitespace-pre-wrap break-words"
             >
               {getText('nav_brand', 'SAMSUNG')}
             </span>
@@ -91,7 +91,7 @@ export default function SamsungProduct({ editable = false, data = {}, onContentC
               data-eid="hero_badge"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-sm font-semibold text-blue-600 mb-4 tracking-wider uppercase"
+              className="text-sm font-semibold text-blue-600 mb-4 tracking-wider uppercase whitespace-pre-wrap break-words"
             >
               {getText('hero_badge', 'NEW ARRIVAL')}
             </p>
@@ -99,7 +99,7 @@ export default function SamsungProduct({ editable = false, data = {}, onContentC
               data-eid="hero_title"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-5xl md:text-7xl font-bold text-black mb-6 tracking-tight"
+              className="text-5xl md:text-7xl font-bold text-black mb-6 tracking-tight whitespace-pre-wrap break-words"
             >
               {getText('hero_title', 'Galaxy S24 Ultra')}
             </h1>
@@ -107,7 +107,7 @@ export default function SamsungProduct({ editable = false, data = {}, onContentC
               data-eid="hero_subtitle"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto"
+              className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto whitespace-pre-wrap break-words"
             >
               {getText('hero_subtitle', 'The most powerful Galaxy yet. Experience innovation at its finest.')}
             </p>
@@ -130,7 +130,7 @@ export default function SamsungProduct({ editable = false, data = {}, onContentC
               />
             </div>
           </div>
-          
+
           {/* Hero Image */}
           <div className="mt-12 flex justify-center">
             <EditableImage
@@ -152,11 +152,11 @@ export default function SamsungProduct({ editable = false, data = {}, onContentC
             data-eid="features_title"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-4xl md:text-5xl font-bold text-center mb-16"
+            className="text-4xl md:text-5xl font-bold text-center mb-16 whitespace-pre-wrap break-words"
           >
             {getText('features_title', 'Key Features')}
           </h2>
-          
+
           <div className="grid md:grid-cols-3 gap-12">
             {/* Feature 1 */}
             <div className="text-center">
@@ -241,7 +241,7 @@ export default function SamsungProduct({ editable = false, data = {}, onContentC
           >
             {getText('specs_title', 'Technical Specifications')}
           </h2>
-          
+
           <div className="bg-white rounded-3xl shadow-lg overflow-hidden">
             <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-gray-200">
               {/* Spec 1 */}
@@ -339,7 +339,7 @@ export default function SamsungProduct({ editable = false, data = {}, onContentC
           >
             {getText('gallery_title', 'See It In Action')}
           </h2>
-          
+
           <div className="grid md:grid-cols-3 gap-6">
             <EditableImage
               eid="gallery_1"
@@ -376,7 +376,7 @@ export default function SamsungProduct({ editable = false, data = {}, onContentC
             data-eid="pricing_title"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-4xl md:text-5xl font-bold mb-6"
+            className="text-4xl md:text-5xl font-bold mb-6 whitespace-pre-wrap break-words"
           >
             {getText('pricing_title', 'Get Yours Today')}
           </h2>
@@ -384,17 +384,17 @@ export default function SamsungProduct({ editable = false, data = {}, onContentC
             data-eid="pricing_subtitle"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-xl text-gray-400 mb-8"
+            className="text-xl text-gray-400 mb-8 whitespace-pre-wrap break-words"
           >
             {getText('pricing_subtitle', 'Available in multiple colors and storage options')}
           </p>
-          
+
           <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 mb-8">
             <p
               data-eid="pricing_label"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-sm text-gray-400 mb-2"
+              className="text-sm text-gray-400 mb-2 whitespace-pre-wrap break-words"
             >
               {getText('pricing_label', 'Starting at')}
             </p>
@@ -402,7 +402,7 @@ export default function SamsungProduct({ editable = false, data = {}, onContentC
               data-eid="pricing_amount"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-6xl font-bold mb-4"
+              className="text-6xl font-bold mb-4 whitespace-pre-wrap break-words"
             >
               {getText('pricing_amount', '$1,199')}
             </p>
@@ -410,7 +410,7 @@ export default function SamsungProduct({ editable = false, data = {}, onContentC
               data-eid="pricing_description"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-gray-400 mb-6"
+              className="text-gray-400 mb-6 whitespace-pre-wrap break-words"
             >
               {getText('pricing_description', 'or $49.95/mo. for 24 months')}
             </p>
@@ -428,7 +428,7 @@ export default function SamsungProduct({ editable = false, data = {}, onContentC
             data-eid="pricing_note"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-sm text-gray-500"
+            className="text-sm text-gray-500 whitespace-pre-wrap break-words"
           >
             {getText('pricing_note', 'Free shipping and 30-day returns. Trade-in available.')}
           </p>
@@ -593,6 +593,7 @@ export default function SamsungProduct({ editable = false, data = {}, onContentC
               data-eid="footer_copyright"
               contentEditable={editable}
               suppressContentEditableWarning
+              className="whitespace-pre-wrap break-words"
             >
               {getText('footer_copyright', '© 2024 Samsung Electronics. All rights reserved.')}
             </p>

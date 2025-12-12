@@ -62,7 +62,7 @@ export const EditableImage: React.FC<EditableImageProps> = ({
         </div>
       );
     }
-    
+
     const imageElement = (
       // eslint-disable-next-line @next/next/no-img-element
       <img
@@ -73,13 +73,13 @@ export const EditableImage: React.FC<EditableImageProps> = ({
         style={style}
       />
     );
-    
+
     // Wrap in link if linkUrl exists
     if (linkUrl) {
       return (
-        <a 
-          href={linkUrl} 
-          target="_blank" 
+        <a
+          href={linkUrl}
+          target="_blank"
           rel="noopener noreferrer"
           className="cursor-pointer"
         >
@@ -87,7 +87,7 @@ export const EditableImage: React.FC<EditableImageProps> = ({
         </a>
       );
     }
-    
+
     return imageElement;
   }
 
@@ -95,7 +95,7 @@ export const EditableImage: React.FC<EditableImageProps> = ({
     <>
       <div
         data-eid={eid}
-        className={`relative group cursor-pointer ${className}`}
+        className={`relative group cursor-pointer overflow-hidden ${className}`}
         style={style}
         onClick={handleClick}
         onMouseEnter={() => setIsHovered(true)}

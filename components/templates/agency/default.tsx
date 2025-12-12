@@ -16,7 +16,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
-      
+
       const sections = ['home', 'services', 'portfolio', 'team', 'testimonials', 'contact'];
       const current = sections.find(section => {
         const element = document.getElementById(section);
@@ -65,33 +65,32 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
     <div className="min-h-screen bg-slate-900">
       {/* Fixed Navigation */}
       <nav className={`fixed top-[48px] left-0 right-0 z-50 transition-all duration-300 ${scrollY > 50 ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-slate-900/80 backdrop-blur-md'}`}>
-          <div className="max-w-7xl mx-auto px-6 py-4">
-            <div className="flex items-center justify-between">
-              <h1 
-                data-eid="nav_logo"
-                contentEditable={editable}
-                suppressContentEditableWarning
-                className={`text-2xl font-bold transition-colors ${scrollY > 50 ? 'bg-gradient-to-r from-orange-500 to-purple-500 bg-clip-text text-transparent' : 'text-white'}`}
-              >
-                {getText('nav_logo', 'Creative Agency')}
-              </h1>
-              <div className="flex gap-6 items-center">
-                {['Home', 'Services', 'Portfolio', 'Team', 'Testimonials', 'Contact'].map((item) => (
-                  <button
-                    key={item}
-                    onClick={() => scrollToSection(item.toLowerCase())}
-                    className={`text-sm font-medium transition-colors hover:text-orange-400 px-3 py-2 rounded-lg ${
-                      scrollY > 50 ? 'text-slate-700 hover:bg-slate-100' : 'text-white hover:bg-white/10'
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <h1
+              data-eid="nav_logo"
+              contentEditable={editable}
+              suppressContentEditableWarning
+              className={`text-2xl font-bold transition-colors ${scrollY > 50 ? 'bg-gradient-to-r from-orange-500 to-purple-500 bg-clip-text text-transparent' : 'text-white'} whitespace-pre-wrap break-words`}
+            >
+              {getText('nav_logo', 'Creative Agency')}
+            </h1>
+            <div className="flex gap-6 items-center">
+              {['Home', 'Services', 'Portfolio', 'Team', 'Testimonials', 'Contact'].map((item) => (
+                <button
+                  key={item}
+                  onClick={() => scrollToSection(item.toLowerCase())}
+                  className={`text-sm font-medium transition-colors hover:text-orange-400 px-3 py-2 rounded-lg ${scrollY > 50 ? 'text-slate-700 hover:bg-slate-100' : 'text-white hover:bg-white/10'
                     } ${activeSection === item.toLowerCase() ? 'text-orange-500 bg-orange-50' : ''}`}
-                  >
-                    {item}
-                  </button>
-                ))}
-              </div>
+                >
+                  {item}
+                </button>
+              ))}
             </div>
           </div>
-        </nav>
-      
+        </div>
+      </nav>
+
       {/* Hero Section */}
       <section id="home" className="min-h-screen flex items-center justify-center bg-slate-900 text-white px-6 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 via-transparent to-purple-500/20"></div>
@@ -101,11 +100,11 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
         </div>
         <div className="max-w-6xl mx-auto text-center relative z-10" style={{ transform: `translateY(${scrollY * 0.3}px)` }}>
           <div className="inline-block px-4 py-2 bg-orange-600/30 backdrop-blur-sm rounded-full border border-orange-400/30 mb-6">
-            <span 
+            <span
               data-eid="hero_badge"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-sm text-orange-200"
+              className="text-sm text-orange-200 whitespace-pre-wrap break-words"
             >
               {getText('hero_badge', '🎨 Award-Winning Agency')}
             </span>
@@ -114,7 +113,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
             data-eid="hero_headline"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-purple-400 bg-clip-text text-transparent"
+            className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-purple-400 bg-clip-text text-transparent whitespace-pre-wrap break-words"
           >
             {getText('hero_headline', 'Creative Agency')}
           </h1>
@@ -122,7 +121,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
             data-eid="hero_tagline"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-2xl md:text-3xl text-slate-300 mb-10 max-w-3xl mx-auto"
+            className="text-2xl md:text-3xl text-slate-300 mb-10 max-w-3xl mx-auto whitespace-pre-wrap break-words"
           >
             {getText('hero_tagline', 'We craft digital experiences that inspire and engage')}
           </p>
@@ -160,7 +159,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
               data-eid="services_heading"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-5xl md:text-6xl font-bold text-slate-900 mb-4"
+              className="text-5xl md:text-6xl font-bold text-slate-900 mb-4 whitespace-pre-wrap break-words"
             >
               {getText('services_heading', 'Our Services')}
             </h2>
@@ -176,7 +175,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                 data-eid="service_1_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-2xl font-bold text-slate-900 mb-4"
+                className="text-2xl font-bold text-slate-900 mb-4 whitespace-pre-wrap break-words"
               >
                 {getText('service_1_title', 'Brand Identity')}
               </h3>
@@ -184,7 +183,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                 data-eid="service_1_description"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-slate-600 leading-relaxed"
+                className="text-slate-600 leading-relaxed whitespace-pre-wrap break-words"
               >
                 {getText('service_1_description', 'Create a memorable brand that stands out with custom logos, color palettes, and visual guidelines.')}
               </p>
@@ -199,7 +198,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                 data-eid="service_2_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-2xl font-bold text-slate-900 mb-4"
+                className="text-2xl font-bold text-slate-900 mb-4 whitespace-pre-wrap break-words"
               >
                 {getText('service_2_title', 'Web Development')}
               </h3>
@@ -207,7 +206,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                 data-eid="service_2_description"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-slate-600 leading-relaxed"
+                className="text-slate-600 leading-relaxed whitespace-pre-wrap break-words"
               >
                 {getText('service_2_description', 'Build fast, responsive websites with modern technologies and best practices for optimal performance.')}
               </p>
@@ -222,7 +221,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                 data-eid="service_3_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-2xl font-bold text-slate-900 mb-4"
+                className="text-2xl font-bold text-slate-900 mb-4 whitespace-pre-wrap break-words"
               >
                 {getText('service_3_title', 'Mobile Apps')}
               </h3>
@@ -230,7 +229,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                 data-eid="service_3_description"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-slate-600 leading-relaxed"
+                className="text-slate-600 leading-relaxed whitespace-pre-wrap break-words"
               >
                 {getText('service_3_description', 'Design and develop native and cross-platform mobile applications that users love.')}
               </p>
@@ -245,7 +244,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                 data-eid="service_4_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-2xl font-bold text-slate-900 mb-4"
+                className="text-2xl font-bold text-slate-900 mb-4 whitespace-pre-wrap break-words"
               >
                 {getText('service_4_title', 'Digital Marketing')}
               </h3>
@@ -253,7 +252,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                 data-eid="service_4_description"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-slate-600 leading-relaxed"
+                className="text-slate-600 leading-relaxed whitespace-pre-wrap break-words"
               >
                 {getText('service_4_description', 'Grow your business with data-driven marketing strategies and campaigns that deliver results.')}
               </p>
@@ -270,7 +269,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
               data-eid="portfolio_heading"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-5xl md:text-6xl font-bold mb-4"
+              className="text-5xl md:text-6xl font-bold mb-4 whitespace-pre-wrap break-words"
             >
               {getText('portfolio_heading', 'Featured Work')}
             </h2>
@@ -284,7 +283,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                   data-eid="portfolio_1_title"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-3xl font-bold text-white"
+                  className="text-3xl font-bold text-white whitespace-pre-wrap break-words"
                 >
                   {getText('portfolio_1_title', 'Brand Redesign')}
                 </h3>
@@ -298,7 +297,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                   data-eid="portfolio_2_title"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-3xl font-bold text-white"
+                  className="text-3xl font-bold text-white whitespace-pre-wrap break-words"
                 >
                   {getText('portfolio_2_title', 'E-commerce Site')}
                 </h3>
@@ -312,7 +311,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                   data-eid="portfolio_3_title"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-3xl font-bold text-white"
+                  className="text-3xl font-bold text-white whitespace-pre-wrap break-words"
                 >
                   {getText('portfolio_3_title', 'Mobile App')}
                 </h3>
@@ -330,7 +329,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
               data-eid="team_heading"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-5xl md:text-6xl font-bold text-slate-900 mb-4"
+              className="text-5xl md:text-6xl font-bold text-slate-900 mb-4 whitespace-pre-wrap break-words"
             >
               {getText('team_heading', 'Meet Our Team')}
             </h2>
@@ -339,7 +338,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
               data-eid="team_description"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-xl text-slate-600 max-w-3xl mx-auto"
+              className="text-xl text-slate-600 max-w-3xl mx-auto whitespace-pre-wrap break-words"
             >
               {getText('team_description', 'Talented individuals working together to create exceptional digital experiences')}
             </p>
@@ -364,7 +363,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                   data-eid="team_1_name"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-2xl font-bold text-slate-900 mb-2"
+                  className="text-2xl font-bold text-slate-900 mb-2 whitespace-pre-wrap break-words"
                 >
                   {getText('team_1_name', 'Sarah Johnson')}
                 </h3>
@@ -372,7 +371,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                   data-eid="team_1_role"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-orange-500 font-semibold mb-3"
+                  className="text-orange-500 font-semibold mb-3 whitespace-pre-wrap break-words"
                 >
                   {getText('team_1_role', 'Creative Director')}
                 </p>
@@ -380,7 +379,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                   data-eid="team_1_bio"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-slate-600 text-sm"
+                  className="text-slate-600 text-sm whitespace-pre-wrap break-words"
                 >
                   {getText('team_1_bio', '10+ years of experience in brand strategy and visual design')}
                 </p>
@@ -406,7 +405,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                   data-eid="team_2_name"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-2xl font-bold text-slate-900 mb-2"
+                  className="text-2xl font-bold text-slate-900 mb-2 whitespace-pre-wrap break-words"
                 >
                   {getText('team_2_name', 'Michael Chen')}
                 </h3>
@@ -414,7 +413,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                   data-eid="team_2_role"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-purple-500 font-semibold mb-3"
+                  className="text-purple-500 font-semibold mb-3 whitespace-pre-wrap break-words"
                 >
                   {getText('team_2_role', 'Lead Developer')}
                 </p>
@@ -422,7 +421,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                   data-eid="team_2_bio"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-slate-600 text-sm"
+                  className="text-slate-600 text-sm whitespace-pre-wrap break-words"
                 >
                   {getText('team_2_bio', 'Full-stack expert specializing in modern web technologies')}
                 </p>
@@ -448,7 +447,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                   data-eid="team_3_name"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-2xl font-bold text-slate-900 mb-2"
+                  className="text-2xl font-bold text-slate-900 mb-2 whitespace-pre-wrap break-words"
                 >
                   {getText('team_3_name', 'Emily Rodriguez')}
                 </h3>
@@ -456,7 +455,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                   data-eid="team_3_role"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-pink-500 font-semibold mb-3"
+                  className="text-pink-500 font-semibold mb-3 whitespace-pre-wrap break-words"
                 >
                   {getText('team_3_role', 'Marketing Strategist')}
                 </p>
@@ -464,7 +463,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                   data-eid="team_3_bio"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-slate-600 text-sm"
+                  className="text-slate-600 text-sm whitespace-pre-wrap break-words"
                 >
                   {getText('team_3_bio', 'Data-driven marketing expert with proven track record')}
                 </p>
@@ -482,7 +481,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
               data-eid="testimonials_heading"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-5xl md:text-6xl font-bold text-slate-900 mb-4"
+              className="text-5xl md:text-6xl font-bold text-slate-900 mb-4 whitespace-pre-wrap break-words"
             >
               {getText('testimonials_heading', 'What Clients Say')}
             </h2>
@@ -500,7 +499,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                 data-eid="testimonial_1_text"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-slate-700 mb-6 leading-relaxed italic"
+                className="text-slate-700 mb-6 leading-relaxed italic whitespace-pre-wrap break-words"
               >
                 {getText('testimonial_1_text', '"Working with this agency transformed our brand. Their creativity and professionalism exceeded all expectations."')}
               </p>
@@ -513,7 +512,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                     data-eid="testimonial_1_name"
                     contentEditable={editable}
                     suppressContentEditableWarning
-                    className="font-bold text-slate-900"
+                    className="font-bold text-slate-900 whitespace-pre-wrap break-words"
                   >
                     {getText('testimonial_1_name', 'John Davis')}
                   </h4>
@@ -521,7 +520,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                     data-eid="testimonial_1_company"
                     contentEditable={editable}
                     suppressContentEditableWarning
-                    className="text-sm text-slate-600"
+                    className="text-sm text-slate-600 whitespace-pre-wrap break-words"
                   >
                     {getText('testimonial_1_company', 'CEO, TechStart Inc.')}
                   </p>
@@ -540,7 +539,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                 data-eid="testimonial_2_text"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-slate-700 mb-6 leading-relaxed italic"
+                className="text-slate-700 mb-6 leading-relaxed italic whitespace-pre-wrap break-words"
               >
                 {getText('testimonial_2_text', '"Incredible attention to detail and amazing results. Our website traffic increased by 300% in just 3 months!"')}
               </p>
@@ -553,7 +552,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                     data-eid="testimonial_2_name"
                     contentEditable={editable}
                     suppressContentEditableWarning
-                    className="font-bold text-slate-900"
+                    className="font-bold text-slate-900 whitespace-pre-wrap break-words"
                   >
                     {getText('testimonial_2_name', 'Sarah Martinez')}
                   </h4>
@@ -561,7 +560,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                     data-eid="testimonial_2_company"
                     contentEditable={editable}
                     suppressContentEditableWarning
-                    className="text-sm text-slate-600"
+                    className="text-sm text-slate-600 whitespace-pre-wrap break-words"
                   >
                     {getText('testimonial_2_company', 'Founder, StyleHub')}
                   </p>
@@ -580,7 +579,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                 data-eid="testimonial_3_text"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-slate-700 mb-6 leading-relaxed italic"
+                className="text-slate-700 mb-6 leading-relaxed italic whitespace-pre-wrap break-words"
               >
                 {getText('testimonial_3_text', '"Best decision we made for our business. The team is responsive, talented, and truly cares about results."')}
               </p>
@@ -593,7 +592,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                     data-eid="testimonial_3_name"
                     contentEditable={editable}
                     suppressContentEditableWarning
-                    className="font-bold text-slate-900"
+                    className="font-bold text-slate-900 whitespace-pre-wrap break-words"
                   >
                     {getText('testimonial_3_name', 'Robert Kim')}
                   </h4>
@@ -601,7 +600,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                     data-eid="testimonial_3_company"
                     contentEditable={editable}
                     suppressContentEditableWarning
-                    className="text-sm text-slate-600"
+                    className="text-sm text-slate-600 whitespace-pre-wrap break-words"
                   >
                     {getText('testimonial_3_company', 'Director, GrowthLab')}
                   </p>
@@ -619,7 +618,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
             data-eid="contact_heading"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-5xl md:text-6xl font-bold mb-4"
+            className="text-5xl md:text-6xl font-bold mb-4 whitespace-pre-wrap break-words"
           >
             {getText('contact_heading', "Let's Create Something Amazing")}
           </h2>
@@ -628,7 +627,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
             data-eid="contact_subheading"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-xl text-slate-300 mb-10 max-w-2xl mx-auto"
+            className="text-xl text-slate-300 mb-10 max-w-2xl mx-auto whitespace-pre-wrap break-words"
           >
             {getText('contact_subheading', 'Ready to bring your vision to life? Get in touch with our team today and start your journey to digital excellence.')}
           </p>
@@ -657,7 +656,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                 data-eid="contact_email_label"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="font-semibold mb-2"
+                className="font-semibold mb-2 whitespace-pre-wrap break-words"
               >
                 {getText('contact_email_label', 'Email Us')}
               </h3>
@@ -665,7 +664,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                 data-eid="contact_email"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-slate-300"
+                className="text-slate-300 whitespace-pre-wrap break-words"
               >
                 {getText('contact_email', 'hello@agency.com')}
               </p>
@@ -676,7 +675,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                 data-eid="contact_phone_label"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="font-semibold mb-2"
+                className="font-semibold mb-2 whitespace-pre-wrap break-words"
               >
                 {getText('contact_phone_label', 'Call Us')}
               </h3>
@@ -684,7 +683,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                 data-eid="contact_phone"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-slate-300"
+                className="text-slate-300 whitespace-pre-wrap break-words"
               >
                 {getText('contact_phone', '+1 (555) 123-4567')}
               </p>
@@ -695,7 +694,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                 data-eid="contact_location_label"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="font-semibold mb-2"
+                className="font-semibold mb-2 whitespace-pre-wrap break-words"
               >
                 {getText('contact_location_label', 'Visit Us')}
               </h3>
@@ -703,7 +702,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                 data-eid="contact_location"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-slate-300"
+                className="text-slate-300 whitespace-pre-wrap break-words"
               >
                 {getText('contact_location', 'San Francisco, CA')}
               </p>
@@ -721,7 +720,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                 data-eid="footer_brand"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-2xl font-bold bg-gradient-to-r from-orange-400 to-purple-400 bg-clip-text text-transparent mb-4"
+                className="text-2xl font-bold bg-gradient-to-r from-orange-400 to-purple-400 bg-clip-text text-transparent mb-4 whitespace-pre-wrap break-words"
               >
                 {getText('footer_brand', 'Creative Agency')}
               </h3>
@@ -729,7 +728,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                 data-eid="footer_tagline"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-slate-400 text-sm"
+                className="text-slate-400 text-sm whitespace-pre-wrap break-words"
               >
                 {getText('footer_tagline', 'Crafting digital experiences that inspire and engage.')}
               </p>
@@ -739,7 +738,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                 data-eid="footer_services_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="font-bold mb-4"
+                className="font-bold mb-4 whitespace-pre-wrap break-words"
               >
                 {getText('footer_services_title', 'Services')}
               </h4>
@@ -779,7 +778,7 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                 data-eid="footer_company_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="font-bold mb-4"
+                className="font-bold mb-4 whitespace-pre-wrap break-words"
               >
                 {getText('footer_company_title', 'Company')}
               </h4>

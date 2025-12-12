@@ -43,7 +43,7 @@ export default function FestivalSale({ editable = false, data = {}, onContentCha
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
         let { hours, minutes, seconds } = prev;
-        
+
         if (seconds > 0) {
           seconds--;
         } else if (minutes > 0) {
@@ -54,7 +54,7 @@ export default function FestivalSale({ editable = false, data = {}, onContentCha
           minutes = 59;
           seconds = 59;
         }
-        
+
         return { hours, minutes, seconds };
       });
     }, 1000);
@@ -65,20 +65,20 @@ export default function FestivalSale({ editable = false, data = {}, onContentCha
   const formatTime = (num: number) => num.toString().padStart(2, '0');
 
   return (
-    <div 
+    <div
       className="min-h-screen w-full flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8"
-      style={{ 
+      style={{
         fontFamily: "'Plus Jakarta Sans', 'Noto Sans', sans-serif",
         background: '#221110'
       }}
     >
       <div className="w-full max-w-4xl">
         {/* Top Banner */}
-        <h3 
+        <h3
           data-eid="top_banner_text"
           contentEditable={editable}
           suppressContentEditableWarning
-          className="text-white tracking-wide text-xl sm:text-2xl font-bold leading-tight text-center pb-4 pt-5"
+          className="text-white tracking-wide text-xl sm:text-2xl font-bold leading-tight text-center pb-4 pt-5 whitespace-pre-wrap break-words"
         >
           {getText('top_banner_text', '🔥 MEGA SALE — UP TO 80% OFF')}
         </h3>
@@ -98,11 +98,11 @@ export default function FestivalSale({ editable = false, data = {}, onContentCha
               />
               <div className="absolute -top-8 -right-8 sm:-top-10 sm:-right-10 flex items-center justify-center w-28 h-28 sm:w-36 sm:h-36 bg-yellow-400 rounded-full text-center transform -rotate-12">
                 <div className="flex flex-col">
-                  <span 
+                  <span
                     data-eid="discount_percentage"
                     contentEditable={editable}
                     suppressContentEditableWarning
-                    className="text-4xl sm:text-5xl font-black text-red-600 leading-none"
+                    className="text-4xl sm:text-5xl font-black text-red-600 leading-none whitespace-pre-wrap break-words"
                   >
                     {getText('discount_percentage', '-80%')}
                   </span>
@@ -113,19 +113,19 @@ export default function FestivalSale({ editable = false, data = {}, onContentCha
 
             {/* Hero Text */}
             <div className="flex flex-col gap-4 text-center">
-              <h1 
+              <h1
                 data-eid="hero_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-white text-4xl font-black leading-tight tracking-tight sm:text-6xl"
+                className="text-white text-4xl font-black leading-tight tracking-tight sm:text-6xl whitespace-pre-wrap break-words"
               >
                 {getText('hero_title', 'Unbelievable Discounts')}
               </h1>
-              <h2 
+              <h2
                 data-eid="hero_subtitle"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-white/80 text-lg font-normal leading-normal sm:text-xl"
+                className="text-white/80 text-lg font-normal leading-normal sm:text-xl whitespace-pre-wrap break-words"
               >
                 {getText('hero_subtitle', "Grab It Before It's Gone!")}
               </h2>
@@ -133,19 +133,19 @@ export default function FestivalSale({ editable = false, data = {}, onContentCha
 
             {/* Product Info & Features */}
             <div className="flex flex-col items-center gap-4 mt-4 w-full max-w-lg">
-              <h3 
+              <h3
                 data-eid="product_name"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-white text-2xl font-bold"
+                className="text-white text-2xl font-bold whitespace-pre-wrap break-words"
               >
                 {getText('product_name', 'Aero-Boost Runners')}
               </h3>
-              <p 
+              <p
                 data-eid="product_tagline"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-white/70 italic"
+                className="text-white/70 italic whitespace-pre-wrap break-words"
               >
                 {getText('product_tagline', 'Experience the future of speed and comfort.')}
               </p>
@@ -154,44 +154,44 @@ export default function FestivalSale({ editable = false, data = {}, onContentCha
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full text-center mt-4">
                 <div className="flex flex-col items-center gap-2 p-2 rounded bg-white/5">
                   <span className="text-yellow-400 text-3xl">🏆</span>
-                  <p 
+                  <p
                     data-eid="feature_1_text"
                     contentEditable={editable}
                     suppressContentEditableWarning
-                    className="text-white text-sm"
+                    className="text-white text-sm whitespace-pre-wrap break-words"
                   >
                     {getText('feature_1_text', 'Premium Build')}
                   </p>
                 </div>
                 <div className="flex flex-col items-center gap-2 p-2 rounded bg-white/5">
                   <span className="text-yellow-400 text-3xl">🚀</span>
-                  <p 
+                  <p
                     data-eid="feature_2_text"
                     contentEditable={editable}
                     suppressContentEditableWarning
-                    className="text-white text-sm"
+                    className="text-white text-sm whitespace-pre-wrap break-words"
                   >
                     {getText('feature_2_text', 'Top Performance')}
                   </p>
                 </div>
                 <div className="flex flex-col items-center gap-2 p-2 rounded bg-white/5">
                   <span className="text-yellow-400 text-3xl">✓</span>
-                  <p 
+                  <p
                     data-eid="feature_3_text"
                     contentEditable={editable}
                     suppressContentEditableWarning
-                    className="text-white text-sm"
+                    className="text-white text-sm whitespace-pre-wrap break-words"
                   >
                     {getText('feature_3_text', '2-Year Warranty')}
                   </p>
                 </div>
                 <div className="flex flex-col items-center gap-2 p-2 rounded bg-white/5">
                   <span className="text-yellow-400 text-3xl">⭐</span>
-                  <p 
+                  <p
                     data-eid="feature_4_text"
                     contentEditable={editable}
                     suppressContentEditableWarning
-                    className="text-white text-sm"
+                    className="text-white text-sm whitespace-pre-wrap break-words"
                   >
                     {getText('feature_4_text', 'Bestseller')}
                   </p>
@@ -205,7 +205,7 @@ export default function FestivalSale({ editable = false, data = {}, onContentCha
               defaultText={getButton('cta_button', 'Shop Now', '#').text}
               defaultUrl={getButton('cta_button', 'Shop Now', '#').url}
               className="flex min-w-[84px] w-full max-w-sm cursor-pointer items-center justify-center overflow-hidden rounded-full h-14 px-5 mt-8 text-white text-lg font-bold leading-normal tracking-wide transition-transform duration-300 hover:scale-105"
-              style={{ 
+              style={{
                 background: '#f43625',
                 boxShadow: '0 0 15px 5px rgba(244, 54, 37, 0.4), 0 0 30px 10px rgba(244, 54, 37, 0.3)'
               }}
@@ -214,11 +214,11 @@ export default function FestivalSale({ editable = false, data = {}, onContentCha
             />
 
             {/* Meta Text */}
-            <p 
+            <p
               data-eid="meta_text"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-sm font-normal leading-normal text-center mt-2"
+              className="text-sm font-normal leading-normal text-center mt-2 whitespace-pre-wrap break-words"
               style={{ color: '#ba9e9c' }}
             >
               {getText('meta_text', 'Fast Delivery · Easy Returns · Secure Payments')}
@@ -228,11 +228,11 @@ export default function FestivalSale({ editable = false, data = {}, onContentCha
 
         {/* Urgency Sub-banner and Timer */}
         <div className="mt-8 border-t border-white/10 pt-8 w-full">
-          <p 
+          <p
             data-eid="urgency_text"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-white text-base font-normal leading-normal pb-3 pt-1 px-4 text-center"
+            className="text-white text-base font-normal leading-normal pb-3 pt-1 px-4 text-center whitespace-pre-wrap break-words"
           >
             {getText('urgency_text', 'Limited stock • Today only • Prices will increase soon')}
           </p>

@@ -13,7 +13,7 @@ interface CreativeCommunityTemplateProps {
 export default function CreativeCommunityTemplate({
   data = {},
   editable = false,
-  onContentChange = () => {},
+  onContentChange = () => { },
 }: CreativeCommunityTemplateProps) {
   const getText = (eid: string, defaultText: string) => {
     return data[eid]?.text || defaultText;
@@ -56,7 +56,7 @@ export default function CreativeCommunityTemplate({
                       data-eid="nav_brand"
                       contentEditable={editable}
                       suppressContentEditableWarning
-                      className="text-xl font-bold text-gray-800"
+                      className="text-xl font-bold text-gray-800 whitespace-pre-wrap break-words"
                     >
                       {getText('nav_brand', 'IgniteCreatives')}
                     </span>
@@ -66,7 +66,7 @@ export default function CreativeCommunityTemplate({
                       data-eid="nav_login_link"
                       contentEditable={editable}
                       suppressContentEditableWarning
-                      className="text-sm font-medium text-gray-600 hover:text-[#a16bfe] transition-colors cursor-pointer"
+                      className="text-sm font-medium text-gray-600 hover:text-[#a16bfe] transition-colors cursor-pointer whitespace-pre-wrap break-words"
                       href="#"
                     >
                       {getText('nav_login_link', 'Curator Login')}
@@ -88,7 +88,7 @@ export default function CreativeCommunityTemplate({
                     data-eid="hero_title"
                     contentEditable={editable}
                     suppressContentEditableWarning
-                    className="text-[#111418] text-4xl font-extrabold leading-tight tracking-[-0.033em] md:text-5xl lg:text-6xl"
+                    className="text-[#111418] text-4xl font-extrabold leading-tight tracking-[-0.033em] md:text-5xl lg:text-6xl whitespace-pre-wrap break-words"
                   >
                     {getText('hero_title', 'Unleash Your Passion, Connect with Fellow Creators.')}
                   </h1>
@@ -96,7 +96,7 @@ export default function CreativeCommunityTemplate({
                     data-eid="hero_description"
                     contentEditable={editable}
                     suppressContentEditableWarning
-                    className="text-gray-600 text-lg font-normal leading-relaxed md:text-xl"
+                    className="text-gray-600 text-lg font-normal leading-relaxed md:text-xl whitespace-pre-wrap break-words"
                   >
                     {getText('hero_description', 'Dive into a vibrant community where artistic expression thrives. Share your unique creations, collaborate on inspiring projects, and turn your creative energy into rewarding experiences.')}
                   </p>
@@ -249,7 +249,7 @@ export default function CreativeCommunityTemplate({
                       data-eid="testimonial_quote"
                       contentEditable={editable}
                       suppressContentEditableWarning
-                      className="text-lg font-semibold leading-relaxed"
+                      className="text-lg font-semibold leading-relaxed whitespace-pre-wrap break-words"
                     >
                       {getText('testimonial_quote', '"This community is a game-changer! I\'ve found my tribe, pushed my artistic boundaries, and even earned from my passion. Truly inspiring!"')}
                     </p>
@@ -257,7 +257,7 @@ export default function CreativeCommunityTemplate({
                       data-eid="testimonial_author"
                       contentEditable={editable}
                       suppressContentEditableWarning
-                      className="text-sm mt-1 font-medium"
+                      className="text-sm mt-1 font-medium whitespace-pre-wrap break-words"
                     >
                       {getText('testimonial_author', '- Anya Sharma, Digital Artist & Collaborator')}
                     </p>
@@ -270,7 +270,7 @@ export default function CreativeCommunityTemplate({
                     data-eid="stats_text"
                     contentEditable={editable}
                     suppressContentEditableWarning
-                    className="text-base font-normal leading-normal"
+                    className="text-base font-normal leading-normal whitespace-pre-wrap break-words"
                   >
                     {getText('stats_text', 'Join over 10,000+ vibrant creators igniting their potential!')}
                   </p>

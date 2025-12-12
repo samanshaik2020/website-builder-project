@@ -58,7 +58,7 @@ export default function LoanLanding({ editable = false, data = {}, onContentChan
               data-eid="hero_description"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-lg mb-8 text-white/90"
+              className="text-lg mb-8 text-white/90 whitespace-pre-wrap break-words"
             >
               {getText('hero_description', 'We help when the bank says no. Our lenders welcome all credit scores, and provide an instant pre-qualification for a loan program.')}
             </p>
@@ -96,7 +96,7 @@ export default function LoanLanding({ editable = false, data = {}, onContentChan
                 data-eid="feature1_title"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-xl font-bold mb-3 text-[#2c3e50]"
+                className="text-xl font-bold mb-3 text-[#2c3e50] whitespace-pre-wrap break-words"
               >
                 {getText('feature1_title', 'Low down payment')}
               </h3>
@@ -104,7 +104,7 @@ export default function LoanLanding({ editable = false, data = {}, onContentChan
                 data-eid="feature1_description"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-gray-600"
+                className="text-gray-600 whitespace-pre-wrap break-words"
               >
                 {getText('feature1_description', 'Mortgages with low down payments exist, and our lenders can help you find them.')}
               </p>
@@ -129,7 +129,7 @@ export default function LoanLanding({ editable = false, data = {}, onContentChan
                 data-eid="feature2_description"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-gray-600"
+                className="text-gray-600 whitespace-pre-wrap break-words"
               >
                 {getText('feature2_description', 'In just a few minutes, a lender can inform you of your home purchasing capabilities.')}
               </p>
@@ -154,7 +154,7 @@ export default function LoanLanding({ editable = false, data = {}, onContentChan
                 data-eid="feature3_description"
                 contentEditable={editable}
                 suppressContentEditableWarning
-                className="text-gray-600"
+                className="text-gray-600 whitespace-pre-wrap break-words"
               >
                 {getText('feature3_description', 'Our offers are 100% free. We can help find a loan. We never charge you a fee.')}
               </p>
@@ -197,7 +197,7 @@ export default function LoanLanding({ editable = false, data = {}, onContentChan
                   data-eid="step1_description"
                   contentEditable={editable}
                   suppressContentEditableWarning
-                  className="text-gray-600"
+                  className="text-gray-600 whitespace-pre-wrap break-words"
                 >
                   {getText('step1_description', 'Take a few minutes to answer some questions about yourself, and how much you would like to borrow.')}
                 </p>

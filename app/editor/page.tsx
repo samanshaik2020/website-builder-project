@@ -109,12 +109,12 @@ function EditorContent() {
   useEffect(() => {
     const handleMouseEnter = (e: Event) => {
       const target = e.target;
-      
+
       // Check if target is an HTMLElement (not a text node or other node type)
       if (!(target instanceof HTMLElement)) return;
-      
+
       const eid = target.getAttribute('data-eid');
-      
+
       // Only apply to contentEditable text elements (not buttons or images)
       if (eid && target.contentEditable === 'true' && !target.closest('button') && target.tagName !== 'BUTTON') {
         // Add visual hover indicator
@@ -127,12 +127,12 @@ function EditorContent() {
 
     const handleMouseLeave = (e: Event) => {
       const target = e.target;
-      
+
       // Check if target is an HTMLElement (not a text node or other node type)
       if (!(target instanceof HTMLElement)) return;
-      
+
       const eid = target.getAttribute('data-eid');
-      
+
       // Remove hover indicator if element is not focused
       if (eid && target.contentEditable === 'true' && document.activeElement !== target) {
         target.style.outline = '';
@@ -142,12 +142,12 @@ function EditorContent() {
 
     const handleFocus = (e: Event) => {
       const target = e.target;
-      
+
       // Check if target is an HTMLElement (not a text node or other node type)
       if (!(target instanceof HTMLElement)) return;
-      
+
       const eid = target.getAttribute('data-eid');
-      
+
       // Change to solid outline when focused
       if (eid && target.contentEditable === 'true') {
         target.style.outline = '2px solid rgba(147, 51, 234, 0.6)';
@@ -157,16 +157,38 @@ function EditorContent() {
 
     const handleBlur = (e: Event) => {
       const target = e.target;
-      
+
       // Check if target is an HTMLElement (not a text node or other node type)
       if (!(target instanceof HTMLElement)) return;
-      
+
       const eid = target.getAttribute('data-eid');
-      
+
       // Remove outline when focus is lost
       if (eid && target.contentEditable === 'true') {
         target.style.outline = '';
         target.style.outlineOffset = '';
+
+        // Auto-save content on blur to persist changes before view switching
+        setProjectData(prev => {
+          const isButton = target.tagName === 'BUTTON';
+          if (isButton) {
+            const currentBtn = prev[eid]?.button || {};
+            return {
+              ...prev,
+              [eid]: {
+                button: {
+                  text: target.innerText || '', // Use innerText to preserve newlines
+                  url: currentBtn.url || '#'
+                }
+              }
+            };
+          } else {
+            return {
+              ...prev,
+              [eid]: { text: target.innerText || '' } // Use innerText to preserve newlines
+            };
+          }
+        });
       }
     };
 
@@ -188,16 +210,16 @@ function EditorContent() {
   useEffect(() => {
     const handleInput = (e: Event) => {
       const target = e.target;
-      
+
       // Check if target is an HTMLElement (not a text node or other node type)
       if (!(target instanceof HTMLElement)) return;
-      
+
       const eid = target.getAttribute('data-eid');
-      
+
       if (eid && target.tagName === 'BUTTON') {
         setProjectData(prev => ({
           ...prev,
-          [eid]: { button: { text: target.textContent || '', url: '#' } }
+          [eid]: { button: { text: target.innerText || '', url: '#' } }
         }));
       }
     };
@@ -210,7 +232,7 @@ function EditorContent() {
   useEffect(() => {
     const handleSelectionChange = () => {
       const selection = window.getSelection();
-      
+
       if (!selection || selection.isCollapsed || selection.rangeCount === 0) {
         setShowTextToolbar(false);
         return;
@@ -219,10 +241,10 @@ function EditorContent() {
       // Check if selection is within a contentEditable element with data-eid
       const range = selection.getRangeAt(0);
       const container = range.commonAncestorContainer;
-      const element = container.nodeType === Node.TEXT_NODE 
-        ? container.parentElement 
+      const element = container.nodeType === Node.TEXT_NODE
+        ? container.parentElement
         : container as HTMLElement;
-      
+
       if (!element) {
         setShowTextToolbar(false);
         return;
@@ -230,8 +252,8 @@ function EditorContent() {
 
       // Find the closest element with data-eid or contentEditable
       const editableElement = element.closest('[data-eid][contenteditable="true"]') ||
-                              element.closest('[contenteditable="true"]');
-      
+        element.closest('[contenteditable="true"]');
+
       if (editableElement && selection.toString().trim().length > 0) {
         setShowTextToolbar(true);
       } else {
@@ -241,7 +263,7 @@ function EditorContent() {
 
     // Listen for selection changes
     document.addEventListener('selectionchange', handleSelectionChange);
-    
+
     // Also hide toolbar on mousedown outside contentEditable elements
     const handleMouseDown = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
@@ -249,7 +271,7 @@ function EditorContent() {
         setShowTextToolbar(false);
       }
     };
-    
+
     document.addEventListener('mousedown', handleMouseDown);
 
     return () => {
@@ -271,21 +293,21 @@ function EditorContent() {
         if (eid) {
           const isButton = element.tagName === 'BUTTON';
           // Check if this is an image element (either IMG tag, or has image data, or contains an IMG child)
-          const isImage = element.tagName === 'IMG' || 
-                          data[eid]?.image || 
-                          element.querySelector('img') !== null;
-          
+          const isImage = element.tagName === 'IMG' ||
+            data[eid]?.image ||
+            element.querySelector('img') !== null;
+
           if (isButton) {
             // Preserve existing button data (URL) and only update text if needed
             if (!data[eid]?.button) {
               data[eid] = { button: { text: element.textContent || '', url: '#' } };
             } else {
               // Keep existing URL, update text from DOM
-              data[eid] = { 
-                button: { 
-                  text: element.textContent || data[eid].button.text, 
-                  url: data[eid].button.url 
-                } 
+              data[eid] = {
+                button: {
+                  text: element.textContent || data[eid].button.text,
+                  url: data[eid].button.url
+                }
               };
             }
           } else if (isImage) {
