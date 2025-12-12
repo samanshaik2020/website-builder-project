@@ -104,6 +104,8 @@ export default function TemplatesPage() {
         return '/Galaxy Phone Product.png';
       case 'glassmorphism-product':
         return '/Glassmorphism Product.png';
+      case 'photofolio':
+        return '/PhotoFolio.png';
       default:
         return null;
     }
@@ -117,9 +119,9 @@ export default function TemplatesPage() {
         <Button
           startIcon={<ArrowBackIcon sx={{ fontSize: 18 }} />}
           onClick={() => router.push('/dashboard')}
-          sx={{ 
-            color: '#525252', 
-            textTransform: 'none', 
+          sx={{
+            color: '#525252',
+            textTransform: 'none',
             fontWeight: 500,
             fontSize: 14,
             '&:hover': { bgcolor: 'transparent', color: '#000' }
@@ -262,7 +264,7 @@ export default function TemplatesPage() {
                   <Typography variant="body2" sx={{ color: '#737373', lineHeight: 1.5, fontSize: 14 }}>
                     {template.description}
                   </Typography>
-                  
+
                   {/* Tags */}
                   <Box sx={{ display: 'flex', gap: 0.75, mt: 2, flexWrap: 'wrap' }}>
                     <Chip

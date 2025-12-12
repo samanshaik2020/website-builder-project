@@ -23,6 +23,7 @@ import { MobileShopTemplate, mobileShopConfig } from '@/components/templates/mob
 import { GadgetDealsTemplate, gadgetDealsConfig } from '@/components/templates/gadget-deals';
 import { GalaxyPhoneTemplate, galaxyPhoneConfig } from '@/components/templates/galaxy-phone';
 import { GlassmorphismProductTemplate, glassmorphismProductConfig } from '@/components/templates/glassmorphism-product';
+import { PhotoFolioTemplate, photofolioConfig } from '@/components/templates/photofolio';
 
 export const templates = {
   portfolio: {
@@ -132,6 +133,10 @@ export const templates = {
   'glassmorphism-product': {
     component: GlassmorphismProductTemplate,
     config: glassmorphismProductConfig,
+  },
+  photofolio: {
+    component: PhotoFolioTemplate,
+    config: photofolioConfig,
   },
 } as const;
 

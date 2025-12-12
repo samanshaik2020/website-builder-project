@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-type ReqBody = { 
-  templateSlug: string; 
+type ReqBody = {
+  templateSlug: string;
   seedText: string;
   theme?: string;
 };
@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
 
     const data = await response.json();
     const raw = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-    
+
     if (!raw) {
       return NextResponse.json(
         { error: 'No content from AI', response: data },
@@ -208,6 +208,11 @@ function buildPromptForTemplate(templateSlug: string, seedText: string, theme?: 
     return buildGalaxyPhonePrompt(seedText, theme);
   }
 
+  // PhotoFolio template has its own structure
+  if (templateSlug === 'photofolio') {
+    return buildPhotoFolioPrompt(seedText, theme);
+  }
+
   const baseInstructions = `You are a professional web content generator. Generate content for a ${templateSlug} template based on the following description: "${seedText}"${theme ? ` using the ${theme} theme style` : ''}.
 
 Return ONLY valid JSON (no markdown, no code blocks, no comments). The JSON must follow this exact structure with ALL fields:
@@ -268,7 +273,7 @@ Create compelling SaaS landing page content that:
 - Has a strong call-to-action
 
 Make the tone professional, modern, and benefit-focused.`,
-    
+
     'portfolio': `
 Create professional portfolio content that:
 - Showcases expertise and skills
@@ -279,7 +284,7 @@ Create professional portfolio content that:
 Make the tone professional yet personal.`
   };
 
-  const specificInstructions = templateSpecificInstructions[templateSlug] || 
+  const specificInstructions = templateSpecificInstructions[templateSlug] ||
     'Create professional, engaging content appropriate for this template type.';
 
   return `${baseInstructions}
@@ -1512,4 +1517,65 @@ Content Guidelines:
 
 Tone: Premium, innovative, trustworthy, and aspirational
 Return ONLY the JSON object, nothing else`;
+}
+
+// Prompt builder for PhotoFolio template
+function buildPhotoFolioPrompt(seedText: string, theme?: string) {
+  return `You are a professional web content generator. Generate content for a photography portfolio with a fun quiz based on the following description: "${seedText}"${theme ? ` using the ${theme} theme style` : ''}.
+
+Return ONLY valid JSON (no markdown, no code blocks, no comments). The JSON must include ALL fields below:
+
+{
+  "nav_logo": "Brand name (1-2 words)",
+  "hero_title": "Hero title (4-6 words)",
+  "hero_description": "Hero description (20-30 words)",
+  "hero_cta": "Start Quiz button text (2-4 words, e.g., 'Take the Quiz', 'Start Challenge')",
+  "hero_image": "Hero image keyword (e.g., 'landscape', 'portrait')",
+  "about_text_1": "Introductory paragraph about the photographer/studio (30-40 words)",
+  "about_text_2": "Secondary paragraph about style/philosophy (30-40 words)",
+  "footer_copyright": "Copyright text",
+  
+  "quiz_heading": "Quiz section heading (e.g., 'Test Your Photography Knowledge')",
+  
+  "question_1": "Quiz question 1 (related to photography/theme)",
+  "q1_opt1": "Option 1 (Correct answer)",
+  "q1_opt2": "Option 2",
+  "q1_opt3": "Option 3",
+  "q1_opt4": "Option 4",
+  
+  "question_2": "Quiz question 2",
+  "q2_opt1": "Option 1 (Correct answer)",
+  "q2_opt2": "Option 2",
+  "q2_opt3": "Option 3",
+  "q2_opt4": "Option 4",
+  
+  "question_3": "Quiz question 3",
+  "q3_opt1": "Option 1 (Correct answer)",
+  "q3_opt2": "Option 2",
+  "q3_opt3": "Option 3",
+  "q3_opt4": "Option 4",
+  
+  "question_4": "Quiz question 4",
+  "q4_opt1": "Option 1 (Correct answer)",
+  "q4_opt2": "Option 2",
+  "q4_opt3": "Option 3",
+  "q4_opt4": "Option 4",
+  
+  "question_5": "Quiz question 5",
+  "q5_opt1": "Option 1 (Correct answer)",
+  "q5_opt2": "Option 2",
+  "q5_opt3": "Option 3",
+  "q5_opt4": "Option 4",
+  
+  "result_title": "Quiz completion title (e.g., 'Great Job!', 'You are a Pro!')",
+  "result_text": "Quiz completion message (20-30 words)",
+  "result_btn": "Back to Home button text (2-3 words)"
+}
+
+Create engaging content that:
+- Showcases a professional photography brand
+- Creates a fun, interactive quiz related to the portfolio theme
+- Uses professional yet accessible language
+- Ensures quiz questions are relevant and interesting
+- Return ONLY the JSON object, nothing else`;
 }

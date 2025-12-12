@@ -18,6 +18,7 @@ import {
   Divider,
   Avatar,
   InputAdornment,
+  Tooltip,
 } from '@mui/material';
 import {
   Add as AddIcon,
@@ -79,7 +80,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     setIsClient(true);
-    
+
     // Check authentication and load data
     const initDashboard = async () => {
       try {
@@ -88,7 +89,7 @@ export default function DashboardPage() {
           router.push('/signin');
           return;
         }
-        
+
         setCurrentUser(user);
         await loadProjects();
       } catch {
@@ -96,7 +97,7 @@ export default function DashboardPage() {
         router.push('/signin');
       }
     };
-    
+
     initDashboard();
 
     // Auto-refresh analytics when window gains focus (user returns from share page)
@@ -112,7 +113,7 @@ export default function DashboardPage() {
   const loadProjects = async () => {
     try {
       const projectsData = await getUserProjects();
-      
+
       // Transform Supabase data to match our Project interface
       const transformedProjects = projectsData.map((p: any) => ({
         id: p.id,
@@ -127,7 +128,7 @@ export default function DashboardPage() {
         lastClickedAt: p.analytics?.last_clicked_at,
         customUrl: p.custom_url,
       }));
-      
+
       setProjects(transformedProjects);
     } catch {
       // Failed to load projects
@@ -154,11 +155,11 @@ export default function DashboardPage() {
       // Project not found
       return;
     }
-    
+
     const baseUrl = window.location.origin;
     const urlSlug = project.customUrl || projectId;
     const link = `${baseUrl}/share/${urlSlug}`;
-    
+
     // Store all dialog state
     setCurrentDialogProject(project);
     setSelectedProject(projectId);
@@ -169,7 +170,7 @@ export default function DashboardPage() {
     setCustomUrlSaved(false);
     setShowShareDialog(true);
     handleMenuClose();
-    
+
   };
 
   const handleDeleteClick = (projectId: string) => {
@@ -229,10 +230,10 @@ export default function DashboardPage() {
   };
 
   const handleSaveCustomUrl = async () => {
-    
+
     // Use currentDialogProject as fallback if selectedProject is null
     const projectId = selectedProject || currentDialogProject?.id;
-    
+
     if (!projectId) {
       // No project selected
       return;
@@ -251,7 +252,7 @@ export default function DashboardPage() {
       try {
         const available = await isCustomUrlAvailable(trimmedUrl, projectId);
         if (!available) {
-            setCustomUrlError('This URL is already taken by another project');
+          setCustomUrlError('This URL is already taken by another project');
           return;
         }
       } catch {
@@ -291,14 +292,14 @@ export default function DashboardPage() {
       const baseUrl = window.location.origin;
       const urlSlug = trimmedUrl || projectId;
       const link = `${baseUrl}/share/${urlSlug}`;
-      
+
       setShareableLink(link);
       setCustomUrl(trimmedUrl);
       setIsEditingUrl(false);
       setCustomUrlError('');
       setCustomUrlSaved(true);
-      
-      
+
+
       // Hide success message after 2 seconds
       setTimeout(() => setCustomUrlSaved(false), 2000);
     } catch {
@@ -591,22 +592,27 @@ export default function DashboardPage() {
                         <CalendarIcon sx={{ fontSize: 14 }} />
                         {formatDate(project.updatedAt)}
                       </Typography>
-                      <Typography sx={{ fontSize: 13, color: '#9ca3af', display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                        {project.views || 0}
-                        <RemoveRedEyeIcon sx={{ fontSize: 14, ml: 0.5 }} />
-                      </Typography>
-                      <Typography sx={{ fontSize: 13, color: '#9ca3af', display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                        {project.clicks || 0}
-                      </Typography>
+                      <Tooltip title="Total Views" arrow>
+                        <Typography sx={{ fontSize: 13, color: '#9ca3af', display: 'flex', alignItems: 'center', gap: 0.5, cursor: 'help' }}>
+                          {project.views || 0}
+                          <RemoveRedEyeIcon sx={{ fontSize: 14, ml: 0.5 }} />
+                        </Typography>
+                      </Tooltip>
+                      <Tooltip title="Total Clicks" arrow>
+                        <Typography sx={{ fontSize: 13, color: '#9ca3af', display: 'flex', alignItems: 'center', gap: 0.5, cursor: 'help' }}>
+                          {project.clicks || 0}
+                          <TouchAppIcon sx={{ fontSize: 14, ml: 0.5 }} />
+                        </Typography>
+                      </Tooltip>
                     </Box>
                   </Box>
 
                   {/* Action Buttons - Clean Circle Buttons */}
                   <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                    <IconButton 
+                    <IconButton
                       onClick={() => handleEdit(project.id)}
-                      sx={{ 
-                        width: 44, 
+                      sx={{
+                        width: 44,
                         height: 44,
                         bgcolor: '#f9fafb',
                         border: '1px solid #e5e7eb',
@@ -617,10 +623,10 @@ export default function DashboardPage() {
                     >
                       <EditIcon sx={{ fontSize: 20, color: '#6b7280' }} />
                     </IconButton>
-                    <IconButton 
+                    <IconButton
                       onClick={() => handlePreview(project.id)}
-                      sx={{ 
-                        width: 44, 
+                      sx={{
+                        width: 44,
                         height: 44,
                         bgcolor: '#f9fafb',
                         border: '1px solid #e5e7eb',
@@ -631,10 +637,10 @@ export default function DashboardPage() {
                     >
                       <VisibilityIcon sx={{ fontSize: 20, color: '#6b7280' }} />
                     </IconButton>
-                    <IconButton 
+                    <IconButton
                       onClick={() => handleShare(project.id)}
-                      sx={{ 
-                        width: 44, 
+                      sx={{
+                        width: 44,
                         height: 44,
                         bgcolor: '#f9fafb',
                         border: '1px solid #e5e7eb',
@@ -645,10 +651,10 @@ export default function DashboardPage() {
                     >
                       <ShareIcon sx={{ fontSize: 20, color: '#6b7280' }} />
                     </IconButton>
-                    <IconButton 
+                    <IconButton
                       onClick={(e) => handleMenuOpen(e, project.id)}
-                      sx={{ 
-                        width: 44, 
+                      sx={{
+                        width: 44,
                         height: 44,
                         bgcolor: '#f9fafb',
                         border: '1px solid #e5e7eb',
@@ -849,9 +855,9 @@ export default function DashboardPage() {
             value={shareableLink}
             InputProps={{
               readOnly: true,
-              sx: { 
-                bgcolor: '#f9fafb', 
-                fontFamily: 'monospace', 
+              sx: {
+                bgcolor: '#f9fafb',
+                fontFamily: 'monospace',
                 fontSize: 13,
                 '& .MuiOutlinedInput-notchedOutline': {
                   borderColor: '#e5e7eb',
