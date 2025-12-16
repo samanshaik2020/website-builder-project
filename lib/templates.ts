@@ -24,6 +24,7 @@ import { GadgetDealsTemplate, gadgetDealsConfig } from '@/components/templates/g
 import { GalaxyPhoneTemplate, galaxyPhoneConfig } from '@/components/templates/galaxy-phone';
 import { GlassmorphismProductTemplate, glassmorphismProductConfig } from '@/components/templates/glassmorphism-product';
 import { PhotoFolioTemplate, photofolioConfig } from '@/components/templates/photofolio';
+import { QuizNewTemplate, quizNewConfig } from '@/components/templates/quiz-new';
 
 export const templates = {
   portfolio: {
@@ -137,6 +138,10 @@ export const templates = {
   photofolio: {
     component: PhotoFolioTemplate,
     config: photofolioConfig,
+  },
+  'quiz-new': {
+    component: QuizNewTemplate,
+    config: quizNewConfig,
   },
 } as const;
 

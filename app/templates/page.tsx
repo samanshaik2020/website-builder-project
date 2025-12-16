@@ -106,6 +106,8 @@ export default function TemplatesPage() {
         return '/Glassmorphism Product.png';
       case 'photofolio':
         return '/PhotoFolio.png';
+      case 'quiz-new':
+        return '/quiz-new.png';
       default:
         return null;
     }

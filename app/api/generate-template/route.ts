@@ -213,6 +213,11 @@ function buildPromptForTemplate(templateSlug: string, seedText: string, theme?: 
     return buildPhotoFolioPrompt(seedText, theme);
   }
 
+  // Quiz New template has its own structure
+  if (templateSlug === 'quiz-new') {
+    return buildQuizNewPrompt(seedText, theme);
+  }
+
   const baseInstructions = `You are a professional web content generator. Generate content for a ${templateSlug} template based on the following description: "${seedText}"${theme ? ` using the ${theme} theme style` : ''}.
 
 Return ONLY valid JSON (no markdown, no code blocks, no comments). The JSON must follow this exact structure with ALL fields:
@@ -1577,5 +1582,74 @@ Create engaging content that:
 - Creates a fun, interactive quiz related to the portfolio theme
 - Uses professional yet accessible language
 - Ensures quiz questions are relevant and interesting
+- Return ONLY the JSON object, nothing else`;
+}
+
+// Prompt builder for Quiz New template
+function buildQuizNewPrompt(seedText: string, theme?: string) {
+  return `You are a professional web content generator. Generate content for an interactive quiz template based on the following description: "${seedText}"${theme ? ` using the ${theme} theme style` : ''}.
+
+Return ONLY valid JSON (no markdown, no code blocks, no comments). The JSON must include ALL fields below:
+
+{
+  "brand_name": "Brand name (1-2 words)",
+  "nav_link1": "Nav link 1 (1 word)",
+  "nav_link2": "Nav link 2 (1 word)",
+  "nav_link3": "Nav link 3 (1 word)",
+  "nav_cta": "Nav CTA button value (e.g. 'Subscribe')",
+  "quiz_title": "Quiz Title (3-6 words)",
+  "quiz_subtitle": "Quiz Subtitle (10-15 words)",
+  "quiz_intro_title": "Intro Title (2-3 words, e.g. 'Instructions')",
+  "quiz_intro_desc": "Intro Description (15-25 words)",
+  "quiz_intro_item1": "Intro Item 1 (5-10 words, e.g. '5 multiple choice questions')",
+  "quiz_intro_item2": "Intro Item 2 (5-10 words, e.g. 'No time limit')",
+  "quiz_intro_item3": "Intro Item 3 (5-10 words, e.g. 'Score 4/5 to pass')",
+  "q1_question": "Question 1 text",
+  "q1_optA": "Question 1 Option A",
+  "q1_optB": "Question 1 Option B",
+  "q1_optC": "Question 1 Option C",
+  "q1_optD": "Question 1 Option D",
+  "q2_question": "Question 2 text",
+  "q2_optA": "Question 2 Option A",
+  "q2_optB": "Question 2 Option B",
+  "q2_optC": "Question 2 Option C",
+  "q2_optD": "Question 2 Option D",
+  "q3_question": "Question 3 text",
+  "q3_optA": "Question 3 Option A",
+  "q3_optB": "Question 3 Option B",
+  "q3_optC": "Question 3 Option C",
+  "q3_optD": "Question 3 Option D",
+  "q4_question": "Question 4 text",
+  "q4_optA": "Question 4 Option A",
+  "q4_optB": "Question 4 Option B",
+  "q4_optC": "Question 4 Option C",
+  "q4_optD": "Question 4 Option D",
+  "q5_question": "Question 5 text",
+  "q5_optA": "Question 5 Option A",
+  "q5_optB": "Question 5 Option B",
+  "q5_optC": "Question 5 Option C",
+  "q5_optD": "Question 5 Option D",
+  "result_title": "Result Title (e.g. 'Congratulations')",
+  "result_text": "Result Message (15-25 words)",
+  "result_subtext": "Result Subtext (10-15 words)",
+  "result_btn": "Result Button Text (e.g. 'Visit Website')"
+}
+
+Create compelling quiz content that:
+- Is engaging and educational
+- Uses clear and concise language
+- Creates challenging but fair questions
+- ensuring Option B is correct for Q1, Q2, Q3; Option C for Q4; Option A for Q5 (as per default template logic).
+
+IMPORTANT: Write the questions and options such that the CORRECT answers correspond to the keys above.
+- Q1: Option B must be the correct answer.
+- Q2: Option B must be the correct answer.
+- Q3: Option B must be the correct answer.
+- Q4: Option C must be the correct answer.
+- Q5: Option A must be the correct answer.
+
+Description: "${seedText}"
+
+Important:
 - Return ONLY the JSON object, nothing else`;
 }
