@@ -31,6 +31,19 @@ export const ContentEditableToolbar: React.FC<ContentEditableToolbarProps> = ({ 
       if (selection) {
         selection.removeAllRanges();
         selection.addRange(savedSelectionRef.current);
+
+        // Ensure the editable element has focus for execCommand to work
+        let container = savedSelectionRef.current.commonAncestorContainer;
+        if (container.nodeType === Node.TEXT_NODE && container.parentElement) {
+          container = container.parentElement;
+        }
+
+        if (container instanceof HTMLElement) {
+          const editable = container.closest('[contenteditable="true"]');
+          if (editable instanceof HTMLElement) {
+            editable.focus();
+          }
+        }
       }
     }
   }, []);
@@ -141,17 +154,17 @@ export const ContentEditableToolbar: React.FC<ContentEditableToolbarProps> = ({ 
     if (selection && selection.rangeCount > 0) {
       const range = selection.getRangeAt(0);
       let element = range.commonAncestorContainer as HTMLElement;
-      
+
       // Get the actual element if it's a text node
       if (element.nodeType === Node.TEXT_NODE) {
         element = element.parentElement as HTMLElement;
       }
-      
+
       // Find the contentEditable parent or a block-level element
-      const editableParent = element.closest('[contenteditable="true"]') || 
-                             element.closest('[data-eid]') ||
-                             element;
-      
+      const editableParent = element.closest('[contenteditable="true"]') ||
+        element.closest('[data-eid]') ||
+        element;
+
       if (editableParent && editableParent instanceof HTMLElement) {
         editableParent.style.textAlign = alignment;
       }
@@ -196,9 +209,8 @@ export const ContentEditableToolbar: React.FC<ContentEditableToolbarProps> = ({ 
           e.stopPropagation();
           applyFormat('bold');
         }}
-        className={`p-2 rounded hover:bg-slate-800 transition-colors ${
-          isFormatActive('bold') ? 'bg-purple-600 text-white' : 'text-slate-300'
-        }`}
+        className={`p-2 rounded hover:bg-slate-800 transition-colors ${isFormatActive('bold') ? 'bg-purple-600 text-white' : 'text-slate-300'
+          }`}
         title="Bold (Ctrl+B)"
       >
         <Bold size={18} />
@@ -211,9 +223,8 @@ export const ContentEditableToolbar: React.FC<ContentEditableToolbarProps> = ({ 
           e.stopPropagation();
           applyFormat('italic');
         }}
-        className={`p-2 rounded hover:bg-slate-800 transition-colors ${
-          isFormatActive('italic') ? 'bg-purple-600 text-white' : 'text-slate-300'
-        }`}
+        className={`p-2 rounded hover:bg-slate-800 transition-colors ${isFormatActive('italic') ? 'bg-purple-600 text-white' : 'text-slate-300'
+          }`}
         title="Italic (Ctrl+I)"
       >
         <Italic size={18} />
@@ -226,9 +237,8 @@ export const ContentEditableToolbar: React.FC<ContentEditableToolbarProps> = ({ 
           e.stopPropagation();
           applyFormat('underline');
         }}
-        className={`p-2 rounded hover:bg-slate-800 transition-colors ${
-          isFormatActive('underline') ? 'bg-purple-600 text-white' : 'text-slate-300'
-        }`}
+        className={`p-2 rounded hover:bg-slate-800 transition-colors ${isFormatActive('underline') ? 'bg-purple-600 text-white' : 'text-slate-300'
+          }`}
         title="Underline (Ctrl+U)"
       >
         <Underline size={18} />

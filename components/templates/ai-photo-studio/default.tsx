@@ -26,7 +26,7 @@ export default function AIPhotoStudioTemplate({
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+      <nav className={`fixed left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100 transition-[top] duration-200 ${editable ? 'top-16' : 'top-0'}`}>
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -86,7 +86,14 @@ export default function AIPhotoStudioTemplate({
                 >
                   {getText('hero_title_1', 'AI Photo Studio')}
                 </span>
-                <span className="text-orange-500"> & </span>
+                <span
+                  data-eid="hero_title_ampersand"
+                  contentEditable={editable}
+                  suppressContentEditableWarning
+                  className="text-orange-500 whitespace-pre-wrap break-words"
+                >
+                  {getText('hero_title_ampersand', ' & ')}
+                </span>
                 <br />
                 <span
                   data-eid="hero_title_2"

@@ -68,34 +68,34 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
   return (
     <div className="min-h-screen bg-white">
       {/* Fixed Navigation - Hidden in edit mode */}
-      {!editable && (
-        <nav className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${scrollY > 50 ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-slate-900/80 backdrop-blur-md'}`}>
-          <div className="max-w-7xl mx-auto px-6 py-4">
-            <div className="flex items-center justify-between">
-              <h1
-                data-eid="nav_logo"
-                contentEditable={editable}
-                suppressContentEditableWarning
-                className={`text-2xl font-bold transition-colors ${scrollY > 50 ? 'text-slate-900' : 'text-white'} whitespace-pre-wrap break-words`}
-              >
-                {getText('nav_logo', 'Portfolio')}
-              </h1>
-              <div className="flex gap-6 items-center">
-                {['Home', 'About', 'Projects', 'Resume', 'Testimonials', 'Contact'].map((item) => (
-                  <button
-                    key={item}
-                    onClick={() => scrollToSection(item.toLowerCase())}
-                    className={`text-sm font-medium transition-colors hover:text-purple-400 px-3 py-2 rounded-lg ${scrollY > 50 ? 'text-slate-700 hover:bg-slate-100' : 'text-white hover:bg-white/10'
-                      } ${activeSection === item.toLowerCase() ? 'text-purple-600 bg-purple-50' : ''}`}
-                  >
-                    {item}
-                  </button>
-                ))}
-              </div>
+      {/* Fixed Navigation */}
+      <nav className={`fixed left-0 right-0 z-40 transition-all duration-300 ${editable ? 'top-16' : 'top-0'} ${scrollY > 50 ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-slate-900/80 backdrop-blur-md'}`}>
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <h1
+              data-eid="nav_logo"
+              contentEditable={editable}
+              suppressContentEditableWarning
+              className={`text-2xl font-bold transition-colors ${scrollY > 50 ? 'text-slate-900' : 'text-white'} whitespace-pre-wrap break-words`}
+            >
+              {getText('nav_logo', 'Portfolio')}
+            </h1>
+            <div className="flex gap-6 items-center">
+              {['Home', 'About', 'Projects', 'Resume', 'Testimonials', 'Contact'].map((item) => (
+                <button
+                  key={item}
+                  onClick={() => scrollToSection(item.toLowerCase())}
+                  className={`text-sm font-medium transition-colors hover:text-purple-400 px-3 py-2 rounded-lg ${scrollY > 50 ? 'text-slate-700 hover:bg-slate-100' : 'text-white hover:bg-white/10'
+                    } ${activeSection === item.toLowerCase() ? 'text-purple-600 bg-purple-50' : ''}`}
+                >
+                  {item}
+                </button>
+              ))}
             </div>
           </div>
-        </nav>
-      )}
+        </div>
+      </nav>
+
 
       {/* Hero/Landing Section */}
       <section id="home" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white px-6 relative overflow-hidden">
@@ -263,11 +263,11 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
             <div className="grid md:grid-cols-3 gap-8">
               {[1, 2, 3, 4, 5, 6].map((num) => (
                 <div key={num} className={`p-8 bg-gradient-to-br rounded-2xl border hover:shadow-xl transition-all transform hover:-translate-y-2 ${num === 1 ? 'from-purple-50 to-pink-50 border-purple-100' :
-                    num === 2 ? 'from-blue-50 to-cyan-50 border-blue-100' :
-                      num === 3 ? 'from-green-50 to-emerald-50 border-green-100' :
-                        num === 4 ? 'from-orange-50 to-red-50 border-orange-100' :
-                          num === 5 ? 'from-yellow-50 to-amber-50 border-yellow-100' :
-                            'from-indigo-50 to-purple-50 border-indigo-100'
+                  num === 2 ? 'from-blue-50 to-cyan-50 border-blue-100' :
+                    num === 3 ? 'from-green-50 to-emerald-50 border-green-100' :
+                      num === 4 ? 'from-orange-50 to-red-50 border-orange-100' :
+                        num === 5 ? 'from-yellow-50 to-amber-50 border-yellow-100' :
+                          'from-indigo-50 to-purple-50 border-indigo-100'
                   }`}>
                   <div className="text-4xl mb-4">
                     {num === 1 ? '⚡' : num === 2 ? '🚀' : num === 3 ? '🎨' : num === 4 ? '☁️' : num === 5 ? '📱' : '🔧'}

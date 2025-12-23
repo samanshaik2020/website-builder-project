@@ -250,6 +250,11 @@ function EditorContent() {
         return;
       }
 
+      // If selection is inside the toolbar itself (e.g. clicking input), don't hide it
+      if (element.closest('.content-editable-toolbar')) {
+        return;
+      }
+
       // Find the closest element with data-eid or contentEditable
       const editableElement = element.closest('[data-eid][contenteditable="true"]') ||
         element.closest('[contenteditable="true"]');

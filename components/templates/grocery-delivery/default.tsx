@@ -3,6 +3,7 @@
 import React from 'react'
 import { EditableButton } from '@/components/editor/editable-button'
 import { EditableImage } from '@/components/editor/editable-image'
+import { EditableLink } from '@/components/editor/editable-link'
 import { BaseTemplateProps } from '@/types/template'
 
 export default function GroceryDeliveryTemplate({
@@ -24,6 +25,52 @@ export default function GroceryDeliveryTemplate({
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Navigation */}
+      <nav className={`fixed left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100 transition-all duration-300 ${editable ? 'top-16' : 'top-0'}`}>
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+          <div
+            data-eid="nav_logo"
+            contentEditable={editable}
+            suppressContentEditableWarning
+            className="text-2xl font-bold text-gray-900 tracking-tight"
+          >
+            {getText('nav_logo', 'Good Eggs')}
+          </div>
+
+          <div className="hidden md:flex items-center gap-8">
+            <EditableLink href="#shop" className="text-gray-600 hover:text-gray-900 font-medium transition-colors" editable={editable}>
+              <span data-eid="nav_link_1" contentEditable={editable} suppressContentEditableWarning>
+                {getText('nav_link_1', 'Shop')}
+              </span>
+            </EditableLink>
+            <EditableLink href="#about" className="text-gray-600 hover:text-gray-900 font-medium transition-colors" editable={editable}>
+              <span data-eid="nav_link_2" contentEditable={editable} suppressContentEditableWarning>
+                {getText('nav_link_2', 'About')}
+              </span>
+            </EditableLink>
+            <EditableLink href="#stories" className="text-gray-600 hover:text-gray-900 font-medium transition-colors" editable={editable}>
+              <span data-eid="nav_link_3" contentEditable={editable} suppressContentEditableWarning>
+                {getText('nav_link_3', 'Stories')}
+              </span>
+            </EditableLink>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <button className="hidden md:block text-gray-900 font-medium hover:text-gray-600 transition-colors">
+              Log in
+            </button>
+            <EditableButton
+              eid="nav_cta"
+              defaultText={getButton('nav_cta', 'Get Started', '#').text}
+              defaultUrl={getButton('nav_cta', 'Get Started', '#').url}
+              className="bg-gray-900 text-white px-5 py-2.5 rounded-full font-medium hover:bg-gray-800 transition-colors"
+              editable={editable}
+              onChange={onContentChange}
+            />
+          </div>
+        </div>
+      </nav>
+
       {/* Hero Section */}
       <section className="relative bg-gray-300 min-h-[600px] flex items-center">
         <div className="absolute inset-0 z-0">
@@ -45,9 +92,9 @@ export default function GroceryDeliveryTemplate({
               contentEditable={editable}
               suppressContentEditableWarning
               className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight whitespace-pre-wrap break-words"
-            >
-              {getText('hero_title', 'Get $20 off Harmless Harvest coconut water.')}
-            </h1>
+              onBlur={(e) => onContentChange('hero_title', { text: e.currentTarget.innerHTML })}
+              dangerouslySetInnerHTML={{ __html: getText('hero_title', 'Get $20 off Harmless Harvest coconut water.') }}
+            />
 
             <EditableButton
               eid="hero_cta"
@@ -63,9 +110,9 @@ export default function GroceryDeliveryTemplate({
               contentEditable={editable}
               suppressContentEditableWarning
               className="text-white/90 text-sm mt-4 whitespace-pre-wrap break-words"
-            >
-              {getText('hero_subtitle', 'One valid $20 new Good Eggs customers only.')}
-            </p>
+              onBlur={(e) => onContentChange('hero_subtitle', { text: e.currentTarget.innerHTML })}
+              dangerouslySetInnerHTML={{ __html: getText('hero_subtitle', 'One valid $20 new Good Eggs customers only.') }}
+            />
           </div>
         </div>
       </section>
@@ -91,17 +138,17 @@ export default function GroceryDeliveryTemplate({
                   contentEditable={editable}
                   suppressContentEditableWarning
                   className="text-xl font-bold text-gray-900 mb-3 whitespace-pre-wrap break-words"
-                >
-                  {getText(`feature_${i}_title`, 'Everything you need, delivered to your door.')}
-                </h3>
+                  onBlur={(e) => onContentChange(`feature_${i}_title`, { text: e.currentTarget.innerHTML })}
+                  dangerouslySetInnerHTML={{ __html: getText(`feature_${i}_title`, 'Everything you need, delivered to your door.') }}
+                />
                 <p
                   data-eid={`feature_${i}_description`}
                   contentEditable={editable}
                   suppressContentEditableWarning
                   className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap break-words"
-                >
-                  {getText(`feature_${i}_description`, 'Good Eggs carries everything you can find at the grocery store, and more. We\'ll deliver to your door the same day you order — spend $60 and delivery is free. No subscription required.')}
-                </p>
+                  onBlur={(e) => onContentChange(`feature_${i}_description`, { text: e.currentTarget.innerHTML })}
+                  dangerouslySetInnerHTML={{ __html: getText(`feature_${i}_description`, 'Good Eggs carries everything you can find at the grocery store, and more. We\'ll deliver to your door the same day you order — spend $60 and delivery is free. No subscription required.') }}
+                />
               </div>
             ))}
           </div>
@@ -139,9 +186,9 @@ export default function GroceryDeliveryTemplate({
                   contentEditable={editable}
                   suppressContentEditableWarning
                   className="text-gray-700 italic text-base leading-relaxed mb-6 whitespace-pre-wrap break-words"
-                >
-                  {getText(`testimonial_${i}_quote`, 'Good Eggs has been an absolute life changer. I\'m a full time working mom of two kids and have to outsource many tasks but this is easily my favorite grocery delivery and meal kit service.')}
-                </p>
+                  onBlur={(e) => onContentChange(`testimonial_${i}_quote`, { text: e.currentTarget.innerHTML })}
+                  dangerouslySetInnerHTML={{ __html: getText(`testimonial_${i}_quote`, 'Good Eggs has been an absolute life changer. I\'m a full time working mom of two kids and have to outsource many tasks but this is easily my favorite grocery delivery and meal kit service.') }}
+                />
                 <div
                   data-eid={`testimonial_${i}_name`}
                   contentEditable={editable}

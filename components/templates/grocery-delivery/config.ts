@@ -5,6 +5,11 @@ export const groceryDeliveryConfig = {
   description: 'Modern grocery and food delivery service landing page',
   thumbnail: '/placeholder.jpg',
   editableFields: [
+    { id: 'nav_logo', type: 'text', label: 'Logo Text', section: 'Navigation' },
+    { id: 'nav_link_1', type: 'text', label: 'Nav Link 1', section: 'Navigation' },
+    { id: 'nav_link_2', type: 'text', label: 'Nav Link 2', section: 'Navigation' },
+    { id: 'nav_link_3', type: 'text', label: 'Nav Link 3', section: 'Navigation' },
+    { id: 'nav_cta', type: 'button', label: 'Nav CTA', section: 'Navigation' },
     { id: 'logo', type: 'image', label: 'Logo', section: 'Hero' },
     { id: 'hero_background', type: 'image', label: 'Hero Background', section: 'Hero' },
     { id: 'hero_title', type: 'text', label: 'Hero Title', section: 'Hero' },

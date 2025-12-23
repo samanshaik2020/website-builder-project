@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { EditableImage } from '@/components/editor/editable-image';
 import { EditableButton } from '@/components/editor/editable-button';
+import { EditableLink } from '@/components/editor/editable-link';
 import { BaseTemplateProps } from '@/types/template';
 
 interface SaasLandingProps extends BaseTemplateProps {
@@ -50,9 +51,8 @@ export default function SaasVibrantGradient({ editable = false, data = {}, onCon
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50">
       {/* Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-white/90 backdrop-blur-xl shadow-lg' : 'bg-transparent'
-      }`}>
+      <nav className={`fixed left-0 right-0 z-50 transition-all duration-300 ${editable ? 'top-16' : 'top-0'} ${scrolled ? 'bg-white/90 backdrop-blur-xl shadow-lg' : 'bg-transparent'
+        }`}>
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div
@@ -65,9 +65,36 @@ export default function SaasVibrantGradient({ editable = false, data = {}, onCon
               {getText('nav_logo', 'Vibrant')}
             </div>
             <div className="hidden md:flex items-center gap-8">
-              <a href="#features" className="text-gray-700 hover:text-purple-600 font-medium transition-colors">Features</a>
-              <a href="#pricing" className="text-gray-700 hover:text-purple-600 font-medium transition-colors">Pricing</a>
-              <a href="#testimonials" className="text-gray-700 hover:text-purple-600 font-medium transition-colors">Reviews</a>
+              <EditableLink href="#features" className="text-gray-700 hover:text-purple-600 font-medium transition-colors" editable={editable}>
+                <span
+                  data-eid="nav_link_1"
+                  contentEditable={editable}
+                  suppressContentEditableWarning
+                  onBlur={(e) => handleTextChange('nav_link_1', e.currentTarget.textContent || '')}
+                >
+                  {getText('nav_link_1', 'Features')}
+                </span>
+              </EditableLink>
+              <EditableLink href="#pricing" className="text-gray-700 hover:text-purple-600 font-medium transition-colors" editable={editable}>
+                <span
+                  data-eid="nav_link_2"
+                  contentEditable={editable}
+                  suppressContentEditableWarning
+                  onBlur={(e) => handleTextChange('nav_link_2', e.currentTarget.textContent || '')}
+                >
+                  {getText('nav_link_2', 'Pricing')}
+                </span>
+              </EditableLink>
+              <EditableLink href="#testimonials" className="text-gray-700 hover:text-purple-600 font-medium transition-colors" editable={editable}>
+                <span
+                  data-eid="nav_link_3"
+                  contentEditable={editable}
+                  suppressContentEditableWarning
+                  onBlur={(e) => handleTextChange('nav_link_3', e.currentTarget.textContent || '')}
+                >
+                  {getText('nav_link_3', 'Reviews')}
+                </span>
+              </EditableLink>
               <EditableButton
                 eid="nav_cta"
                 defaultText={getButton('nav_cta', 'Get Started', '#').text}
@@ -99,7 +126,7 @@ export default function SaasVibrantGradient({ editable = false, data = {}, onCon
             >
               {getText('hero_badge', '🚀 New: AI-Powered Features')}
             </div>
-            
+
             <h1
               data-eid="hero_title"
               contentEditable={editable}
@@ -111,16 +138,15 @@ export default function SaasVibrantGradient({ editable = false, data = {}, onCon
                 {getText('hero_title', 'Transform Your Business with Vibrant SaaS')}
               </span>
             </h1>
-            
+
             <p
               data-eid="hero_description"
               contentEditable={editable}
               suppressContentEditableWarning
-              onBlur={(e) => handleTextChange('hero_description', e.currentTarget.textContent || '')}
+              onBlur={(e) => handleTextChange('hero_description', e.currentTarget.innerHTML)}
               className="text-xl text-gray-600 max-w-2xl mx-auto"
-            >
-              {getText('hero_description', 'The all-in-one platform that helps you grow faster, work smarter, and achieve more. Join thousands of teams already transforming their workflow.')}
-            </p>
+              dangerouslySetInnerHTML={{ __html: getText('hero_description', 'The all-in-one platform that helps you grow faster, work smarter, and achieve more. Join thousands of teams already transforming their workflow.') }}
+            />
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <EditableButton
@@ -202,11 +228,10 @@ export default function SaasVibrantGradient({ editable = false, data = {}, onCon
               data-eid="features_subtitle"
               contentEditable={editable}
               suppressContentEditableWarning
-              onBlur={(e) => handleTextChange('features_subtitle', e.currentTarget.textContent || '')}
+              onBlur={(e) => handleTextChange('features_subtitle', e.currentTarget.innerHTML)}
               className="text-xl text-gray-600 max-w-2xl mx-auto"
-            >
-              {getText('features_subtitle', 'Everything you need to succeed, all in one place')}
-            </p>
+              dangerouslySetInnerHTML={{ __html: getText('features_subtitle', 'Everything you need to succeed, all in one place') }}
+            />
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -256,11 +281,10 @@ export default function SaasVibrantGradient({ editable = false, data = {}, onCon
               data-eid="pricing_subtitle"
               contentEditable={editable}
               suppressContentEditableWarning
-              onBlur={(e) => handleTextChange('pricing_subtitle', e.currentTarget.textContent || '')}
+              onBlur={(e) => handleTextChange('pricing_subtitle', e.currentTarget.innerHTML)}
               className="text-xl text-gray-600"
-            >
-              {getText('pricing_subtitle', 'Choose the perfect plan for your needs')}
-            </p>
+              dangerouslySetInnerHTML={{ __html: getText('pricing_subtitle', 'Choose the perfect plan for your needs') }}
+            />
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -300,11 +324,10 @@ export default function SaasVibrantGradient({ editable = false, data = {}, onCon
                   eid={`plan${num}_cta`}
                   defaultText={getButton(`plan${num}_cta`, 'Get Started', '#').text}
                   defaultUrl={getButton(`plan${num}_cta`, 'Get Started', '#').url}
-                  className={`w-full py-3 rounded-full font-bold transition-all ${
-                    num === 2 
-                      ? 'bg-white text-purple-600 hover:shadow-xl' 
-                      : 'bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white hover:shadow-xl'
-                  }`}
+                  className={`w-full py-3 rounded-full font-bold transition-all ${num === 2
+                    ? 'bg-white text-purple-600 hover:shadow-xl'
+                    : 'bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white hover:shadow-xl'
+                    }`}
                   editable={editable}
                   onChange={onContentChange}
                 />
@@ -391,11 +414,10 @@ export default function SaasVibrantGradient({ editable = false, data = {}, onCon
             data-eid="cta_description"
             contentEditable={editable}
             suppressContentEditableWarning
-            onBlur={(e) => handleTextChange('cta_description', e.currentTarget.textContent || '')}
+            onBlur={(e) => handleTextChange('cta_description', e.currentTarget.innerHTML)}
             className="text-xl text-white/90"
-          >
-            {getText('cta_description', 'Join thousands of teams already using Vibrant to transform their workflow')}
-          </p>
+            dangerouslySetInnerHTML={{ __html: getText('cta_description', 'Join thousands of teams already using Vibrant to transform their workflow') }}
+          />
           <EditableButton
             eid="cta_button"
             defaultText={getButton('cta_button', 'Start Your Free Trial', '#').text}

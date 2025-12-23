@@ -10,6 +10,7 @@ export const aiPhotoStudioConfig = {
     { id: 'nav_cta', type: 'button', label: 'Nav CTA', section: 'Navigation' },
     { id: 'hero_badge', type: 'text', label: 'Badge', section: 'Hero' },
     { id: 'hero_title_1', type: 'text', label: 'Title Line 1', section: 'Hero' },
+    { id: 'hero_title_ampersand', type: 'text', label: 'Title Ampersand', section: 'Hero' },
     { id: 'hero_title_2', type: 'text', label: 'Title Line 2', section: 'Hero' },
     { id: 'hero_description', type: 'text', label: 'Description', section: 'Hero' },
     { id: 'hero_rating_text', type: 'text', label: 'Rating Text', section: 'Hero' },

@@ -34,7 +34,7 @@ export default function SamsungProduct({ editable = false, data = {}, onContentC
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-black text-white">
+      <nav className={`fixed left-0 right-0 z-50 bg-black text-white ${editable ? 'top-16' : 'top-0'}`}>
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-8">
             <span

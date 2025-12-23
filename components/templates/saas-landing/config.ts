@@ -5,6 +5,12 @@ export const saasLandingConfig = {
   description: 'Modern landing page for SaaS products and services',
   thumbnail: '/saas-landing-preview.png',
   editableFields: [
+    { id: 'nav_logo', type: 'text', label: 'Logo Text', section: 'Navigation' },
+    { id: 'nav_link_1', type: 'text', label: 'Nav Link 1', section: 'Navigation' },
+    { id: 'nav_link_2', type: 'text', label: 'Nav Link 2', section: 'Navigation' },
+    { id: 'nav_link_3', type: 'text', label: 'Nav Link 3', section: 'Navigation' },
+    { id: 'nav_signin', type: 'button', label: 'Sign In Button', section: 'Navigation' },
+    { id: 'nav_cta', type: 'button', label: 'Get Started Button', section: 'Navigation' },
     { id: 'hero_headline', type: 'text', label: 'Headline', section: 'Hero' },
     { id: 'hero_subheadline', type: 'text', label: 'Subheadline', section: 'Hero' },
     { id: 'hero_cta_primary', type: 'button', label: 'Primary CTA', section: 'Hero' },

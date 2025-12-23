@@ -24,7 +24,7 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200/50 transition-all duration-300">
+      <nav className={`fixed left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200/50 transition-all duration-300 ${editable ? 'top-16' : 'top-0'}`}>
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -43,26 +43,42 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
 
             <div className="hidden md:flex items-center gap-8">
               <EditableLink href="#features" className="text-slate-600 hover:text-blue-600 transition-colors duration-300 font-medium relative group" editable={editable}>
-                Features
+                <span data-eid="nav_link_1" contentEditable={editable} suppressContentEditableWarning>
+                  {getText('nav_link_1', 'Features')}
+                </span>
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
               </EditableLink>
               <EditableLink href="#pricing" className="text-slate-600 hover:text-blue-600 transition-colors duration-300 font-medium relative group" editable={editable}>
-                Pricing
+                <span data-eid="nav_link_2" contentEditable={editable} suppressContentEditableWarning>
+                  {getText('nav_link_2', 'Pricing')}
+                </span>
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
               </EditableLink>
               <EditableLink href="#testimonials" className="text-slate-600 hover:text-blue-600 transition-colors duration-300 font-medium relative group" editable={editable}>
-                Testimonials
+                <span data-eid="nav_link_3" contentEditable={editable} suppressContentEditableWarning>
+                  {getText('nav_link_3', 'Testimonials')}
+                </span>
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
               </EditableLink>
             </div>
 
             <div className="flex items-center gap-4">
-              <button className="hidden md:block px-4 py-2 text-slate-600 hover:text-blue-600 transition-colors duration-300 font-medium">
-                Sign In
-              </button>
-              <button className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
-                Get Started
-              </button>
+              <EditableButton
+                eid="nav_signin"
+                defaultText={getButton('nav_signin', 'Sign In', '#').text}
+                defaultUrl={getButton('nav_signin', 'Sign In', '#').url}
+                className="hidden md:block px-4 py-2 text-slate-600 hover:text-blue-600 transition-colors duration-300 font-medium"
+                editable={editable}
+                onChange={onContentChange}
+              />
+              <EditableButton
+                eid="nav_cta"
+                defaultText={getButton('nav_cta', 'Get Started', '#').text}
+                defaultUrl={getButton('nav_cta', 'Get Started', '#').url}
+                className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300"
+                editable={editable}
+                onChange={onContentChange}
+              />
             </div>
           </div>
         </div>
@@ -84,18 +100,18 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
             data-eid="hero_headline"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-5xl md:text-7xl font-bold mb-6 leading-tight whitespace-pre-wrap break-words"
-          >
-            {getText('hero_headline', 'Build Your SaaS Product Faster')}
-          </h1>
+            onBlur={(e) => onContentChange?.('hero_headline', { text: e.currentTarget.innerHTML })}
+            className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 leading-tight pb-2"
+            dangerouslySetInnerHTML={{ __html: getText('hero_headline', 'Build Something Amazing') }}
+          />
           <p
             data-eid="hero_subheadline"
             contentEditable={editable}
             suppressContentEditableWarning
-            className="text-xl md:text-2xl text-blue-100 mb-10 max-w-3xl mx-auto whitespace-pre-wrap break-words"
-          >
-            {getText('hero_subheadline', 'The all-in-one platform to launch, grow, and scale your business with powerful tools and integrations.')}
-          </p>
+            onBlur={(e) => onContentChange?.('hero_subheadline', { text: e.currentTarget.innerHTML })}
+            className="text-xl md:text-2xl text-slate-600 mb-8 max-w-2xl mx-auto leading-relaxed"
+            dangerouslySetInnerHTML={{ __html: getText('hero_subheadline', 'The ultimate platform for building modern SaaS applications. Start your journey today with our powerful tools and intuitive interface.') }}
+          />
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <EditableButton
               eid="hero_cta_primary"
@@ -209,21 +225,21 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
           <div className="text-center mb-16">
             <div className="inline-block px-4 py-2 bg-blue-100 text-blue-600 rounded-full text-sm font-semibold mb-4">FEATURES</div>
             <h2
-              data-eid="features_heading"
+              data-eid="features_headline"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-4xl md:text-5xl font-bold text-slate-900 mb-4 whitespace-pre-wrap break-words"
-            >
-              {getText('features_heading', 'Everything You Need to Succeed')}
-            </h2>
+              onBlur={(e) => onContentChange?.('features_headline', { text: e.currentTarget.innerHTML })}
+              className="text-3xl md:text-5xl font-bold mb-6 text-slate-900"
+              dangerouslySetInnerHTML={{ __html: getText('features_headline', 'Everything you need to succeed') }}
+            />
             <p
-              data-eid="features_subheading"
+              data-eid="features_subheadline"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-xl text-slate-600 max-w-2xl mx-auto whitespace-pre-wrap break-words"
-            >
-              {getText('features_subheading', 'Powerful features to help you build, launch, and scale your SaaS business')}
-            </p>
+              onBlur={(e) => onContentChange?.('features_subheadline', { text: e.currentTarget.innerHTML })}
+              className="text-xl text-slate-600 max-w-2xl mx-auto"
+              dangerouslySetInnerHTML={{ __html: getText('features_subheadline', 'Powerful features designed to help you build, launch, and scale your application faster than ever before.') }}
+            />
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {/* Feature 1 */}
@@ -444,18 +460,18 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
               data-eid="pricing_heading"
               contentEditable={editable}
               suppressContentEditableWarning
+              onBlur={(e) => onContentChange?.('pricing_heading', { text: e.currentTarget.innerHTML })}
               className="text-4xl md:text-5xl font-bold text-slate-900 mb-4"
-            >
-              {getText('pricing_heading', 'Simple, Transparent Pricing')}
-            </h2>
+              dangerouslySetInnerHTML={{ __html: getText('pricing_heading', 'Simple, Transparent Pricing') }}
+            />
             <p
               data-eid="pricing_subheading"
               contentEditable={editable}
               suppressContentEditableWarning
+              onBlur={(e) => onContentChange?.('pricing_subheading', { text: e.currentTarget.innerHTML })}
               className="text-xl text-slate-600 max-w-2xl mx-auto"
-            >
-              {getText('pricing_subheading', 'Choose the perfect plan for your business')}
-            </p>
+              dangerouslySetInnerHTML={{ __html: getText('pricing_subheading', 'Choose the perfect plan for your business') }}
+            />
           </div>
           <div className="max-w-4xl mx-auto">
             <div className="relative bg-white rounded-3xl shadow-2xl p-8 md:p-12 border-2 border-purple-200 overflow-hidden group hover:border-purple-400 transition-all duration-300">
@@ -556,18 +572,18 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
             data-eid="cta_heading"
             contentEditable={editable}
             suppressContentEditableWarning
+            onBlur={(e) => onContentChange?.('cta_heading', { text: e.currentTarget.innerHTML })}
             className="text-4xl md:text-5xl font-bold mb-8 whitespace-pre-wrap break-words"
-          >
-            {getText('cta_heading', 'Ready to Get Started?')}
-          </h2>
+            dangerouslySetInnerHTML={{ __html: getText('cta_heading', 'Ready to Get Started?') }}
+          />
           <p
             data-eid="cta_description"
             contentEditable={editable}
             suppressContentEditableWarning
+            onBlur={(e) => onContentChange?.('cta_description', { text: e.currentTarget.innerHTML })}
             className="text-xl text-blue-100 mb-10 max-w-2xl mx-auto whitespace-pre-wrap break-words"
-          >
-            {getText('cta_description', 'Join thousands of companies already using our platform')}
-          </p>
+            dangerouslySetInnerHTML={{ __html: getText('cta_description', 'Join thousands of companies already using our platform') }}
+          />
           <EditableButton
             eid="cta_button"
             defaultText={getButton('cta_button', 'Start Your Free Trial', '#').text}
