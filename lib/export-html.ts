@@ -20,6 +20,7 @@ import { generateGalaxyPhoneHTML } from './export-html-galaxy-phone';
 import { generateGlassmorphismProductHTML } from './export-html-glassmorphism-product';
 import { generatePhotofolioHTML } from './export-html-photofolio';
 import { generateQuizNewHTML } from './export-html-quiz-new';
+import { generateSuperClipsHTML } from './export-html-superclips';
 
 interface ExportData {
   template: TemplateId;
@@ -1673,6 +1674,8 @@ export const exportToHTML = ({ template, data, projectName }: ExportData): strin
       return generatePhotofolioHTML(data, projectName);
     case 'quiz-new':
       return generateQuizNewHTML(data, projectName);
+    case 'superclips':
+      return generateSuperClipsHTML(data, projectName);
 
     default:
       return generatePortfolioHTML(data, projectName);

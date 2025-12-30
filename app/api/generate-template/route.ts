@@ -218,6 +218,11 @@ function buildPromptForTemplate(templateSlug: string, seedText: string, theme?: 
     return buildQuizNewPrompt(seedText, theme);
   }
 
+  // SuperClips template has its own structure
+  if (templateSlug === 'superclips') {
+    return buildSuperClipsPrompt(seedText, theme);
+  }
+
   const baseInstructions = `You are a professional web content generator. Generate content for a ${templateSlug} template based on the following description: "${seedText}"${theme ? ` using the ${theme} theme style` : ''}.
 
 Return ONLY valid JSON (no markdown, no code blocks, no comments). The JSON must follow this exact structure with ALL fields:
@@ -1651,5 +1656,38 @@ IMPORTANT: Write the questions and options such that the CORRECT answers corresp
 Description: "${seedText}"
 
 Important:
+- Return ONLY the JSON object, nothing else`;
+}
+
+// Prompt builder for SuperClips template
+function buildSuperClipsPrompt(seedText: string, theme?: string) {
+  return `You are a professional web content generator. Generate content for a high-converting SaaS landing page for video creators based on the following description: "${seedText}"${theme ? ` using the ${theme} theme style` : ''}.
+
+Return ONLY valid JSON (no markdown, no code blocks, no comments). The JSON must include ALL fields below:
+
+{
+  "nav_logo": "Brand name (1-2 words, e.g., 'SuperClips')",
+  "nav_login": "Login text (e.g., 'Log in')",
+  "nav_signup": "Signup button text (e.g., 'Sign Up')",
+  "hero_badge": "Hero badge text (2-3 words, e.g., 'AI Engine 2.0 Live')",
+  "hero_headline": "Main headline punchy (e.g., '1 Long Video.')",
+  "hero_subheadline": "Subheadline punchy (e.g., '10 Viral Shorts.')",
+  "hero_cta": "Hero CTA button text (e.g., 'Create Clips for Free')",
+  "hero_stats_virality": "Virality Score stat (e.g., '98/100 High')",
+  "trusted_text": "Trusted by text (e.g., 'Trusted by 12,000+ Creators')",
+  "struggle_title": "Agitation title (e.g., 'Video editing is killing your growth.')",
+  "struggle_desc": "Agitation description (20-30 words about the pain of manual editing)",
+  "smart_title": "Solution title (e.g., 'The Smart Way to Create Content')",
+  "steps_title": "How it works title (e.g., 'From YouTube to TikTok in 3 Steps')",
+  "guarantee_title": "Guarantee title (e.g., '30-Day Money-Back Guarantee')",
+  "guarantee_text": "Guarantee text (20-30 words reassuring the user)",
+  "sticky_cta": "Sticky bottom CTA button (e.g., 'Get Started')"
+}
+
+Create compelling content that:
+- Uses short, punchy, high-impact copy suitable for TikTok/Shorts creators
+- Focuses on speed, virality, and saving time
+- Uses aggressive but credible marketing hooks
+- Emphasizes AI power and automation
 - Return ONLY the JSON object, nothing else`;
 }
