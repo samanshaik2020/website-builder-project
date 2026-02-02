@@ -25,7 +25,7 @@ import { GalaxyPhoneTemplate, galaxyPhoneConfig } from '@/components/templates/g
 import { GlassmorphismProductTemplate, glassmorphismProductConfig } from '@/components/templates/glassmorphism-product';
 import { PhotoFolioTemplate, photofolioConfig } from '@/components/templates/photofolio';
 import { QuizNewTemplate, quizNewConfig } from '@/components/templates/quiz-new';
-import { SuperClipsTemplate, config as superclipsConfig } from '@/components/templates/superclips';
+
 
 export const templates = {
   portfolio: {
@@ -144,10 +144,7 @@ export const templates = {
     component: QuizNewTemplate,
     config: quizNewConfig,
   },
-  'superclips': {
-    component: SuperClipsTemplate,
-    config: superclipsConfig,
-  },
+
 } as const;
 
 export type TemplateId = keyof typeof templates;

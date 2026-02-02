@@ -8,6 +8,7 @@ import { MobileWarning } from '@/components/editor/mobile-warning';
 import { ContentEditableToolbar } from '@/components/editor/content-editable-toolbar';
 import { getCurrentUser } from '@/lib/services/auth-service';
 import { getProject, createProject, updateProject } from '@/lib/services/project-service';
+import { fixProjectData } from '@/lib/utils/fix-html-entities';
 
 function EditorContent() {
   const router = useRouter();
@@ -62,6 +63,8 @@ function EditorContent() {
       Object.entries(generatedData).forEach(([key, value]) => {
         const element = document.querySelector(`[data-eid="${key}"]`);
         if (element && element.textContent !== value) {
+          // Use textContent for AI-generated content (plain text)
+          // This is intentional as AI generates plain text, not HTML
           element.textContent = value;
         }
       });
@@ -79,7 +82,10 @@ function EditorContent() {
         Object.entries(backupData).forEach(([key, value]) => {
           const element = document.querySelector(`[data-eid="${key}"]`);
           if (element && value?.text) {
-            element.textContent = value.text;
+            // Use innerHTML to preserve any HTML formatting when reverting
+            if (element instanceof HTMLElement) {
+              element.innerHTML = value.text;
+            }
           }
         });
       }, 100);
@@ -94,7 +100,9 @@ function EditorContent() {
           const project = await getProject(projectId);
           if (project) {
             setProjectName(project.name);
-            setProjectData(project.data as Record<string, any> || {});
+            // Fix any corrupted HTML entities from previous saves
+            const rawData = project.data as Record<string, any> || {};
+            setProjectData(fixProjectData(rawData));
           }
         } catch (error) {
           console.error('Failed to load project:', error);
@@ -185,7 +193,7 @@ function EditorContent() {
           } else {
             return {
               ...prev,
-              [eid]: { text: target.innerText || '' } // Use innerText to preserve newlines
+              [eid]: { text: target.innerHTML || '' } // Use innerHTML to preserve formatting
             };
           }
         });
@@ -319,8 +327,9 @@ function EditorContent() {
             // Preserve existing image data - don't overwrite with text
             // Image data is already in projectData from handleContentChange
           } else {
-            // For non-button, non-image elements, update text from DOM
-            data[eid] = { text: element.textContent || '' };
+            // For non-button, non-image elements, use innerHTML to preserve formatting
+            const htmlElement = element as HTMLElement;
+            data[eid] = { text: htmlElement.innerHTML || '' };
           }
         }
       });

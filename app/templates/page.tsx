@@ -108,8 +108,6 @@ export default function TemplatesPage() {
         return '/PhotoFolio.png';
       case 'quiz-new':
         return '/quiz-new.png';
-      case 'superclips':
-        return '/SuperClips AI.png';
       default:
         return null;
     }
