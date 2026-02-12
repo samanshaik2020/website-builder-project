@@ -110,6 +110,8 @@ export default function TemplatesPage() {
         return '/quiz-new.png';
       case 'energy-revolution':
         return '/Energy Revolution.png';
+      case 'super-clips-ai':
+        return '/SuperClipsAI.png';
       default:
         return null;
     }

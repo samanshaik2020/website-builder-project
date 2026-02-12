@@ -26,6 +26,7 @@ import { GlassmorphismProductTemplate, glassmorphismProductConfig } from '@/comp
 import { PhotoFolioTemplate, photofolioConfig } from '@/components/templates/photofolio';
 import { QuizNewTemplate, quizNewConfig } from '@/components/templates/quiz-new';
 import { EnergyRevolutionTemplate, energyRevolutionConfig } from '@/components/templates/energy-revolution';
+import { SuperClipsAITemplate, superClipsAIConfig } from '@/components/templates/super-clips-ai';
 
 
 export const templates = {
@@ -148,6 +149,10 @@ export const templates = {
   'energy-revolution': {
     component: EnergyRevolutionTemplate,
     config: energyRevolutionConfig,
+  },
+  'super-clips-ai': {
+    component: SuperClipsAITemplate,
+    config: superClipsAIConfig,
   },
 
 } as const;
