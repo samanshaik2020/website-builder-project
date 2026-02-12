@@ -150,11 +150,6 @@ const nextConfig = {
     ignoreBuildErrors: false, // Enable for production
     tsconfigPath: './tsconfig.json',
   },
-
-  // ESLint configuration
-  eslint: {
-    ignoreDuringBuilds: false, // Enable for production
-  },
 }
 
 export default nextConfig
