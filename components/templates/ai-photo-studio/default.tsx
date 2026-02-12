@@ -33,7 +33,7 @@ export default function AIPhotoStudioTemplate({
               <Camera className="w-6 h-6 text-orange-500" />
               <span
                 data-eid="nav_logo"
-                contentEditable={editable}
+                contentEditable={editable ? true : undefined}
                 suppressContentEditableWarning
                 className="text-xl font-semibold text-gray-900 whitespace-pre-wrap break-words"
               >
@@ -43,7 +43,7 @@ export default function AIPhotoStudioTemplate({
             <div className="flex items-center gap-8">
               <span
                 data-eid="nav_link_1"
-                contentEditable={editable}
+                contentEditable={editable ? true : undefined}
                 suppressContentEditableWarning
                 className="text-gray-600 hover:text-gray-900 cursor-pointer whitespace-pre-wrap break-words"
               >
@@ -70,7 +70,7 @@ export default function AIPhotoStudioTemplate({
               <div className="inline-block mb-4">
                 <span
                   data-eid="hero_badge"
-                  contentEditable={editable}
+                  contentEditable={editable ? true : undefined}
                   suppressContentEditableWarning
                   className="text-xs font-semibold text-orange-500 tracking-wider whitespace-pre-wrap break-words"
                 >
@@ -80,7 +80,7 @@ export default function AIPhotoStudioTemplate({
               <h1 className="text-6xl font-bold mb-6 leading-tight">
                 <span
                   data-eid="hero_title_1"
-                  contentEditable={editable}
+                  contentEditable={editable ? true : undefined}
                   suppressContentEditableWarning
                   className="text-gray-900 whitespace-pre-wrap break-words"
                 >
@@ -88,7 +88,7 @@ export default function AIPhotoStudioTemplate({
                 </span>
                 <span
                   data-eid="hero_title_ampersand"
-                  contentEditable={editable}
+                  contentEditable={editable ? true : undefined}
                   suppressContentEditableWarning
                   className="text-orange-500 whitespace-pre-wrap break-words"
                 >
@@ -97,7 +97,7 @@ export default function AIPhotoStudioTemplate({
                 <br />
                 <span
                   data-eid="hero_title_2"
-                  contentEditable={editable}
+                  contentEditable={editable ? true : undefined}
                   suppressContentEditableWarning
                   className="text-gray-900 whitespace-pre-wrap break-words"
                 >
@@ -106,7 +106,7 @@ export default function AIPhotoStudioTemplate({
               </h1>
               <p
                 data-eid="hero_description"
-                contentEditable={editable}
+                contentEditable={editable ? true : undefined}
                 suppressContentEditableWarning
                 className="text-lg text-gray-600 mb-8 leading-relaxed whitespace-pre-wrap break-words"
               >
@@ -118,7 +118,7 @@ export default function AIPhotoStudioTemplate({
               <div className="flex items-center gap-4 mb-6">
                 <span
                   data-eid="hero_rating_text"
-                  contentEditable={editable}
+                  contentEditable={editable ? true : undefined}
                   suppressContentEditableWarning
                   className="text-sm text-gray-600 whitespace-pre-wrap break-words"
                 >
@@ -131,7 +131,7 @@ export default function AIPhotoStudioTemplate({
                 </div>
                 <span
                   data-eid="hero_rating_score"
-                  contentEditable={editable}
+                  contentEditable={editable ? true : undefined}
                   suppressContentEditableWarning
                   className="text-sm font-semibold text-gray-900 whitespace-pre-wrap break-words"
                 >
@@ -179,7 +179,7 @@ export default function AIPhotoStudioTemplate({
           <div className="text-center mb-16">
             <h2
               data-eid="features_title"
-              contentEditable={editable}
+              contentEditable={editable ? true : undefined}
               suppressContentEditableWarning
               className="text-4xl font-bold text-gray-900 mb-4 whitespace-pre-wrap break-words"
             >
@@ -192,7 +192,7 @@ export default function AIPhotoStudioTemplate({
               <div className="mb-6">
                 <h3
                   data-eid="feature_1_title"
-                  contentEditable={editable}
+                  contentEditable={editable ? true : undefined}
                   suppressContentEditableWarning
                   className="text-2xl font-bold text-gray-900 mb-4 whitespace-pre-wrap break-words"
                 >
@@ -200,7 +200,7 @@ export default function AIPhotoStudioTemplate({
                 </h3>
                 <p
                   data-eid="feature_1_description"
-                  contentEditable={editable}
+                  contentEditable={editable ? true : undefined}
                   suppressContentEditableWarning
                   className="text-gray-600 leading-relaxed whitespace-pre-wrap break-words"
                 >
@@ -227,7 +227,7 @@ export default function AIPhotoStudioTemplate({
               <div className="mb-6">
                 <h3
                   data-eid="feature_2_title"
-                  contentEditable={editable}
+                  contentEditable={editable ? true : undefined}
                   suppressContentEditableWarning
                   className="text-2xl font-bold text-gray-900 mb-4 whitespace-pre-wrap break-words"
                 >
@@ -235,7 +235,7 @@ export default function AIPhotoStudioTemplate({
                 </h3>
                 <p
                   data-eid="feature_2_description"
-                  contentEditable={editable}
+                  contentEditable={editable ? true : undefined}
                   suppressContentEditableWarning
                   className="text-gray-600 leading-relaxed whitespace-pre-wrap break-words"
                 >
@@ -266,7 +266,7 @@ export default function AIPhotoStudioTemplate({
           <div className="text-center mb-16">
             <h2
               data-eid="studio_title"
-              contentEditable={editable}
+              contentEditable={editable ? true : undefined}
               suppressContentEditableWarning
               className="text-4xl font-bold text-gray-900 mb-4 whitespace-pre-wrap break-words"
             >
@@ -274,7 +274,7 @@ export default function AIPhotoStudioTemplate({
             </h2>
             <p
               data-eid="studio_subtitle"
-              contentEditable={editable}
+              contentEditable={editable ? true : undefined}
               suppressContentEditableWarning
               className="text-xl text-gray-600 whitespace-pre-wrap break-words"
             >
@@ -306,7 +306,7 @@ export default function AIPhotoStudioTemplate({
           <div className="text-center mb-16">
             <h2
               data-eid="faq_title"
-              contentEditable={editable}
+              contentEditable={editable ? true : undefined}
               suppressContentEditableWarning
               className="text-4xl font-bold text-gray-900 mb-4 whitespace-pre-wrap break-words"
             >
@@ -314,7 +314,7 @@ export default function AIPhotoStudioTemplate({
             </h2>
             <p
               data-eid="faq_subtitle"
-              contentEditable={editable}
+              contentEditable={editable ? true : undefined}
               suppressContentEditableWarning
               className="text-lg text-gray-600 whitespace-pre-wrap break-words"
             >
@@ -326,7 +326,7 @@ export default function AIPhotoStudioTemplate({
               <div key={i} className="bg-white rounded-xl p-6 shadow-sm">
                 <h3
                   data-eid={`faq_question_${i}`}
-                  contentEditable={editable}
+                  contentEditable={editable ? true : undefined}
                   suppressContentEditableWarning
                   className="text-lg font-semibold text-gray-900 mb-2 whitespace-pre-wrap break-words"
                 >
@@ -334,7 +334,7 @@ export default function AIPhotoStudioTemplate({
                 </h3>
                 <p
                   data-eid={`faq_answer_${i}`}
-                  contentEditable={editable}
+                  contentEditable={editable ? true : undefined}
                   suppressContentEditableWarning
                   className="text-gray-600 leading-relaxed whitespace-pre-wrap break-words"
                 >
@@ -354,7 +354,7 @@ export default function AIPhotoStudioTemplate({
         <div className="max-w-4xl mx-auto text-center">
           <h2
             data-eid="cta_title"
-            contentEditable={editable}
+            contentEditable={editable ? true : undefined}
             suppressContentEditableWarning
             className="text-5xl font-bold text-gray-900 mb-6 whitespace-pre-wrap break-words"
           >
@@ -362,7 +362,7 @@ export default function AIPhotoStudioTemplate({
           </h2>
           <p
             data-eid="cta_description"
-            contentEditable={editable}
+            contentEditable={editable ? true : undefined}
             suppressContentEditableWarning
             className="text-xl text-gray-600 mb-8 whitespace-pre-wrap break-words"
           >
@@ -388,7 +388,7 @@ export default function AIPhotoStudioTemplate({
                 <Camera className="w-6 h-6 text-orange-500" />
                 <span
                   data-eid="footer_logo"
-                  contentEditable={editable}
+                  contentEditable={editable ? true : undefined}
                   suppressContentEditableWarning
                   className="text-xl font-semibold whitespace-pre-wrap break-words"
                 >
@@ -397,7 +397,7 @@ export default function AIPhotoStudioTemplate({
               </div>
               <p
                 data-eid="footer_description"
-                contentEditable={editable}
+                contentEditable={editable ? true : undefined}
                 suppressContentEditableWarning
                 className="text-gray-400 text-sm leading-relaxed whitespace-pre-wrap break-words"
               >
@@ -410,7 +410,7 @@ export default function AIPhotoStudioTemplate({
             <div>
               <h3
                 data-eid="footer_col_1_title"
-                contentEditable={editable}
+                contentEditable={editable ? true : undefined}
                 suppressContentEditableWarning
                 className="font-semibold mb-4 whitespace-pre-wrap break-words"
               >
@@ -421,7 +421,7 @@ export default function AIPhotoStudioTemplate({
                   <span
                     key={i}
                     data-eid={`footer_col_1_link_${i}`}
-                    contentEditable={editable}
+                    contentEditable={editable ? true : undefined}
                     suppressContentEditableWarning
                     className="block text-gray-400 hover:text-white text-sm cursor-pointer"
                   >
@@ -433,7 +433,7 @@ export default function AIPhotoStudioTemplate({
             <div>
               <h3
                 data-eid="footer_col_2_title"
-                contentEditable={editable}
+                contentEditable={editable ? true : undefined}
                 suppressContentEditableWarning
                 className="font-semibold mb-4 whitespace-pre-wrap break-words"
               >
@@ -444,7 +444,7 @@ export default function AIPhotoStudioTemplate({
                   <span
                     key={i}
                     data-eid={`footer_col_2_link_${i}`}
-                    contentEditable={editable}
+                    contentEditable={editable ? true : undefined}
                     suppressContentEditableWarning
                     className="block text-gray-400 hover:text-white text-sm cursor-pointer"
                   >
@@ -456,7 +456,7 @@ export default function AIPhotoStudioTemplate({
             <div>
               <h3
                 data-eid="footer_col_3_title"
-                contentEditable={editable}
+                contentEditable={editable ? true : undefined}
                 suppressContentEditableWarning
                 className="font-semibold mb-4 whitespace-pre-wrap break-words"
               >
@@ -467,7 +467,7 @@ export default function AIPhotoStudioTemplate({
                   <span
                     key={i}
                     data-eid={`footer_col_3_link_${i}`}
-                    contentEditable={editable}
+                    contentEditable={editable ? true : undefined}
                     suppressContentEditableWarning
                     className="block text-gray-400 hover:text-white text-sm cursor-pointer"
                   >
@@ -480,7 +480,7 @@ export default function AIPhotoStudioTemplate({
           <div className="border-t border-gray-800 pt-8 text-center">
             <p
               data-eid="footer_copyright"
-              contentEditable={editable}
+              contentEditable={editable ? true : undefined}
               suppressContentEditableWarning
               className="text-gray-400 text-sm whitespace-pre-wrap break-words"
             >

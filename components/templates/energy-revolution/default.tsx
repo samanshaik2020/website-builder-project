@@ -140,7 +140,7 @@ export default function EnergyRevolution({ editable = false, data = {}, onConten
                         style={{ color: '#d1d5db' }}
                         editable={editable}
                         onChange={handleTextChange}
-                        as="p"
+                        as="div"
                     />
 
                     <div className="flex flex-col sm:flex-row gap-4 mt-4 w-full justify-center">
@@ -223,7 +223,7 @@ export default function EnergyRevolution({ editable = false, data = {}, onConten
                                 style={{ color: '#4b5563' }}
                                 editable={editable}
                                 onChange={handleTextChange}
-                                as="p"
+                                as="div"
                             />
                             <ul className="flex flex-col gap-3 mt-2">
                                 <li className="flex items-center gap-3" style={{ color: '#374151' }}>
@@ -308,7 +308,7 @@ export default function EnergyRevolution({ editable = false, data = {}, onConten
                                 style={{ color: '#4b5563' }}
                                 editable={editable}
                                 onChange={handleTextChange}
-                                as="p"
+                                as="div"
                             />
                             <ul className="flex flex-col gap-3 mt-2">
                                 <li className="flex items-center gap-3" style={{ color: '#374151' }}>
@@ -361,7 +361,7 @@ export default function EnergyRevolution({ editable = false, data = {}, onConten
                                 style={{ color: '#4b5563' }}
                                 editable={editable}
                                 onChange={handleTextChange}
-                                as="p"
+                                as="div"
                             />
                             <ul className="flex flex-col gap-3 mt-2">
                                 <li className="flex items-center gap-3" style={{ color: '#374151' }}>
@@ -427,7 +427,7 @@ export default function EnergyRevolution({ editable = false, data = {}, onConten
                             style={{ color: '#4b5563' }}
                             editable={editable}
                             onChange={handleTextChange}
-                            as="p"
+                            as="div"
                         />
                     </div>
 
@@ -449,7 +449,7 @@ export default function EnergyRevolution({ editable = false, data = {}, onConten
                                 style={{ color: '#374151' }}
                                 editable={editable}
                                 onChange={handleTextChange}
-                                as="p"
+                                as="div"
                             />
                             <div className="flex items-center gap-4 mt-auto">
                                 <EditableImage
@@ -478,7 +478,7 @@ export default function EnergyRevolution({ editable = false, data = {}, onConten
                                         style={{ color: '#6b7280' }}
                                         editable={editable}
                                         onChange={handleTextChange}
-                                        as="p"
+                                        as="div"
                                     />
                                 </div>
                             </div>
@@ -500,7 +500,7 @@ export default function EnergyRevolution({ editable = false, data = {}, onConten
                                 style={{ color: '#374151' }}
                                 editable={editable}
                                 onChange={handleTextChange}
-                                as="p"
+                                as="div"
                             />
                             <div className="flex items-center gap-4 mt-auto">
                                 <EditableImage
@@ -529,7 +529,7 @@ export default function EnergyRevolution({ editable = false, data = {}, onConten
                                         style={{ color: '#6b7280' }}
                                         editable={editable}
                                         onChange={handleTextChange}
-                                        as="p"
+                                        as="div"
                                     />
                                 </div>
                             </div>
@@ -551,7 +551,7 @@ export default function EnergyRevolution({ editable = false, data = {}, onConten
                                 style={{ color: '#374151' }}
                                 editable={editable}
                                 onChange={handleTextChange}
-                                as="p"
+                                as="div"
                             />
                             <div className="flex items-center gap-4 mt-auto">
                                 <EditableImage
@@ -580,7 +580,7 @@ export default function EnergyRevolution({ editable = false, data = {}, onConten
                                         style={{ color: '#6b7280' }}
                                         editable={editable}
                                         onChange={handleTextChange}
-                                        as="p"
+                                        as="div"
                                     />
                                 </div>
                             </div>
@@ -614,7 +614,7 @@ export default function EnergyRevolution({ editable = false, data = {}, onConten
                                 style={{ color: '#e9d5ff' }}
                                 editable={editable}
                                 onChange={handleTextChange}
-                                as="p"
+                                as="div"
                             />
                             <EditableButton
                                 eid="footer_cta_button"
@@ -632,7 +632,7 @@ export default function EnergyRevolution({ editable = false, data = {}, onConten
                                 style={{ color: '#e9d5ff' }}
                                 editable={editable}
                                 onChange={handleTextChange}
-                                as="p"
+                                as="div"
                             />
                         </div>
                     </div>
@@ -662,7 +662,7 @@ export default function EnergyRevolution({ editable = false, data = {}, onConten
                                 style={{ color: '#9ca3af' }}
                                 editable={editable}
                                 onChange={handleTextChange}
-                                as="p"
+                                as="div"
                             />
                         </div>
                         <div className="flex flex-wrap gap-12">
@@ -695,7 +695,7 @@ export default function EnergyRevolution({ editable = false, data = {}, onConten
                             style={{ color: '#4b5563' }}
                             editable={editable}
                             onChange={handleTextChange}
-                            as="p"
+                            as="div"
                         />
                     </div>
                 </div>

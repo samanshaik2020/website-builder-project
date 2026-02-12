@@ -78,7 +78,7 @@ export default function GlassmorphismProductTemplate({
                 </div>
                 <span
                   data-eid="nav_brand"
-                  contentEditable={editable}
+                  contentEditable={editable ? true : undefined}
                   suppressContentEditableWarning
                   className="text-[#0e121b] text-xl font-bold tracking-tighter whitespace-pre-wrap break-words"
                 >
@@ -88,7 +88,7 @@ export default function GlassmorphismProductTemplate({
               <nav className="hidden md:flex items-center gap-9">
                 <span
                   data-eid="nav_link_1"
-                  contentEditable={editable}
+                  contentEditable={editable ? true : undefined}
                   suppressContentEditableWarning
                   className="text-[#0e121b] text-sm font-medium leading-normal hover:text-[#3670e2] transition-colors cursor-pointer"
                 >
@@ -96,7 +96,7 @@ export default function GlassmorphismProductTemplate({
                 </span>
                 <span
                   data-eid="nav_link_2"
-                  contentEditable={editable}
+                  contentEditable={editable ? true : undefined}
                   suppressContentEditableWarning
                   className="text-[#0e121b] text-sm font-medium leading-normal hover:text-[#3670e2] transition-colors cursor-pointer"
                 >
@@ -104,7 +104,7 @@ export default function GlassmorphismProductTemplate({
                 </span>
                 <span
                   data-eid="nav_link_3"
-                  contentEditable={editable}
+                  contentEditable={editable ? true : undefined}
                   suppressContentEditableWarning
                   className="text-[#0e121b] text-sm font-medium leading-normal hover:text-[#3670e2] transition-colors cursor-pointer"
                 >
@@ -227,7 +227,7 @@ export default function GlassmorphismProductTemplate({
                 <div className="flex flex-col gap-2">
                   <h1
                     data-eid="product_title"
-                    contentEditable={editable}
+                    contentEditable={editable ? true : undefined}
                     suppressContentEditableWarning
                     className="text-3xl md:text-4xl font-bold tracking-tight text-[#0e121b] whitespace-pre-wrap break-words"
                   >
@@ -235,7 +235,7 @@ export default function GlassmorphismProductTemplate({
                   </h1>
                   <p
                     data-eid="product_subtitle"
-                    contentEditable={editable}
+                    contentEditable={editable ? true : undefined}
                     suppressContentEditableWarning
                     className="text-slate-600 whitespace-pre-wrap break-words"
                   >
@@ -244,7 +244,7 @@ export default function GlassmorphismProductTemplate({
                 </div>
                 <span
                   data-eid="product_price"
-                  contentEditable={editable}
+                  contentEditable={editable ? true : undefined}
                   suppressContentEditableWarning
                   className="flex-shrink-0 text-3xl md:text-4xl font-bold text-[#3670e2] whitespace-pre-wrap break-words"
                 >
@@ -257,7 +257,7 @@ export default function GlassmorphismProductTemplate({
                 <div className="flex flex-col gap-4">
                   <h3
                     data-eid="color_label"
-                    contentEditable={editable}
+                    contentEditable={editable ? true : undefined}
                     suppressContentEditableWarning
                     className="text-sm font-semibold uppercase tracking-wider text-slate-700"
                   >
@@ -274,7 +274,7 @@ export default function GlassmorphismProductTemplate({
                 <div className="flex flex-col gap-4">
                   <h3
                     data-eid="size_label"
-                    contentEditable={editable}
+                    contentEditable={editable ? true : undefined}
                     suppressContentEditableWarning
                     className="text-sm font-semibold uppercase tracking-wider text-slate-700"
                   >
@@ -283,7 +283,7 @@ export default function GlassmorphismProductTemplate({
                   <div className="flex items-center gap-3">
                     <span
                       data-eid="size_option_1"
-                      contentEditable={editable}
+                      contentEditable={editable ? true : undefined}
                       suppressContentEditableWarning
                       className="px-4 py-2 rounded-lg border border-[#3670e2] bg-[#3670e2]/20 text-[#3670e2] font-semibold text-sm cursor-pointer"
                     >
@@ -291,7 +291,7 @@ export default function GlassmorphismProductTemplate({
                     </span>
                     <span
                       data-eid="size_option_2"
-                      contentEditable={editable}
+                      contentEditable={editable ? true : undefined}
                       suppressContentEditableWarning
                       className="px-4 py-2 rounded-lg border border-slate-300 bg-white/50 text-slate-600 font-semibold text-sm cursor-pointer"
                     >
@@ -327,7 +327,7 @@ export default function GlassmorphismProductTemplate({
                   <span className="material-symbols-outlined text-[#3670e2] text-lg">check_circle</span>
                   <span
                     data-eid="highlight_1"
-                    contentEditable={editable}
+                    contentEditable={editable ? true : undefined}
                     suppressContentEditableWarning
                   >
                     {getText('highlight_1', '360° Immersive Sound')}
@@ -337,7 +337,7 @@ export default function GlassmorphismProductTemplate({
                   <span className="material-symbols-outlined text-[#3670e2] text-lg">check_circle</span>
                   <span
                     data-eid="highlight_2"
-                    contentEditable={editable}
+                    contentEditable={editable ? true : undefined}
                     suppressContentEditableWarning
                   >
                     {getText('highlight_2', '24-Hour Battery Life')}
@@ -347,7 +347,7 @@ export default function GlassmorphismProductTemplate({
                   <span className="material-symbols-outlined text-[#3670e2] text-lg">check_circle</span>
                   <span
                     data-eid="highlight_3"
-                    contentEditable={editable}
+                    contentEditable={editable ? true : undefined}
                     suppressContentEditableWarning
                   >
                     {getText('highlight_3', 'Bluetooth 5.2 & Ambient Lighting')}
@@ -363,7 +363,7 @@ export default function GlassmorphismProductTemplate({
                 <nav className="-mb-px flex gap-6">
                   <span
                     data-eid="tab_1"
-                    contentEditable={editable}
+                    contentEditable={editable ? true : undefined}
                     suppressContentEditableWarning
                     className="whitespace-nowrap border-b-2 border-[#3670e2] px-1 py-4 text-sm font-medium text-[#3670e2] cursor-pointer"
                   >
@@ -371,7 +371,7 @@ export default function GlassmorphismProductTemplate({
                   </span>
                   <span
                     data-eid="tab_2"
-                    contentEditable={editable}
+                    contentEditable={editable ? true : undefined}
                     suppressContentEditableWarning
                     className="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-slate-500 hover:border-slate-300 hover:text-slate-700 cursor-pointer"
                   >
@@ -379,7 +379,7 @@ export default function GlassmorphismProductTemplate({
                   </span>
                   <span
                     data-eid="tab_3"
-                    contentEditable={editable}
+                    contentEditable={editable ? true : undefined}
                     suppressContentEditableWarning
                     className="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-slate-500 hover:border-slate-300 hover:text-slate-700 cursor-pointer"
                   >
@@ -387,7 +387,7 @@ export default function GlassmorphismProductTemplate({
                   </span>
                   <span
                     data-eid="tab_4"
-                    contentEditable={editable}
+                    contentEditable={editable ? true : undefined}
                     suppressContentEditableWarning
                     className="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-slate-500 hover:border-slate-300 hover:text-slate-700 cursor-pointer"
                   >
@@ -398,7 +398,7 @@ export default function GlassmorphismProductTemplate({
               <div className="prose prose-slate max-w-none text-slate-700">
                 <p
                   data-eid="product_description"
-                  contentEditable={editable}
+                  contentEditable={editable ? true : undefined}
                   suppressContentEditableWarning
                   className="whitespace-pre-wrap break-words"
                 >
@@ -411,7 +411,7 @@ export default function GlassmorphismProductTemplate({
             <section className="w-full flex flex-col gap-4 p-4 md:p-8 rounded-xl bg-white/40 backdrop-blur-xl border border-white/60 shadow-lg">
               <h2
                 data-eid="gallery_title"
-                contentEditable={editable}
+                contentEditable={editable ? true : undefined}
                 suppressContentEditableWarning
                 className="text-2xl font-bold tracking-tight text-[#0e121b]"
               >
@@ -465,7 +465,7 @@ export default function GlassmorphismProductTemplate({
             <section className="w-full flex flex-col gap-6 p-4 md:p-8 rounded-xl bg-white/40 backdrop-blur-xl border border-white/60 shadow-lg">
               <h2
                 data-eid="reviews_title"
-                contentEditable={editable}
+                contentEditable={editable ? true : undefined}
                 suppressContentEditableWarning
                 className="text-2xl font-bold tracking-tight text-[#0e121b] whitespace-pre-wrap break-words"
               >
@@ -488,7 +488,7 @@ export default function GlassmorphismProductTemplate({
                     <div className="flex items-center gap-2">
                       <span
                         data-eid="review_1_name"
-                        contentEditable={editable}
+                        contentEditable={editable ? true : undefined}
                         suppressContentEditableWarning
                         className="font-semibold"
                       >
@@ -504,7 +504,7 @@ export default function GlassmorphismProductTemplate({
                     </div>
                     <p
                       data-eid="review_1_text"
-                      contentEditable={editable}
+                      contentEditable={editable ? true : undefined}
                       suppressContentEditableWarning
                       className="text-sm text-slate-700"
                     >
@@ -529,7 +529,7 @@ export default function GlassmorphismProductTemplate({
                     <div className="flex items-center gap-2">
                       <span
                         data-eid="review_2_name"
-                        contentEditable={editable}
+                        contentEditable={editable ? true : undefined}
                         suppressContentEditableWarning
                         className="font-semibold"
                       >
@@ -545,7 +545,7 @@ export default function GlassmorphismProductTemplate({
                     </div>
                     <p
                       data-eid="review_2_text"
-                      contentEditable={editable}
+                      contentEditable={editable ? true : undefined}
                       suppressContentEditableWarning
                       className="text-sm text-slate-700"
                     >
@@ -570,7 +570,7 @@ export default function GlassmorphismProductTemplate({
                     <div className="flex items-center gap-2">
                       <span
                         data-eid="review_3_name"
-                        contentEditable={editable}
+                        contentEditable={editable ? true : undefined}
                         suppressContentEditableWarning
                         className="font-semibold"
                       >
@@ -586,7 +586,7 @@ export default function GlassmorphismProductTemplate({
                     </div>
                     <p
                       data-eid="review_3_text"
-                      contentEditable={editable}
+                      contentEditable={editable ? true : undefined}
                       suppressContentEditableWarning
                       className="text-sm text-slate-700"
                     >

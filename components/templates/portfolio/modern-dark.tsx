@@ -124,7 +124,7 @@ export default function PortfolioModernDark({ editable = false, data = {}, onCon
                 className="text-lg text-slate-400 max-w-xl"
                 editable={editable}
                 onChange={handleTextChange}
-                as="p"
+                as="div"
               />
               <div className="flex gap-4">
                 <EditableButton
@@ -179,7 +179,7 @@ export default function PortfolioModernDark({ editable = false, data = {}, onCon
                 className="text-slate-300 text-lg leading-relaxed"
                 editable={editable}
                 onChange={handleTextChange}
-                as="p"
+                as="div"
               />
             </div>
             <div className="relative">
@@ -234,7 +234,7 @@ export default function PortfolioModernDark({ editable = false, data = {}, onCon
                     className="text-slate-400"
                     editable={editable}
                     onChange={handleTextChange}
-                    as="p"
+                    as="div"
                   />
                 </div>
               </div>
@@ -271,7 +271,7 @@ export default function PortfolioModernDark({ editable = false, data = {}, onCon
                   className="text-slate-400"
                   editable={editable}
                   onChange={handleTextChange}
-                  as="p"
+                  as="div"
                 />
               </div>
             ))}
@@ -296,7 +296,7 @@ export default function PortfolioModernDark({ editable = false, data = {}, onCon
             className="text-slate-400 text-lg mb-8"
             editable={editable}
             onChange={handleTextChange}
-            as="p"
+            as="div"
           />
           <EditableButton
             eid="contact_cta"
@@ -318,7 +318,7 @@ export default function PortfolioModernDark({ editable = false, data = {}, onCon
             className="text-slate-400"
             editable={editable}
             onChange={handleTextChange}
-            as="p"
+            as="div"
           />
         </div>
       </footer>

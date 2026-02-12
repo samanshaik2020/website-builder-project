@@ -92,7 +92,7 @@ export const MegaDiscountTemplate: FC<MegaDiscountTemplateProps> = ({
               <div className="w-full text-center mb-6">
                 <p
                   data-eid="flash_banner_text"
-                  contentEditable={editable}
+                  contentEditable={editable ? true : undefined}
                   suppressContentEditableWarning
                   className="text-[#4B5563] text-sm font-normal leading-normal py-2 px-4 inline-flex items-center gap-1 rounded-full bg-[#A7F3D0] text-[#1F2937]"
                 >
@@ -111,7 +111,7 @@ export const MegaDiscountTemplate: FC<MegaDiscountTemplateProps> = ({
                   <div className="p-6 md:p-8 bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col gap-4">
                     <h1
                       data-eid="hero_title"
-                      contentEditable={editable}
+                      contentEditable={editable ? true : undefined}
                       suppressContentEditableWarning
                       className="text-[#1F2937] text-4xl md:text-5xl lg:text-6xl font-black leading-tight tracking-tighter whitespace-pre-wrap break-words"
                       style={{ fontFamily: "'Rubik', sans-serif" }}
@@ -120,7 +120,7 @@ export const MegaDiscountTemplate: FC<MegaDiscountTemplateProps> = ({
                     </h1>
                     <p
                       data-eid="hero_description"
-                      contentEditable={editable}
+                      contentEditable={editable ? true : undefined}
                       suppressContentEditableWarning
                       className="text-[#4B5563] text-base md:text-lg font-normal leading-normal whitespace-pre-wrap break-words"
                     >
@@ -132,7 +132,7 @@ export const MegaDiscountTemplate: FC<MegaDiscountTemplateProps> = ({
                   <div className="p-6 md:p-8 bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col gap-4">
                     <h3
                       data-eid="timer_title"
-                      contentEditable={editable}
+                      contentEditable={editable ? true : undefined}
                       suppressContentEditableWarning
                       className="text-[#1F2937] text-xl font-bold mb-2 whitespace-pre-wrap break-words"
                       style={{ fontFamily: "'Rubik', sans-serif" }}
@@ -183,7 +183,7 @@ export const MegaDiscountTemplate: FC<MegaDiscountTemplateProps> = ({
                   <div className="p-6 md:p-8 bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col gap-4">
                     <h3
                       data-eid="features_title"
-                      contentEditable={editable}
+                      contentEditable={editable ? true : undefined}
                       suppressContentEditableWarning
                       className="text-[#1F2937] text-xl font-bold mb-2 whitespace-pre-wrap break-words"
                       style={{ fontFamily: "'Rubik', sans-serif" }}
@@ -194,7 +194,7 @@ export const MegaDiscountTemplate: FC<MegaDiscountTemplateProps> = ({
                       <div className="flex flex-col">
                         <p
                           data-eid="feature_1_label"
-                          contentEditable={editable}
+                          contentEditable={editable ? true : undefined}
                           suppressContentEditableWarning
                           className="text-[#6B7280] text-sm"
                         >
@@ -202,7 +202,7 @@ export const MegaDiscountTemplate: FC<MegaDiscountTemplateProps> = ({
                         </p>
                         <p
                           data-eid="feature_1_value"
-                          contentEditable={editable}
+                          contentEditable={editable ? true : undefined}
                           suppressContentEditableWarning
                           className="text-[#1F2937] text-base font-medium"
                         >
@@ -212,7 +212,7 @@ export const MegaDiscountTemplate: FC<MegaDiscountTemplateProps> = ({
                       <div className="flex flex-col">
                         <p
                           data-eid="feature_2_label"
-                          contentEditable={editable}
+                          contentEditable={editable ? true : undefined}
                           suppressContentEditableWarning
                           className="text-[#6B7280] text-sm"
                         >
@@ -220,7 +220,7 @@ export const MegaDiscountTemplate: FC<MegaDiscountTemplateProps> = ({
                         </p>
                         <p
                           data-eid="feature_2_value"
-                          contentEditable={editable}
+                          contentEditable={editable ? true : undefined}
                           suppressContentEditableWarning
                           className="text-[#1F2937] text-base font-medium"
                         >
@@ -230,7 +230,7 @@ export const MegaDiscountTemplate: FC<MegaDiscountTemplateProps> = ({
                       <div className="flex flex-col">
                         <p
                           data-eid="feature_3_label"
-                          contentEditable={editable}
+                          contentEditable={editable ? true : undefined}
                           suppressContentEditableWarning
                           className="text-[#6B7280] text-sm"
                         >
@@ -238,7 +238,7 @@ export const MegaDiscountTemplate: FC<MegaDiscountTemplateProps> = ({
                         </p>
                         <p
                           data-eid="feature_3_value"
-                          contentEditable={editable}
+                          contentEditable={editable ? true : undefined}
                           suppressContentEditableWarning
                           className="text-[#1F2937] text-base font-medium"
                         >
@@ -248,7 +248,7 @@ export const MegaDiscountTemplate: FC<MegaDiscountTemplateProps> = ({
                       <div className="flex flex-col">
                         <p
                           data-eid="feature_4_label"
-                          contentEditable={editable}
+                          contentEditable={editable ? true : undefined}
                           suppressContentEditableWarning
                           className="text-[#6B7280] text-sm"
                         >
@@ -256,7 +256,7 @@ export const MegaDiscountTemplate: FC<MegaDiscountTemplateProps> = ({
                         </p>
                         <p
                           data-eid="feature_4_value"
-                          contentEditable={editable}
+                          contentEditable={editable ? true : undefined}
                           suppressContentEditableWarning
                           className="text-[#1F2937] text-base font-medium"
                         >
@@ -278,7 +278,7 @@ export const MegaDiscountTemplate: FC<MegaDiscountTemplateProps> = ({
                     />
                     <p
                       data-eid="cta_subtext"
-                      contentEditable={editable}
+                      contentEditable={editable ? true : undefined}
                       suppressContentEditableWarning
                       className="text-[#6B7280] text-sm font-normal leading-normal text-center whitespace-pre-wrap break-words"
                     >
@@ -300,7 +300,7 @@ export const MegaDiscountTemplate: FC<MegaDiscountTemplateProps> = ({
                     />
                     <div
                       data-eid="discount_badge"
-                      contentEditable={editable}
+                      contentEditable={editable ? true : undefined}
                       suppressContentEditableWarning
                       className="absolute -top-4 -right-4 bg-[#EF4444] text-white text-lg font-bold px-4 py-2 rounded-full transform rotate-12"
                     >

@@ -71,7 +71,7 @@ export default function SuperClipsAI({ editable = false, data = {}, onContentCha
                                 <TiptapEditableText eid="hero_badge" defaultText={getText('hero_badge', 'New AI Model v2.0 Released')} className="text-xs font-medium" style={{ color: '#cbd5e1' }} editable={editable} onChange={handleTextChange} as="span" />
                             </div>
                             <TiptapEditableText eid="hero_headline" defaultText={getText('hero_headline', 'Turn Long Videos into Viral Clips in Seconds.')} className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white" style={{ lineHeight: '1.1' }} editable={editable} onChange={handleTextChange} as="h1" />
-                            <TiptapEditableText eid="hero_description" defaultText={getText('hero_description', 'AI-driven editing for creators who value speed. Stop wasting hours scrubbing through timelines. Get 10x more content with 0x the effort.')} className="text-lg leading-relaxed max-w-lg" style={{ color: '#94a3b8' }} editable={editable} onChange={handleTextChange} as="p" />
+                            <TiptapEditableText eid="hero_description" defaultText={getText('hero_description', 'AI-driven editing for creators who value speed. Stop wasting hours scrubbing through timelines. Get 10x more content with 0x the effort.')} className="text-lg leading-relaxed max-w-lg" style={{ color: '#94a3b8' }} editable={editable} onChange={handleTextChange} as="div" />
                             <div className="flex flex-col sm:flex-row gap-4">
                                 <EditableButton eid="hero_cta_primary" defaultText={getButton('hero_cta_primary', 'Start Free Trial', '#').text} defaultUrl={getButton('hero_cta_primary', 'Start Free Trial', '#').url} className="flex items-center justify-center gap-2 text-white text-base font-bold rounded-xl transition-all" style={{ height: '56px', padding: '0 32px', backgroundColor: '#135bec', boxShadow: '0 4px 20px -4px rgba(19,91,236,0.6)' }} editable={editable} onChange={onContentChange} />
                                 <EditableButton eid="hero_cta_secondary" defaultText={getButton('hero_cta_secondary', 'Watch Demo', '#').text} defaultUrl={getButton('hero_cta_secondary', 'Watch Demo', '#').url} className="flex items-center justify-center gap-2 text-white text-base font-bold rounded-xl transition-all" style={{ height: '56px', padding: '0 32px', backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }} editable={editable} onChange={onContentChange} />
@@ -116,7 +116,7 @@ export default function SuperClipsAI({ editable = false, data = {}, onContentCha
             {/* Social Proof Strip */}
             <section className="py-10" style={{ backgroundColor: 'rgba(2,6,23,0.5)', borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <TiptapEditableText eid="social_strip_heading" defaultText={getText('social_strip_heading', 'Powering next-gen creators from')} className="text-sm font-medium mb-6 uppercase tracking-wider" style={{ color: '#64748b' }} editable={editable} onChange={handleTextChange} as="p" />
+                    <TiptapEditableText eid="social_strip_heading" defaultText={getText('social_strip_heading', 'Powering next-gen creators from')} className="text-sm font-medium mb-6 uppercase tracking-wider" style={{ color: '#64748b' }} editable={editable} onChange={handleTextChange} as="div" />
                     <div className="flex flex-wrap justify-center gap-x-12 gap-y-8" style={{ filter: 'grayscale(1)', opacity: 0.5 }}>
                         <div className="flex items-center gap-2 text-xl font-bold text-white"><span className="material-symbols-outlined">smart_display</span> YouTube</div>
                         <div className="flex items-center gap-2 text-xl font-bold text-white"><span className="material-symbols-outlined">podcasts</span> Spotify</div>
@@ -131,7 +131,7 @@ export default function SuperClipsAI({ editable = false, data = {}, onContentCha
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-16">
                         <TiptapEditableText eid="features_heading" defaultText={getText('features_heading', 'The Old Way vs. The SuperClips Way')} className="text-3xl md:text-5xl font-bold text-white mb-6" editable={editable} onChange={handleTextChange} as="h2" />
-                        <TiptapEditableText eid="features_description" defaultText={getText('features_description', "Don't let manual editing hold you back. See why creators are switching.")} className="text-lg max-w-2xl mx-auto" style={{ color: '#94a3b8' }} editable={editable} onChange={handleTextChange} as="p" />
+                        <TiptapEditableText eid="features_description" defaultText={getText('features_description', "Don't let manual editing hold you back. See why creators are switching.")} className="text-lg max-w-2xl mx-auto" style={{ color: '#94a3b8' }} editable={editable} onChange={handleTextChange} as="div" />
                     </div>
                     <div className="grid md:grid-cols-2 gap-8">
                         {/* Pain Card */}
@@ -208,7 +208,7 @@ export default function SuperClipsAI({ editable = false, data = {}, onContentCha
                                         <span className="material-symbols-outlined text-3xl" style={{ color: step.iconColor }}>{step.icon}</span>
                                     </div>
                                     <TiptapEditableText eid={step.eid_t} defaultText={getText(step.eid_t, step.title)} className="text-xl font-bold text-white text-center mb-3" editable={editable} onChange={handleTextChange} as="h3" />
-                                    <TiptapEditableText eid={step.eid_d} defaultText={getText(step.eid_d, step.desc)} className="text-center text-sm leading-relaxed" style={{ color: '#94a3b8' }} editable={editable} onChange={handleTextChange} as="p" />
+                                    <TiptapEditableText eid={step.eid_d} defaultText={getText(step.eid_d, step.desc)} className="text-center text-sm leading-relaxed" style={{ color: '#94a3b8' }} editable={editable} onChange={handleTextChange} as="div" />
                                 </div>
                             </div>
                         ))}
@@ -230,7 +230,7 @@ export default function SuperClipsAI({ editable = false, data = {}, onContentCha
                                 <EditableImage eid={uc.eid_i} defaultSrc={getImage(uc.eid_i, uc.img)} alt={uc.title} className="absolute inset-0 w-full h-full object-cover transition-transform" style={{ opacity: 0.6 }} editable={editable} onChange={handleImageChange} />
                                 <div className="absolute inset-0 p-8 flex flex-col justify-end" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.4), transparent)' }}>
                                     <TiptapEditableText eid={uc.eid_t} defaultText={getText(uc.eid_t, uc.title)} className="text-xl font-bold text-white mb-1" editable={editable} onChange={handleTextChange} as="h3" />
-                                    <TiptapEditableText eid={uc.eid_d} defaultText={getText(uc.eid_d, uc.desc)} className="text-sm" style={{ color: '#cbd5e1' }} editable={editable} onChange={handleTextChange} as="p" />
+                                    <TiptapEditableText eid={uc.eid_d} defaultText={getText(uc.eid_d, uc.desc)} className="text-sm" style={{ color: '#cbd5e1' }} editable={editable} onChange={handleTextChange} as="div" />
                                 </div>
                             </div>
                         ))}
@@ -253,11 +253,11 @@ export default function SuperClipsAI({ editable = false, data = {}, onContentCha
                                 <div className="flex items-center gap-3 mb-4">
                                     <EditableImage eid={t.eid_p} defaultSrc={getImage(t.eid_p, t.photo)} alt={`Headshot of ${t.name}`} className="w-10 h-10 rounded-full object-cover" editable={editable} onChange={handleImageChange} />
                                     <div>
-                                        <TiptapEditableText eid={t.eid_n} defaultText={getText(t.eid_n, t.name)} className="text-white font-bold text-sm" editable={editable} onChange={handleTextChange} as="p" />
-                                        <TiptapEditableText eid={t.eid_h} defaultText={getText(t.eid_h, t.handle)} className="text-xs" style={{ color: '#64748b' }} editable={editable} onChange={handleTextChange} as="p" />
+                                        <TiptapEditableText eid={t.eid_n} defaultText={getText(t.eid_n, t.name)} className="text-white font-bold text-sm" editable={editable} onChange={handleTextChange} as="div" />
+                                        <TiptapEditableText eid={t.eid_h} defaultText={getText(t.eid_h, t.handle)} className="text-xs" style={{ color: '#64748b' }} editable={editable} onChange={handleTextChange} as="div" />
                                     </div>
                                 </div>
-                                <TiptapEditableText eid={t.eid_t} defaultText={getText(t.eid_t, t.text)} className="text-sm" style={{ color: '#cbd5e1' }} editable={editable} onChange={handleTextChange} as="p" />
+                                <TiptapEditableText eid={t.eid_t} defaultText={getText(t.eid_t, t.text)} className="text-sm" style={{ color: '#cbd5e1' }} editable={editable} onChange={handleTextChange} as="div" />
                             </div>
                         ))}
                     </div>
@@ -282,7 +282,7 @@ export default function SuperClipsAI({ editable = false, data = {}, onContentCha
                         <div className="p-8 rounded-2xl transition-colors" style={{ backgroundColor: '#020617', border: '1px solid rgba(255,255,255,0.05)' }}>
                             <TiptapEditableText eid="starter_name" defaultText={getText('starter_name', 'Starter')} className="text-xl font-bold text-white mb-2" editable={editable} onChange={handleTextChange} as="h3" />
                             <TiptapEditableText eid="starter_price" defaultText={getText('starter_price', '$0/mo')} className="text-3xl font-bold text-white mb-6" editable={editable} onChange={handleTextChange} as="div" />
-                            <TiptapEditableText eid="starter_desc" defaultText={getText('starter_desc', 'Perfect for testing the waters.')} className="text-sm mb-6" style={{ color: '#94a3b8' }} editable={editable} onChange={handleTextChange} as="p" />
+                            <TiptapEditableText eid="starter_desc" defaultText={getText('starter_desc', 'Perfect for testing the waters.')} className="text-sm mb-6" style={{ color: '#94a3b8' }} editable={editable} onChange={handleTextChange} as="div" />
                             <EditableButton eid="starter_cta" defaultText={getButton('starter_cta', 'Try Free', '#').text} defaultUrl={getButton('starter_cta', 'Try Free', '#').url} className="w-full py-3 rounded-xl text-white font-bold transition-colors mb-8" style={{ backgroundColor: 'rgba(255,255,255,0.05)' }} editable={editable} onChange={onContentChange} />
                             <ul className="flex flex-col gap-3 text-sm" style={{ color: '#cbd5e1' }}>
                                 <li className="flex items-center gap-2"><span className="material-symbols-outlined text-lg" style={{ color: '#64748b' }}>check</span> 60 mins of upload/mo</li>
@@ -295,7 +295,7 @@ export default function SuperClipsAI({ editable = false, data = {}, onContentCha
                             <div className="absolute top-0 left-1/2 text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide shadow-lg" style={{ transform: 'translate(-50%, -50%)', backgroundColor: '#135bec' }}>Most Popular</div>
                             <TiptapEditableText eid="pro_name" defaultText={getText('pro_name', 'Creator Pro')} className="text-xl font-bold text-white mb-2" editable={editable} onChange={handleTextChange} as="h3" />
                             <TiptapEditableText eid="pro_price" defaultText={getText('pro_price', '$29/mo')} className="text-3xl font-bold text-white mb-6" editable={editable} onChange={handleTextChange} as="div" />
-                            <TiptapEditableText eid="pro_desc" defaultText={getText('pro_desc', 'For serious content creators.')} className="text-sm mb-6" style={{ color: '#94a3b8' }} editable={editable} onChange={handleTextChange} as="p" />
+                            <TiptapEditableText eid="pro_desc" defaultText={getText('pro_desc', 'For serious content creators.')} className="text-sm mb-6" style={{ color: '#94a3b8' }} editable={editable} onChange={handleTextChange} as="div" />
                             <EditableButton eid="pro_cta" defaultText={getButton('pro_cta', 'Get Started', '#').text} defaultUrl={getButton('pro_cta', 'Get Started', '#').url} className="w-full py-3 rounded-xl text-white font-bold transition-colors mb-8 shadow-lg" style={{ backgroundColor: '#135bec', boxShadow: '0 10px 15px -3px rgba(19,91,236,0.25)' }} editable={editable} onChange={onContentChange} />
                             <ul className="flex flex-col gap-3 text-sm text-white">
                                 <li className="flex items-center gap-2"><span className="material-symbols-outlined text-lg" style={{ color: '#135bec' }}>check</span> 10 hours of upload/mo</li>
@@ -308,7 +308,7 @@ export default function SuperClipsAI({ editable = false, data = {}, onContentCha
                         <div className="p-8 rounded-2xl transition-colors" style={{ backgroundColor: '#020617', border: '1px solid rgba(255,255,255,0.05)' }}>
                             <TiptapEditableText eid="agency_name" defaultText={getText('agency_name', 'Agency')} className="text-xl font-bold text-white mb-2" editable={editable} onChange={handleTextChange} as="h3" />
                             <TiptapEditableText eid="agency_price" defaultText={getText('agency_price', '$99/mo')} className="text-3xl font-bold text-white mb-6" editable={editable} onChange={handleTextChange} as="div" />
-                            <TiptapEditableText eid="agency_desc" defaultText={getText('agency_desc', 'Power for teams and high volume.')} className="text-sm mb-6" style={{ color: '#94a3b8' }} editable={editable} onChange={handleTextChange} as="p" />
+                            <TiptapEditableText eid="agency_desc" defaultText={getText('agency_desc', 'Power for teams and high volume.')} className="text-sm mb-6" style={{ color: '#94a3b8' }} editable={editable} onChange={handleTextChange} as="div" />
                             <EditableButton eid="agency_cta" defaultText={getButton('agency_cta', 'Contact Sales', '#').text} defaultUrl={getButton('agency_cta', 'Contact Sales', '#').url} className="w-full py-3 rounded-xl text-white font-bold transition-colors mb-8" style={{ backgroundColor: 'rgba(255,255,255,0.05)' }} editable={editable} onChange={onContentChange} />
                             <ul className="flex flex-col gap-3 text-sm" style={{ color: '#cbd5e1' }}>
                                 <li className="flex items-center gap-2"><span className="material-symbols-outlined text-lg" style={{ color: '#64748b' }}>check</span> Unlimited uploads</li>
@@ -333,7 +333,7 @@ export default function SuperClipsAI({ editable = false, data = {}, onContentCha
                         ].map((faq) => (
                             <div key={faq.eid_q} className="p-6 rounded-xl" style={{ backgroundColor: '#101622', border: '1px solid rgba(255,255,255,0.1)' }}>
                                 <TiptapEditableText eid={faq.eid_q} defaultText={getText(faq.eid_q, faq.q)} className="text-lg font-bold text-white mb-2" editable={editable} onChange={handleTextChange} as="h3" />
-                                <TiptapEditableText eid={faq.eid_a} defaultText={getText(faq.eid_a, faq.a)} className="text-sm" style={{ color: '#94a3b8' }} editable={editable} onChange={handleTextChange} as="p" />
+                                <TiptapEditableText eid={faq.eid_a} defaultText={getText(faq.eid_a, faq.a)} className="text-sm" style={{ color: '#94a3b8' }} editable={editable} onChange={handleTextChange} as="div" />
                             </div>
                         ))}
                     </div>
@@ -346,9 +346,9 @@ export default function SuperClipsAI({ editable = false, data = {}, onContentCha
                 <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, #101622, rgba(16,22,34,0.8), transparent)' }} />
                 <div className="relative max-w-4xl mx-auto px-4 text-center" style={{ zIndex: 1 }}>
                     <TiptapEditableText eid="footer_cta_heading" defaultText={getText('footer_cta_heading', 'Ready to go viral?')} className="text-4xl md:text-5xl font-black text-white mb-6" editable={editable} onChange={handleTextChange} as="h2" />
-                    <TiptapEditableText eid="footer_cta_desc" defaultText={getText('footer_cta_desc', 'Join thousands of creators saving hours every week. No credit card required.')} className="text-xl mb-10" style={{ color: '#cbd5e1' }} editable={editable} onChange={handleTextChange} as="p" />
+                    <TiptapEditableText eid="footer_cta_desc" defaultText={getText('footer_cta_desc', 'Join thousands of creators saving hours every week. No credit card required.')} className="text-xl mb-10" style={{ color: '#cbd5e1' }} editable={editable} onChange={handleTextChange} as="div" />
                     <EditableButton eid="footer_cta_button" defaultText={getButton('footer_cta_button', 'Start Your Free Trial', '#').text} defaultUrl={getButton('footer_cta_button', 'Start Your Free Trial', '#').url} className="text-white text-lg font-bold rounded-xl transition-all shadow-xl" style={{ height: '56px', padding: '0 40px', backgroundColor: '#135bec' }} editable={editable} onChange={onContentChange} />
-                    <TiptapEditableText eid="footer_cta_note" defaultText={getText('footer_cta_note', 'Free 7-day trial. Cancel anytime.')} className="mt-6 text-sm" style={{ color: '#64748b' }} editable={editable} onChange={handleTextChange} as="p" />
+                    <TiptapEditableText eid="footer_cta_note" defaultText={getText('footer_cta_note', 'Free 7-day trial. Cancel anytime.')} className="mt-6 text-sm" style={{ color: '#64748b' }} editable={editable} onChange={handleTextChange} as="div" />
                 </div>
             </section>
 

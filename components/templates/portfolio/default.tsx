@@ -145,7 +145,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
               className="text-lg text-slate-300 leading-relaxed max-w-xl"
               editable={editable}
               onChange={handleTextChange}
-              as="p"
+              as="div"
             />
             <div className="flex gap-4 pt-4">
               <EditableButton
@@ -222,7 +222,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                 className="text-lg text-slate-600 leading-relaxed"
                 editable={editable}
                 onChange={handleTextChange}
-                as="p"
+                as="div"
               />
               <TiptapEditableText
                 eid="about_story_p2"
@@ -230,7 +230,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                 className="text-lg text-slate-600 leading-relaxed"
                 editable={editable}
                 onChange={handleTextChange}
-                as="p"
+                as="div"
               />
               <TiptapEditableText
                 eid="about_story_p3"
@@ -238,7 +238,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                 className="text-lg text-slate-600 leading-relaxed"
                 editable={editable}
                 onChange={handleTextChange}
-                as="p"
+                as="div"
               />
             </div>
 
@@ -307,7 +307,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                     className="text-slate-600"
                     editable={editable}
                     onChange={handleTextChange}
-                    as="p"
+                    as="div"
                   />
                 </div>
               ))}
@@ -335,7 +335,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
               className="text-xl text-slate-600 max-w-3xl mx-auto"
               editable={editable}
               onChange={handleTextChange}
-              as="p"
+              as="div"
             />
           </div>
 
@@ -378,7 +378,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                     className="text-lg text-slate-600 mb-6 leading-relaxed"
                     editable={editable}
                     onChange={handleTextChange}
-                    as="p"
+                    as="div"
                   />
                   <div className="space-y-3 mb-6">
                     <div className="flex items-center gap-2">
@@ -481,7 +481,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                     className="text-lg text-slate-600 mb-6 leading-relaxed"
                     editable={editable}
                     onChange={handleTextChange}
-                    as="p"
+                    as="div"
                   />
                   <div className="space-y-3 mb-6">
                     <div className="flex items-center gap-2">
@@ -604,7 +604,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                     className="text-lg text-slate-600 mb-6 leading-relaxed"
                     editable={editable}
                     onChange={handleTextChange}
-                    as="p"
+                    as="div"
                   />
                   <div className="space-y-3 mb-6">
                     <div className="flex items-center gap-2">
@@ -700,7 +700,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
             className="text-xl text-slate-300 mb-12 max-w-2xl mx-auto"
             editable={editable}
             onChange={handleTextChange}
-            as="p"
+            as="div"
           />
 
           <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-12 mb-8">
@@ -767,7 +767,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                 className="text-slate-300 text-sm"
                 editable={editable}
                 onChange={handleTextChange}
-                as="p"
+                as="div"
               />
             </div>
             <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6">
@@ -786,7 +786,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                 className="text-slate-300 text-sm"
                 editable={editable}
                 onChange={handleTextChange}
-                as="p"
+                as="div"
               />
             </div>
             <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6">
@@ -805,7 +805,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                 className="text-slate-300 text-sm"
                 editable={editable}
                 onChange={handleTextChange}
-                as="p"
+                as="div"
               />
             </div>
           </div>
@@ -831,7 +831,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
               className="text-xl text-slate-600 max-w-3xl mx-auto"
               editable={editable}
               onChange={handleTextChange}
-              as="p"
+              as="div"
             />
           </div>
 
@@ -864,7 +864,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                     className="text-sm text-slate-600"
                     editable={editable}
                     onChange={handleTextChange}
-                    as="p"
+                    as="div"
                   />
                 </div>
               </div>
@@ -875,7 +875,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                 className="text-slate-700 leading-relaxed"
                 editable={editable}
                 onChange={handleTextChange}
-                as="p"
+                as="div"
               />
             </div>
 
@@ -907,14 +907,14 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                     className="text-sm text-slate-600"
                     editable={editable}
                     onChange={handleTextChange}
-                    as="p"
+                    as="div"
                   />
                 </div>
               </div>
               <div className="text-blue-600 text-3xl mb-4">&quot;</div>
               <p
                 data-eid="testimonial_2_quote"
-                contentEditable={editable}
+                contentEditable={editable ? true : undefined}
                 suppressContentEditableWarning
                 className="text-slate-700 leading-relaxed"
               >
@@ -950,7 +950,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                     className="text-sm text-slate-600"
                     editable={editable}
                     onChange={handleTextChange}
-                    as="p"
+                    as="div"
                   />
                 </div>
               </div>
@@ -961,7 +961,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                 className="text-slate-700 leading-relaxed"
                 editable={editable}
                 onChange={handleTextChange}
-                as="p"
+                as="div"
               />
             </div>
           </div>
@@ -973,7 +973,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
         <div className="max-w-4xl mx-auto text-center">
           <h2
             data-eid="contact_section_title"
-            contentEditable={editable}
+            contentEditable={editable ? true : undefined}
             suppressContentEditableWarning
             className="text-5xl md:text-6xl font-bold mb-6"
           >
@@ -982,7 +982,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
           <div className="w-24 h-1 bg-gradient-to-r from-purple-400 to-pink-400 mx-auto mb-8"></div>
           <p
             data-eid="contact_description"
-            contentEditable={editable}
+            contentEditable={editable ? true : undefined}
             suppressContentEditableWarning
             className="text-xl text-slate-300 mb-12 max-w-2xl mx-auto"
           >
@@ -1006,7 +1006,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                 className="text-purple-300"
                 editable={editable}
                 onChange={handleTextChange}
-                as="p"
+                as="div"
               />
             </div>
 
@@ -1026,7 +1026,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                 className="text-purple-300"
                 editable={editable}
                 onChange={handleTextChange}
-                as="p"
+                as="div"
               />
             </div>
           </div>
@@ -1129,7 +1129,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
           className=""
           editable={editable}
           onChange={handleTextChange}
-          as="p"
+          as="div"
         />
       </footer>
     </div>

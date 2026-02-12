@@ -21,7 +21,8 @@ function getProjectDescription(data: any, template: string): string {
 
   for (const field of commonDescFields) {
     if (data[field]?.text) {
-      return data[field].text.substring(0, 160); // Limit to 160 chars for meta description
+      // Strip HTML tags and limit length
+      return data[field].text.replace(/<[^>]*>/g, '').trim().substring(0, 160);
     }
   }
 
@@ -37,7 +38,8 @@ function getProjectTitle(data: any, projectName: string): string {
 
   for (const field of commonTitleFields) {
     if (data[field]?.text) {
-      return data[field].text;
+      // Strip HTML tags
+      return data[field].text.replace(/<[^>]*>/g, '').trim();
     }
   }
 
@@ -180,24 +182,7 @@ export default async function SharePage({ params }: SharePageProps) {
       );
     }
 
-    const template = getTemplateById(project.template as TemplateId);
-    if (!template) {
-      return (
-        <div className="min-h-screen bg-slate-900 flex items-center justify-center">
-          <div className="text-center">
-            <h1 className="text-3xl font-bold text-white mb-4">Template Not Found</h1>
-            <Link
-              href="/"
-              className="inline-block px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-colors"
-            >
-              Go to Homepage
-            </Link>
-          </div>
-        </div>
-      );
-    }
-
-    return <SharePageClient project={project} template={template} />;
+    return <SharePageClient project={project} templateId={project.template} />;
   } catch {
     // Error loading project
     return (

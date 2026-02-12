@@ -201,10 +201,17 @@ export const TiptapEditableText: React.FC<TiptapEditableTextProps> = ({
 
 
     if (!editable) {
+        // Sanitize defaultText to remove contenteditable attributes if data is polluted
+        const sanitizedText = defaultText ? defaultText.replace(/contenteditable="(true|false)"/gi, '') : '';
+
         return (
-            <ElementType data-eid={eid} className={className} style={style}>
-                {defaultText}
-            </ElementType>
+            <ElementType
+                data-eid={eid}
+                className={className}
+                style={style}
+                dangerouslySetInnerHTML={{ __html: sanitizedText }}
+                suppressHydrationWarning
+            />
         );
     }
 

@@ -2,13 +2,15 @@
 
 import { useEffect } from 'react';
 import { trackPageView, trackButtonClick } from '@/lib/services/analytics-service';
+import { getTemplateById, type TemplateId } from '@/lib/templates';
 
 interface SharePageClientProps {
   project: any;
-  template: any;
+  templateId: string;
 }
 
-export default function SharePageClient({ project, template }: SharePageClientProps) {
+export default function SharePageClient({ project, templateId }: SharePageClientProps) {
+  // Client component for shared page rendering
   useEffect(() => {
     // Track page view
     const trackView = async () => {
@@ -40,6 +42,19 @@ export default function SharePageClient({ project, template }: SharePageClientPr
     document.addEventListener('click', handleClick);
     return () => document.removeEventListener('click', handleClick);
   }, [project.id]);
+
+  // Resolve the template on the client side using the templateId string
+  const template = getTemplateById(templateId as TemplateId);
+
+  if (!template) {
+    return (
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-white mb-4">Template Not Found</h1>
+        </div>
+      </div>
+    );
+  }
 
   const TemplateComponent = template.component;
 
