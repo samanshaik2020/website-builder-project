@@ -1,0 +1,58 @@
+export const energyRevolutionConfig = {
+    id: 'energy-revolution',
+    name: 'Energy Revolution',
+    category: 'Landing Page',
+    description: 'A bold, technical landing page for DIY energy independence systems with purple accent theming',
+    thumbnail: '/Energy Revolution.png',
+    editableFields: [
+        // Trust Bar
+        { id: 'trust_1', type: 'text', label: 'Trust Item 1', section: 'Trust Bar' },
+        { id: 'trust_2', type: 'text', label: 'Trust Item 2', section: 'Trust Bar' },
+        { id: 'trust_3', type: 'text', label: 'Trust Item 3', section: 'Trust Bar' },
+        { id: 'trust_4', type: 'text', label: 'Trust Item 4', section: 'Trust Bar' },
+        // Hero
+        { id: 'hero_badge', type: 'text', label: 'Hero Badge', section: 'Hero' },
+        { id: 'hero_headline', type: 'text', label: 'Hero Headline', section: 'Hero' },
+        { id: 'hero_subheadline', type: 'text', label: 'Hero Sub-headline', section: 'Hero' },
+        { id: 'hero_description', type: 'text', label: 'Hero Description', section: 'Hero' },
+        { id: 'hero_cta_primary', type: 'button', label: 'Primary CTA', section: 'Hero' },
+        { id: 'hero_cta_secondary', type: 'button', label: 'Secondary CTA', section: 'Hero' },
+        { id: 'hero_stat_1', type: 'text', label: 'Hero Stat 1', section: 'Hero' },
+        { id: 'hero_stat_2', type: 'text', label: 'Hero Stat 2', section: 'Hero' },
+        { id: 'hero_stat_3', type: 'text', label: 'Hero Stat 3', section: 'Hero' },
+        // Solution Section
+        { id: 'solution_1_title', type: 'text', label: 'Solution 1 Title', section: 'Solution' },
+        { id: 'solution_1_description', type: 'text', label: 'Solution 1 Description', section: 'Solution' },
+        { id: 'solution_1_check_1', type: 'text', label: 'Solution 1 Check 1', section: 'Solution' },
+        { id: 'solution_1_check_2', type: 'text', label: 'Solution 1 Check 2', section: 'Solution' },
+        { id: 'solution_2_title', type: 'text', label: 'Solution 2 Title', section: 'Solution' },
+        { id: 'solution_2_description', type: 'text', label: 'Solution 2 Description', section: 'Solution' },
+        { id: 'solution_2_check_1', type: 'text', label: 'Solution 2 Check 1', section: 'Solution' },
+        { id: 'solution_2_check_2', type: 'text', label: 'Solution 2 Check 2', section: 'Solution' },
+        { id: 'solution_3_title', type: 'text', label: 'Solution 3 Title', section: 'Solution' },
+        { id: 'solution_3_description', type: 'text', label: 'Solution 3 Description', section: 'Solution' },
+        { id: 'solution_3_check_1', type: 'text', label: 'Solution 3 Check 1', section: 'Solution' },
+        { id: 'solution_3_check_2', type: 'text', label: 'Solution 3 Check 2', section: 'Solution' },
+        // Social Proof
+        { id: 'social_heading', type: 'text', label: 'Social Proof Heading', section: 'Social Proof' },
+        { id: 'social_subheading', type: 'text', label: 'Social Proof Subheading', section: 'Social Proof' },
+        { id: 'testimonial_1_text', type: 'text', label: 'Testimonial 1', section: 'Social Proof' },
+        { id: 'testimonial_1_name', type: 'text', label: 'Testimonial 1 Name', section: 'Social Proof' },
+        { id: 'testimonial_1_location', type: 'text', label: 'Testimonial 1 Location', section: 'Social Proof' },
+        { id: 'testimonial_2_text', type: 'text', label: 'Testimonial 2', section: 'Social Proof' },
+        { id: 'testimonial_2_name', type: 'text', label: 'Testimonial 2 Name', section: 'Social Proof' },
+        { id: 'testimonial_2_location', type: 'text', label: 'Testimonial 2 Location', section: 'Social Proof' },
+        { id: 'testimonial_3_text', type: 'text', label: 'Testimonial 3', section: 'Social Proof' },
+        { id: 'testimonial_3_name', type: 'text', label: 'Testimonial 3 Name', section: 'Social Proof' },
+        { id: 'testimonial_3_location', type: 'text', label: 'Testimonial 3 Location', section: 'Social Proof' },
+        // Footer CTA
+        { id: 'footer_cta_heading', type: 'text', label: 'Footer CTA Heading', section: 'Footer' },
+        { id: 'footer_cta_description', type: 'text', label: 'Footer CTA Description', section: 'Footer' },
+        { id: 'footer_cta_button', type: 'button', label: 'Footer CTA Button', section: 'Footer' },
+        { id: 'footer_brand', type: 'text', label: 'Footer Brand Name', section: 'Footer' },
+        { id: 'footer_description', type: 'text', label: 'Footer Description', section: 'Footer' },
+        { id: 'footer_copyright', type: 'text', label: 'Footer Copyright', section: 'Footer' },
+    ],
+} as const;
+
+export type EnergyRevolutionConfig = typeof energyRevolutionConfig;

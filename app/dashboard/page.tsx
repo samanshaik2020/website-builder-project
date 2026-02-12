@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, MouseEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   Box,
@@ -25,7 +25,6 @@ import {
   Edit as EditIcon,
   Visibility as VisibilityIcon,
   Share as ShareIcon,
-  Download as DownloadIcon,
   Delete as DeleteIcon,
   MoreVert as MoreVertIcon,
   ContentCopy as ContentCopyIcon,
@@ -41,8 +40,6 @@ import {
   CreditCard as CreditCardIcon,
 } from '@mui/icons-material';
 import { getAllTemplates } from '@/lib/templates';
-import { exportToHTML, downloadHTML } from '@/lib/export-html';
-import type { TemplateId } from '@/lib/templates';
 import { getCurrentUser, signOut as authSignOut } from '@/lib/services/auth-service';
 import { getUserProjects, deleteProject as deleteProjectService, updateProject, isCustomUrlAvailable } from '@/lib/services/project-service';
 
@@ -194,19 +191,6 @@ export default function DashboardPage() {
     }
   };
 
-  const handleExport = (projectId: string) => {
-    const project = projects.find(p => p.id === projectId);
-    if (project) {
-      const html = exportToHTML({
-        template: project.template as TemplateId,
-        data: project.data,
-        projectName: project.name,
-      });
-      downloadHTML(html, project.name);
-    }
-    handleMenuClose();
-  };
-
   const copyToClipboard = () => {
     navigator.clipboard.writeText(shareableLink);
   };
@@ -356,7 +340,7 @@ export default function DashboardPage() {
   const monthlyStats = getMonthlyStats();
 
 
-  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>, projectId: string) => {
+  const handleMenuOpen = (event: MouseEvent<HTMLElement>, projectId: string) => {
     setAnchorEl(event.currentTarget);
     setSelectedProject(projectId);
   };
@@ -366,7 +350,7 @@ export default function DashboardPage() {
     setSelectedProject(null);
   };
 
-  const handleUserMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+  const handleUserMenuOpen = (event: MouseEvent<HTMLElement>) => {
     setUserMenuAnchor(event.currentTarget);
   };
 
@@ -686,10 +670,6 @@ export default function DashboardPage() {
         <MenuItem onClick={() => selectedProject && handleShare(selectedProject)}>
           <ShareIcon sx={{ mr: 2, fontSize: 20 }} />
           Share
-        </MenuItem>
-        <MenuItem onClick={() => selectedProject && handleExport(selectedProject)}>
-          <DownloadIcon sx={{ mr: 2, fontSize: 20 }} />
-          Export HTML
         </MenuItem>
         <Divider />
         <MenuItem

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { getTemplateById, type TemplateId } from '@/lib/templates';
 import { getProject } from '@/lib/services/project-service';
@@ -18,7 +18,7 @@ export default function PreviewPage() {
       if (projectId) {
         try {
           const foundProject = await getProject(projectId);
-          
+
           if (foundProject) {
             setProject(foundProject);
           }
@@ -29,7 +29,7 @@ export default function PreviewPage() {
         }
       }
     };
-    
+
     loadProject();
   }, [projectId]);
 

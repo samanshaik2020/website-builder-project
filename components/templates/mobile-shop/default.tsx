@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+
 import { SlateEditableText } from '@/components/editor/slate-editable-text';
 import { EditableButton } from '@/components/editor/editable-button';
 import { EditableImage } from '@/components/editor/editable-image';
@@ -11,11 +11,11 @@ interface MobileShopTemplateProps {
   onContentChange?: (elementId: string, value: any) => void;
 }
 
-const MobileShopTemplate: React.FC<MobileShopTemplateProps> = ({
+function MobileShopTemplate({
   editable = false,
   data = {},
   onContentChange,
-}) => {
+}: MobileShopTemplateProps) {
   const getText = (id: string, defaultValue: string) => {
     return data[id]?.text || defaultValue;
   };

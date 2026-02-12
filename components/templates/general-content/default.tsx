@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+
 import { EditableImage } from '@/components/editor/editable-image';
 import { EditableButton } from '@/components/editor/editable-button';
 

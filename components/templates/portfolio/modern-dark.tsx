@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { EditableImage } from '@/components/editor/editable-image';
 import { EditableButton } from '@/components/editor/editable-button';
+import { TiptapEditableText } from '@/components/editor/tiptap-editable-text';
 import { BaseTemplateProps } from '@/types/template';
 
 interface PortfolioProps extends BaseTemplateProps {
@@ -14,7 +15,7 @@ export default function PortfolioModernDark({ editable = false, data = {}, onCon
 
   useEffect(() => {
     const handleScroll = () => {
-      
+
       const sections = ['home', 'about', 'projects', 'skills', 'contact'];
       const current = sections.find(section => {
         const element = document.getElementById(section);
@@ -64,23 +65,21 @@ export default function PortfolioModernDark({ editable = false, data = {}, onCon
       <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-900/80 backdrop-blur-xl border-b border-slate-800">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div
-              data-eid="nav_logo"
-              contentEditable={editable}
-              suppressContentEditableWarning
-              onBlur={(e) => handleTextChange('nav_logo', e.currentTarget.textContent || '')}
+            <TiptapEditableText
+              eid="nav_logo"
+              defaultText={getText('nav_logo', 'JD')}
               className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent"
-            >
-              {getText('nav_logo', 'JD')}
-            </div>
+              editable={editable}
+              onChange={handleTextChange}
+              as="div"
+            />
             <div className="hidden md:flex gap-8">
               {['Home', 'About', 'Projects', 'Skills', 'Contact'].map((item) => (
                 <a
                   key={item}
                   href={`#${item.toLowerCase()}`}
-                  className={`text-sm font-medium transition-colors hover:text-cyan-400 ${
-                    activeSection === item.toLowerCase() ? 'text-cyan-400' : 'text-slate-300'
-                  }`}
+                  className={`text-sm font-medium transition-colors hover:text-cyan-400 ${activeSection === item.toLowerCase() ? 'text-cyan-400' : 'text-slate-300'
+                    }`}
                 >
                   {item}
                 </a>
@@ -95,42 +94,38 @@ export default function PortfolioModernDark({ editable = false, data = {}, onCon
         <div className="container mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
-              <div
-                data-eid="hero_greeting"
-                contentEditable={editable}
-                suppressContentEditableWarning
-                onBlur={(e) => handleTextChange('hero_greeting', e.currentTarget.textContent || '')}
+              <TiptapEditableText
+                eid="hero_greeting"
+                defaultText={getText('hero_greeting', 'Hi, my name is')}
                 className="text-cyan-400 text-lg font-medium"
-              >
-                {getText('hero_greeting', 'Hi, my name is')}
-              </div>
-              <h1
-                data-eid="hero_name"
-                contentEditable={editable}
-                suppressContentEditableWarning
-                onBlur={(e) => handleTextChange('hero_name', e.currentTarget.textContent || '')}
+                editable={editable}
+                onChange={handleTextChange}
+                as="div"
+              />
+              <TiptapEditableText
+                eid="hero_name"
+                defaultText={getText('hero_name', 'John Doe')}
                 className="text-6xl md:text-7xl font-bold"
-              >
-                {getText('hero_name', 'John Doe')}
-              </h1>
-              <h2
-                data-eid="hero_title"
-                contentEditable={editable}
-                suppressContentEditableWarning
-                onBlur={(e) => handleTextChange('hero_title', e.currentTarget.textContent || '')}
+                editable={editable}
+                onChange={handleTextChange}
+                as="h1"
+              />
+              <TiptapEditableText
+                eid="hero_title"
+                defaultText={getText('hero_title', 'Full Stack Developer')}
                 className="text-4xl md:text-5xl font-bold text-slate-400"
-              >
-                {getText('hero_title', 'Full Stack Developer')}
-              </h2>
-              <p
-                data-eid="hero_description"
-                contentEditable={editable}
-                suppressContentEditableWarning
-                onBlur={(e) => handleTextChange('hero_description', e.currentTarget.textContent || '')}
+                editable={editable}
+                onChange={handleTextChange}
+                as="h2"
+              />
+              <TiptapEditableText
+                eid="hero_description"
+                defaultText={getText('hero_description', 'I build exceptional digital experiences that live on the web. Specialized in creating responsive, user-friendly applications with modern technologies.')}
                 className="text-lg text-slate-400 max-w-xl"
-              >
-                {getText('hero_description', 'I build exceptional digital experiences that live on the web. Specialized in creating responsive, user-friendly applications with modern technologies.')}
-              </p>
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
               <div className="flex gap-4">
                 <EditableButton
                   eid="hero_cta_primary"
@@ -168,26 +163,24 @@ export default function PortfolioModernDark({ editable = false, data = {}, onCon
       {/* About Section */}
       <section id="about" className="py-24 px-6">
         <div className="container mx-auto max-w-6xl">
-          <h2
-            data-eid="about_title"
-            contentEditable={editable}
-            suppressContentEditableWarning
-            onBlur={(e) => handleTextChange('about_title', e.currentTarget.textContent || '')}
+          <TiptapEditableText
+            eid="about_title"
+            defaultText={getText('about_title', 'About Me')}
             className="text-4xl md:text-5xl font-bold mb-12 text-center"
-          >
-            {getText('about_title', 'About Me')}
-          </h2>
+            editable={editable}
+            onChange={handleTextChange}
+            as="h2"
+          />
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
-              <p
-                data-eid="about_description"
-                contentEditable={editable}
-                suppressContentEditableWarning
-                onBlur={(e) => handleTextChange('about_description', e.currentTarget.textContent || '')}
+              <TiptapEditableText
+                eid="about_description"
+                defaultText={getText('about_description', 'Hello! I\'m John, a passionate full-stack developer based in San Francisco. I enjoy creating things that live on the internet, whether that be websites, applications, or anything in between. My focus is on building accessible, inclusive products and digital experiences for a variety of clients.')}
                 className="text-slate-300 text-lg leading-relaxed"
-              >
-                {getText('about_description', 'Hello! I\'m John, a passionate full-stack developer based in San Francisco. I enjoy creating things that live on the internet, whether that be websites, applications, or anything in between. My focus is on building accessible, inclusive products and digital experiences for a variety of clients.')}
-              </p>
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
             </div>
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl blur-2xl opacity-20"></div>
@@ -207,15 +200,14 @@ export default function PortfolioModernDark({ editable = false, data = {}, onCon
       {/* Projects Section */}
       <section id="projects" className="py-24 px-6 bg-slate-900/50">
         <div className="container mx-auto max-w-6xl">
-          <h2
-            data-eid="projects_title"
-            contentEditable={editable}
-            suppressContentEditableWarning
-            onBlur={(e) => handleTextChange('projects_title', e.currentTarget.textContent || '')}
+          <TiptapEditableText
+            eid="projects_title"
+            defaultText={getText('projects_title', 'Featured Projects')}
             className="text-4xl md:text-5xl font-bold mb-12 text-center"
-          >
-            {getText('projects_title', 'Featured Projects')}
-          </h2>
+            editable={editable}
+            onChange={handleTextChange}
+            as="h2"
+          />
           <div className="grid md:grid-cols-2 gap-8">
             {[1, 2, 3, 4].map((num) => (
               <div key={num} className="group relative bg-slate-800/50 rounded-2xl overflow-hidden border border-slate-700 hover:border-cyan-500 transition-all">
@@ -228,24 +220,22 @@ export default function PortfolioModernDark({ editable = false, data = {}, onCon
                   onChange={handleImageChange}
                 />
                 <div className="p-6 space-y-4">
-                  <h3
-                    data-eid={`project${num}_title`}
-                    contentEditable={editable}
-                    suppressContentEditableWarning
-                    onBlur={(e) => handleTextChange(`project${num}_title`, e.currentTarget.textContent || '')}
+                  <TiptapEditableText
+                    eid={`project${num}_title`}
+                    defaultText={getText(`project${num}_title`, `Project ${num}`)}
                     className="text-2xl font-bold"
-                  >
-                    {getText(`project${num}_title`, `Project ${num}`)}
-                  </h3>
-                  <p
-                    data-eid={`project${num}_description`}
-                    contentEditable={editable}
-                    suppressContentEditableWarning
-                    onBlur={(e) => handleTextChange(`project${num}_description`, e.currentTarget.textContent || '')}
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="h3"
+                  />
+                  <TiptapEditableText
+                    eid={`project${num}_description`}
+                    defaultText={getText(`project${num}_description`, 'A full-stack project with modern technologies.')}
                     className="text-slate-400"
-                  >
-                    {getText(`project${num}_description`, 'A full-stack project with modern technologies.')}
-                  </p>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="p"
+                  />
                 </div>
               </div>
             ))}
@@ -256,36 +246,33 @@ export default function PortfolioModernDark({ editable = false, data = {}, onCon
       {/* Skills Section */}
       <section id="skills" className="py-24 px-6">
         <div className="container mx-auto max-w-6xl">
-          <h2
-            data-eid="skills_title"
-            contentEditable={editable}
-            suppressContentEditableWarning
-            onBlur={(e) => handleTextChange('skills_title', e.currentTarget.textContent || '')}
+          <TiptapEditableText
+            eid="skills_title"
+            defaultText={getText('skills_title', 'Skills & Technologies')}
             className="text-4xl md:text-5xl font-bold mb-12 text-center"
-          >
-            {getText('skills_title', 'Skills & Technologies')}
-          </h2>
+            editable={editable}
+            onChange={handleTextChange}
+            as="h2"
+          />
           <div className="grid md:grid-cols-3 gap-8">
             {[1, 2, 3].map((num) => (
               <div key={num} className="bg-slate-800/50 rounded-2xl p-8 border border-slate-700">
-                <h3
-                  data-eid={`skill${num}_title`}
-                  contentEditable={editable}
-                  suppressContentEditableWarning
-                  onBlur={(e) => handleTextChange(`skill${num}_title`, e.currentTarget.textContent || '')}
+                <TiptapEditableText
+                  eid={`skill${num}_title`}
+                  defaultText={getText(`skill${num}_title`, `Skill ${num}`)}
                   className="text-2xl font-bold mb-4"
-                >
-                  {getText(`skill${num}_title`, `Skill ${num}`)}
-                </h3>
-                <p
-                  data-eid={`skill${num}_description`}
-                  contentEditable={editable}
-                  suppressContentEditableWarning
-                  onBlur={(e) => handleTextChange(`skill${num}_description`, e.currentTarget.textContent || '')}
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="h3"
+                />
+                <TiptapEditableText
+                  eid={`skill${num}_description`}
+                  defaultText={getText(`skill${num}_description`, 'Technologies and tools')}
                   className="text-slate-400"
-                >
-                  {getText(`skill${num}_description`, 'Technologies and tools')}
-                </p>
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="p"
+                />
               </div>
             ))}
           </div>
@@ -295,24 +282,22 @@ export default function PortfolioModernDark({ editable = false, data = {}, onCon
       {/* Contact Section */}
       <section id="contact" className="py-24 px-6 bg-slate-900/50">
         <div className="container mx-auto max-w-2xl text-center">
-          <h2
-            data-eid="contact_title"
-            contentEditable={editable}
-            suppressContentEditableWarning
-            onBlur={(e) => handleTextChange('contact_title', e.currentTarget.textContent || '')}
+          <TiptapEditableText
+            eid="contact_title"
+            defaultText={getText('contact_title', 'Get In Touch')}
             className="text-4xl md:text-5xl font-bold mb-6"
-          >
-            {getText('contact_title', 'Get In Touch')}
-          </h2>
-          <p
-            data-eid="contact_description"
-            contentEditable={editable}
-            suppressContentEditableWarning
-            onBlur={(e) => handleTextChange('contact_description', e.currentTarget.textContent || '')}
+            editable={editable}
+            onChange={handleTextChange}
+            as="h2"
+          />
+          <TiptapEditableText
+            eid="contact_description"
+            defaultText={getText('contact_description', 'I\'m currently looking for new opportunities. Whether you have a question or just want to say hi, I\'ll try my best to get back to you!')}
             className="text-slate-400 text-lg mb-8"
-          >
-            {getText('contact_description', 'I\'m currently looking for new opportunities. Whether you have a question or just want to say hi, I\'ll try my best to get back to you!')}
-          </p>
+            editable={editable}
+            onChange={handleTextChange}
+            as="p"
+          />
           <EditableButton
             eid="contact_cta"
             defaultText={getButton('contact_cta', 'Say Hello', 'mailto:hello@example.com').text}
@@ -327,15 +312,14 @@ export default function PortfolioModernDark({ editable = false, data = {}, onCon
       {/* Footer */}
       <footer className="py-12 px-6 border-t border-slate-800">
         <div className="container mx-auto text-center">
-          <p
-            data-eid="footer_text"
-            contentEditable={editable}
-            suppressContentEditableWarning
-            onBlur={(e) => handleTextChange('footer_text', e.currentTarget.textContent || '')}
+          <TiptapEditableText
+            eid="footer_text"
+            defaultText={getText('footer_text', '© 2025 John Doe. All rights reserved.')}
             className="text-slate-400"
-          >
-            {getText('footer_text', '© 2025 John Doe. All rights reserved.')}
-          </p>
+            editable={editable}
+            onChange={handleTextChange}
+            as="p"
+          />
         </div>
       </footer>
     </div>

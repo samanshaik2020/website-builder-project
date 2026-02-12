@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { EditableImage } from '@/components/editor/editable-image';
 import { EditableButton } from '@/components/editor/editable-button';
 import { BaseTemplateProps } from '@/types/template';
@@ -185,8 +185,8 @@ export default function GlassmorphismProductTemplate({
                         key={index}
                         onClick={() => setCurrentSlide(index)}
                         className={`size-2.5 rounded-full transition-all ${index === currentSlide
-                            ? 'bg-[#3670e2] scale-110'
-                            : 'bg-white/50 hover:bg-white/70'
+                          ? 'bg-[#3670e2] scale-110'
+                          : 'bg-white/50 hover:bg-white/70'
                           }`}
                         aria-label={`Go to slide ${index + 1}`}
                       />
@@ -203,8 +203,8 @@ export default function GlassmorphismProductTemplate({
                       key={img.eid}
                       onClick={() => !editable && setCurrentSlide(index)}
                       className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden cursor-pointer transition-all hover:-translate-y-1 hover:shadow-lg ${index === currentSlide
-                          ? 'ring-2 ring-[#3670e2] ring-offset-2 ring-offset-white/50 shadow-md opacity-100'
-                          : 'opacity-60 hover:opacity-100'
+                        ? 'ring-2 ring-[#3670e2] ring-offset-2 ring-offset-white/50 shadow-md opacity-100'
+                        : 'opacity-60 hover:opacity-100'
                         }`}
                     >
                       <EditableImage

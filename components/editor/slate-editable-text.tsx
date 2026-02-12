@@ -1,10 +1,9 @@
 'use client';
 
-import React, { useCallback, useMemo, useState } from 'react';
-import { createEditor, Descendant, Editor, Range } from 'slate';
+import { useCallback, useMemo } from 'react';
+import { createEditor, Descendant, Editor } from 'slate';
 import { Slate, Editable, withReact, RenderLeafProps, RenderElementProps } from 'slate-react';
 import { withHistory } from 'slate-history';
-import { FloatingToolbar } from './floating-toolbar';
 
 interface SlateEditableTextProps {
   eid: string;
@@ -48,7 +47,7 @@ const Leaf = ({ attributes, children, leaf }: RenderLeafProps) => {
 
 const Element = ({ attributes, children, element }: RenderElementProps) => {
   const style: React.CSSProperties = {};
-  
+
   if (element.align) {
     style.textAlign = element.align as 'left' | 'center' | 'right' | 'justify';
   }
@@ -68,8 +67,7 @@ export const SlateEditableText: React.FC<SlateEditableTextProps> = ({
   editable = false,
   onChange,
 }) => {
-  const [showToolbar, setShowToolbar] = useState(false);
-  
+
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
 
   const initialValue: Descendant[] = useMemo(
@@ -100,19 +98,12 @@ export const SlateEditableText: React.FC<SlateEditableTextProps> = ({
           return '';
         })
         .join('\n');
-      
+
       onChange(eid, text);
     }
   };
 
-  const handleSelectionChange = () => {
-    const { selection } = editor;
-    if (selection && Range.isExpanded(selection)) {
-      setShowToolbar(true);
-    } else {
-      setShowToolbar(false);
-    }
-  };
+
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (!event.ctrlKey && !event.metaKey) {
@@ -164,13 +155,10 @@ export const SlateEditableText: React.FC<SlateEditableTextProps> = ({
   return (
     <div data-eid={eid} className={className} style={style}>
       <Slate editor={editor} initialValue={initialValue} onChange={handleChange}>
-        <FloatingToolbar visible={showToolbar} />
         <Editable
           renderLeaf={renderLeaf}
           renderElement={renderElement}
           onKeyDown={handleKeyDown}
-          onSelect={handleSelectionChange}
-          onBlur={() => setShowToolbar(false)}
           placeholder="Enter text..."
           className="outline-none focus:outline-none"
         />

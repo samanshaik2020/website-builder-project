@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { trackPageView, trackButtonClick } from '@/lib/services/analytics-service';
 
 interface SharePageClientProps {
@@ -17,7 +17,7 @@ export default function SharePageClient({ project, template }: SharePageClientPr
         referrer: document.referrer,
       });
     };
-    
+
     trackView();
   }, [project.id]);
 
@@ -26,11 +26,11 @@ export default function SharePageClient({ project, template }: SharePageClientPr
     const handleClick = async (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const button = target.closest('button') || target.closest('a');
-      
+
       // Track clicks on buttons and links
       if (button) {
         const buttonId = button.getAttribute('data-eid') || undefined;
-        
+
         await trackButtonClick(project.id, buttonId, {
           userAgent: navigator.userAgent,
         });

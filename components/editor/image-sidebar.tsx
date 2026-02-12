@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { X, Upload, Link as LinkIcon, Image as ImageIcon } from 'lucide-react';
 
 interface ImageSidebarProps {
@@ -81,22 +81,20 @@ export const ImageSidebar: React.FC<ImageSidebarProps> = ({
           <div className="flex gap-2 mb-6">
             <button
               onClick={() => setActiveTab('url')}
-              className={`flex-1 px-4 py-3 rounded-lg font-medium transition-colors ${
-                activeTab === 'url'
+              className={`flex-1 px-4 py-3 rounded-lg font-medium transition-colors ${activeTab === 'url'
                   ? 'bg-purple-600 text-white'
                   : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
-              }`}
+                }`}
             >
               <LinkIcon size={18} className="inline mr-2" />
               URL
             </button>
             <button
               onClick={() => setActiveTab('upload')}
-              className={`flex-1 px-4 py-3 rounded-lg font-medium transition-colors ${
-                activeTab === 'upload'
+              className={`flex-1 px-4 py-3 rounded-lg font-medium transition-colors ${activeTab === 'upload'
                   ? 'bg-purple-600 text-white'
                   : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
-              }`}
+                }`}
             >
               <Upload size={18} className="inline mr-2" />
               Upload

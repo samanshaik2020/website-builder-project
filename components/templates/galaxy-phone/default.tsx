@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { EditableImage } from '@/components/editor/editable-image';
 import { EditableButton } from '@/components/editor/editable-button';
 import { BaseTemplateProps } from '@/types/template';
@@ -180,8 +180,8 @@ export default function GalaxyPhoneTemplate({
                         key={index}
                         onClick={() => setCurrentSlide(index)}
                         className={`size-2.5 rounded-full transition-all ${index === currentSlide
-                            ? 'bg-white scale-110'
-                            : 'bg-white/50 hover:bg-white/70'
+                          ? 'bg-white scale-110'
+                          : 'bg-white/50 hover:bg-white/70'
                           }`}
                         aria-label={`Go to slide ${index + 1}`}
                       />
@@ -197,8 +197,8 @@ export default function GalaxyPhoneTemplate({
                     key={img.eid}
                     onClick={() => setCurrentSlide(index)}
                     className={`flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full px-4 transition-all ${index === currentSlide
-                        ? 'bg-[#2b8cee]/20 text-[#2b8cee] border-2 border-[#2b8cee]'
-                        : 'bg-slate-200 text-slate-800 hover:bg-slate-300'
+                      ? 'bg-[#2b8cee]/20 text-[#2b8cee] border-2 border-[#2b8cee]'
+                      : 'bg-slate-200 text-slate-800 hover:bg-slate-300'
                       }`}
                   >
                     <p className="text-sm font-medium leading-normal">{img.label}</p>

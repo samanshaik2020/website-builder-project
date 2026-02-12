@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { BaseTemplateProps } from '@/types/template';
 import { EditableButton } from '@/components/editor/editable-button';
 import { EditableImage } from '@/components/editor/editable-image';

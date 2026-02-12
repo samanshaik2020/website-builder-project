@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+
 import { SlateEditableText } from '@/components/editor/slate-editable-text';
 import { EditableButton } from '@/components/editor/editable-button';
 

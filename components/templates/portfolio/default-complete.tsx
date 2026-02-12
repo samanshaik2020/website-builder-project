@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { EditableImage } from '@/components/editor/editable-image';
 import { EditableButton } from '@/components/editor/editable-button';
 import { BaseTemplateProps } from '@/types/template';
@@ -16,7 +16,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
-      
+
       const sections = ['home', 'about', 'projects', 'resume', 'testimonials', 'contact'];
       const current = sections.find(section => {
         const element = document.getElementById(section);
@@ -67,7 +67,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrollY > 50 ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-transparent'}`}>
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <h1 
+            <h1
               data-eid="nav_logo"
               contentEditable={editable}
               suppressContentEditableWarning
@@ -80,9 +80,8 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                 <button
                   key={item}
                   onClick={() => scrollToSection(item.toLowerCase())}
-                  className={`text-sm font-medium transition-colors hover:text-purple-600 ${
-                    scrollY > 50 ? 'text-slate-700' : 'text-white'
-                  } ${activeSection === item.toLowerCase() ? 'text-purple-600' : ''}`}
+                  className={`text-sm font-medium transition-colors hover:text-purple-600 ${scrollY > 50 ? 'text-slate-700' : 'text-white'
+                    } ${activeSection === item.toLowerCase() ? 'text-purple-600' : ''}`}
                 >
                   {item}
                 </button>
@@ -102,7 +101,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center relative z-10">
           <div className="text-left space-y-6" style={{ transform: `translateY(${scrollY * 0.3}px)` }}>
             <div className="inline-block px-4 py-2 bg-purple-600/30 backdrop-blur-sm rounded-full border border-purple-400/30">
-              <span 
+              <span
                 data-eid="hero_badge"
                 contentEditable={editable}
                 suppressContentEditableWarning
@@ -115,7 +114,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
               data-eid="hero_name"
               contentEditable={editable}
               suppressContentEditableWarning
-              className="text-6xl md:text-7xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-200"
+              className="text-6xl md:text-7xl font-bold mb-4 text-white"
             >
               {getText('hero_name', 'John Doe')}
             </h1>
@@ -248,14 +247,13 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
             <h3 className="text-3xl font-bold text-slate-900 mb-10 text-center">Core Skills & Expertise</h3>
             <div className="grid md:grid-cols-3 gap-8">
               {[1, 2, 3, 4, 5, 6].map((num) => (
-                <div key={num} className={`p-8 bg-gradient-to-br rounded-2xl border hover:shadow-xl transition-all transform hover:-translate-y-2 ${
-                  num === 1 ? 'from-purple-50 to-pink-50 border-purple-100' :
+                <div key={num} className={`p-8 bg-gradient-to-br rounded-2xl border hover:shadow-xl transition-all transform hover:-translate-y-2 ${num === 1 ? 'from-purple-50 to-pink-50 border-purple-100' :
                   num === 2 ? 'from-blue-50 to-cyan-50 border-blue-100' :
-                  num === 3 ? 'from-green-50 to-emerald-50 border-green-100' :
-                  num === 4 ? 'from-orange-50 to-red-50 border-orange-100' :
-                  num === 5 ? 'from-yellow-50 to-amber-50 border-yellow-100' :
-                  'from-indigo-50 to-purple-50 border-indigo-100'
-                }`}>
+                    num === 3 ? 'from-green-50 to-emerald-50 border-green-100' :
+                      num === 4 ? 'from-orange-50 to-red-50 border-orange-100' :
+                        num === 5 ? 'from-yellow-50 to-amber-50 border-yellow-100' :
+                          'from-indigo-50 to-purple-50 border-indigo-100'
+                  }`}>
                   <div className="text-4xl mb-4">
                     {num === 1 ? '⚡' : num === 2 ? '🚀' : num === 3 ? '🎨' : num === 4 ? '☁️' : num === 5 ? '📱' : '🔧'}
                   </div>
@@ -265,13 +263,13 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                     suppressContentEditableWarning
                     className="text-xl font-bold text-slate-900 mb-3"
                   >
-                    {getText(`skill_${num}_title`, 
+                    {getText(`skill_${num}_title`,
                       num === 1 ? 'Frontend Development' :
-                      num === 2 ? 'Backend Development' :
-                      num === 3 ? 'UI/UX Design' :
-                      num === 4 ? 'Cloud & DevOps' :
-                      num === 5 ? 'Mobile Development' :
-                      'Testing & Quality'
+                        num === 2 ? 'Backend Development' :
+                          num === 3 ? 'UI/UX Design' :
+                            num === 4 ? 'Cloud & DevOps' :
+                              num === 5 ? 'Mobile Development' :
+                                'Testing & Quality'
                     )}
                   </h4>
                   <p
@@ -282,11 +280,11 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
                   >
                     {getText(`skill_${num}_description`,
                       num === 1 ? 'React, Next.js, TypeScript, Tailwind CSS, Vue.js' :
-                      num === 2 ? 'Node.js, Python, PostgreSQL, MongoDB, REST APIs' :
-                      num === 3 ? 'Figma, Adobe XD, Responsive Design, User Research' :
-                      num === 4 ? 'AWS, Docker, CI/CD, Git, Vercel, Netlify' :
-                      num === 5 ? 'React Native, Flutter, Progressive Web Apps' :
-                      'Jest, Cypress, Testing Library, Code Reviews'
+                        num === 2 ? 'Node.js, Python, PostgreSQL, MongoDB, REST APIs' :
+                          num === 3 ? 'Figma, Adobe XD, Responsive Design, User Research' :
+                            num === 4 ? 'AWS, Docker, CI/CD, Git, Vercel, Netlify' :
+                              num === 5 ? 'React Native, Flutter, Progressive Web Apps' :
+                                'Jest, Cypress, Testing Library, Code Reviews'
                     )}
                   </p>
                 </div>
@@ -519,7 +517,7 @@ export default function Portfolio({ editable = false, data = {}, onContentChange
           >
             {getText('resume_description', 'Download my complete resume to learn more about my experience, education, and professional achievements.')}
           </p>
-          
+
           <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-12 mb-8">
             <div className="flex flex-col md:flex-row items-center justify-between gap-8">
               <div className="flex items-center gap-6">

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { SlateEditableText } from '@/components/editor/slate-editable-text';
 import { EditableButton } from '@/components/editor/editable-button';
 import { EditableImage } from '@/components/editor/editable-image';

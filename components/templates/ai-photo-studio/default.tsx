@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+
 import { Camera } from 'lucide-react'
 import { EditableButton } from '@/components/editor/editable-button'
 import { EditableImage } from '@/components/editor/editable-image'

@@ -25,6 +25,7 @@ import { GalaxyPhoneTemplate, galaxyPhoneConfig } from '@/components/templates/g
 import { GlassmorphismProductTemplate, glassmorphismProductConfig } from '@/components/templates/glassmorphism-product';
 import { PhotoFolioTemplate, photofolioConfig } from '@/components/templates/photofolio';
 import { QuizNewTemplate, quizNewConfig } from '@/components/templates/quiz-new';
+import { EnergyRevolutionTemplate, energyRevolutionConfig } from '@/components/templates/energy-revolution';
 
 
 export const templates = {
@@ -143,6 +144,10 @@ export const templates = {
   'quiz-new': {
     component: QuizNewTemplate,
     config: quizNewConfig,
+  },
+  'energy-revolution': {
+    component: EnergyRevolutionTemplate,
+    config: energyRevolutionConfig,
   },
 
 } as const;

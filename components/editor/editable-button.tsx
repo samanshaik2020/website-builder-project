@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, FC, CSSProperties, MouseEvent, FormEvent, KeyboardEvent } from 'react';
 import { createPortal } from 'react-dom';
 import { Link2, X } from 'lucide-react';
 
@@ -9,12 +9,12 @@ interface EditableButtonProps {
   defaultText: string;
   defaultUrl?: string;
   className?: string;
-  style?: React.CSSProperties;
+  style?: CSSProperties;
   editable?: boolean;
   onChange?: ((eid: string, value: { button: { text: string; url: string } }) => void) | undefined;
 }
 
-export const EditableButton: React.FC<EditableButtonProps> = ({
+export const EditableButton: FC<EditableButtonProps> = ({
   eid,
   defaultText,
   defaultUrl = '#',
@@ -39,7 +39,7 @@ export const EditableButton: React.FC<EditableButtonProps> = ({
     setUrl(defaultUrl);
   }, [defaultText, defaultUrl]);
 
-  const handleClick = (e: React.MouseEvent) => {
+  const handleClick = (e: MouseEvent) => {
     if (editable) {
       e.preventDefault();
       e.stopPropagation();
@@ -47,7 +47,7 @@ export const EditableButton: React.FC<EditableButtonProps> = ({
     }
   };
 
-  const handleTextChange = (e: React.FormEvent<HTMLSpanElement>) => {
+  const handleTextChange = (e: FormEvent<HTMLSpanElement>) => {
     const newText = e.currentTarget.textContent || '';
     setText(newText);
     if (onChange) {
@@ -67,7 +67,7 @@ export const EditableButton: React.FC<EditableButtonProps> = ({
     setShowUrlInput(false);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       handleUrlSave();
@@ -85,14 +85,14 @@ export const EditableButton: React.FC<EditableButtonProps> = ({
   }, [showUrlInput]);
 
   if (!editable) {
-    const handleButtonClick = (e: React.MouseEvent) => {
+    const handleButtonClick = (e: MouseEvent) => {
       e.preventDefault();
-      
+
       // If URL is empty or just '#', do nothing
       if (!url || url === '#') {
         return;
       }
-      
+
       // Open ALL button URLs in new tab (including anchor links)
       // Get the current page URL for anchor links
       if (url.startsWith('#')) {
@@ -154,7 +154,7 @@ export const EditableButton: React.FC<EditableButtonProps> = ({
                 <X size={20} className="text-slate-600" />
               </button>
             </div>
-            
+
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-semibold text-slate-700 mb-2">

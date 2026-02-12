@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+
 import { EditableButton } from '@/components/editor/editable-button';
 import { EditableLink } from '@/components/editor/editable-link';
 import { BaseTemplateProps } from '@/types/template';

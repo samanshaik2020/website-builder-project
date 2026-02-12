@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, type FC } from 'react';
 import { EditableButton } from '@/components/editor/editable-button';
 import { EditableImage } from '@/components/editor/editable-image';
 
@@ -10,7 +10,7 @@ interface MegaDiscountTemplateProps {
   onContentChange?: (id: string, value: any) => void;
 }
 
-export const MegaDiscountTemplate: React.FC<MegaDiscountTemplateProps> = ({
+export const MegaDiscountTemplate: FC<MegaDiscountTemplateProps> = ({
   editable = false,
   data = {},
   onContentChange,

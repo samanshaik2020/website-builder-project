@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { ImageIcon, Edit } from 'lucide-react';
 import { ImageSidebar } from './image-sidebar';

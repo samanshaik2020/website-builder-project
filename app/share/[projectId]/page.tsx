@@ -1,4 +1,4 @@
-import React from 'react';
+
 import Link from 'next/link';
 import { Metadata } from 'next';
 import { getTemplateById, type TemplateId } from '@/lib/templates';
@@ -18,13 +18,13 @@ function getProjectDescription(data: any, template: string): string {
     'hero_description', 'hero_subtitle', 'description', 'subtitle',
     'tagline', 'hero_tagline', 'about_description'
   ];
-  
+
   for (const field of commonDescFields) {
     if (data[field]?.text) {
       return data[field].text.substring(0, 160); // Limit to 160 chars for meta description
     }
   }
-  
+
   return `Beautiful ${template} website created with Squpage`;
 }
 
@@ -34,13 +34,13 @@ function getProjectTitle(data: any, projectName: string): string {
     'hero_title', 'hero_headline', 'title', 'headline',
     'nav_brand', 'brand_name'
   ];
-  
+
   for (const field of commonTitleFields) {
     if (data[field]?.text) {
       return data[field].text;
     }
   }
-  
+
   return projectName;
 }
 
@@ -50,7 +50,7 @@ function getProjectImage(data: any): string | null {
     'hero_image', 'hero_app_preview', 'product_image', 'featured_image',
     'main_image', 'cover_image', 'profile_image', 'about_image'
   ];
-  
+
   // Try different data structures
   for (const field of commonImageFields) {
     // Check for {image: "url"} structure
@@ -62,7 +62,7 @@ function getProjectImage(data: any): string | null {
       return data[field];
     }
   }
-  
+
   // Check in images object if it exists
   if (data.images) {
     for (const field of commonImageFields) {
@@ -71,40 +71,40 @@ function getProjectImage(data: any): string | null {
       }
     }
   }
-  
+
   return null;
 }
 
 export async function generateMetadata({ params }: SharePageProps): Promise<Metadata> {
   const { projectId } = await params;
-  
+
   try {
     // Check if projectId is a UUID
     const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(projectId);
-    
+
     let project = null;
     if (isUUID) {
       project = await getProjectServer(projectId);
     } else {
       project = await getProjectByCustomUrlServer(projectId);
     }
-    
+
     if (!project) {
       return {
         title: 'Project Not Found | Squpage',
         description: 'This project may have been deleted or the link is invalid.',
       };
     }
-    
+
     const template = getTemplateById(project.template as TemplateId);
     const title = getProjectTitle(project.data, project.name);
     const description = getProjectDescription(project.data, template?.config?.name || 'website');
     const image = getProjectImage(project.data);
-    
+
     // Construct the full URL for the share page
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
     const shareUrl = `${baseUrl}/share/${projectId}`;
-    
+
     // Ensure image URL is absolute
     let imageUrl = image;
     if (image && !image.startsWith('http')) {
@@ -113,8 +113,8 @@ export async function generateMetadata({ params }: SharePageProps): Promise<Meta
     if (!imageUrl) {
       imageUrl = `${baseUrl}/og-default.png`;
     }
-    
-    
+
+
     return {
       title: `${title} | Squpage`,
       description,
@@ -151,18 +151,18 @@ export async function generateMetadata({ params }: SharePageProps): Promise<Meta
 
 export default async function SharePage({ params }: SharePageProps) {
   const { projectId } = await params;
-  
+
   try {
     // Check if projectId is a UUID
     const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(projectId);
-    
+
     let project = null;
     if (isUUID) {
       project = await getProjectServer(projectId);
     } else {
       project = await getProjectByCustomUrlServer(projectId);
     }
-    
+
     if (!project) {
       return (
         <div className="min-h-screen bg-slate-900 flex items-center justify-center">
@@ -179,7 +179,7 @@ export default async function SharePage({ params }: SharePageProps) {
         </div>
       );
     }
-    
+
     const template = getTemplateById(project.template as TemplateId);
     if (!template) {
       return (
@@ -196,7 +196,7 @@ export default async function SharePage({ params }: SharePageProps) {
         </div>
       );
     }
-    
+
     return <SharePageClient project={project} template={template} />;
   } catch {
     // Error loading project

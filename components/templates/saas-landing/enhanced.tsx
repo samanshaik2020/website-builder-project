@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+
 import { EditableButton } from '@/components/editor/editable-button';
 import { EditableLink } from '@/components/editor/editable-link';
 import { BaseTemplateProps } from '@/types/template';
@@ -40,7 +40,7 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
                 {getText('nav_logo', 'SaaSify')}
               </span>
             </div>
-            
+
             <div className="hidden md:flex items-center gap-8">
               <EditableLink href="#features" className="text-slate-600 hover:text-blue-600 transition-colors duration-300 font-medium relative group" editable={editable}>
                 Features
@@ -73,7 +73,7 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
         {/* Animated Background */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400/30 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-400/30 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-400/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
         </div>
 
         <div className="max-w-5xl mx-auto text-center relative z-10">
@@ -114,7 +114,7 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
               onChange={onContentChange}
             />
           </div>
-          
+
           <div className="mt-16 flex flex-wrap items-center justify-center gap-8 opacity-80">
             <div className="text-sm">✨ No credit card required</div>
             <div className="text-sm">🔒 Enterprise-grade security</div>
@@ -313,7 +313,7 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
           <div className="max-w-4xl mx-auto">
             <div className="relative bg-white rounded-3xl shadow-2xl p-8 md:p-12 border-2 border-purple-200 overflow-hidden group hover:border-purple-400 transition-all duration-300">
               <div className="absolute top-0 right-8 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-2 rounded-b-xl text-sm font-bold shadow-lg">MOST POPULAR</div>
-              
+
               <div className="text-center">
                 <h3
                   data-eid="pricing_plan_name"

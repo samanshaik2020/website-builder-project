@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   Box,
@@ -108,6 +108,8 @@ export default function TemplatesPage() {
         return '/PhotoFolio.png';
       case 'quiz-new':
         return '/quiz-new.png';
+      case 'energy-revolution':
+        return '/Energy Revolution.png';
       default:
         return null;
     }

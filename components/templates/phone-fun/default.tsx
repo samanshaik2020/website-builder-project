@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+
 import { SlateEditableText } from '@/components/editor/slate-editable-text';
 import { EditableImage } from '@/components/editor/editable-image';
 import { EditableButton } from '@/components/editor/editable-button';
@@ -162,14 +162,14 @@ export default function PhoneFunTemplate({
 
             {[1, 2, 3].map((i) => (
               <div key={i} className={`relative z-10 rounded-xl aspect-[3/4] shadow-xl border-4 ${i === 1 ? 'border-solid border-[#FF4136]/50 transform rotate-3 hover:rotate-0' :
-                  i === 2 ? 'border-dashed border-[#FFDC00]/50 transform -rotate-2 md:mt-16 hover:rotate-0' :
-                    'border-dotted border-[#0074D9]/50 transform rotate-4 md:mt-8 hover:rotate-0'
+                i === 2 ? 'border-dashed border-[#FFDC00]/50 transform -rotate-2 md:mt-16 hover:rotate-0' :
+                  'border-dotted border-[#0074D9]/50 transform rotate-4 md:mt-8 hover:rotate-0'
                 } hover:scale-105 transition-transform duration-300 overflow-hidden`}>
                 <EditableImage
                   eid={`gallery_image${i}`}
                   defaultSrc={getImage(`gallery_image${i}`, `https://images.unsplash.com/photo-${i === 1 ? '1511707171634-5f897ff02aa9' :
-                      i === 2 ? '1490730141103-6cac27aaab94' :
-                        '1519389950473-47ba0277781c'
+                    i === 2 ? '1490730141103-6cac27aaab94' :
+                      '1519389950473-47ba0277781c'
                     }?w=400`)}
                   alt={`Gallery ${i}`}
                   className="w-full h-full object-cover"
@@ -184,8 +184,8 @@ export default function PhoneFunTemplate({
                         'Night mode magic!'
                   )}
                   className={`absolute ${i === 1 ? '-bottom-4 left-1/2 -translate-x-1/2 bg-[#FF4136] -rotate-6' :
-                      i === 2 ? '-top-4 right-4 bg-[#2ECC40] rotate-3' :
-                        '-bottom-4 right-1/2 translate-x-1/2 bg-[#0074D9] rotate-2'
+                    i === 2 ? '-top-4 right-4 bg-[#2ECC40] rotate-3' :
+                      '-bottom-4 right-1/2 translate-x-1/2 bg-[#0074D9] rotate-2'
                     } text-white text-sm px-3 py-1 rounded-full shadow-md`}
                   editable={editable}
                   onChange={handleSlateTextChange}

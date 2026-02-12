@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+
 import { EditableImage } from '@/components/editor/editable-image';
 import { EditableButton } from '@/components/editor/editable-button';
 
@@ -10,11 +10,11 @@ interface GadgetDealsTemplateProps {
   onContentChange?: (elementId: string, value: any) => void;
 }
 
-const GadgetDealsTemplate: React.FC<GadgetDealsTemplateProps> = ({
+function GadgetDealsTemplate({
   editable = false,
   data = {},
   onContentChange,
-}) => {
+}: GadgetDealsTemplateProps) {
   const getText = (id: string, defaultValue: string) => {
     return data[id]?.text || defaultValue;
   };
