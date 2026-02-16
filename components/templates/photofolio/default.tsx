@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { BaseTemplateProps } from '@/types/template';
 import { EditableButton } from '@/components/editor/editable-button';
 import { EditableImage } from '@/components/editor/editable-image';
+import { TiptapEditableText } from '@/components/editor/tiptap-editable-text';
 
 export default function PhotoFolio({ editable = false, data = {}, onContentChange }: BaseTemplateProps) {
     const [view, setView] = useState<'home' | 'quiz' | 'result'>('home');
@@ -19,6 +20,12 @@ export default function PhotoFolio({ editable = false, data = {}, onContentChang
             text: data[id]?.button?.text || defaultText,
             url: data[id]?.button?.url || defaultUrl,
         };
+    };
+
+    const handleTextChange = (eid: string, content: string) => {
+        if (onContentChange) {
+            onContentChange(eid, { text: content });
+        }
     };
 
 
@@ -77,49 +84,49 @@ export default function PhotoFolio({ editable = false, data = {}, onContentChang
                                 <path d="M4 42.4379C4 42.4379 14.0962 36.0744 24 41.1692C35.0664 46.8624 44 42.2078 44 42.2078L44 7.01134C44 7.01134 35.068 11.6577 24.0031 5.96913C14.0971 0.876274 4 7.27094 4 7.27094L4 42.4379Z" fill="currentColor"></path>
                             </svg>
                         </div>
-                        <h2
-                            data-eid="nav_logo"
-                            contentEditable={editable}
-                            suppressContentEditableWarning
+                        <TiptapEditableText
+                            eid="nav_logo"
+                            defaultText={getText('nav_logo', 'PhotoFolio')}
                             className="text-lg font-bold leading-tight tracking-[-0.015em] whitespace-pre-wrap break-words"
-                        >
-                            {getText('nav_logo', 'PhotoFolio')}
-                        </h2>
+                            editable={editable}
+                            onChange={handleTextChange}
+                            as="h2"
+                        />
                     </div>
                     <div className="hidden md:flex flex-1 justify-end gap-8">
                         <div className="flex items-center gap-9">
-                            <span
-                                data-eid="nav_link_1"
-                                contentEditable={editable}
-                                suppressContentEditableWarning
+                            <TiptapEditableText
+                                eid="nav_link_1"
+                                defaultText={getText('nav_link_1', 'Home')}
                                 className="text-sm font-medium leading-normal hover:text-[#13c8ec] transition-colors cursor-pointer"
-                            >
-                                {getText('nav_link_1', 'Home')}
-                            </span>
-                            <span
-                                data-eid="nav_link_2"
-                                contentEditable={editable}
-                                suppressContentEditableWarning
+                                editable={editable}
+                                onChange={handleTextChange}
+                                as="span"
+                            />
+                            <TiptapEditableText
+                                eid="nav_link_2"
+                                defaultText={getText('nav_link_2', 'Gallery')}
                                 className="text-sm font-medium leading-normal hover:text-[#13c8ec] transition-colors cursor-pointer"
-                            >
-                                {getText('nav_link_2', 'Gallery')}
-                            </span>
-                            <span
-                                data-eid="nav_link_3"
-                                contentEditable={editable}
-                                suppressContentEditableWarning
+                                editable={editable}
+                                onChange={handleTextChange}
+                                as="span"
+                            />
+                            <TiptapEditableText
+                                eid="nav_link_3"
+                                defaultText={getText('nav_link_3', 'About')}
                                 className="text-sm font-medium leading-normal hover:text-[#13c8ec] transition-colors cursor-pointer"
-                            >
-                                {getText('nav_link_3', 'About')}
-                            </span>
-                            <span
-                                data-eid="nav_link_4"
-                                contentEditable={editable}
-                                suppressContentEditableWarning
+                                editable={editable}
+                                onChange={handleTextChange}
+                                as="span"
+                            />
+                            <TiptapEditableText
+                                eid="nav_link_4"
+                                defaultText={getText('nav_link_4', 'Contact')}
                                 className="text-sm font-medium leading-normal hover:text-[#13c8ec] transition-colors cursor-pointer"
-                            >
-                                {getText('nav_link_4', 'Contact')}
-                            </span>
+                                editable={editable}
+                                onChange={handleTextChange}
+                                as="span"
+                            />
                         </div>
                         <EditableButton
                             eid="nav_cta"
@@ -139,22 +146,22 @@ export default function PhotoFolio({ editable = false, data = {}, onContentChang
                     <section className="py-10 sm:py-16 px-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center max-w-[960px] mx-auto">
                             <div className="flex flex-col gap-6">
-                                <h1
-                                    data-eid="hero_title"
-                                    contentEditable={editable}
-                                    suppressContentEditableWarning
+                                <TiptapEditableText
+                                    eid="hero_title"
+                                    defaultText={getText('hero_title', 'Capturing Moments, Creating Memories')}
                                     className="text-4xl md:text-5xl font-black leading-tight tracking-[-0.033em] whitespace-pre-wrap break-words"
-                                >
-                                    {getText('hero_title', 'Capturing Moments, Creating Memories')}
-                                </h1>
-                                <p
-                                    data-eid="hero_description"
-                                    contentEditable={editable}
-                                    suppressContentEditableWarning
+                                    editable={editable}
+                                    onChange={handleTextChange}
+                                    as="h1"
+                                />
+                                <TiptapEditableText
+                                    eid="hero_description"
+                                    defaultText={getText('hero_description', "Our passion is to frame the world's beauty through our lenses. This gallery represents a curated collection of our finest work, showcasing diverse subjects and stunning landscapes from across the globe. Each photograph tells a unique story.")}
                                     className="text-base font-normal leading-normal text-gray-600 whitespace-pre-wrap break-words"
-                                >
-                                    {getText('hero_description', "Our passion is to frame the world's beauty through our lenses. This gallery represents a curated collection of our finest work, showcasing diverse subjects and stunning landscapes from across the globe. Each photograph tells a unique story.")}
-                                </p>
+                                    editable={editable}
+                                    onChange={handleTextChange}
+                                    as="p"
+                                />
                                 <div className="flex pt-2">
                                     <button
                                         onClick={handleStartQuiz}
@@ -177,22 +184,22 @@ export default function PhotoFolio({ editable = false, data = {}, onContentChang
                     </section>
                     <section className="px-4 py-8 sm:py-12">
                         <div className="max-w-4xl mx-auto space-y-6 text-gray-700">
-                            <p
-                                data-eid="about_text_1"
-                                contentEditable={editable}
-                                suppressContentEditableWarning
+                            <TiptapEditableText
+                                eid="about_text_1"
+                                defaultText={getText('about_text_1', "Below, you'll find a more in-depth look into the techniques and stories behind our photography. We believe that a great photo is more than just a picture; it's a moment frozen in time, an emotion captured, and a story told without words. Our approach combines technical expertise with a keen artistic eye, ensuring that every image is not only visually stunning but also deeply meaningful.")}
                                 className="text-lg leading-relaxed whitespace-pre-wrap break-words"
-                            >
-                                {getText('about_text_1', "Below, you'll find a more in-depth look into the techniques and stories behind our photography. We believe that a great photo is more than just a picture; it's a moment frozen in time, an emotion captured, and a story told without words. Our approach combines technical expertise with a keen artistic eye, ensuring that every image is not only visually stunning but also deeply meaningful.")}
-                            </p>
-                            <p
-                                data-eid="about_text_2"
-                                contentEditable={editable}
-                                suppressContentEditableWarning
+                                editable={editable}
+                                onChange={handleTextChange}
+                                as="p"
+                            />
+                            <TiptapEditableText
+                                eid="about_text_2"
+                                defaultText={getText('about_text_2', "We travel extensively to find unique perspectives, from the bustling streets of urban jungles to the serene solitude of untouched nature. Each location offers new challenges and opportunities, pushing us to constantly evolve our craft. We utilize state-of-the-art equipment and post-processing techniques to bring out the vibrant colors and intricate details of our subjects. This dedication to quality is evident in every piece we produce. Whether it's a breathtaking landscape, an intimate portrait, or a dynamic abstract shot, our goal is to evoke a sense of wonder and connection with the viewer. Thank you for exploring our portfolio.")}
                                 className="text-base leading-relaxed text-gray-600 whitespace-pre-wrap break-words"
-                            >
-                                {getText('about_text_2', "We travel extensively to find unique perspectives, from the bustling streets of urban jungles to the serene solitude of untouched nature. Each location offers new challenges and opportunities, pushing us to constantly evolve our craft. We utilize state-of-the-art equipment and post-processing techniques to bring out the vibrant colors and intricate details of our subjects. This dedication to quality is evident in every piece we produce. Whether it's a breathtaking landscape, an intimate portrait, or a dynamic abstract shot, our goal is to evoke a sense of wonder and connection with the viewer. Thank you for exploring our portfolio.")}
-                            </p>
+                                editable={editable}
+                                onChange={handleTextChange}
+                                as="p"
+                            />
                         </div>
                     </section>
                 </main>
@@ -203,14 +210,14 @@ export default function PhotoFolio({ editable = false, data = {}, onContentChang
                 <main className="flex-grow flex flex-col items-center justify-center py-20 px-4 min-h-[600px]">
                     <div className="max-w-2xl w-full">
                         <div className="mb-8">
-                            <h2
-                                data-eid="quiz_heading"
-                                contentEditable={editable}
-                                suppressContentEditableWarning
+                            <TiptapEditableText
+                                eid="quiz_heading"
+                                defaultText={getText('quiz_heading', 'Photography Knowledge Check')}
                                 className="text-2xl font-bold mb-2 text-[#13c8ec] whitespace-pre-wrap break-words"
-                            >
-                                {getText('quiz_heading', 'Photography Knowledge Check')}
-                            </h2>
+                                editable={editable}
+                                onChange={handleTextChange}
+                                as="h2"
+                            />
                             <div className="flex gap-2">
                                 {[1, 2, 3, 4, 5].map(step => (
                                     <div key={step} className={`h-2 flex-1 rounded-full ${step <= currentQuestion ? 'bg-[#13c8ec]' : 'bg-gray-200'}`} />
@@ -219,16 +226,16 @@ export default function PhotoFolio({ editable = false, data = {}, onContentChang
                         </div>
 
                         <div className="bg-white rounded-2xl p-8 border border-gray-200 shadow-lg">
-                            <h3 className="text-xl font-bold mb-6">
+                            <div className="text-xl font-bold mb-6">
                                 <span className="text-[#13c8ec] mr-2">Q{currentQuestion}.</span>
-                                <span
-                                    data-eid={`question_${currentQuestion}`}
-                                    contentEditable={editable}
-                                    suppressContentEditableWarning
-                                >
-                                    {getText(`question_${currentQuestion}`, `Question ${currentQuestion} placeholder text?`)}
-                                </span>
-                            </h3>
+                                <TiptapEditableText
+                                    eid={`question_${currentQuestion}`}
+                                    defaultText={getText(`question_${currentQuestion}`, `Question ${currentQuestion} placeholder text?`)}
+                                    editable={editable}
+                                    onChange={handleTextChange}
+                                    as="span"
+                                />
+                            </div>
 
                             <div className="space-y-3">
                                 {[1, 2, 3, 4].map(optIdx => (
@@ -244,14 +251,14 @@ export default function PhotoFolio({ editable = false, data = {}, onContentChang
                                             }`}>
                                             {answers[currentQuestion] === optIdx && <div className="w-2 h-2 bg-black rounded-full" />}
                                         </div>
-                                        <span
-                                            data-eid={`q${currentQuestion}_opt${optIdx}`}
-                                            contentEditable={editable}
-                                            suppressContentEditableWarning
+                                        <TiptapEditableText
+                                            eid={`q${currentQuestion}_opt${optIdx}`}
+                                            defaultText={getText(`q${currentQuestion}_opt${optIdx}`, `Option ${optIdx}`)}
                                             className="flex-1"
-                                        >
-                                            {getText(`q${currentQuestion}_opt${optIdx}`, `Option ${optIdx}`)}
-                                        </span>
+                                            editable={editable}
+                                            onChange={handleTextChange}
+                                            as="span"
+                                        />
                                     </div>
                                 ))}
                             </div>
@@ -282,31 +289,32 @@ export default function PhotoFolio({ editable = false, data = {}, onContentChang
                                     </svg>
                                 </div>
                             </div>
-                            <h1
-                                data-eid="result_title"
-                                contentEditable={editable}
-                                suppressContentEditableWarning
+
+                            <TiptapEditableText
+                                eid="result_title"
+                                defaultText={getText('result_title', 'Congratulations!')}
                                 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight drop-shadow-sm whitespace-pre-wrap break-words"
-                            >
-                                {getText('result_title', 'Congratulations!')}
-                            </h1>
+                                editable={editable}
+                                onChange={handleTextChange}
+                                as="h1"
+                            />
                             <div className="space-y-4 mb-6 max-w-2xl">
-                                <p
-                                    data-eid="result_text"
-                                    contentEditable={editable}
-                                    suppressContentEditableWarning
+                                <TiptapEditableText
+                                    eid="result_text"
+                                    defaultText={getText('result_text', "You've successfully completed the quiz.")}
                                     className="text-gray-600 text-lg md:text-xl leading-relaxed whitespace-pre-wrap break-words"
-                                >
-                                    {getText('result_text', "You've successfully completed the quiz.")}
-                                </p>
-                                <p
-                                    data-eid="result_subtext"
-                                    contentEditable={editable}
-                                    suppressContentEditableWarning
+                                    editable={editable}
+                                    onChange={handleTextChange}
+                                    as="p"
+                                />
+                                <TiptapEditableText
+                                    eid="result_subtext"
+                                    defaultText={getText('result_subtext', 'We hope you enjoyed exploring our portfolio and learning more about our work. Feel free to reach out to us for any photography needs!')}
                                     className="text-gray-500 text-sm md:text-base leading-relaxed max-w-md mx-auto whitespace-pre-wrap break-words"
-                                >
-                                    {getText('result_subtext', 'We hope you enjoyed exploring our portfolio and learning more about our work. Feel free to reach out to us for any photography needs!')}
-                                </p>
+                                    editable={editable}
+                                    onChange={handleTextChange}
+                                    as="p"
+                                />
                             </div>
                             <div className="mb-8">
                                 <EditableImage
@@ -354,15 +362,15 @@ export default function PhotoFolio({ editable = false, data = {}, onContentChang
                         <a className="text-gray-600 text-sm font-normal leading-normal hover:text-[#13c8ec] transition-colors" href="#">Terms of Service</a>
                         <a className="text-gray-600 text-sm font-normal leading-normal hover:text-[#13c8ec] transition-colors" href="#">Contact Us</a>
                     </div>
-                    <p className="text-gray-500 text-sm font-normal leading-normal">
-                        <span
-                            data-eid="footer_copyright"
-                            contentEditable={editable}
-                            suppressContentEditableWarning
-                        >
-                            {getText('footer_copyright', '© 2024 PhotoFolio, Inc. All rights reserved.')}
-                        </span>
-                    </p>
+                    <div className="text-gray-500 text-sm font-normal leading-normal">
+                        <TiptapEditableText
+                            eid="footer_copyright"
+                            defaultText={getText('footer_copyright', '© 2024 PhotoFolio, Inc. All rights reserved.')}
+                            editable={editable}
+                            onChange={handleTextChange}
+                            as="span"
+                        />
+                    </div>
                 </footer>
             )}
         </div>

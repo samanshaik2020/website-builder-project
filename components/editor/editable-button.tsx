@@ -105,19 +105,21 @@ export const EditableButton: FC<EditableButtonProps> = ({
     };
 
     return (
-      <button
-        data-eid={eid}
-        className={className}
-        style={style}
-        onClick={handleButtonClick}
-      >
-        {text}
-      </button>
+      <div className="relative">
+        <button
+          data-eid={eid}
+          className={className}
+          style={style}
+          onClick={handleButtonClick}
+        >
+          {text}
+        </button>
+      </div>
     );
   }
 
   return (
-    <div className="relative inline-block">
+    <div className="relative">
       <button
         ref={buttonRef}
         data-eid={eid}

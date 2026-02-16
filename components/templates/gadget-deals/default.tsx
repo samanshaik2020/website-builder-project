@@ -3,6 +3,7 @@
 
 import { EditableImage } from '@/components/editor/editable-image';
 import { EditableButton } from '@/components/editor/editable-button';
+import { TiptapEditableText } from '@/components/editor/tiptap-editable-text';
 
 interface GadgetDealsTemplateProps {
   editable?: boolean;
@@ -33,6 +34,12 @@ function GadgetDealsTemplate({
   const handleImageChange = (eid: string, data: { image: string; linkUrl?: string | undefined }) => {
     if (onContentChange) {
       onContentChange(eid, data);
+    }
+  };
+
+  const handleTextChange = (eid: string, content: string) => {
+    if (onContentChange) {
+      onContentChange(eid, { text: content });
     }
   };
 
@@ -101,53 +108,48 @@ function GadgetDealsTemplate({
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
                 </svg>
               </div>
-              <span
-                data-eid="nav_brand"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="nav_brand"
+                defaultText={getText('nav_brand', 'GadgetStore')}
                 className="text-xl font-bold text-gray-900 whitespace-pre-wrap break-words"
-                onBlur={(e) => onContentChange?.('nav_brand', { text: e.currentTarget.textContent })}
-              >
-                {getText('nav_brand', 'GadgetStore')}
-              </span>
+                editable={editable}
+                onChange={handleTextChange}
+                as="span"
+              />
             </div>
             <nav className="hidden md:flex items-center gap-8">
-              <span
-                data-eid="nav_link_1"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="nav_link_1"
+                defaultText={getText('nav_link_1', 'Deals')}
                 className="text-sm font-medium text-gray-700 hover:text-blue-600 cursor-pointer"
-                onBlur={(e) => onContentChange?.('nav_link_1', { text: e.currentTarget.textContent })}
-              >
-                {getText('nav_link_1', 'Deals')}
-              </span>
-              <span
-                data-eid="nav_link_2"
-                contentEditable={editable}
-                suppressContentEditableWarning
+                editable={editable}
+                onChange={handleTextChange}
+                as="span"
+              />
+              <TiptapEditableText
+                eid="nav_link_2"
+                defaultText={getText('nav_link_2', 'New Arrivals')}
                 className="text-sm font-medium text-gray-700 hover:text-blue-600 cursor-pointer"
-                onBlur={(e) => onContentChange?.('nav_link_2', { text: e.currentTarget.textContent })}
-              >
-                {getText('nav_link_2', 'New Arrivals')}
-              </span>
-              <span
-                data-eid="nav_link_3"
-                contentEditable={editable}
-                suppressContentEditableWarning
+                editable={editable}
+                onChange={handleTextChange}
+                as="span"
+              />
+              <TiptapEditableText
+                eid="nav_link_3"
+                defaultText={getText('nav_link_3', 'Categories')}
                 className="text-sm font-medium text-gray-700 hover:text-blue-600 cursor-pointer"
-                onBlur={(e) => onContentChange?.('nav_link_3', { text: e.currentTarget.textContent })}
-              >
-                {getText('nav_link_3', 'Categories')}
-              </span>
-              <span
-                data-eid="nav_link_4"
-                contentEditable={editable}
-                suppressContentEditableWarning
+                editable={editable}
+                onChange={handleTextChange}
+                as="span"
+              />
+              <TiptapEditableText
+                eid="nav_link_4"
+                defaultText={getText('nav_link_4', 'Support')}
                 className="text-sm font-medium text-gray-700 hover:text-blue-600 cursor-pointer"
-                onBlur={(e) => onContentChange?.('nav_link_4', { text: e.currentTarget.textContent })}
-              >
-                {getText('nav_link_4', 'Support')}
-              </span>
+                editable={editable}
+                onChange={handleTextChange}
+                as="span"
+              />
             </nav>
             <div className="flex items-center gap-3">
               <button className="p-2 hover:bg-gray-100 rounded-lg">
@@ -175,80 +177,74 @@ function GadgetDealsTemplate({
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Hero Title */}
         <div className="mb-8">
-          <h1
-            data-eid="hero_title"
-            contentEditable={editable}
-            suppressContentEditableWarning
+          <TiptapEditableText
+            eid="hero_title"
+            defaultText={getText('hero_title', 'Top Deals on Gadgets — Big Discounts Live!')}
             className="text-3xl sm:text-4xl font-black text-gray-900 mb-2 whitespace-pre-wrap break-words"
-            onBlur={(e) => onContentChange?.('hero_title', { text: e.currentTarget.textContent })}
-          >
-            {getText('hero_title', 'Top Deals on Gadgets — Big Discounts Live!')}
-          </h1>
-          <p
-            data-eid="hero_subtitle"
-            contentEditable={editable}
-            suppressContentEditableWarning
+            editable={editable}
+            onChange={handleTextChange}
+            as="h1"
+          />
+          <TiptapEditableText
+            eid="hero_subtitle"
+            defaultText={getText('hero_subtitle', 'Shop the best tech deals before they\'re gone')}
             className="text-gray-600 whitespace-pre-wrap break-words"
-            onBlur={(e) => onContentChange?.('hero_subtitle', { text: e.currentTarget.textContent })}
-          >
-            {getText('hero_subtitle', 'Shop the best tech deals before they\'re gone')}
-          </p>
+            editable={editable}
+            onChange={handleTextChange}
+            as="p"
+          />
         </div>
 
         {/* Filter Buttons */}
         <div className="flex gap-3 mb-8 overflow-x-auto pb-2">
           <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 whitespace-nowrap">
-            <span
-              data-eid="filter_1"
-              contentEditable={editable}
-              suppressContentEditableWarning
+            <TiptapEditableText
+              eid="filter_1"
+              defaultText={getText('filter_1', 'Category')}
               className="text-sm font-medium text-gray-700"
-              onBlur={(e) => onContentChange?.('filter_1', { text: e.currentTarget.textContent })}
-            >
-              {getText('filter_1', 'Category')}
-            </span>
+              editable={editable}
+              onChange={handleTextChange}
+              as="span"
+            />
             <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
           </button>
           <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 whitespace-nowrap">
-            <span
-              data-eid="filter_2"
-              contentEditable={editable}
-              suppressContentEditableWarning
+            <TiptapEditableText
+              eid="filter_2"
+              defaultText={getText('filter_2', 'Price')}
               className="text-sm font-medium text-gray-700"
-              onBlur={(e) => onContentChange?.('filter_2', { text: e.currentTarget.textContent })}
-            >
-              {getText('filter_2', 'Price')}
-            </span>
+              editable={editable}
+              onChange={handleTextChange}
+              as="span"
+            />
             <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
           </button>
           <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 whitespace-nowrap">
-            <span
-              data-eid="filter_3"
-              contentEditable={editable}
-              suppressContentEditableWarning
+            <TiptapEditableText
+              eid="filter_3"
+              defaultText={getText('filter_3', 'Discount')}
               className="text-sm font-medium text-gray-700"
-              onBlur={(e) => onContentChange?.('filter_3', { text: e.currentTarget.textContent })}
-            >
-              {getText('filter_3', 'Discount')}
-            </span>
+              editable={editable}
+              onChange={handleTextChange}
+              as="span"
+            />
             <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
           </button>
           <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 whitespace-nowrap">
-            <span
-              data-eid="filter_4"
-              contentEditable={editable}
-              suppressContentEditableWarning
+            <TiptapEditableText
+              eid="filter_4"
+              defaultText={getText('filter_4', 'Popularity')}
               className="text-sm font-medium text-gray-700"
-              onBlur={(e) => onContentChange?.('filter_4', { text: e.currentTarget.textContent })}
-            >
-              {getText('filter_4', 'Popularity')}
-            </span>
+              editable={editable}
+              onChange={handleTextChange}
+              as="span"
+            />
             <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
@@ -272,54 +268,49 @@ function GadgetDealsTemplate({
                   onChange={handleImageChange}
                 />
                 <div className="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                  <span
-                    data-eid={product.discountId}
-                    contentEditable={editable}
-                    suppressContentEditableWarning
-                    onBlur={(e) => onContentChange?.(product.discountId, { text: e.currentTarget.textContent })}
-                  >
-                    {getText(product.discountId, product.defaultDiscount)}
-                  </span>
+                  <TiptapEditableText
+                    eid={product.discountId}
+                    defaultText={getText(product.discountId, product.defaultDiscount)}
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="span"
+                  />
                 </div>
               </div>
               <div className="p-4">
-                <h3
-                  data-eid={product.nameId}
-                  contentEditable={editable}
-                  suppressContentEditableWarning
+                <TiptapEditableText
+                  eid={product.nameId}
+                  defaultText={getText(product.nameId, product.defaultName)}
                   className="font-bold text-gray-900 mb-1 whitespace-pre-wrap break-words"
-                  onBlur={(e) => onContentChange?.(product.nameId, { text: e.currentTarget.textContent })}
-                >
-                  {getText(product.nameId, product.defaultName)}
-                </h3>
-                <p
-                  data-eid={product.descriptionId}
-                  contentEditable={editable}
-                  suppressContentEditableWarning
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="h3"
+                />
+                <TiptapEditableText
+                  eid={product.descriptionId}
+                  defaultText={getText(product.descriptionId, product.defaultDescription)}
                   className="text-sm text-gray-500 mb-3 whitespace-pre-wrap break-words"
-                  onBlur={(e) => onContentChange?.(product.descriptionId, { text: e.currentTarget.textContent })}
-                >
-                  {getText(product.descriptionId, product.defaultDescription)}
-                </p>
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="p"
+                />
                 <div className="flex items-baseline gap-2 mb-4">
-                  <span
-                    data-eid={product.priceId}
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                  <TiptapEditableText
+                    eid={product.priceId}
+                    defaultText={getText(product.priceId, product.defaultPrice)}
                     className="text-xl font-bold text-gray-900"
-                    onBlur={(e) => onContentChange?.(product.priceId, { text: e.currentTarget.textContent })}
-                  >
-                    {getText(product.priceId, product.defaultPrice)}
-                  </span>
-                  <span
-                    data-eid={product.originalPriceId}
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="span"
+                  />
+                  <TiptapEditableText
+                    eid={product.originalPriceId}
+                    defaultText={getText(product.originalPriceId, product.defaultOriginalPrice)}
                     className="text-sm text-gray-400 line-through"
-                    onBlur={(e) => onContentChange?.(product.originalPriceId, { text: e.currentTarget.textContent })}
-                  >
-                    {getText(product.originalPriceId, product.defaultOriginalPrice)}
-                  </span>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="span"
+                  />
                 </div>
                 <EditableButton
                   eid={product.ctaId}

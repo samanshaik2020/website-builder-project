@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { EditableImage } from '@/components/editor/editable-image';
 import { EditableButton } from '@/components/editor/editable-button';
+import { TiptapEditableText } from '@/components/editor/tiptap-editable-text';
 import { BaseTemplateProps } from '@/types/template';
 
 interface GalaxyPhoneTemplateProps extends BaseTemplateProps {
@@ -35,6 +36,12 @@ export default function GalaxyPhoneTemplate({
     }
   };
 
+  const handleTextChange = (eid: string, content: string) => {
+    if (onContentChange) {
+      onContentChange(eid, { text: content });
+    }
+  };
+
   // Image slider state
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -63,48 +70,48 @@ export default function GalaxyPhoneTemplate({
         <div className="flex items-center gap-8">
           <div className="flex items-center gap-2 text-slate-900">
             <span className="material-symbols-outlined text-2xl text-[#2b8cee]">interests</span>
-            <h2
-              data-eid="nav_brand"
-              contentEditable={editable}
-              suppressContentEditableWarning
+            <TiptapEditableText
+              eid="nav_brand"
+              defaultText={getText('nav_brand', 'Galaxy')}
               className="text-lg font-bold leading-tight tracking-[-0.015em] whitespace-pre-wrap break-words"
-            >
-              {getText('nav_brand', 'Galaxy')}
-            </h2>
+              editable={editable}
+              onChange={handleTextChange}
+              as="h2"
+            />
           </div>
           <div className="hidden md:flex items-center gap-9">
-            <span
-              data-eid="nav_link_1"
-              contentEditable={editable}
-              suppressContentEditableWarning
+            <TiptapEditableText
+              eid="nav_link_1"
+              defaultText={getText('nav_link_1', 'Phones')}
               className="text-slate-800 text-sm font-medium leading-normal cursor-pointer hover:text-[#2b8cee]"
-            >
-              {getText('nav_link_1', 'Phones')}
-            </span>
-            <span
-              data-eid="nav_link_2"
-              contentEditable={editable}
-              suppressContentEditableWarning
+              editable={editable}
+              onChange={handleTextChange}
+              as="span"
+            />
+            <TiptapEditableText
+              eid="nav_link_2"
+              defaultText={getText('nav_link_2', 'Tablets')}
               className="text-slate-800 text-sm font-medium leading-normal cursor-pointer hover:text-[#2b8cee]"
-            >
-              {getText('nav_link_2', 'Tablets')}
-            </span>
-            <span
-              data-eid="nav_link_3"
-              contentEditable={editable}
-              suppressContentEditableWarning
+              editable={editable}
+              onChange={handleTextChange}
+              as="span"
+            />
+            <TiptapEditableText
+              eid="nav_link_3"
+              defaultText={getText('nav_link_3', 'Watches')}
               className="text-slate-800 text-sm font-medium leading-normal cursor-pointer hover:text-[#2b8cee]"
-            >
-              {getText('nav_link_3', 'Watches')}
-            </span>
-            <span
-              data-eid="nav_link_4"
-              contentEditable={editable}
-              suppressContentEditableWarning
+              editable={editable}
+              onChange={handleTextChange}
+              as="span"
+            />
+            <TiptapEditableText
+              eid="nav_link_4"
+              defaultText={getText('nav_link_4', 'Deals')}
               className="text-slate-800 text-sm font-medium leading-normal cursor-pointer hover:text-[#2b8cee]"
-            >
-              {getText('nav_link_4', 'Deals')}
-            </span>
+              editable={editable}
+              onChange={handleTextChange}
+              as="span"
+            />
           </div>
         </div>
         <div className="flex flex-1 justify-end items-center gap-2">
@@ -211,26 +218,26 @@ export default function GalaxyPhoneTemplate({
           {/* Product Info Section */}
           <div className="px-4 sm:px-8 md:px-16 lg:px-24">
             <div className="max-w-4xl mx-auto flex flex-col gap-6">
-              <h1
-                data-eid="hero_title"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="hero_title"
+                defaultText={getText('hero_title', 'Galaxy S25 Ultra 5G')}
                 className="text-slate-900 tracking-tight text-4xl sm:text-5xl font-bold leading-tight text-left whitespace-pre-wrap break-words"
-              >
-                {getText('hero_title', 'Galaxy S25 Ultra 5G')}
-              </h1>
+                editable={editable}
+                onChange={handleTextChange}
+                as="h1"
+              />
 
               {/* Rating */}
               <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                 <div className="flex items-center gap-2">
-                  <span
-                    data-eid="hero_rating"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                  <TiptapEditableText
+                    eid="hero_rating"
+                    defaultText={getText('hero_rating', '4.8')}
                     className="text-slate-900 text-lg font-bold"
-                  >
-                    {getText('hero_rating', '4.8')}
-                  </span>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="span"
+                  />
                   <div className="flex gap-0.5">
                     <span className="material-symbols-outlined text-[#2b8cee]" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
                     <span className="material-symbols-outlined text-[#2b8cee]" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
@@ -239,73 +246,73 @@ export default function GalaxyPhoneTemplate({
                     <span className="material-symbols-outlined text-[#2b8cee]">star_half</span>
                   </div>
                 </div>
-                <span
-                  data-eid="hero_reviews_count"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
+                <TiptapEditableText
+                  eid="hero_reviews_count"
+                  defaultText={getText('hero_reviews_count', '1,284 reviews')}
                   className="text-slate-600 text-sm font-normal leading-normal underline cursor-pointer"
-                >
-                  {getText('hero_reviews_count', '1,284 reviews')}
-                </span>
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="span"
+                />
               </div>
 
               {/* Pricing Card */}
               <div className="flex flex-col gap-4 p-4 bg-white rounded-xl border border-slate-200">
                 <div className="flex items-baseline gap-4 flex-wrap">
-                  <span
-                    data-eid="price_current"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                  <TiptapEditableText
+                    eid="price_current"
+                    defaultText={getText('price_current', '$999.00')}
                     className="text-4xl font-bold text-slate-900"
-                  >
-                    {getText('price_current', '$999.00')}
-                  </span>
-                  <span
-                    data-eid="price_original"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="span"
+                  />
+                  <TiptapEditableText
+                    eid="price_original"
+                    defaultText={getText('price_original', '$1299.00')}
                     className="text-xl font-medium text-slate-500 line-through"
-                  >
-                    {getText('price_original', '$1299.00')}
-                  </span>
-                  <span
-                    data-eid="price_discount"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="span"
+                  />
+                  <TiptapEditableText
+                    eid="price_discount"
+                    defaultText={getText('price_discount', '-30%')}
                     className="text-sm font-bold text-orange-500 bg-orange-500/10 px-2 py-1 rounded-md"
-                  >
-                    {getText('price_discount', '-30%')}
-                  </span>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="span"
+                  />
                 </div>
-                <p
-                  data-eid="price_savings"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
+                <TiptapEditableText
+                  eid="price_savings"
+                  defaultText={getText('price_savings', 'You save $300.00. Free delivery by Tomorrow.')}
                   className="text-sm text-slate-600"
-                >
-                  {getText('price_savings', 'You save $300.00. Free delivery by Tomorrow.')}
-                </p>
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="p"
+                />
               </div>
 
               {/* Color Selection */}
               <div className="flex flex-col gap-3">
                 <p className="text-base font-medium text-slate-800">
-                  <span
-                    data-eid="color_label"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
-                  >
-                    {getText('color_label', 'Color:')}
-                  </span>
+                  <TiptapEditableText
+                    eid="color_label"
+                    defaultText={getText('color_label', 'Color:')}
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="span"
+                  />
                   {' '}
-                  <span
-                    data-eid="color_name"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                  <TiptapEditableText
+                    eid="color_name"
+                    defaultText={getText('color_name', 'Titanium Gray')}
                     className="font-bold"
-                  >
-                    {getText('color_name', 'Titanium Gray')}
-                  </span>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="span"
+                  />
                 </p>
                 <div className="flex gap-3">
                   <button className="size-8 rounded-full bg-[#a1a1aa] ring-2 ring-[#2b8cee] ring-offset-2 ring-offset-[#f6f7f8]"></button>
@@ -318,53 +325,53 @@ export default function GalaxyPhoneTemplate({
               {/* Storage Selection */}
               <div className="flex flex-col gap-3">
                 <p className="text-base font-medium text-slate-800">
-                  <span
-                    data-eid="storage_label"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
-                  >
-                    {getText('storage_label', 'Storage:')}
-                  </span>
+                  <TiptapEditableText
+                    eid="storage_label"
+                    defaultText={getText('storage_label', 'Storage:')}
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="span"
+                  />
                   {' '}
-                  <span
-                    data-eid="storage_selected"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                  <TiptapEditableText
+                    eid="storage_selected"
+                    defaultText={getText('storage_selected', '256GB')}
                     className="font-bold"
-                  >
-                    {getText('storage_selected', '256GB')}
-                  </span>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="span"
+                  />
                 </p>
                 <div className="flex flex-wrap gap-3">
                   <button className="px-4 py-2 rounded-lg bg-[#2b8cee]/20 text-[#2b8cee] border-2 border-[#2b8cee]">
-                    <span
-                      data-eid="storage_option_1"
-                      contentEditable={editable}
-                      suppressContentEditableWarning
+                    <TiptapEditableText
+                      eid="storage_option_1"
+                      defaultText={getText('storage_option_1', '256GB')}
                       className="font-bold"
-                    >
-                      {getText('storage_option_1', '256GB')}
-                    </span>
+                      editable={editable}
+                      onChange={handleTextChange}
+                      as="span"
+                    />
                   </button>
                   <button className="px-4 py-2 rounded-lg bg-slate-100 text-slate-700 border border-slate-200">
-                    <span
-                      data-eid="storage_option_2"
-                      contentEditable={editable}
-                      suppressContentEditableWarning
+                    <TiptapEditableText
+                      eid="storage_option_2"
+                      defaultText={getText('storage_option_2', '512GB')}
                       className="font-bold"
-                    >
-                      {getText('storage_option_2', '512GB')}
-                    </span>
+                      editable={editable}
+                      onChange={handleTextChange}
+                      as="span"
+                    />
                   </button>
                   <button className="px-4 py-2 rounded-lg bg-slate-100 text-slate-700 border border-slate-200">
-                    <span
-                      data-eid="storage_option_3"
-                      contentEditable={editable}
-                      suppressContentEditableWarning
+                    <TiptapEditableText
+                      eid="storage_option_3"
+                      defaultText={getText('storage_option_3', '1TB')}
                       className="font-bold"
-                    >
-                      {getText('storage_option_3', '1TB')}
-                    </span>
+                      editable={editable}
+                      onChange={handleTextChange}
+                      as="span"
+                    />
                   </button>
                 </div>
               </div>
@@ -396,199 +403,199 @@ export default function GalaxyPhoneTemplate({
 
             {/* Quick Highlights */}
             <div className="mt-16 max-w-4xl mx-auto">
-              <h2
-                data-eid="highlights_title"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="highlights_title"
+                defaultText={getText('highlights_title', 'Quick Highlights')}
                 className="text-3xl font-bold text-slate-900 mb-8 text-center whitespace-pre-wrap break-words"
-              >
-                {getText('highlights_title', 'Quick Highlights')}
-              </h2>
+                editable={editable}
+                onChange={handleTextChange}
+                as="h2"
+              />
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {/* Highlight 1 */}
                 <div className="flex flex-col items-center text-center p-6 bg-white rounded-xl border border-slate-200">
                   <span className="material-symbols-outlined text-4xl text-[#2b8cee] mb-3">photo_camera</span>
-                  <h3
-                    data-eid="highlight_1_title"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                  <TiptapEditableText
+                    eid="highlight_1_title"
+                    defaultText={getText('highlight_1_title', 'Pro-Grade Camera')}
                     className="font-bold text-lg text-slate-800 whitespace-pre-wrap break-words"
-                  >
-                    {getText('highlight_1_title', 'Pro-Grade Camera')}
-                  </h3>
-                  <p
-                    data-eid="highlight_1_description"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="h3"
+                  />
+                  <TiptapEditableText
+                    eid="highlight_1_description"
+                    defaultText={getText('highlight_1_description', '200MP sensor for incredible detail in any light.')}
                     className="text-sm text-slate-600 mt-1 whitespace-pre-wrap break-words"
-                  >
-                    {getText('highlight_1_description', '200MP sensor for incredible detail in any light.')}
-                  </p>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="p"
+                  />
                 </div>
                 {/* Highlight 2 */}
                 <div className="flex flex-col items-center text-center p-6 bg-white rounded-xl border border-slate-200">
                   <span className="material-symbols-outlined text-4xl text-[#2b8cee] mb-3">battery_charging_full</span>
-                  <h3
-                    data-eid="highlight_2_title"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                  <TiptapEditableText
+                    eid="highlight_2_title"
+                    defaultText={getText('highlight_2_title', 'All-Day Battery')}
                     className="font-bold text-lg text-slate-800 whitespace-pre-wrap break-words"
-                  >
-                    {getText('highlight_2_title', 'All-Day Battery')}
-                  </h3>
-                  <p
-                    data-eid="highlight_2_description"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="h3"
+                  />
+                  <TiptapEditableText
+                    eid="highlight_2_description"
+                    defaultText={getText('highlight_2_description', '5000mAh intelligent battery that lasts longer than your day.')}
                     className="text-sm text-slate-600 mt-1 whitespace-pre-wrap break-words"
-                  >
-                    {getText('highlight_2_description', '5000mAh intelligent battery that lasts longer than your day.')}
-                  </p>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="p"
+                  />
                 </div>
                 {/* Highlight 3 */}
                 <div className="flex flex-col items-center text-center p-6 bg-white rounded-xl border border-slate-200">
                   <span className="material-symbols-outlined text-4xl text-[#2b8cee] mb-3">fullscreen</span>
-                  <h3
-                    data-eid="highlight_3_title"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                  <TiptapEditableText
+                    eid="highlight_3_title"
+                    defaultText={getText('highlight_3_title', 'Dynamic Display')}
                     className="font-bold text-lg text-slate-800 whitespace-pre-wrap break-words"
-                  >
-                    {getText('highlight_3_title', 'Dynamic Display')}
-                  </h3>
-                  <p
-                    data-eid="highlight_3_description"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="h3"
+                  />
+                  <TiptapEditableText
+                    eid="highlight_3_description"
+                    defaultText={getText('highlight_3_description', '6.8" Dynamic AMOLED 2X with 120Hz refresh rate.')}
                     className="text-sm text-slate-600 mt-1 whitespace-pre-wrap break-words"
-                  >
-                    {getText('highlight_3_description', '6.8" Dynamic AMOLED 2X with 120Hz refresh rate.')}
-                  </p>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="p"
+                  />
                 </div>
                 {/* Highlight 4 */}
                 <div className="flex flex-col items-center text-center p-6 bg-white rounded-xl border border-slate-200">
                   <span className="material-symbols-outlined text-4xl text-[#2b8cee] mb-3">memory</span>
-                  <h3
-                    data-eid="highlight_4_title"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                  <TiptapEditableText
+                    eid="highlight_4_title"
+                    defaultText={getText('highlight_4_title', 'Ultimate Performance')}
                     className="font-bold text-lg text-slate-800 whitespace-pre-wrap break-words"
-                  >
-                    {getText('highlight_4_title', 'Ultimate Performance')}
-                  </h3>
-                  <p
-                    data-eid="highlight_4_description"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="h3"
+                  />
+                  <TiptapEditableText
+                    eid="highlight_4_description"
+                    defaultText={getText('highlight_4_description', 'Next-gen processor for unparalleled speed and power.')}
                     className="text-sm text-slate-600 mt-1 whitespace-pre-wrap break-words"
-                  >
-                    {getText('highlight_4_description', 'Next-gen processor for unparalleled speed and power.')}
-                  </p>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="p"
+                  />
                 </div>
               </div>
             </div>
 
             {/* Detailed Specifications */}
             <div className="mt-16 max-w-4xl mx-auto">
-              <h2
-                data-eid="specs_title"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="specs_title"
+                defaultText={getText('specs_title', 'Detailed Specifications')}
                 className="text-3xl font-bold text-slate-900 mb-8 text-center whitespace-pre-wrap break-words"
-              >
-                {getText('specs_title', 'Detailed Specifications')}
-              </h2>
+                editable={editable}
+                onChange={handleTextChange}
+                as="h2"
+              />
               <div className="flow-root">
                 <dl className="-my-3 divide-y divide-slate-200 text-sm">
                   <div className="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                    <dt
-                      data-eid="spec_1_label"
-                      contentEditable={editable}
-                      suppressContentEditableWarning
+                    <TiptapEditableText
+                      eid="spec_1_label"
+                      defaultText={getText('spec_1_label', 'Display')}
                       className="font-medium text-slate-800"
-                    >
-                      {getText('spec_1_label', 'Display')}
-                    </dt>
-                    <dd
-                      data-eid="spec_1_value"
-                      contentEditable={editable}
-                      suppressContentEditableWarning
+                      editable={editable}
+                      onChange={handleTextChange}
+                      as="dt"
+                    />
+                    <TiptapEditableText
+                      eid="spec_1_value"
+                      defaultText={getText('spec_1_value', '6.8" Quad HD+ Dynamic AMOLED 2X, 120Hz')}
                       className="text-slate-600 sm:col-span-2"
-                    >
-                      {getText('spec_1_value', '6.8" Quad HD+ Dynamic AMOLED 2X, 120Hz')}
-                    </dd>
+                      editable={editable}
+                      onChange={handleTextChange}
+                      as="dd"
+                    />
                   </div>
                   <div className="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                    <dt
-                      data-eid="spec_2_label"
-                      contentEditable={editable}
-                      suppressContentEditableWarning
+                    <TiptapEditableText
+                      eid="spec_2_label"
+                      defaultText={getText('spec_2_label', 'Processor')}
                       className="font-medium text-slate-800"
-                    >
-                      {getText('spec_2_label', 'Processor')}
-                    </dt>
-                    <dd
-                      data-eid="spec_2_value"
-                      contentEditable={editable}
-                      suppressContentEditableWarning
+                      editable={editable}
+                      onChange={handleTextChange}
+                      as="dt"
+                    />
+                    <TiptapEditableText
+                      eid="spec_2_value"
+                      defaultText={getText('spec_2_value', 'Snapdragon 9 Gen 4 for Galaxy')}
                       className="text-slate-600 sm:col-span-2"
-                    >
-                      {getText('spec_2_value', 'Snapdragon 9 Gen 4 for Galaxy')}
-                    </dd>
+                      editable={editable}
+                      onChange={handleTextChange}
+                      as="dd"
+                    />
                   </div>
                   <div className="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                    <dt
-                      data-eid="spec_3_label"
-                      contentEditable={editable}
-                      suppressContentEditableWarning
+                    <TiptapEditableText
+                      eid="spec_3_label"
+                      defaultText={getText('spec_3_label', 'RAM')}
                       className="font-medium text-slate-800"
-                    >
-                      {getText('spec_3_label', 'RAM')}
-                    </dt>
-                    <dd
-                      data-eid="spec_3_value"
-                      contentEditable={editable}
-                      suppressContentEditableWarning
+                      editable={editable}
+                      onChange={handleTextChange}
+                      as="dt"
+                    />
+                    <TiptapEditableText
+                      eid="spec_3_value"
+                      defaultText={getText('spec_3_value', '12GB / 16GB')}
                       className="text-slate-600 sm:col-span-2"
-                    >
-                      {getText('spec_3_value', '12GB / 16GB')}
-                    </dd>
+                      editable={editable}
+                      onChange={handleTextChange}
+                      as="dd"
+                    />
                   </div>
                   <div className="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                    <dt
-                      data-eid="spec_4_label"
-                      contentEditable={editable}
-                      suppressContentEditableWarning
+                    <TiptapEditableText
+                      eid="spec_4_label"
+                      defaultText={getText('spec_4_label', 'Camera')}
                       className="font-medium text-slate-800"
-                    >
-                      {getText('spec_4_label', 'Camera')}
-                    </dt>
-                    <dd
-                      data-eid="spec_4_value"
-                      contentEditable={editable}
-                      suppressContentEditableWarning
+                      editable={editable}
+                      onChange={handleTextChange}
+                      as="dt"
+                    />
+                    <TiptapEditableText
+                      eid="spec_4_value"
+                      defaultText={getText('spec_4_value', '200MP Wide, 12MP Ultra-Wide, 50MP 5x Telephoto, 10MP 3x Telephoto')}
                       className="text-slate-600 sm:col-span-2"
-                    >
-                      {getText('spec_4_value', '200MP Wide, 12MP Ultra-Wide, 50MP 5x Telephoto, 10MP 3x Telephoto')}
-                    </dd>
+                      editable={editable}
+                      onChange={handleTextChange}
+                      as="dd"
+                    />
                   </div>
                   <div className="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                    <dt
-                      data-eid="spec_5_label"
-                      contentEditable={editable}
-                      suppressContentEditableWarning
+                    <TiptapEditableText
+                      eid="spec_5_label"
+                      defaultText={getText('spec_5_label', 'Battery')}
                       className="font-medium text-slate-800"
-                    >
-                      {getText('spec_5_label', 'Battery')}
-                    </dt>
-                    <dd
-                      data-eid="spec_5_value"
-                      contentEditable={editable}
-                      suppressContentEditableWarning
+                      editable={editable}
+                      onChange={handleTextChange}
+                      as="dt"
+                    />
+                    <TiptapEditableText
+                      eid="spec_5_value"
+                      defaultText={getText('spec_5_value', '5,000mAh, 45W Super Fast Charging')}
                       className="text-slate-600 sm:col-span-2"
-                    >
-                      {getText('spec_5_value', '5,000mAh, 45W Super Fast Charging')}
-                    </dd>
+                      editable={editable}
+                      onChange={handleTextChange}
+                      as="dd"
+                    />
                   </div>
                 </dl>
               </div>
@@ -596,24 +603,24 @@ export default function GalaxyPhoneTemplate({
 
             {/* Customer Reviews */}
             <div className="mt-16 max-w-4xl mx-auto p-6 sm:p-8 bg-white rounded-xl border border-slate-200">
-              <h2
-                data-eid="reviews_title"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="reviews_title"
+                defaultText={getText('reviews_title', 'Customer Reviews')}
                 className="text-2xl font-bold text-slate-900 mb-6"
-              >
-                {getText('reviews_title', 'Customer Reviews')}
-              </h2>
+                editable={editable}
+                onChange={handleTextChange}
+                as="h2"
+              />
               <div className="flex flex-wrap gap-x-8 gap-y-6">
                 <div className="flex flex-col gap-2">
-                  <p
-                    data-eid="reviews_rating"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                  <TiptapEditableText
+                    eid="reviews_rating"
+                    defaultText={getText('reviews_rating', '4.8')}
                     className="text-slate-900 text-4xl sm:text-5xl font-black leading-tight tracking-[-0.033em]"
-                  >
-                    {getText('reviews_rating', '4.8')}
-                  </p>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="p"
+                  />
                   <div className="flex gap-0.5">
                     <span className="material-symbols-outlined text-[#2b8cee] text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
                     <span className="material-symbols-outlined text-[#2b8cee] text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
@@ -621,76 +628,76 @@ export default function GalaxyPhoneTemplate({
                     <span className="material-symbols-outlined text-[#2b8cee] text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
                     <span className="material-symbols-outlined text-[#2b8cee] text-xl">star_half</span>
                   </div>
-                  <p
-                    data-eid="reviews_total"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                  <TiptapEditableText
+                    eid="reviews_total"
+                    defaultText={getText('reviews_total', 'Based on 1,284 reviews')}
                     className="text-slate-600 text-base font-normal leading-normal"
-                  >
-                    {getText('reviews_total', 'Based on 1,284 reviews')}
-                  </p>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="p"
+                  />
                 </div>
                 <div className="grid min-w-[200px] max-w-[400px] flex-1 grid-cols-[20px_1fr_40px] items-center gap-y-3">
                   <p className="text-slate-800 text-sm font-normal leading-normal">5</p>
                   <div className="flex h-2 flex-1 overflow-hidden rounded-full bg-slate-200">
                     <div className="rounded-full bg-[#2b8cee]" style={{ width: '85%' }}></div>
                   </div>
-                  <span
-                    data-eid="reviews_5_star"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                  <TiptapEditableText
+                    eid="reviews_5_star"
+                    defaultText={getText('reviews_5_star', '85%')}
                     className="text-slate-500 text-sm font-normal leading-normal text-right"
-                  >
-                    {getText('reviews_5_star', '85%')}
-                  </span>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="span"
+                  />
                   <p className="text-slate-800 text-sm font-normal leading-normal">4</p>
                   <div className="flex h-2 flex-1 overflow-hidden rounded-full bg-slate-200">
                     <div className="rounded-full bg-[#2b8cee]" style={{ width: '10%' }}></div>
                   </div>
-                  <span
-                    data-eid="reviews_4_star"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                  <TiptapEditableText
+                    eid="reviews_4_star"
+                    defaultText={getText('reviews_4_star', '10%')}
                     className="text-slate-500 text-sm font-normal leading-normal text-right"
-                  >
-                    {getText('reviews_4_star', '10%')}
-                  </span>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="span"
+                  />
                   <p className="text-slate-800 text-sm font-normal leading-normal">3</p>
                   <div className="flex h-2 flex-1 overflow-hidden rounded-full bg-slate-200">
                     <div className="rounded-full bg-[#2b8cee]" style={{ width: '3%' }}></div>
                   </div>
-                  <span
-                    data-eid="reviews_3_star"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                  <TiptapEditableText
+                    eid="reviews_3_star"
+                    defaultText={getText('reviews_3_star', '3%')}
                     className="text-slate-500 text-sm font-normal leading-normal text-right"
-                  >
-                    {getText('reviews_3_star', '3%')}
-                  </span>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="span"
+                  />
                   <p className="text-slate-800 text-sm font-normal leading-normal">2</p>
                   <div className="flex h-2 flex-1 overflow-hidden rounded-full bg-slate-200">
                     <div className="rounded-full bg-[#2b8cee]" style={{ width: '1%' }}></div>
                   </div>
-                  <span
-                    data-eid="reviews_2_star"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                  <TiptapEditableText
+                    eid="reviews_2_star"
+                    defaultText={getText('reviews_2_star', '1%')}
                     className="text-slate-500 text-sm font-normal leading-normal text-right"
-                  >
-                    {getText('reviews_2_star', '1%')}
-                  </span>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="span"
+                  />
                   <p className="text-slate-800 text-sm font-normal leading-normal">1</p>
                   <div className="flex h-2 flex-1 overflow-hidden rounded-full bg-slate-200">
                     <div className="rounded-full bg-[#2b8cee]" style={{ width: '1%' }}></div>
                   </div>
-                  <span
-                    data-eid="reviews_1_star"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                  <TiptapEditableText
+                    eid="reviews_1_star"
+                    defaultText={getText('reviews_1_star', '1%')}
                     className="text-slate-500 text-sm font-normal leading-normal text-right"
-                  >
-                    {getText('reviews_1_star', '1%')}
-                  </span>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="span"
+                  />
                 </div>
               </div>
             </div>

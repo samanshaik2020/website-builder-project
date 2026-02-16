@@ -1,7 +1,7 @@
 'use client';
 
 
-import { SlateEditableText } from '@/components/editor/slate-editable-text';
+import { TiptapEditableText } from '@/components/editor/tiptap-editable-text';
 import { EditableButton } from '@/components/editor/editable-button';
 import { EditableImage } from '@/components/editor/editable-image';
 
@@ -31,9 +31,9 @@ function MobileShopTemplate({
     };
   };
 
-  const handleTextChange = (elementId: string, value: any) => {
+  const handleTextChange = (eid: string, content: string) => {
     if (onContentChange) {
-      onContentChange(elementId, value);
+      onContentChange(eid, { text: content });
     }
   };
 
@@ -128,37 +128,41 @@ function MobileShopTemplate({
                 </defs>
               </svg>
             </div>
-            <SlateEditableText
+            <TiptapEditableText
               eid="nav_brand"
               defaultText={getText('nav_brand', 'MobileShop')}
               className="text-lg font-bold leading-tight tracking-[-0.015em] whitespace-pre-wrap break-words"
               editable={editable}
               onChange={handleTextChange}
+              as="span"
             />
           </div>
         </div>
         <div className="flex flex-1 justify-end items-center gap-4">
           <div className="hidden md:flex items-center gap-9">
-            <SlateEditableText
+            <TiptapEditableText
               eid="nav_link_1"
               defaultText={getText('nav_link_1', 'Deals')}
               className="text-sm font-medium leading-normal cursor-pointer hover:text-[#137fec]"
               editable={editable}
               onChange={handleTextChange}
+              as="span"
             />
-            <SlateEditableText
+            <TiptapEditableText
               eid="nav_link_2"
               defaultText={getText('nav_link_2', 'New Arrivals')}
               className="text-sm font-medium leading-normal cursor-pointer hover:text-[#137fec]"
               editable={editable}
               onChange={handleTextChange}
+              as="span"
             />
-            <SlateEditableText
+            <TiptapEditableText
               eid="nav_link_3"
               defaultText={getText('nav_link_3', 'Best Sellers')}
               className="text-sm font-medium leading-normal cursor-pointer hover:text-[#137fec]"
               editable={editable}
               onChange={handleTextChange}
+              as="span"
             />
           </div>
           <div className="flex items-center gap-2">
@@ -188,19 +192,21 @@ function MobileShopTemplate({
           {/* Hero Section */}
           <div className="flex flex-wrap justify-between gap-3 p-4">
             <div className="flex w-full flex-col gap-3">
-              <SlateEditableText
+              <TiptapEditableText
                 eid="hero_title"
                 defaultText={getText('hero_title', 'Top 50 Best-Selling Mobiles – Big Discounts Live!')}
                 className="text-[#111418] text-4xl font-black leading-tight tracking-[-0.033em] whitespace-pre-wrap break-words"
                 editable={editable}
                 onChange={handleTextChange}
+                as="h1"
               />
-              <SlateEditableText
+              <TiptapEditableText
                 eid="hero_description"
                 defaultText={getText('hero_description', 'Explore our curated list of the best-selling phones with unbeatable discounts.')}
                 className="text-[#617589] text-base font-normal leading-normal whitespace-pre-wrap break-words"
                 editable={editable}
                 onChange={handleTextChange}
+                as="p"
               />
             </div>
           </div>
@@ -208,36 +214,39 @@ function MobileShopTemplate({
           {/* Filter Buttons */}
           <div className="flex gap-3 p-3 overflow-x-auto">
             <button className="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-white border border-[#f0f2f4] px-4 hover:bg-gray-50 transition-colors">
-              <SlateEditableText
+              <TiptapEditableText
                 eid="filter_1"
                 defaultText={getText('filter_1', 'Brand')}
                 className="text-sm font-medium leading-normal"
                 editable={editable}
                 onChange={handleTextChange}
+                as="span"
               />
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
             </button>
             <button className="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-white border border-[#f0f2f4] px-4 hover:bg-gray-50 transition-colors">
-              <SlateEditableText
+              <TiptapEditableText
                 eid="filter_2"
                 defaultText={getText('filter_2', 'Price Range')}
                 className="text-sm font-medium leading-normal"
                 editable={editable}
                 onChange={handleTextChange}
+                as="span"
               />
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
             </button>
             <button className="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-white border border-[#f0f2f4] px-4 hover:bg-gray-50 transition-colors">
-              <SlateEditableText
+              <TiptapEditableText
                 eid="filter_3"
                 defaultText={getText('filter_3', 'Discount')}
                 className="text-sm font-medium leading-normal"
                 editable={editable}
                 onChange={handleTextChange}
+                as="span"
               />
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>
@@ -262,30 +271,33 @@ function MobileShopTemplate({
                     onChange={handleImageChange}
                   />
                   <div className="absolute top-3 right-3 bg-[#FF4500] text-white text-xs font-bold px-2 py-1 rounded-full">
-                    <SlateEditableText
+                    <TiptapEditableText
                       eid={product.discountId}
                       defaultText={getText(product.discountId, product.defaultDiscount)}
                       className="text-xs font-bold"
                       editable={editable}
                       onChange={handleTextChange}
+                      as="span"
                     />
                   </div>
                 </div>
                 <div className="px-4 flex flex-col gap-3">
                   <div className="flex flex-col">
-                    <SlateEditableText
+                    <TiptapEditableText
                       eid={product.nameId}
                       defaultText={getText(product.nameId, product.defaultName)}
                       className="text-base font-bold leading-normal whitespace-pre-wrap break-words"
                       editable={editable}
                       onChange={handleTextChange}
+                      as="div"
                     />
-                    <SlateEditableText
+                    <TiptapEditableText
                       eid={product.priceId}
                       defaultText={getText(product.priceId, product.defaultPrice)}
                       className="text-lg font-black text-[#FF4500] leading-normal whitespace-pre-wrap break-words"
                       editable={editable}
                       onChange={handleTextChange}
+                      as="div"
                     />
                   </div>
                   <EditableButton
@@ -294,7 +306,7 @@ function MobileShopTemplate({
                     defaultUrl={getButton(product.ctaId, 'Buy Now', '#').url}
                     className="w-full h-10 bg-[#137fec] text-white text-sm font-bold rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center"
                     editable={editable}
-                    onChange={handleTextChange}
+                    onChange={onContentChange}
                   />
                 </div>
               </div>

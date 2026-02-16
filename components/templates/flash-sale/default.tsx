@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { EditableButton } from '@/components/editor/editable-button';
 import { EditableImage } from '@/components/editor/editable-image';
+import { TiptapEditableText } from '@/components/editor/tiptap-editable-text';
 import { BaseTemplateProps } from '@/types/template';
 
 interface FlashSaleProps extends BaseTemplateProps {
@@ -28,6 +29,12 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
   const handleImageChange = (eid: string, data: { image: string; linkUrl?: string | undefined }) => {
     if (onContentChange) {
       onContentChange(eid, data);
+    }
+  };
+
+  const handleTextChange = (eid: string, content: string) => {
+    if (onContentChange) {
+      onContentChange(eid, { text: content });
     }
   };
 
@@ -68,22 +75,22 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
     <div className="min-h-screen bg-gray-50 text-gray-800" style={{ fontFamily: "'Inter', sans-serif" }}>
       {/* Top Banner */}
       <div className="bg-red-800 text-white text-center py-2 text-xs md:text-sm font-bold tracking-wide">
-        <span
-          data-eid="top_banner_text"
-          contentEditable={editable}
-          suppressContentEditableWarning
-        >
-          {getText('top_banner_text', '⚡ FLASH SALE: UP TO 70% OFF Today Only! Use Code:')}
-        </span>
+        <TiptapEditableText
+          eid="top_banner_text"
+          defaultText={getText('top_banner_text', '⚡ FLASH SALE: UP TO 70% OFF Today Only! Use Code:')}
+          editable={editable}
+          onChange={handleTextChange}
+          as="span"
+        />
         {' '}
-        <span
-          data-eid="top_banner_code"
-          contentEditable={editable}
-          suppressContentEditableWarning
+        <TiptapEditableText
+          eid="top_banner_code"
+          defaultText={getText('top_banner_code', 'FLASH70')}
           className="bg-yellow-400 text-red-900 px-1 rounded whitespace-pre-wrap break-words"
-        >
-          {getText('top_banner_code', 'FLASH70')}
-        </span>
+          editable={editable}
+          onChange={handleTextChange}
+          as="span"
+        />
         {' at checkout. Ends Soon! ⚡'}
       </div>
 
@@ -93,23 +100,23 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
 
         <div className="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-8 items-center relative z-10">
           <div className="text-center md:text-left space-y-6">
-            <h1
-              data-eid="hero_title"
-              contentEditable={editable}
-              suppressContentEditableWarning
+            <TiptapEditableText
+              eid="hero_title"
+              defaultText={getText('hero_title', 'Limited-Time Flash Deal: Up to 70% Off!')}
               className="text-4xl md:text-6xl font-black uppercase leading-tight whitespace-pre-wrap break-words"
               style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.3)' }}
-            >
-              {getText('hero_title', 'Limited-Time Flash Deal: Up to 70% Off!')}
-            </h1>
-            <p
-              data-eid="hero_description"
-              contentEditable={editable}
-              suppressContentEditableWarning
+              editable={editable}
+              onChange={handleTextChange}
+              as="h1"
+            />
+            <TiptapEditableText
+              eid="hero_description"
+              defaultText={getText('hero_description', "Experience superior sound quality and comfort. Don't miss our biggest sale of the year!")}
               className="text-lg md:text-xl text-red-100 max-w-lg mx-auto md:mx-0 whitespace-pre-wrap break-words"
-            >
-              {getText('hero_description', "Experience superior sound quality and comfort. Don't miss our biggest sale of the year!")}
-            </p>
+              editable={editable}
+              onChange={handleTextChange}
+              as="p"
+            />
 
             {/* Countdown Timer */}
             <div className="flex justify-center md:justify-start gap-4 text-center my-6">
@@ -147,33 +154,33 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
             <div className="flex justify-center md:justify-start gap-4 text-xs font-semibold pt-2 opacity-90">
               <span>
                 <span className="mr-1">✓</span>
-                <span
-                  data-eid="hero_badge_1"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
-                >
-                  {getText('hero_badge_1', '1-Year Warranty')}
-                </span>
+                <TiptapEditableText
+                  eid="hero_badge_1"
+                  defaultText={getText('hero_badge_1', '1-Year Warranty')}
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="span"
+                />
               </span>
               <span>
                 <span className="mr-1">🚚</span>
-                <span
-                  data-eid="hero_badge_2"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
-                >
-                  {getText('hero_badge_2', 'Free Shipping')}
-                </span>
+                <TiptapEditableText
+                  eid="hero_badge_2"
+                  defaultText={getText('hero_badge_2', 'Free Shipping')}
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="span"
+                />
               </span>
               <span>
                 <span className="mr-1">🔒</span>
-                <span
-                  data-eid="hero_badge_3"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
-                >
-                  {getText('hero_badge_3', 'Secure Payment')}
-                </span>
+                <TiptapEditableText
+                  eid="hero_badge_3"
+                  defaultText={getText('hero_badge_3', 'Secure Payment')}
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="span"
+                />
               </span>
             </div>
           </div>
@@ -194,47 +201,47 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
 
       {/* Urgency Bar */}
       <div className="bg-black text-white text-center py-4 font-bold text-lg md:text-xl uppercase tracking-wider">
-        <span
-          data-eid="urgency_bar_text"
-          contentEditable={editable}
-          suppressContentEditableWarning
-        >
-          {getText('urgency_bar_text', 'TODAY ONLY: Price Drops, Limited Stock, Instant Savings! Act Fast!')}
-        </span>
+        <TiptapEditableText
+          eid="urgency_bar_text"
+          defaultText={getText('urgency_bar_text', 'TODAY ONLY: Price Drops, Limited Stock, Instant Savings! Act Fast!')}
+          editable={editable}
+          onChange={handleTextChange}
+          as="span"
+        />
       </div>
 
       {/* Quick Offers Section */}
       <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4">
-          <h2
-            data-eid="offers_title"
-            contentEditable={editable}
-            suppressContentEditableWarning
+          <TiptapEditableText
+            eid="offers_title"
+            defaultText={getText('offers_title', 'Quick Offer Highlights')}
             className="text-3xl font-bold text-center mb-10 text-gray-900 whitespace-pre-wrap break-words"
-          >
-            {getText('offers_title', 'Quick Offer Highlights')}
-          </h2>
+            editable={editable}
+            onChange={handleTextChange}
+            as="h2"
+          />
           <div className="grid md:grid-cols-3 gap-6">
             {/* Offer 1 */}
             <div className="bg-gray-100 p-6 rounded-xl flex items-center gap-4 border border-gray-200 shadow-sm">
               <div className="text-4xl text-red-600">🏷️</div>
               <div>
-                <h3
-                  data-eid="offer_1_title"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
+                <TiptapEditableText
+                  eid="offer_1_title"
+                  defaultText={getText('offer_1_title', '70% OFF HEADPHONES')}
                   className="font-bold text-lg whitespace-pre-wrap break-words"
-                >
-                  {getText('offer_1_title', '70% OFF HEADPHONES')}
-                </h3>
-                <p
-                  data-eid="offer_1_description"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="h3"
+                />
+                <TiptapEditableText
+                  eid="offer_1_description"
+                  defaultText={getText('offer_1_description', 'Massive discount on our best selling model.')}
                   className="text-sm text-gray-600 whitespace-pre-wrap break-words"
-                >
-                  {getText('offer_1_description', 'Massive discount on our best selling model.')}
-                </p>
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="p"
+                />
               </div>
             </div>
 
@@ -242,22 +249,22 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
             <div className="bg-gray-100 p-6 rounded-xl flex items-center gap-4 border border-gray-200 shadow-sm">
               <div className="text-4xl text-gray-800">🎁</div>
               <div>
-                <h3
-                  data-eid="offer_2_title"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
+                <TiptapEditableText
+                  eid="offer_2_title"
+                  defaultText={getText('offer_2_title', 'FREE CARRY CASE')}
                   className="font-bold text-lg whitespace-pre-wrap break-words"
-                >
-                  {getText('offer_2_title', 'FREE CARRY CASE')}
-                </h3>
-                <p
-                  data-eid="offer_2_description"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="h3"
+                />
+                <TiptapEditableText
+                  eid="offer_2_description"
+                  defaultText={getText('offer_2_description', 'Includes premium protective case.')}
                   className="text-sm text-gray-600 whitespace-pre-wrap break-words"
-                >
-                  {getText('offer_2_description', 'Includes premium protective case.')}
-                </p>
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="p"
+                />
               </div>
             </div>
 
@@ -265,22 +272,22 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
             <div className="bg-gray-100 p-6 rounded-xl flex items-center gap-4 border border-gray-200 shadow-sm">
               <div className="text-4xl text-gray-800">🚀</div>
               <div>
-                <h3
-                  data-eid="offer_3_title"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
+                <TiptapEditableText
+                  eid="offer_3_title"
+                  defaultText={getText('offer_3_title', 'NEXT DAY DELIVERY')}
                   className="font-bold text-lg whitespace-pre-wrap break-words"
-                >
-                  {getText('offer_3_title', 'NEXT DAY DELIVERY')}
-                </h3>
-                <p
-                  data-eid="offer_3_description"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="h3"
+                />
+                <TiptapEditableText
+                  eid="offer_3_description"
+                  defaultText={getText('offer_3_description', 'Order by 2 PM for fast shipping.')}
                   className="text-sm text-gray-600 whitespace-pre-wrap break-words"
-                >
-                  {getText('offer_3_description', 'Order by 2 PM for fast shipping.')}
-                </p>
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="p"
+                />
               </div>
             </div>
           </div>
@@ -290,97 +297,97 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
       {/* Product Benefits Section */}
       <section className="py-12 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
-          <h2
-            data-eid="benefits_title"
-            contentEditable={editable}
-            suppressContentEditableWarning
+          <TiptapEditableText
+            eid="benefits_title"
+            defaultText={getText('benefits_title', 'Product Benefits')}
             className="text-3xl font-bold text-center mb-10 whitespace-pre-wrap break-words"
-          >
-            {getText('benefits_title', 'Product Benefits')}
-          </h2>
+            editable={editable}
+            onChange={handleTextChange}
+            as="h2"
+          />
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {/* Benefit 1 */}
             <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition">
               <div className="text-4xl text-red-600 mb-4">🎧</div>
-              <h3
-                data-eid="benefit_1_title"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="benefit_1_title"
+                defaultText={getText('benefit_1_title', 'Active Noise Cancellation')}
                 className="font-bold text-lg mb-2 whitespace-pre-wrap break-words"
-              >
-                {getText('benefit_1_title', 'Active Noise Cancellation')}
-              </h3>
-              <p
-                data-eid="benefit_1_description"
-                contentEditable={editable}
-                suppressContentEditableWarning
+                editable={editable}
+                onChange={handleTextChange}
+                as="h3"
+              />
+              <TiptapEditableText
+                eid="benefit_1_description"
+                defaultText={getText('benefit_1_description', 'Immerse yourself in music without distractions.')}
                 className="text-sm text-gray-600 whitespace-pre-wrap break-words"
-              >
-                {getText('benefit_1_description', 'Immerse yourself in music without distractions.')}
-              </p>
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
             </div>
 
             {/* Benefit 2 */}
             <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition">
               <div className="text-4xl text-red-600 mb-4">🔋</div>
-              <h3
-                data-eid="benefit_2_title"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="benefit_2_title"
+                defaultText={getText('benefit_2_title', '30+ Hour Battery Life')}
                 className="font-bold text-lg mb-2 whitespace-pre-wrap break-words"
-              >
-                {getText('benefit_2_title', '30+ Hour Battery Life')}
-              </h3>
-              <p
-                data-eid="benefit_2_description"
-                contentEditable={editable}
-                suppressContentEditableWarning
+                editable={editable}
+                onChange={handleTextChange}
+                as="h3"
+              />
+              <TiptapEditableText
+                eid="benefit_2_description"
+                defaultText={getText('benefit_2_description', 'Long lasting power for all-day listening.')}
                 className="text-sm text-gray-600 whitespace-pre-wrap break-words"
-              >
-                {getText('benefit_2_description', 'Long lasting power for all-day listening.')}
-              </p>
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
             </div>
 
             {/* Benefit 3 */}
             <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition">
               <div className="text-4xl text-red-600 mb-4">☁️</div>
-              <h3
-                data-eid="benefit_3_title"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="benefit_3_title"
+                defaultText={getText('benefit_3_title', 'Supreme Comfort')}
                 className="font-bold text-lg mb-2 whitespace-pre-wrap break-words"
-              >
-                {getText('benefit_3_title', 'Supreme Comfort')}
-              </h3>
-              <p
-                data-eid="benefit_3_description"
-                contentEditable={editable}
-                suppressContentEditableWarning
+                editable={editable}
+                onChange={handleTextChange}
+                as="h3"
+              />
+              <TiptapEditableText
+                eid="benefit_3_description"
+                defaultText={getText('benefit_3_description', 'Ergonomic design for extended wear.')}
                 className="text-sm text-gray-600 whitespace-pre-wrap break-words"
-              >
-                {getText('benefit_3_description', 'Ergonomic design for extended wear.')}
-              </p>
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
             </div>
 
             {/* Benefit 4 */}
             <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition">
               <div className="text-4xl text-red-600 mb-4">🎤</div>
-              <h3
-                data-eid="benefit_4_title"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="benefit_4_title"
+                defaultText={getText('benefit_4_title', 'Crystal Clear Calls')}
                 className="font-bold text-lg mb-2 whitespace-pre-wrap break-words"
-              >
-                {getText('benefit_4_title', 'Crystal Clear Calls')}
-              </h3>
-              <p
-                data-eid="benefit_4_description"
-                contentEditable={editable}
-                suppressContentEditableWarning
+                editable={editable}
+                onChange={handleTextChange}
+                as="h3"
+              />
+              <TiptapEditableText
+                eid="benefit_4_description"
+                defaultText={getText('benefit_4_description', 'Built-in mic for seamless communication.')}
                 className="text-sm text-gray-600 whitespace-pre-wrap break-words"
-              >
-                {getText('benefit_4_description', 'Built-in mic for seamless communication.')}
-              </p>
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
             </div>
           </div>
         </div>
@@ -389,14 +396,14 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
       {/* Detailed Features Section */}
       <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 space-y-12">
-          <h2
-            data-eid="features_title"
-            contentEditable={editable}
-            suppressContentEditableWarning
+          <TiptapEditableText
+            eid="features_title"
+            defaultText={getText('features_title', 'Detailed Product Features')}
             className="text-3xl font-bold text-center mb-8 whitespace-pre-wrap break-words"
-          >
-            {getText('features_title', 'Detailed Product Features')}
-          </h2>
+            editable={editable}
+            onChange={handleTextChange}
+            as="h2"
+          />
 
           {/* Feature 1 */}
           <div className="grid md:grid-cols-2 gap-8 items-center">
@@ -409,42 +416,42 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
               onChange={handleImageChange}
             />
             <div>
-              <h3
-                data-eid="feature_1_title"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="feature_1_title"
+                defaultText={getText('feature_1_title', 'Intuitive Touch Controls')}
                 className="text-2xl font-bold mb-4 whitespace-pre-wrap break-words"
-              >
-                {getText('feature_1_title', 'Intuitive Touch Controls')}
-              </h3>
-              <p
-                data-eid="feature_1_description"
-                contentEditable={editable}
-                suppressContentEditableWarning
+                editable={editable}
+                onChange={handleTextChange}
+                as="h3"
+              />
+              <TiptapEditableText
+                eid="feature_1_description"
+                defaultText={getText('feature_1_description', 'Effortlessly manage volume, tracks, and calls with a simple tap on the ear cup. No need to reach for your phone.')}
                 className="text-gray-600 mb-4 whitespace-pre-wrap break-words"
-              >
-                {getText('feature_1_description', 'Effortlessly manage volume, tracks, and calls with a simple tap on the ear cup. No need to reach for your phone.')}
-              </p>
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
               <ul className="space-y-2 text-sm text-gray-700">
                 <li>
                   <span className="text-green-500 mr-2">✓</span>
-                  <span
-                    data-eid="feature_1_bullet_1"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
-                  >
-                    {getText('feature_1_bullet_1', 'Swipe for volume')}
-                  </span>
+                  <TiptapEditableText
+                    eid="feature_1_bullet_1"
+                    defaultText={getText('feature_1_bullet_1', 'Swipe for volume')}
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="span"
+                  />
                 </li>
                 <li>
                   <span className="text-green-500 mr-2">✓</span>
-                  <span
-                    data-eid="feature_1_bullet_2"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
-                  >
-                    {getText('feature_1_bullet_2', 'Tap to pause/play')}
-                  </span>
+                  <TiptapEditableText
+                    eid="feature_1_bullet_2"
+                    defaultText={getText('feature_1_bullet_2', 'Tap to pause/play')}
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="span"
+                  />
                 </li>
               </ul>
             </div>
@@ -463,42 +470,42 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
               />
             </div>
             <div className="md:order-1">
-              <h3
-                data-eid="feature_2_title"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="feature_2_title"
+                defaultText={getText('feature_2_title', 'Portable and Foldable Design')}
                 className="text-2xl font-bold mb-4 whitespace-pre-wrap break-words"
-              >
-                {getText('feature_2_title', 'Portable and Foldable Design')}
-              </h3>
-              <p
-                data-eid="feature_2_description"
-                contentEditable={editable}
-                suppressContentEditableWarning
+                editable={editable}
+                onChange={handleTextChange}
+                as="h3"
+              />
+              <TiptapEditableText
+                eid="feature_2_description"
+                defaultText={getText('feature_2_description', 'Compact and easy to carry anywhere. The premium hinges allow the headphones to fold flat into the included travel case.')}
                 className="text-gray-600 mb-4 whitespace-pre-wrap break-words"
-              >
-                {getText('feature_2_description', 'Compact and easy to carry anywhere. The premium hinges allow the headphones to fold flat into the included travel case.')}
-              </p>
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
               <ul className="space-y-2 text-sm text-gray-700">
                 <li>
                   <span className="text-green-500 mr-2">✓</span>
-                  <span
-                    data-eid="feature_2_bullet_1"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
-                  >
-                    {getText('feature_2_bullet_1', 'Travel-ready')}
-                  </span>
+                  <TiptapEditableText
+                    eid="feature_2_bullet_1"
+                    defaultText={getText('feature_2_bullet_1', 'Travel-ready')}
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="span"
+                  />
                 </li>
                 <li>
                   <span className="text-green-500 mr-2">✓</span>
-                  <span
-                    data-eid="feature_2_bullet_2"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
-                  >
-                    {getText('feature_2_bullet_2', 'Lightweight construction')}
-                  </span>
+                  <TiptapEditableText
+                    eid="feature_2_bullet_2"
+                    defaultText={getText('feature_2_bullet_2', 'Lightweight construction')}
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="span"
+                  />
                 </li>
               </ul>
             </div>
@@ -509,14 +516,14 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
       {/* Gallery Section */}
       <section className="py-12 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
-          <h2
-            data-eid="gallery_title"
-            contentEditable={editable}
-            suppressContentEditableWarning
+          <TiptapEditableText
+            eid="gallery_title"
+            defaultText={getText('gallery_title', 'Product Gallery')}
             className="text-3xl font-bold text-center mb-10 whitespace-pre-wrap break-words"
-          >
-            {getText('gallery_title', 'Product Gallery')}
-          </h2>
+            editable={editable}
+            onChange={handleTextChange}
+            as="h2"
+          />
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="col-span-2 md:col-span-2 row-span-2">
               <EditableImage
@@ -575,62 +582,62 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
                 className="bg-red-600 h-6 rounded-full text-xs text-white flex items-center justify-center font-bold"
                 style={{ width: `${getText('stock_percentage', '85')}%` }}
               >
-                <span
-                  data-eid="stock_percentage"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
-                >
-                  {getText('stock_percentage', '85')}
-                </span>% SOLD
+                <TiptapEditableText
+                  eid="stock_percentage"
+                  defaultText={getText('stock_percentage', '85')}
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="span"
+                />% SOLD
               </div>
             </div>
-            <p
-              data-eid="stock_message"
-              contentEditable={editable}
-              suppressContentEditableWarning
+            <TiptapEditableText
+              eid="stock_message"
+              defaultText={getText('stock_message', 'HURRY! Only 150 units left at this price. 500+ people viewing this product right now!')}
               className="text-sm font-bold text-gray-800 whitespace-pre-wrap break-words"
-            >
-              {getText('stock_message', 'HURRY! Only 150 units left at this price. 500+ people viewing this product right now!')}
-            </p>
+              editable={editable}
+              onChange={handleTextChange}
+              as="p"
+            />
           </div>
 
           {/* Pricing Card */}
           <div className="bg-neutral-900 text-white rounded-3xl p-8 md:p-12 text-center shadow-2xl border-4 border-red-600 relative">
             <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-yellow-500 text-black font-black px-6 py-2 rounded-full uppercase tracking-widest shadow-lg">
-              <span
-                data-eid="pricing_badge"
-                contentEditable={editable}
-                suppressContentEditableWarning
-              >
-                {getText('pricing_badge', 'Best Deal Ever')}
-              </span>
+              <TiptapEditableText
+                eid="pricing_badge"
+                defaultText={getText('pricing_badge', 'Best Deal Ever')}
+                editable={editable}
+                onChange={handleTextChange}
+                as="span"
+              />
             </div>
 
-            <h2
-              data-eid="pricing_label"
-              contentEditable={editable}
-              suppressContentEditableWarning
+            <TiptapEditableText
+              eid="pricing_label"
+              defaultText={getText('pricing_label', 'FLASH SALE PRICE')}
               className="text-2xl font-light text-gray-400 mb-2 whitespace-pre-wrap break-words"
-            >
-              {getText('pricing_label', 'FLASH SALE PRICE')}
-            </h2>
+              editable={editable}
+              onChange={handleTextChange}
+              as="h2"
+            />
             <div className="flex items-center justify-center gap-4 mb-6">
-              <span
-                data-eid="pricing_original"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="pricing_original"
+                defaultText={getText('pricing_original', '$299.99')}
                 className="text-3xl text-gray-500 line-through whitespace-pre-wrap break-words"
-              >
-                {getText('pricing_original', '$299.99')}
-              </span>
-              <span
-                data-eid="pricing_sale"
-                contentEditable={editable}
-                suppressContentEditableWarning
+                editable={editable}
+                onChange={handleTextChange}
+                as="span"
+              />
+              <TiptapEditableText
+                eid="pricing_sale"
+                defaultText={getText('pricing_sale', '$89.99')}
                 className="text-6xl md:text-7xl font-black text-red-500 whitespace-pre-wrap break-words"
-              >
-                {getText('pricing_sale', '$89.99')}
-              </span>
+                editable={editable}
+                onChange={handleTextChange}
+                as="span"
+              />
             </div>
 
             <EditableButton
@@ -655,22 +662,22 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
       {/* Reviews Section */}
       <section className="py-12 bg-gray-50">
         <div className="max-w-3xl mx-auto px-4">
-          <h2
-            data-eid="reviews_title"
-            contentEditable={editable}
-            suppressContentEditableWarning
+          <TiptapEditableText
+            eid="reviews_title"
+            defaultText={getText('reviews_title', 'Customer Reviews')}
             className="text-3xl font-bold text-center mb-2 whitespace-pre-wrap break-words"
-          >
-            {getText('reviews_title', 'Customer Reviews')}
-          </h2>
-          <p
-            data-eid="reviews_subtitle"
-            contentEditable={editable}
-            suppressContentEditableWarning
+            editable={editable}
+            onChange={handleTextChange}
+            as="h2"
+          />
+          <TiptapEditableText
+            eid="reviews_subtitle"
+            defaultText={getText('reviews_subtitle', '4.9/5 Stars based on 500+ reviews')}
             className="text-center text-gray-600 mb-10 whitespace-pre-wrap break-words"
-          >
-            {getText('reviews_subtitle', '4.9/5 Stars based on 500+ reviews')}
-          </p>
+            editable={editable}
+            onChange={handleTextChange}
+            as="p"
+          />
 
           <div className="space-y-4">
             {/* Review 1 */}
@@ -685,22 +692,22 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
               />
               <div>
                 <div className="text-yellow-400 text-sm mb-1">⭐⭐⭐⭐⭐</div>
-                <p
-                  data-eid="review_1_text"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
+                <TiptapEditableText
+                  eid="review_1_text"
+                  defaultText={getText('review_1_text', '"Amazing sound quality and comfort!"')}
                   className="font-bold text-sm whitespace-pre-wrap break-words"
-                >
-                  {getText('review_1_text', '"Amazing sound quality and comfort!"')}
-                </p>
-                <p
-                  data-eid="review_1_author"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="p"
+                />
+                <TiptapEditableText
+                  eid="review_1_author"
+                  defaultText={getText('review_1_author', '- Sarah J.')}
                   className="text-xs text-gray-500 mt-1"
-                >
-                  {getText('review_1_author', '- Sarah J.')}
-                </p>
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="p"
+                />
               </div>
             </div>
 
@@ -716,22 +723,22 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
               />
               <div>
                 <div className="text-yellow-400 text-sm mb-1">⭐⭐⭐⭐⭐</div>
-                <p
-                  data-eid="review_2_text"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
+                <TiptapEditableText
+                  eid="review_2_text"
+                  defaultText={getText('review_2_text', '"Best deal ever, incredible value."')}
                   className="font-bold text-sm whitespace-pre-wrap break-words"
-                >
-                  {getText('review_2_text', '"Best deal ever, incredible value."')}
-                </p>
-                <p
-                  data-eid="review_2_author"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="p"
+                />
+                <TiptapEditableText
+                  eid="review_2_author"
+                  defaultText={getText('review_2_author', '- Mike T.')}
                   className="text-xs text-gray-500 mt-1"
-                >
-                  {getText('review_2_author', '- Mike T.')}
-                </p>
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="p"
+                />
               </div>
             </div>
 
@@ -747,22 +754,22 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
               />
               <div>
                 <div className="text-yellow-400 text-sm mb-1">⭐⭐⭐⭐⭐</div>
-                <p
-                  data-eid="review_3_text"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
+                <TiptapEditableText
+                  eid="review_3_text"
+                  defaultText={getText('review_3_text', '"Great headphones, fast delivery."')}
                   className="font-bold text-sm whitespace-pre-wrap break-words"
-                >
-                  {getText('review_3_text', '"Great headphones, fast delivery."')}
-                </p>
-                <p
-                  data-eid="review_3_author"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="p"
+                />
+                <TiptapEditableText
+                  eid="review_3_author"
+                  defaultText={getText('review_3_author', '- Emily K.')}
                   className="text-xs text-gray-500 mt-1"
-                >
-                  {getText('review_3_author', '- Emily K.')}
-                </p>
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="p"
+                />
               </div>
             </div>
           </div>
@@ -772,76 +779,76 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
       {/* How It Works Section */}
       <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <h2
-            data-eid="how_it_works_title"
-            contentEditable={editable}
-            suppressContentEditableWarning
+          <TiptapEditableText
+            eid="how_it_works_title"
+            defaultText={getText('how_it_works_title', 'How It Works')}
             className="text-2xl font-bold mb-8 whitespace-pre-wrap break-words"
-          >
-            {getText('how_it_works_title', 'How It Works')}
-          </h2>
+            editable={editable}
+            onChange={handleTextChange}
+            as="h2"
+          />
           <div className="grid md:grid-cols-3 gap-8">
             {/* Step 1 */}
             <div>
               <div className="bg-gray-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">1</div>
-              <h3
-                data-eid="step_1_title"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="step_1_title"
+                defaultText={getText('step_1_title', 'Add to Cart')}
                 className="font-bold whitespace-pre-wrap break-words"
-              >
-                {getText('step_1_title', 'Add to Cart')}
-              </h3>
-              <p
-                data-eid="step_1_description"
-                contentEditable={editable}
-                suppressContentEditableWarning
+                editable={editable}
+                onChange={handleTextChange}
+                as="h3"
+              />
+              <TiptapEditableText
+                eid="step_1_description"
+                defaultText={getText('step_1_description', 'Select your quantity and click buy.')}
                 className="text-sm text-gray-600 whitespace-pre-wrap break-words"
-              >
-                {getText('step_1_description', 'Select your quantity and click buy.')}
-              </p>
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
             </div>
 
             {/* Step 2 */}
             <div>
               <div className="bg-gray-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">2</div>
-              <h3
-                data-eid="step_2_title"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="step_2_title"
+                defaultText={getText('step_2_title', 'Checkout Securely')}
                 className="font-bold whitespace-pre-wrap break-words"
-              >
-                {getText('step_2_title', 'Checkout Securely')}
-              </h3>
-              <p
-                data-eid="step_2_description"
-                contentEditable={editable}
-                suppressContentEditableWarning
+                editable={editable}
+                onChange={handleTextChange}
+                as="h3"
+              />
+              <TiptapEditableText
+                eid="step_2_description"
+                defaultText={getText('step_2_description', 'Enter your shipping details.')}
                 className="text-sm text-gray-600 whitespace-pre-wrap break-words"
-              >
-                {getText('step_2_description', 'Enter your shipping details.')}
-              </p>
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
             </div>
 
             {/* Step 3 */}
             <div>
               <div className="bg-gray-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">3</div>
-              <h3
-                data-eid="step_3_title"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="step_3_title"
+                defaultText={getText('step_3_title', 'Enjoy Your Headphones')}
                 className="font-bold whitespace-pre-wrap break-words"
-              >
-                {getText('step_3_title', 'Enjoy Your Headphones')}
-              </h3>
-              <p
-                data-eid="step_3_description"
-                contentEditable={editable}
-                suppressContentEditableWarning
+                editable={editable}
+                onChange={handleTextChange}
+                as="h3"
+              />
+              <TiptapEditableText
+                eid="step_3_description"
+                defaultText={getText('step_3_description', 'Fast delivery to your door.')}
                 className="text-sm text-gray-600 whitespace-pre-wrap break-words"
-              >
-                {getText('step_3_description', 'Fast delivery to your door.')}
-              </p>
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
             </div>
           </div>
         </div>
@@ -850,79 +857,79 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
       {/* FAQ Section */}
       <section className="py-12 bg-gray-50">
         <div className="max-w-2xl mx-auto px-4">
-          <h2
-            data-eid="faq_title"
-            contentEditable={editable}
-            suppressContentEditableWarning
+          <TiptapEditableText
+            eid="faq_title"
+            defaultText={getText('faq_title', 'FAQ Section')}
             className="text-2xl font-bold text-center mb-8 whitespace-pre-wrap break-words"
-          >
-            {getText('faq_title', 'FAQ Section')}
-          </h2>
+            editable={editable}
+            onChange={handleTextChange}
+            as="h2"
+          />
           <div className="space-y-4">
             {/* FAQ 1 */}
             <details className="bg-white p-4 rounded-lg shadow-sm cursor-pointer group">
               <summary className="font-semibold flex justify-between items-center list-none">
-                <span
-                  data-eid="faq_1_question"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
-                >
-                  {getText('faq_1_question', 'How long does shipping take?')}
-                </span>
+                <TiptapEditableText
+                  eid="faq_1_question"
+                  defaultText={getText('faq_1_question', 'How long does shipping take?')}
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="span"
+                />
                 <span className="transition group-open:rotate-180">▼</span>
               </summary>
-              <p
-                data-eid="faq_1_answer"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="faq_1_answer"
+                defaultText={getText('faq_1_answer', 'We offer Next Day Delivery if you order before 2 PM. Standard shipping takes 2-4 business days.')}
                 className="text-gray-600 mt-2 text-sm"
-              >
-                {getText('faq_1_answer', 'We offer Next Day Delivery if you order before 2 PM. Standard shipping takes 2-4 business days.')}
-              </p>
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
             </details>
 
             {/* FAQ 2 */}
             <details className="bg-white p-4 rounded-lg shadow-sm cursor-pointer group">
               <summary className="font-semibold flex justify-between items-center list-none">
-                <span
-                  data-eid="faq_2_question"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
-                >
-                  {getText('faq_2_question', 'What is the return policy?')}
-                </span>
+                <TiptapEditableText
+                  eid="faq_2_question"
+                  defaultText={getText('faq_2_question', 'What is the return policy?')}
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="span"
+                />
                 <span className="transition group-open:rotate-180">▼</span>
               </summary>
-              <p
-                data-eid="faq_2_answer"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="faq_2_answer"
+                defaultText={getText('faq_2_answer', 'We have a 30-day money-back guarantee. No questions asked.')}
                 className="text-gray-600 mt-2 text-sm"
-              >
-                {getText('faq_2_answer', 'We have a 30-day money-back guarantee. No questions asked.')}
-              </p>
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
             </details>
 
             {/* FAQ 3 */}
             <details className="bg-white p-4 rounded-lg shadow-sm cursor-pointer group">
               <summary className="font-semibold flex justify-between items-center list-none">
-                <span
-                  data-eid="faq_3_question"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
-                >
-                  {getText('faq_3_question', 'Is there a warranty?')}
-                </span>
+                <TiptapEditableText
+                  eid="faq_3_question"
+                  defaultText={getText('faq_3_question', 'Is there a warranty?')}
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="span"
+                />
                 <span className="transition group-open:rotate-180">▼</span>
               </summary>
-              <p
-                data-eid="faq_3_answer"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="faq_3_answer"
+                defaultText={getText('faq_3_answer', 'Yes, all headphones come with a 1-year manufacturer warranty.')}
                 className="text-gray-600 mt-2 text-sm"
-              >
-                {getText('faq_3_answer', 'Yes, all headphones come with a 1-year manufacturer warranty.')}
-              </p>
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
             </details>
           </div>
         </div>
@@ -930,14 +937,14 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
 
       {/* Footer */}
       <footer className="bg-black text-white py-12 text-center">
-        <h3
-          data-eid="footer_cta_title"
-          contentEditable={editable}
-          suppressContentEditableWarning
+        <TiptapEditableText
+          eid="footer_cta_title"
+          defaultText={getText('footer_cta_title', "Don't Miss Out - Sale Ends Soon!")}
           className="text-2xl font-bold mb-4 whitespace-pre-wrap break-words"
-        >
-          {getText('footer_cta_title', "Don't Miss Out - Sale Ends Soon!")}
-        </h3>
+          editable={editable}
+          onChange={handleTextChange}
+          as="h3"
+        />
         <EditableButton
           eid="footer_cta_button"
           defaultText={getButton('footer_cta_button', 'SHOP FLASH SALE NOW', '#buy').text}
@@ -947,52 +954,52 @@ export default function FlashSale({ editable = false, data = {}, onContentChange
           onChange={onContentChange}
         />
         <div className="flex justify-center gap-6 text-sm text-gray-400 mb-4">
-          <span
-            data-eid="footer_link_1"
-            contentEditable={editable}
-            suppressContentEditableWarning
+          <TiptapEditableText
+            eid="footer_link_1"
+            defaultText={getText('footer_link_1', 'About Us')}
             className="hover:text-white cursor-pointer"
-          >
-            {getText('footer_link_1', 'About Us')}
-          </span>
-          <span
-            data-eid="footer_link_2"
-            contentEditable={editable}
-            suppressContentEditableWarning
+            editable={editable}
+            onChange={handleTextChange}
+            as="span"
+          />
+          <TiptapEditableText
+            eid="footer_link_2"
+            defaultText={getText('footer_link_2', 'Contact')}
             className="hover:text-white cursor-pointer"
-          >
-            {getText('footer_link_2', 'Contact')}
-          </span>
-          <span
-            data-eid="footer_link_3"
-            contentEditable={editable}
-            suppressContentEditableWarning
+            editable={editable}
+            onChange={handleTextChange}
+            as="span"
+          />
+          <TiptapEditableText
+            eid="footer_link_3"
+            defaultText={getText('footer_link_3', 'Privacy Policy')}
             className="hover:text-white cursor-pointer"
-          >
-            {getText('footer_link_3', 'Privacy Policy')}
-          </span>
-          <span
-            data-eid="footer_link_4"
-            contentEditable={editable}
-            suppressContentEditableWarning
+            editable={editable}
+            onChange={handleTextChange}
+            as="span"
+          />
+          <TiptapEditableText
+            eid="footer_link_4"
+            defaultText={getText('footer_link_4', 'Terms of Service')}
             className="hover:text-white cursor-pointer"
-          >
-            {getText('footer_link_4', 'Terms of Service')}
-          </span>
+            editable={editable}
+            onChange={handleTextChange}
+            as="span"
+          />
         </div>
         <div className="flex justify-center gap-4 text-xl mb-4">
           <span>📘</span>
           <span>📷</span>
           <span>🐦</span>
         </div>
-        <p
-          data-eid="footer_copyright"
-          contentEditable={editable}
-          suppressContentEditableWarning
+        <TiptapEditableText
+          eid="footer_copyright"
+          defaultText={getText('footer_copyright', '© 2024 FlashDeals Inc. All Rights Reserved.')}
           className="text-xs text-gray-600"
-        >
-          {getText('footer_copyright', '© 2024 FlashDeals Inc. All Rights Reserved.')}
-        </p>
+          editable={editable}
+          onChange={handleTextChange}
+          as="p"
+        />
       </footer>
     </div>
   );

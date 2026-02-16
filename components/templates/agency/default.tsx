@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { EditableImage } from '@/components/editor/editable-image';
 import { EditableButton } from '@/components/editor/editable-button';
+import { TiptapEditableText } from '@/components/editor/tiptap-editable-text';
 import { BaseTemplateProps } from '@/types/template';
 
 interface AgencyProps extends BaseTemplateProps {
@@ -48,6 +49,12 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
     };
   };
 
+  const handleTextChange = (eid: string, content: string) => {
+    if (onContentChange) {
+      onContentChange(eid, { text: content });
+    }
+  };
+
   const handleImageChange = (eid: string, data: { image: string; linkUrl?: string | undefined }) => {
     if (onContentChange) {
       onContentChange(eid, data);
@@ -67,14 +74,15 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
       <nav className={`fixed left-0 right-0 z-50 transition-all duration-300 ${editable ? 'top-16' : 'top-[48px]'} ${scrollY > 50 ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-slate-900/80 backdrop-blur-md'}`}>
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <h1
-              data-eid="nav_logo"
-              contentEditable={editable}
-              suppressContentEditableWarning
-              className={`text-2xl font-bold transition-colors ${scrollY > 50 ? 'bg-gradient-to-r from-orange-500 to-purple-500 bg-clip-text text-transparent' : 'text-white'} whitespace-pre-wrap break-words`}
-            >
-              {getText('nav_logo', 'Creative Agency')}
-            </h1>
+            <TiptapEditableText
+              eid="nav_logo"
+              defaultText={getText('nav_logo', 'Creative Agency')}
+              className={`text-2xl font-bold transition-colors whitespace-pre-wrap break-words ${scrollY > 50 ? '' : 'text-white'}`}
+              editorClassName={scrollY > 50 ? 'bg-gradient-to-r from-orange-500 to-purple-500 bg-clip-text text-transparent' : ''}
+              editable={editable}
+              onChange={handleTextChange}
+              as="h1"
+            />
             <div className="flex gap-6 items-center">
               {['Home', 'Services', 'Portfolio', 'Team', 'Testimonials', 'Contact'].map((item) => (
                 <button
@@ -100,31 +108,32 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
         </div>
         <div className="max-w-6xl mx-auto text-center relative z-10" style={{ transform: `translateY(${scrollY * 0.3}px)` }}>
           <div className="inline-block px-4 py-2 bg-orange-600/30 backdrop-blur-sm rounded-full border border-orange-400/30 mb-6">
-            <span
-              data-eid="hero_badge"
-              contentEditable={editable}
-              suppressContentEditableWarning
+            <TiptapEditableText
+              eid="hero_badge"
+              defaultText={getText('hero_badge', '🎨 Award-Winning Agency')}
               className="text-sm text-orange-200 whitespace-pre-wrap break-words"
-            >
-              {getText('hero_badge', '🎨 Award-Winning Agency')}
-            </span>
+              editable={editable}
+              onChange={handleTextChange}
+              as="span"
+            />
           </div>
-          <h1
-            data-eid="hero_headline"
-            contentEditable={editable}
-            suppressContentEditableWarning
-            className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-purple-400 bg-clip-text text-transparent whitespace-pre-wrap break-words"
-          >
-            {getText('hero_headline', 'Creative Agency')}
-          </h1>
-          <p
-            data-eid="hero_tagline"
-            contentEditable={editable}
-            suppressContentEditableWarning
+          <TiptapEditableText
+            eid="hero_headline"
+            defaultText={getText('hero_headline', 'Creative Agency')}
+            className="text-6xl md:text-8xl font-bold mb-6 whitespace-pre-wrap break-words"
+            editorClassName="bg-gradient-to-r from-orange-400 to-purple-400 bg-clip-text text-transparent"
+            editable={editable}
+            onChange={handleTextChange}
+            as="h1"
+          />
+          <TiptapEditableText
+            eid="hero_tagline"
+            defaultText={getText('hero_tagline', 'We craft digital experiences that inspire and engage')}
             className="text-2xl md:text-3xl text-slate-300 mb-10 max-w-3xl mx-auto whitespace-pre-wrap break-words"
-          >
-            {getText('hero_tagline', 'We craft digital experiences that inspire and engage')}
-          </p>
+            editable={editable}
+            onChange={handleTextChange}
+            as="p"
+          />
           <div className="flex gap-4 justify-center">
             <EditableButton
               eid="hero_cta_primary"
@@ -155,14 +164,14 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
       <section id="services" className="py-24 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2
-              data-eid="services_heading"
-              contentEditable={editable}
-              suppressContentEditableWarning
+            <TiptapEditableText
+              eid="services_heading"
+              defaultText={getText('services_heading', 'Our Services')}
               className="text-5xl md:text-6xl font-bold text-slate-900 mb-4 whitespace-pre-wrap break-words"
-            >
-              {getText('services_heading', 'Our Services')}
-            </h2>
+              editable={editable}
+              onChange={handleTextChange}
+              as="h2"
+            />
             <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-purple-500 mx-auto"></div>
           </div>
           <div className="grid md:grid-cols-2 gap-8">
@@ -171,22 +180,22 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
               <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-purple-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <span className="text-2xl">🎨</span>
               </div>
-              <h3
-                data-eid="service_1_title"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="service_1_title"
+                defaultText={getText('service_1_title', 'Brand Identity')}
                 className="text-2xl font-bold text-slate-900 mb-4 whitespace-pre-wrap break-words"
-              >
-                {getText('service_1_title', 'Brand Identity')}
-              </h3>
-              <p
-                data-eid="service_1_description"
-                contentEditable={editable}
-                suppressContentEditableWarning
+                editable={editable}
+                onChange={handleTextChange}
+                as="h3"
+              />
+              <TiptapEditableText
+                eid="service_1_description"
+                defaultText={getText('service_1_description', 'Create a memorable brand that stands out with custom logos, color palettes, and visual guidelines.')}
                 className="text-slate-600 leading-relaxed whitespace-pre-wrap break-words"
-              >
-                {getText('service_1_description', 'Create a memorable brand that stands out with custom logos, color palettes, and visual guidelines.')}
-              </p>
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
             </div>
 
             {/* Service 2 */}
@@ -194,22 +203,22 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
               <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <span className="text-2xl">💻</span>
               </div>
-              <h3
-                data-eid="service_2_title"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="service_2_title"
+                defaultText={getText('service_2_title', 'Web Development')}
                 className="text-2xl font-bold text-slate-900 mb-4 whitespace-pre-wrap break-words"
-              >
-                {getText('service_2_title', 'Web Development')}
-              </h3>
-              <p
-                data-eid="service_2_description"
-                contentEditable={editable}
-                suppressContentEditableWarning
+                editable={editable}
+                onChange={handleTextChange}
+                as="h3"
+              />
+              <TiptapEditableText
+                eid="service_2_description"
+                defaultText={getText('service_2_description', 'Build fast, responsive websites with modern technologies and best practices for optimal performance.')}
                 className="text-slate-600 leading-relaxed whitespace-pre-wrap break-words"
-              >
-                {getText('service_2_description', 'Build fast, responsive websites with modern technologies and best practices for optimal performance.')}
-              </p>
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
             </div>
 
             {/* Service 3 */}
@@ -217,22 +226,22 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
               <div className="w-14 h-14 bg-gradient-to-br from-pink-500 to-orange-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <span className="text-2xl">📱</span>
               </div>
-              <h3
-                data-eid="service_3_title"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="service_3_title"
+                defaultText={getText('service_3_title', 'Mobile Apps')}
                 className="text-2xl font-bold text-slate-900 mb-4 whitespace-pre-wrap break-words"
-              >
-                {getText('service_3_title', 'Mobile Apps')}
-              </h3>
-              <p
-                data-eid="service_3_description"
-                contentEditable={editable}
-                suppressContentEditableWarning
+                editable={editable}
+                onChange={handleTextChange}
+                as="h3"
+              />
+              <TiptapEditableText
+                eid="service_3_description"
+                defaultText={getText('service_3_description', 'Design and develop native and cross-platform mobile applications that users love.')}
                 className="text-slate-600 leading-relaxed whitespace-pre-wrap break-words"
-              >
-                {getText('service_3_description', 'Design and develop native and cross-platform mobile applications that users love.')}
-              </p>
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
             </div>
 
             {/* Service 4 */}
@@ -240,22 +249,22 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
               <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <span className="text-2xl">📊</span>
               </div>
-              <h3
-                data-eid="service_4_title"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="service_4_title"
+                defaultText={getText('service_4_title', 'Digital Marketing')}
                 className="text-2xl font-bold text-slate-900 mb-4 whitespace-pre-wrap break-words"
-              >
-                {getText('service_4_title', 'Digital Marketing')}
-              </h3>
-              <p
-                data-eid="service_4_description"
-                contentEditable={editable}
-                suppressContentEditableWarning
+                editable={editable}
+                onChange={handleTextChange}
+                as="h3"
+              />
+              <TiptapEditableText
+                eid="service_4_description"
+                defaultText={getText('service_4_description', 'Grow your business with data-driven marketing strategies and campaigns that deliver results.')}
                 className="text-slate-600 leading-relaxed whitespace-pre-wrap break-words"
-              >
-                {getText('service_4_description', 'Grow your business with data-driven marketing strategies and campaigns that deliver results.')}
-              </p>
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
             </div>
           </div>
         </div>
@@ -265,56 +274,56 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
       <section id="portfolio" className="py-24 px-6 bg-slate-900 text-white">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2
-              data-eid="portfolio_heading"
-              contentEditable={editable}
-              suppressContentEditableWarning
+            <TiptapEditableText
+              eid="portfolio_heading"
+              defaultText={getText('portfolio_heading', 'Featured Work')}
               className="text-5xl md:text-6xl font-bold mb-4 whitespace-pre-wrap break-words"
-            >
-              {getText('portfolio_heading', 'Featured Work')}
-            </h2>
+              editable={editable}
+              onChange={handleTextChange}
+              as="h2"
+            />
             <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-purple-500 mx-auto"></div>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             {/* Portfolio Item 1 */}
             <div className="group relative h-80 bg-gradient-to-br from-orange-500 to-purple-500 rounded-2xl overflow-hidden cursor-pointer">
               <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-colors flex items-center justify-center">
-                <h3
-                  data-eid="portfolio_1_title"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
+                <TiptapEditableText
+                  eid="portfolio_1_title"
+                  defaultText={getText('portfolio_1_title', 'Brand Redesign')}
                   className="text-3xl font-bold text-white whitespace-pre-wrap break-words"
-                >
-                  {getText('portfolio_1_title', 'Brand Redesign')}
-                </h3>
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="h3"
+                />
               </div>
             </div>
 
             {/* Portfolio Item 2 */}
             <div className="group relative h-80 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl overflow-hidden cursor-pointer">
               <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-colors flex items-center justify-center">
-                <h3
-                  data-eid="portfolio_2_title"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
+                <TiptapEditableText
+                  eid="portfolio_2_title"
+                  defaultText={getText('portfolio_2_title', 'E-commerce Site')}
                   className="text-3xl font-bold text-white whitespace-pre-wrap break-words"
-                >
-                  {getText('portfolio_2_title', 'E-commerce Site')}
-                </h3>
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="h3"
+                />
               </div>
             </div>
 
             {/* Portfolio Item 3 */}
             <div className="group relative h-80 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl overflow-hidden cursor-pointer">
               <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-colors flex items-center justify-center">
-                <h3
-                  data-eid="portfolio_3_title"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
+                <TiptapEditableText
+                  eid="portfolio_3_title"
+                  defaultText={getText('portfolio_3_title', 'Mobile App')}
                   className="text-3xl font-bold text-white whitespace-pre-wrap break-words"
-                >
-                  {getText('portfolio_3_title', 'Mobile App')}
-                </h3>
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="h3"
+                />
               </div>
             </div>
           </div>
@@ -325,23 +334,23 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
       <section id="team" className="py-24 px-6 bg-slate-50">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2
-              data-eid="team_heading"
-              contentEditable={editable}
-              suppressContentEditableWarning
+            <TiptapEditableText
+              eid="team_heading"
+              defaultText={getText('team_heading', 'Meet Our Team')}
               className="text-5xl md:text-6xl font-bold text-slate-900 mb-4 whitespace-pre-wrap break-words"
-            >
-              {getText('team_heading', 'Meet Our Team')}
-            </h2>
+              editable={editable}
+              onChange={handleTextChange}
+              as="h2"
+            />
             <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-purple-500 mx-auto mb-4"></div>
-            <p
-              data-eid="team_description"
-              contentEditable={editable}
-              suppressContentEditableWarning
+            <TiptapEditableText
+              eid="team_description"
+              defaultText={getText('team_description', 'Talented individuals working together to create exceptional digital experiences')}
               className="text-xl text-slate-600 max-w-3xl mx-auto whitespace-pre-wrap break-words"
-            >
-              {getText('team_description', 'Talented individuals working together to create exceptional digital experiences')}
-            </p>
+              editable={editable}
+              onChange={handleTextChange}
+              as="p"
+            />
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {/* Team Member 1 */}
@@ -359,30 +368,30 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
               </div>
               <div className="p-6 text-center">
-                <h3
-                  data-eid="team_1_name"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
+                <TiptapEditableText
+                  eid="team_1_name"
+                  defaultText={getText('team_1_name', 'Sarah Johnson')}
                   className="text-2xl font-bold text-slate-900 mb-2 whitespace-pre-wrap break-words"
-                >
-                  {getText('team_1_name', 'Sarah Johnson')}
-                </h3>
-                <p
-                  data-eid="team_1_role"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="h3"
+                />
+                <TiptapEditableText
+                  eid="team_1_role"
+                  defaultText={getText('team_1_role', 'Creative Director')}
                   className="text-orange-500 font-semibold mb-3 whitespace-pre-wrap break-words"
-                >
-                  {getText('team_1_role', 'Creative Director')}
-                </p>
-                <p
-                  data-eid="team_1_bio"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="p"
+                />
+                <TiptapEditableText
+                  eid="team_1_bio"
+                  defaultText={getText('team_1_bio', '10+ years of experience in brand strategy and visual design')}
                   className="text-slate-600 text-sm whitespace-pre-wrap break-words"
-                >
-                  {getText('team_1_bio', '10+ years of experience in brand strategy and visual design')}
-                </p>
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="p"
+                />
               </div>
             </div>
 
@@ -401,30 +410,30 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
               </div>
               <div className="p-6 text-center">
-                <h3
-                  data-eid="team_2_name"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
+                <TiptapEditableText
+                  eid="team_2_name"
+                  defaultText={getText('team_2_name', 'Michael Chen')}
                   className="text-2xl font-bold text-slate-900 mb-2 whitespace-pre-wrap break-words"
-                >
-                  {getText('team_2_name', 'Michael Chen')}
-                </h3>
-                <p
-                  data-eid="team_2_role"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="h3"
+                />
+                <TiptapEditableText
+                  eid="team_2_role"
+                  defaultText={getText('team_2_role', 'Lead Developer')}
                   className="text-purple-500 font-semibold mb-3 whitespace-pre-wrap break-words"
-                >
-                  {getText('team_2_role', 'Lead Developer')}
-                </p>
-                <p
-                  data-eid="team_2_bio"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="p"
+                />
+                <TiptapEditableText
+                  eid="team_2_bio"
+                  defaultText={getText('team_2_bio', 'Full-stack expert specializing in modern web technologies')}
                   className="text-slate-600 text-sm whitespace-pre-wrap break-words"
-                >
-                  {getText('team_2_bio', 'Full-stack expert specializing in modern web technologies')}
-                </p>
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="p"
+                />
               </div>
             </div>
 
@@ -443,30 +452,30 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
               </div>
               <div className="p-6 text-center">
-                <h3
-                  data-eid="team_3_name"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
+                <TiptapEditableText
+                  eid="team_3_name"
+                  defaultText={getText('team_3_name', 'Emily Rodriguez')}
                   className="text-2xl font-bold text-slate-900 mb-2 whitespace-pre-wrap break-words"
-                >
-                  {getText('team_3_name', 'Emily Rodriguez')}
-                </h3>
-                <p
-                  data-eid="team_3_role"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="h3"
+                />
+                <TiptapEditableText
+                  eid="team_3_role"
+                  defaultText={getText('team_3_role', 'Marketing Strategist')}
                   className="text-pink-500 font-semibold mb-3 whitespace-pre-wrap break-words"
-                >
-                  {getText('team_3_role', 'Marketing Strategist')}
-                </p>
-                <p
-                  data-eid="team_3_bio"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="p"
+                />
+                <TiptapEditableText
+                  eid="team_3_bio"
+                  defaultText={getText('team_3_bio', 'Data-driven marketing expert with proven track record')}
                   className="text-slate-600 text-sm whitespace-pre-wrap break-words"
-                >
-                  {getText('team_3_bio', 'Data-driven marketing expert with proven track record')}
-                </p>
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="p"
+                />
               </div>
             </div>
           </div>
@@ -477,14 +486,14 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
       <section id="testimonials" className="py-24 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2
-              data-eid="testimonials_heading"
-              contentEditable={editable}
-              suppressContentEditableWarning
+            <TiptapEditableText
+              eid="testimonials_heading"
+              defaultText={getText('testimonials_heading', 'What Clients Say')}
               className="text-5xl md:text-6xl font-bold text-slate-900 mb-4 whitespace-pre-wrap break-words"
-            >
-              {getText('testimonials_heading', 'What Clients Say')}
-            </h2>
+              editable={editable}
+              onChange={handleTextChange}
+              as="h2"
+            />
             <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-purple-500 mx-auto"></div>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
@@ -495,35 +504,35 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                   <span key={i} className="text-yellow-400 text-xl">⭐</span>
                 ))}
               </div>
-              <p
-                data-eid="testimonial_1_text"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="testimonial_1_text"
+                defaultText={getText('testimonial_1_text', '"Working with this agency transformed our brand. Their creativity and professionalism exceeded all expectations."')}
                 className="text-slate-700 mb-6 leading-relaxed italic whitespace-pre-wrap break-words"
-              >
-                {getText('testimonial_1_text', '"Working with this agency transformed our brand. Their creativity and professionalism exceeded all expectations."')}
-              </p>
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
                   JD
                 </div>
                 <div>
-                  <h4
-                    data-eid="testimonial_1_name"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                  <TiptapEditableText
+                    eid="testimonial_1_name"
+                    defaultText={getText('testimonial_1_name', 'John Davis')}
                     className="font-bold text-slate-900 whitespace-pre-wrap break-words"
-                  >
-                    {getText('testimonial_1_name', 'John Davis')}
-                  </h4>
-                  <p
-                    data-eid="testimonial_1_company"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="h4"
+                  />
+                  <TiptapEditableText
+                    eid="testimonial_1_company"
+                    defaultText={getText('testimonial_1_company', 'CEO, TechStart Inc.')}
                     className="text-sm text-slate-600 whitespace-pre-wrap break-words"
-                  >
-                    {getText('testimonial_1_company', 'CEO, TechStart Inc.')}
-                  </p>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="p"
+                  />
                 </div>
               </div>
             </div>
@@ -535,35 +544,35 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                   <span key={i} className="text-yellow-400 text-xl">⭐</span>
                 ))}
               </div>
-              <p
-                data-eid="testimonial_2_text"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="testimonial_2_text"
+                defaultText={getText('testimonial_2_text', '"Incredible attention to detail and amazing results. Our website traffic increased by 300% in just 3 months!"')}
                 className="text-slate-700 mb-6 leading-relaxed italic whitespace-pre-wrap break-words"
-              >
-                {getText('testimonial_2_text', '"Incredible attention to detail and amazing results. Our website traffic increased by 300% in just 3 months!"')}
-              </p>
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold">
                   SM
                 </div>
                 <div>
-                  <h4
-                    data-eid="testimonial_2_name"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                  <TiptapEditableText
+                    eid="testimonial_2_name"
+                    defaultText={getText('testimonial_2_name', 'Sarah Martinez')}
                     className="font-bold text-slate-900 whitespace-pre-wrap break-words"
-                  >
-                    {getText('testimonial_2_name', 'Sarah Martinez')}
-                  </h4>
-                  <p
-                    data-eid="testimonial_2_company"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="h4"
+                  />
+                  <TiptapEditableText
+                    eid="testimonial_2_company"
+                    defaultText={getText('testimonial_2_company', 'Founder, StyleHub')}
                     className="text-sm text-slate-600 whitespace-pre-wrap break-words"
-                  >
-                    {getText('testimonial_2_company', 'Founder, StyleHub')}
-                  </p>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="p"
+                  />
                 </div>
               </div>
             </div>
@@ -575,35 +584,35 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
                   <span key={i} className="text-yellow-400 text-xl">⭐</span>
                 ))}
               </div>
-              <p
-                data-eid="testimonial_3_text"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="testimonial_3_text"
+                defaultText={getText('testimonial_3_text', '"Best decision we made for our business. The team is responsive, talented, and truly cares about results."')}
                 className="text-slate-700 mb-6 leading-relaxed italic whitespace-pre-wrap break-words"
-              >
-                {getText('testimonial_3_text', '"Best decision we made for our business. The team is responsive, talented, and truly cares about results."')}
-              </p>
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold">
                   RK
                 </div>
                 <div>
-                  <h4
-                    data-eid="testimonial_3_name"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                  <TiptapEditableText
+                    eid="testimonial_3_name"
+                    defaultText={getText('testimonial_3_name', 'Robert Kim')}
                     className="font-bold text-slate-900 whitespace-pre-wrap break-words"
-                  >
-                    {getText('testimonial_3_name', 'Robert Kim')}
-                  </h4>
-                  <p
-                    data-eid="testimonial_3_company"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="h4"
+                  />
+                  <TiptapEditableText
+                    eid="testimonial_3_company"
+                    defaultText={getText('testimonial_3_company', 'Director, GrowthLab')}
                     className="text-sm text-slate-600 whitespace-pre-wrap break-words"
-                  >
-                    {getText('testimonial_3_company', 'Director, GrowthLab')}
-                  </p>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="p"
+                  />
                 </div>
               </div>
             </div>
@@ -614,23 +623,23 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
       {/* Contact Section */}
       <section id="contact" className="py-24 px-6 bg-slate-900 text-white">
         <div className="max-w-4xl mx-auto text-center">
-          <h2
-            data-eid="contact_heading"
-            contentEditable={editable}
-            suppressContentEditableWarning
+          <TiptapEditableText
+            eid="contact_heading"
+            defaultText={getText('contact_heading', "Let's Create Something Amazing")}
             className="text-5xl md:text-6xl font-bold mb-4 whitespace-pre-wrap break-words"
-          >
-            {getText('contact_heading', "Let's Create Something Amazing")}
-          </h2>
+            editable={editable}
+            onChange={handleTextChange}
+            as="h2"
+          />
           <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-purple-500 mx-auto mb-6"></div>
-          <p
-            data-eid="contact_subheading"
-            contentEditable={editable}
-            suppressContentEditableWarning
+          <TiptapEditableText
+            eid="contact_subheading"
+            defaultText={getText('contact_subheading', 'Ready to bring your vision to life? Get in touch with our team today and start your journey to digital excellence.')}
             className="text-xl text-slate-300 mb-10 max-w-2xl mx-auto whitespace-pre-wrap break-words"
-          >
-            {getText('contact_subheading', 'Ready to bring your vision to life? Get in touch with our team today and start your journey to digital excellence.')}
-          </p>
+            editable={editable}
+            onChange={handleTextChange}
+            as="p"
+          />
           <div className="flex gap-4 justify-center mb-12">
             <EditableButton
               eid="contact_cta_primary"
@@ -652,60 +661,60 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
           <div className="grid md:grid-cols-3 gap-8 text-center">
             <div className="p-6 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10">
               <div className="text-4xl mb-3">📧</div>
-              <h3
-                data-eid="contact_email_label"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="contact_email_label"
+                defaultText={getText('contact_email_label', 'Email Us')}
                 className="font-semibold mb-2 whitespace-pre-wrap break-words"
-              >
-                {getText('contact_email_label', 'Email Us')}
-              </h3>
-              <p
-                data-eid="contact_email"
-                contentEditable={editable}
-                suppressContentEditableWarning
+                editable={editable}
+                onChange={handleTextChange}
+                as="h3"
+              />
+              <TiptapEditableText
+                eid="contact_email"
+                defaultText={getText('contact_email', 'hello@agency.com')}
                 className="text-slate-300 whitespace-pre-wrap break-words"
-              >
-                {getText('contact_email', 'hello@agency.com')}
-              </p>
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
             </div>
             <div className="p-6 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10">
               <div className="text-4xl mb-3">📱</div>
-              <h3
-                data-eid="contact_phone_label"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="contact_phone_label"
+                defaultText={getText('contact_phone_label', 'Call Us')}
                 className="font-semibold mb-2 whitespace-pre-wrap break-words"
-              >
-                {getText('contact_phone_label', 'Call Us')}
-              </h3>
-              <p
-                data-eid="contact_phone"
-                contentEditable={editable}
-                suppressContentEditableWarning
+                editable={editable}
+                onChange={handleTextChange}
+                as="h3"
+              />
+              <TiptapEditableText
+                eid="contact_phone"
+                defaultText={getText('contact_phone', '+1 (555) 123-4567')}
                 className="text-slate-300 whitespace-pre-wrap break-words"
-              >
-                {getText('contact_phone', '+1 (555) 123-4567')}
-              </p>
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
             </div>
             <div className="p-6 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10">
               <div className="text-4xl mb-3">📍</div>
-              <h3
-                data-eid="contact_location_label"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="contact_location_label"
+                defaultText={getText('contact_location_label', 'Visit Us')}
                 className="font-semibold mb-2 whitespace-pre-wrap break-words"
-              >
-                {getText('contact_location_label', 'Visit Us')}
-              </h3>
-              <p
-                data-eid="contact_location"
-                contentEditable={editable}
-                suppressContentEditableWarning
+                editable={editable}
+                onChange={handleTextChange}
+                as="h3"
+              />
+              <TiptapEditableText
+                eid="contact_location"
+                defaultText={getText('contact_location', 'San Francisco, CA')}
                 className="text-slate-300 whitespace-pre-wrap break-words"
-              >
-                {getText('contact_location', 'San Francisco, CA')}
-              </p>
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
             </div>
           </div>
         </div>
@@ -716,112 +725,121 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
-              <h3
-                data-eid="footer_brand"
-                contentEditable={editable}
-                suppressContentEditableWarning
-                className="text-2xl font-bold bg-gradient-to-r from-orange-400 to-purple-400 bg-clip-text text-transparent mb-4 whitespace-pre-wrap break-words"
-              >
-                {getText('footer_brand', 'Creative Agency')}
-              </h3>
-              <p
-                data-eid="footer_tagline"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="footer_brand"
+                defaultText={getText('footer_brand', 'Creative Agency')}
+                className="text-2xl font-bold mb-4 whitespace-pre-wrap break-words"
+                editorClassName="bg-gradient-to-r from-orange-400 to-purple-400 bg-clip-text text-transparent"
+                editable={editable}
+                onChange={handleTextChange}
+                as="h3"
+              />
+              <TiptapEditableText
+                eid="footer_tagline"
+                defaultText={getText('footer_tagline', 'Crafting digital experiences that inspire and engage.')}
                 className="text-slate-400 text-sm whitespace-pre-wrap break-words"
-              >
-                {getText('footer_tagline', 'Crafting digital experiences that inspire and engage.')}
-              </p>
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
             </div>
             <div>
-              <h4
-                data-eid="footer_services_title"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="footer_services_title"
+                defaultText={getText('footer_services_title', 'Services')}
                 className="font-bold mb-4 whitespace-pre-wrap break-words"
-              >
-                {getText('footer_services_title', 'Services')}
-              </h4>
+                editable={editable}
+                onChange={handleTextChange}
+                as="h4"
+              />
               <ul className="space-y-2 text-slate-400 text-sm">
-                <li
-                  data-eid="footer_service_1"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
-                >
-                  {getText('footer_service_1', 'Brand Identity')}
-                </li>
-                <li
-                  data-eid="footer_service_2"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
-                >
-                  {getText('footer_service_2', 'Web Development')}
-                </li>
-                <li
-                  data-eid="footer_service_3"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
-                >
-                  {getText('footer_service_3', 'Mobile Apps')}
-                </li>
-                <li
-                  data-eid="footer_service_4"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
-                >
-                  {getText('footer_service_4', 'Digital Marketing')}
-                </li>
+                <TiptapEditableText
+                  eid="footer_service_1"
+                  defaultText={getText('footer_service_1', 'Brand Identity')}
+                  className=""
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="li"
+                />
+                <TiptapEditableText
+                  eid="footer_service_2"
+                  defaultText={getText('footer_service_2', 'Web Development')}
+                  className=""
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="li"
+                />
+                <TiptapEditableText
+                  eid="footer_service_3"
+                  defaultText={getText('footer_service_3', 'Mobile Apps')}
+                  className=""
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="li"
+                />
+                <TiptapEditableText
+                  eid="footer_service_4"
+                  defaultText={getText('footer_service_4', 'Digital Marketing')}
+                  className=""
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="li"
+                />
               </ul>
             </div>
             <div>
-              <h4
-                data-eid="footer_company_title"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="footer_company_title"
+                defaultText={getText('footer_company_title', 'Company')}
                 className="font-bold mb-4 whitespace-pre-wrap break-words"
-              >
-                {getText('footer_company_title', 'Company')}
-              </h4>
+                editable={editable}
+                onChange={handleTextChange}
+                as="h4"
+              />
               <ul className="space-y-2 text-slate-400 text-sm">
-                <li
-                  data-eid="footer_link_1"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
-                >
-                  {getText('footer_link_1', 'About Us')}
-                </li>
-                <li
-                  data-eid="footer_link_2"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
-                >
-                  {getText('footer_link_2', 'Careers')}
-                </li>
-                <li
-                  data-eid="footer_link_3"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
-                >
-                  {getText('footer_link_3', 'Blog')}
-                </li>
-                <li
-                  data-eid="footer_link_4"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
-                >
-                  {getText('footer_link_4', 'Contact')}
-                </li>
+                <TiptapEditableText
+                  eid="footer_link_1"
+                  defaultText={getText('footer_link_1', 'About Us')}
+                  className=""
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="li"
+                />
+                <TiptapEditableText
+                  eid="footer_link_2"
+                  defaultText={getText('footer_link_2', 'Careers')}
+                  className=""
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="li"
+                />
+                <TiptapEditableText
+                  eid="footer_link_3"
+                  defaultText={getText('footer_link_3', 'Blog')}
+                  className=""
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="li"
+                />
+                <TiptapEditableText
+                  eid="footer_link_4"
+                  defaultText={getText('footer_link_4', 'Contact')}
+                  className=""
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="li"
+                />
               </ul>
             </div>
             <div>
-              <h4
-                data-eid="footer_social_title"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="footer_social_title"
+                defaultText={getText('footer_social_title', 'Follow Us')}
                 className="font-bold mb-4"
-              >
-                {getText('footer_social_title', 'Follow Us')}
-              </h4>
+                editable={editable}
+                onChange={handleTextChange}
+                as="h4"
+              />
               <div className="flex gap-3">
                 <div className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center cursor-pointer transition-colors">
                   <span>📘</span>
@@ -839,14 +857,14 @@ export default function Agency({ editable = false, data = {}, onContentChange }:
             </div>
           </div>
           <div className="border-t border-slate-800 pt-8 text-center">
-            <p
-              data-eid="footer_copyright"
-              contentEditable={editable}
-              suppressContentEditableWarning
+            <TiptapEditableText
+              eid="footer_copyright"
+              defaultText={getText('footer_copyright', '© 2024 Creative Agency. All rights reserved.')}
               className="text-slate-400 text-sm"
-            >
-              {getText('footer_copyright', '© 2024 Creative Agency. All rights reserved.')}
-            </p>
+              editable={editable}
+              onChange={handleTextChange}
+              as="p"
+            />
           </div>
         </div>
       </footer>

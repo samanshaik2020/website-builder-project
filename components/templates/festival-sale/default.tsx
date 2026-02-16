@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { EditableButton } from '@/components/editor/editable-button';
 import { EditableImage } from '@/components/editor/editable-image';
+import { TiptapEditableText } from '@/components/editor/tiptap-editable-text';
 import { BaseTemplateProps } from '@/types/template';
 
 interface FestivalSaleProps extends BaseTemplateProps {
@@ -28,6 +29,12 @@ export default function FestivalSale({ editable = false, data = {}, onContentCha
   const handleImageChange = (eid: string, data: { image: string; linkUrl?: string | undefined }) => {
     if (onContentChange) {
       onContentChange(eid, data);
+    }
+  };
+
+  const handleTextChange = (eid: string, content: string) => {
+    if (onContentChange) {
+      onContentChange(eid, { text: content });
     }
   };
 
@@ -74,14 +81,14 @@ export default function FestivalSale({ editable = false, data = {}, onContentCha
     >
       <div className="w-full max-w-4xl">
         {/* Top Banner */}
-        <h3
-          data-eid="top_banner_text"
-          contentEditable={editable}
-          suppressContentEditableWarning
+        <TiptapEditableText
+          eid="top_banner_text"
+          defaultText={getText('top_banner_text', '🔥 MEGA SALE — UP TO 80% OFF')}
           className="text-white tracking-wide text-xl sm:text-2xl font-bold leading-tight text-center pb-4 pt-5 whitespace-pre-wrap break-words"
-        >
-          {getText('top_banner_text', '🔥 MEGA SALE — UP TO 80% OFF')}
-        </h3>
+          editable={editable}
+          onChange={handleTextChange}
+          as="h3"
+        />
 
         {/* Hero Section */}
         <div className="w-full">
@@ -98,14 +105,14 @@ export default function FestivalSale({ editable = false, data = {}, onContentCha
               />
               <div className="absolute -top-8 -right-8 sm:-top-10 sm:-right-10 flex items-center justify-center w-28 h-28 sm:w-36 sm:h-36 bg-yellow-400 rounded-full text-center transform -rotate-12">
                 <div className="flex flex-col">
-                  <span
-                    data-eid="discount_percentage"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                  <TiptapEditableText
+                    eid="discount_percentage"
+                    defaultText={getText('discount_percentage', '-80%')}
                     className="text-4xl sm:text-5xl font-black text-red-600 leading-none whitespace-pre-wrap break-words"
-                  >
-                    {getText('discount_percentage', '-80%')}
-                  </span>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="span"
+                  />
                   <span className="text-xl sm:text-2xl font-bold text-red-600 uppercase">OFF</span>
                 </div>
               </div>
@@ -113,88 +120,88 @@ export default function FestivalSale({ editable = false, data = {}, onContentCha
 
             {/* Hero Text */}
             <div className="flex flex-col gap-4 text-center">
-              <h1
-                data-eid="hero_title"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="hero_title"
+                defaultText={getText('hero_title', 'Unbelievable Discounts')}
                 className="text-white text-4xl font-black leading-tight tracking-tight sm:text-6xl whitespace-pre-wrap break-words"
-              >
-                {getText('hero_title', 'Unbelievable Discounts')}
-              </h1>
-              <h2
-                data-eid="hero_subtitle"
-                contentEditable={editable}
-                suppressContentEditableWarning
+                editable={editable}
+                onChange={handleTextChange}
+                as="h1"
+              />
+              <TiptapEditableText
+                eid="hero_subtitle"
+                defaultText={getText('hero_subtitle', "Grab It Before It's Gone!")}
                 className="text-white/80 text-lg font-normal leading-normal sm:text-xl whitespace-pre-wrap break-words"
-              >
-                {getText('hero_subtitle', "Grab It Before It's Gone!")}
-              </h2>
+                editable={editable}
+                onChange={handleTextChange}
+                as="h2"
+              />
             </div>
 
             {/* Product Info & Features */}
             <div className="flex flex-col items-center gap-4 mt-4 w-full max-w-lg">
-              <h3
-                data-eid="product_name"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="product_name"
+                defaultText={getText('product_name', 'Aero-Boost Runners')}
                 className="text-white text-2xl font-bold whitespace-pre-wrap break-words"
-              >
-                {getText('product_name', 'Aero-Boost Runners')}
-              </h3>
-              <p
-                data-eid="product_tagline"
-                contentEditable={editable}
-                suppressContentEditableWarning
+                editable={editable}
+                onChange={handleTextChange}
+                as="h3"
+              />
+              <TiptapEditableText
+                eid="product_tagline"
+                defaultText={getText('product_tagline', 'Experience the future of speed and comfort.')}
                 className="text-white/70 italic whitespace-pre-wrap break-words"
-              >
-                {getText('product_tagline', 'Experience the future of speed and comfort.')}
-              </p>
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
 
               {/* Features Grid */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full text-center mt-4">
                 <div className="flex flex-col items-center gap-2 p-2 rounded bg-white/5">
                   <span className="text-yellow-400 text-3xl">🏆</span>
-                  <p
-                    data-eid="feature_1_text"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                  <TiptapEditableText
+                    eid="feature_1_text"
+                    defaultText={getText('feature_1_text', 'Premium Build')}
                     className="text-white text-sm whitespace-pre-wrap break-words"
-                  >
-                    {getText('feature_1_text', 'Premium Build')}
-                  </p>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="p"
+                  />
                 </div>
                 <div className="flex flex-col items-center gap-2 p-2 rounded bg-white/5">
                   <span className="text-yellow-400 text-3xl">🚀</span>
-                  <p
-                    data-eid="feature_2_text"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                  <TiptapEditableText
+                    eid="feature_2_text"
+                    defaultText={getText('feature_2_text', 'Top Performance')}
                     className="text-white text-sm whitespace-pre-wrap break-words"
-                  >
-                    {getText('feature_2_text', 'Top Performance')}
-                  </p>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="p"
+                  />
                 </div>
                 <div className="flex flex-col items-center gap-2 p-2 rounded bg-white/5">
                   <span className="text-yellow-400 text-3xl">✓</span>
-                  <p
-                    data-eid="feature_3_text"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                  <TiptapEditableText
+                    eid="feature_3_text"
+                    defaultText={getText('feature_3_text', '2-Year Warranty')}
                     className="text-white text-sm whitespace-pre-wrap break-words"
-                  >
-                    {getText('feature_3_text', '2-Year Warranty')}
-                  </p>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="p"
+                  />
                 </div>
                 <div className="flex flex-col items-center gap-2 p-2 rounded bg-white/5">
                   <span className="text-yellow-400 text-3xl">⭐</span>
-                  <p
-                    data-eid="feature_4_text"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                  <TiptapEditableText
+                    eid="feature_4_text"
+                    defaultText={getText('feature_4_text', 'Bestseller')}
                     className="text-white text-sm whitespace-pre-wrap break-words"
-                  >
-                    {getText('feature_4_text', 'Bestseller')}
-                  </p>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="p"
+                  />
                 </div>
               </div>
             </div>
@@ -214,28 +221,28 @@ export default function FestivalSale({ editable = false, data = {}, onContentCha
             />
 
             {/* Meta Text */}
-            <p
-              data-eid="meta_text"
-              contentEditable={editable}
-              suppressContentEditableWarning
+            <TiptapEditableText
+              eid="meta_text"
+              defaultText={getText('meta_text', 'Fast Delivery · Easy Returns · Secure Payments')}
               className="text-sm font-normal leading-normal text-center mt-2 whitespace-pre-wrap break-words"
               style={{ color: '#ba9e9c' }}
-            >
-              {getText('meta_text', 'Fast Delivery · Easy Returns · Secure Payments')}
-            </p>
+              editable={editable}
+              onChange={handleTextChange}
+              as="p"
+            />
           </div>
         </div>
 
         {/* Urgency Sub-banner and Timer */}
         <div className="mt-8 border-t border-white/10 pt-8 w-full">
-          <p
-            data-eid="urgency_text"
-            contentEditable={editable}
-            suppressContentEditableWarning
+          <TiptapEditableText
+            eid="urgency_text"
+            defaultText={getText('urgency_text', 'Limited stock • Today only • Prices will increase soon')}
             className="text-white text-base font-normal leading-normal pb-3 pt-1 px-4 text-center whitespace-pre-wrap break-words"
-          >
-            {getText('urgency_text', 'Limited stock • Today only • Prices will increase soon')}
-          </p>
+            editable={editable}
+            onChange={handleTextChange}
+            as="p"
+          />
 
           {/* Timer */}
           <div className="flex gap-2 sm:gap-4 py-6 px-4 max-w-sm mx-auto">

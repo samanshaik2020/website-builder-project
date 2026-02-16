@@ -2,6 +2,7 @@
 
 
 import { EditableButton } from '@/components/editor/editable-button';
+import { TiptapEditableText } from '@/components/editor/tiptap-editable-text';
 import { EditableLink } from '@/components/editor/editable-link';
 import { BaseTemplateProps } from '@/types/template';
 
@@ -21,6 +22,12 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
     };
   };
 
+  const handleTextChange = (eid: string, content: string) => {
+    if (onContentChange) {
+      onContentChange(eid, { text: content });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
@@ -31,14 +38,15 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center shadow-lg transform hover:scale-110 transition-transform duration-300">
                 <span className="text-white font-bold text-xl">S</span>
               </div>
-              <span
-                data-eid="nav_logo"
-                contentEditable={editable}
-                suppressContentEditableWarning
-                className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent whitespace-pre-wrap break-words"
-              >
-                {getText('nav_logo', 'SaaSify')}
-              </span>
+              <TiptapEditableText
+                eid="nav_logo"
+                defaultText={getText('nav_logo', 'SaaSify')}
+                className="text-2xl font-bold"
+                editorClassName="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+                editable={editable}
+                onChange={handleTextChange}
+                as="div"
+              />
             </div>
 
             <div className="hidden md:flex items-center gap-8">
@@ -96,21 +104,22 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
           <div className="inline-block px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-semibold mb-6 border border-white/20">
             🚀 Now with AI-powered features
           </div>
-          <h1
-            data-eid="hero_headline"
-            contentEditable={editable}
-            suppressContentEditableWarning
-            onBlur={(e) => onContentChange?.('hero_headline', { text: e.currentTarget.innerHTML })}
-            className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 leading-tight pb-2"
-            dangerouslySetInnerHTML={{ __html: getText('hero_headline', 'Build Something Amazing') }}
+          <TiptapEditableText
+            eid="hero_headline"
+            defaultText={getText('hero_headline', 'Build Something Amazing')}
+            className="text-5xl md:text-7xl font-bold mb-6 leading-tight pb-2"
+            editorClassName="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600"
+            editable={editable}
+            onChange={handleTextChange}
+            as="h1"
           />
-          <p
-            data-eid="hero_subheadline"
-            contentEditable={editable}
-            suppressContentEditableWarning
-            onBlur={(e) => onContentChange?.('hero_subheadline', { text: e.currentTarget.innerHTML })}
+          <TiptapEditableText
+            eid="hero_subheadline"
+            defaultText={getText('hero_subheadline', 'The ultimate platform for building modern SaaS applications. Start your journey today with our powerful tools and intuitive interface.')}
             className="text-xl md:text-2xl text-slate-600 mb-8 max-w-2xl mx-auto leading-relaxed"
-            dangerouslySetInnerHTML={{ __html: getText('hero_subheadline', 'The ultimate platform for building modern SaaS applications. Start your journey today with our powerful tools and intuitive interface.') }}
+            editable={editable}
+            onChange={handleTextChange}
+            as="p"
           />
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <EditableButton
@@ -144,76 +153,80 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="text-center group">
-              <div
-                data-eid="stat_1_number"
-                contentEditable={editable}
-                suppressContentEditableWarning
-                className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300 whitespace-pre-wrap break-words"
-              >
-                {getText('stat_1_number', '50K+')}
-              </div>
-              <div
-                data-eid="stat_1_label"
-                contentEditable={editable}
-                suppressContentEditableWarning
-                className="text-slate-600 font-medium whitespace-pre-wrap break-words"
-              >
-                {getText('stat_1_label', 'Active Users')}
-              </div>
+              <TiptapEditableText
+                eid="stat_1_number"
+                defaultText={getText('stat_1_number', '50K+')}
+                className="text-4xl md:text-5xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300"
+                editorClassName="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+                editable={editable}
+                onChange={handleTextChange}
+                as="div"
+              />
+              <TiptapEditableText
+                eid="stat_1_label"
+                defaultText={getText('stat_1_label', 'Active Users')}
+                className="text-slate-600 font-medium"
+                editable={editable}
+                onChange={handleTextChange}
+                as="div"
+              />
             </div>
             <div className="text-center group">
-              <div
-                data-eid="stat_2_number"
-                contentEditable={editable}
-                suppressContentEditableWarning
-                className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300 whitespace-pre-wrap break-words"
-              >
-                {getText('stat_2_number', '99.9%')}
-              </div>
-              <div
-                data-eid="stat_2_label"
-                contentEditable={editable}
-                suppressContentEditableWarning
-                className="text-slate-600 font-medium whitespace-pre-wrap break-words"
-              >
-                {getText('stat_2_label', 'Uptime')}
-              </div>
+              <TiptapEditableText
+                eid="stat_2_number"
+                defaultText={getText('stat_2_number', '99.9%')}
+                className="text-4xl md:text-5xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300"
+                editorClassName="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent"
+                editable={editable}
+                onChange={handleTextChange}
+                as="div"
+              />
+              <TiptapEditableText
+                eid="stat_2_label"
+                defaultText={getText('stat_2_label', 'Uptime')}
+                className="text-slate-600 font-medium"
+                editable={editable}
+                onChange={handleTextChange}
+                as="div"
+              />
             </div>
             <div className="text-center group">
-              <div
-                data-eid="stat_3_number"
-                contentEditable={editable}
-                suppressContentEditableWarning
-                className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-pink-600 to-orange-600 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300 whitespace-pre-wrap break-words"
-              >
-                {getText('stat_3_number', '150+')}
-              </div>
-              <div
-                data-eid="stat_3_label"
-                contentEditable={editable}
-                suppressContentEditableWarning
-                className="text-slate-600 font-medium whitespace-pre-wrap break-words"
-              >
-                {getText('stat_3_label', 'Countries')}
-              </div>
+              <TiptapEditableText
+                eid="stat_3_number"
+                defaultText={getText('stat_3_number', '150+')}
+                className="text-4xl md:text-5xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300"
+                editorClassName="bg-gradient-to-r from-pink-600 to-orange-600 bg-clip-text text-transparent"
+                editable={editable}
+                onChange={handleTextChange}
+                as="div"
+              />
+              <TiptapEditableText
+                eid="stat_3_label"
+                defaultText={getText('stat_3_label', 'Countries')}
+                className="text-slate-600 font-medium"
+                editable={editable}
+                onChange={handleTextChange}
+                as="div"
+              />
             </div>
             <div className="text-center group">
-              <div
-                data-eid="stat_4_number"
-                contentEditable={editable}
-                suppressContentEditableWarning
-                className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300 whitespace-pre-wrap break-words"
-              >
-                {getText('stat_4_number', '4.9/5')}
-              </div>
-              <div
-                data-eid="stat_4_label"
-                contentEditable={editable}
-                suppressContentEditableWarning
-                className="text-slate-600 font-medium whitespace-pre-wrap break-words"
-              >
-                {getText('stat_4_label', 'Rating')}
-              </div>
+              <TiptapEditableText
+                eid="stat_4_number"
+                defaultText={getText('stat_4_number', '4.9/5')}
+                className="text-4xl md:text-5xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300"
+                editorClassName="bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent"
+                editable={editable}
+                onChange={handleTextChange}
+                as="div"
+              />
+              <TiptapEditableText
+                eid="stat_4_label"
+                defaultText={getText('stat_4_label', 'Rating')}
+                className="text-slate-600 font-medium"
+                editable={editable}
+                onChange={handleTextChange}
+                as="div"
+              />
             </div>
           </div>
         </div>
@@ -224,21 +237,21 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <div className="inline-block px-4 py-2 bg-blue-100 text-blue-600 rounded-full text-sm font-semibold mb-4">FEATURES</div>
-            <h2
-              data-eid="features_headline"
-              contentEditable={editable}
-              suppressContentEditableWarning
-              onBlur={(e) => onContentChange?.('features_headline', { text: e.currentTarget.innerHTML })}
+            <TiptapEditableText
+              eid="features_headline"
+              defaultText={getText('features_headline', 'Everything you need to succeed')}
               className="text-3xl md:text-5xl font-bold mb-6 text-slate-900"
-              dangerouslySetInnerHTML={{ __html: getText('features_headline', 'Everything you need to succeed') }}
+              editable={editable}
+              onChange={handleTextChange}
+              as="h2"
             />
-            <p
-              data-eid="features_subheadline"
-              contentEditable={editable}
-              suppressContentEditableWarning
-              onBlur={(e) => onContentChange?.('features_subheadline', { text: e.currentTarget.innerHTML })}
+            <TiptapEditableText
+              eid="features_subheadline"
+              defaultText={getText('features_subheadline', 'Powerful features designed to help you build, launch, and scale your application faster than ever before.')}
               className="text-xl text-slate-600 max-w-2xl mx-auto"
-              dangerouslySetInnerHTML={{ __html: getText('features_subheadline', 'Powerful features designed to help you build, launch, and scale your application faster than ever before.') }}
+              editable={editable}
+              onChange={handleTextChange}
+              as="p"
             />
           </div>
           <div className="grid md:grid-cols-3 gap-8">
@@ -247,22 +260,22 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
               <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
                 <span className="text-3xl">⚡</span>
               </div>
-              <h3
-                data-eid="feature_1_title"
-                contentEditable={editable}
-                suppressContentEditableWarning
-                className="text-2xl font-bold text-slate-900 mb-3 whitespace-pre-wrap break-words"
-              >
-                {getText('feature_1_title', 'Lightning Fast')}
-              </h3>
-              <p
-                data-eid="feature_1_description"
-                contentEditable={editable}
-                suppressContentEditableWarning
-                className="text-slate-600 leading-relaxed whitespace-pre-wrap break-words"
-              >
-                {getText('feature_1_description', 'Optimized performance ensures your application runs smoothly at scale.')}
-              </p>
+              <TiptapEditableText
+                eid="feature_1_title"
+                defaultText={getText('feature_1_title', 'Lightning Fast')}
+                className="text-2xl font-bold text-slate-900 mb-3"
+                editable={editable}
+                onChange={handleTextChange}
+                as="h3"
+              />
+              <TiptapEditableText
+                eid="feature_1_description"
+                defaultText={getText('feature_1_description', 'Optimized performance ensures your application runs smoothly at scale.')}
+                className="text-slate-600 leading-relaxed"
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
             </div>
 
             {/* Feature 2 */}
@@ -270,22 +283,22 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
               <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
                 <span className="text-3xl">🔒</span>
               </div>
-              <h3
-                data-eid="feature_2_title"
-                contentEditable={editable}
-                suppressContentEditableWarning
-                className="text-2xl font-bold text-slate-900 mb-3 whitespace-pre-wrap break-words"
-              >
-                {getText('feature_2_title', 'Secure by Default')}
-              </h3>
-              <p
-                data-eid="feature_2_description"
-                contentEditable={editable}
-                suppressContentEditableWarning
-                className="text-slate-600 leading-relaxed whitespace-pre-wrap break-words"
-              >
-                {getText('feature_2_description', 'Enterprise-grade security with encryption and compliance built-in.')}
-              </p>
+              <TiptapEditableText
+                eid="feature_2_title"
+                defaultText={getText('feature_2_title', 'Secure by Default')}
+                className="text-2xl font-bold text-slate-900 mb-3"
+                editable={editable}
+                onChange={handleTextChange}
+                as="h3"
+              />
+              <TiptapEditableText
+                eid="feature_2_description"
+                defaultText={getText('feature_2_description', 'Enterprise-grade security with encryption and compliance built-in.')}
+                className="text-slate-600 leading-relaxed"
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
             </div>
 
             {/* Feature 3 */}
@@ -293,22 +306,22 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
               <div className="w-16 h-16 bg-gradient-to-br from-pink-500 to-orange-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
                 <span className="text-3xl">🎨</span>
               </div>
-              <h3
-                data-eid="feature_3_title"
-                contentEditable={editable}
-                suppressContentEditableWarning
-                className="text-2xl font-bold text-slate-900 mb-3 whitespace-pre-wrap break-words"
-              >
-                {getText('feature_3_title', 'Beautiful Design')}
-              </h3>
-              <p
-                data-eid="feature_3_description"
-                contentEditable={editable}
-                suppressContentEditableWarning
-                className="text-slate-600 leading-relaxed whitespace-pre-wrap break-words"
-              >
-                {getText('feature_3_description', 'Stunning UI components that delight users and boost conversions.')}
-              </p>
+              <TiptapEditableText
+                eid="feature_3_title"
+                defaultText={getText('feature_3_title', 'Beautiful Design')}
+                className="text-2xl font-bold text-slate-900 mb-3"
+                editable={editable}
+                onChange={handleTextChange}
+                as="h3"
+              />
+              <TiptapEditableText
+                eid="feature_3_description"
+                defaultText={getText('feature_3_description', 'Stunning UI components that delight users and boost conversions.')}
+                className="text-slate-600 leading-relaxed"
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
             </div>
           </div>
         </div>
@@ -319,22 +332,22 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <div className="inline-block px-4 py-2 bg-purple-100 text-purple-600 rounded-full text-sm font-semibold mb-4">TESTIMONIALS</div>
-            <h2
-              data-eid="testimonials_heading"
-              contentEditable={editable}
-              suppressContentEditableWarning
+            <TiptapEditableText
+              eid="testimonials_heading"
+              defaultText={getText('testimonials_heading', 'Loved by Thousands')}
               className="text-4xl md:text-5xl font-bold text-slate-900 mb-4"
-            >
-              {getText('testimonials_heading', 'Loved by Thousands')}
-            </h2>
-            <p
-              data-eid="testimonials_subheading"
-              contentEditable={editable}
-              suppressContentEditableWarning
+              editable={editable}
+              onChange={handleTextChange}
+              as="h2"
+            />
+            <TiptapEditableText
+              eid="testimonials_subheading"
+              defaultText={getText('testimonials_subheading', 'See what our customers have to say')}
               className="text-xl text-slate-600 max-w-2xl mx-auto"
-            >
-              {getText('testimonials_subheading', 'See what our customers have to say')}
-            </p>
+              editable={editable}
+              onChange={handleTextChange}
+              as="p"
+            />
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="group p-8 bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl border border-blue-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
@@ -343,33 +356,33 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
                   <span key={i} className="text-yellow-400 text-xl">★</span>
                 ))}
               </div>
-              <p
-                data-eid="testimonial_1_quote"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="testimonial_1_quote"
+                defaultText={getText('testimonial_1_quote', '"This platform has completely transformed how we build and ship products. The speed and reliability are unmatched!"')}
                 className="text-slate-700 mb-6 leading-relaxed"
-              >
-                {getText('testimonial_1_quote', '"This platform has completely transformed how we build and ship products. The speed and reliability are unmatched!"')}
-              </p>
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-purple-400 flex items-center justify-center text-white font-bold">SA</div>
                 <div>
-                  <div
-                    data-eid="testimonial_1_name"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                  <TiptapEditableText
+                    eid="testimonial_1_name"
+                    defaultText={getText('testimonial_1_name', 'Sarah Anderson')}
                     className="font-bold text-slate-900"
-                  >
-                    {getText('testimonial_1_name', 'Sarah Anderson')}
-                  </div>
-                  <div
-                    data-eid="testimonial_1_title"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="div"
+                  />
+                  <TiptapEditableText
+                    eid="testimonial_1_title"
+                    defaultText={getText('testimonial_1_title', 'CEO, TechStart')}
                     className="text-sm text-slate-600"
-                  >
-                    {getText('testimonial_1_title', 'CEO, TechStart')}
-                  </div>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="div"
+                  />
                 </div>
               </div>
             </div>
@@ -380,33 +393,33 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
                   <span key={i} className="text-yellow-400 text-xl">★</span>
                 ))}
               </div>
-              <p
-                data-eid="testimonial_2_quote"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="testimonial_2_quote"
+                defaultText={getText('testimonial_2_quote', '"The best investment we\'ve made. Our team productivity has increased by 300% since switching to this platform."')}
                 className="text-slate-700 mb-6 leading-relaxed"
-              >
-                {getText('testimonial_2_quote', '"The best investment we\'ve made. Our team productivity has increased by 300% since switching to this platform."')}
-              </p>
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white font-bold">MC</div>
                 <div>
-                  <div
-                    data-eid="testimonial_2_name"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                  <TiptapEditableText
+                    eid="testimonial_2_name"
+                    defaultText={getText('testimonial_2_name', 'Michael Chen')}
                     className="font-bold text-slate-900"
-                  >
-                    {getText('testimonial_2_name', 'Michael Chen')}
-                  </div>
-                  <div
-                    data-eid="testimonial_2_title"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="div"
+                  />
+                  <TiptapEditableText
+                    eid="testimonial_2_title"
+                    defaultText={getText('testimonial_2_title', 'CTO, InnovateCo')}
                     className="text-sm text-slate-600"
-                  >
-                    {getText('testimonial_2_title', 'CTO, InnovateCo')}
-                  </div>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="div"
+                  />
                 </div>
               </div>
             </div>
@@ -417,33 +430,33 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
                   <span key={i} className="text-yellow-400 text-xl">★</span>
                 ))}
               </div>
-              <p
-                data-eid="testimonial_3_quote"
-                contentEditable={editable}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="testimonial_3_quote"
+                defaultText={getText('testimonial_3_quote', '"Outstanding support and features. This is exactly what we needed to scale our SaaS business globally."')}
                 className="text-slate-700 mb-6 leading-relaxed"
-              >
-                {getText('testimonial_3_quote', '"Outstanding support and features. This is exactly what we needed to scale our SaaS business globally."')}
-              </p>
+                editable={editable}
+                onChange={handleTextChange}
+                as="p"
+              />
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-400 to-orange-400 flex items-center justify-center text-white font-bold">ER</div>
                 <div>
-                  <div
-                    data-eid="testimonial_3_name"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                  <TiptapEditableText
+                    eid="testimonial_3_name"
+                    defaultText={getText('testimonial_3_name', 'Emily Rodriguez')}
                     className="font-bold text-slate-900"
-                  >
-                    {getText('testimonial_3_name', 'Emily Rodriguez')}
-                  </div>
-                  <div
-                    data-eid="testimonial_3_title"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="div"
+                  />
+                  <TiptapEditableText
+                    eid="testimonial_3_title"
+                    defaultText={getText('testimonial_3_title', 'Founder, GrowthLabs')}
                     className="text-sm text-slate-600"
-                  >
-                    {getText('testimonial_3_title', 'Founder, GrowthLabs')}
-                  </div>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="div"
+                  />
                 </div>
               </div>
             </div>
@@ -456,21 +469,21 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <div className="inline-block px-4 py-2 bg-green-100 text-green-600 rounded-full text-sm font-semibold mb-4">PRICING</div>
-            <h2
-              data-eid="pricing_heading"
-              contentEditable={editable}
-              suppressContentEditableWarning
-              onBlur={(e) => onContentChange?.('pricing_heading', { text: e.currentTarget.innerHTML })}
+            <TiptapEditableText
+              eid="pricing_heading"
+              defaultText={getText('pricing_heading', 'Simple, Transparent Pricing')}
               className="text-4xl md:text-5xl font-bold text-slate-900 mb-4"
-              dangerouslySetInnerHTML={{ __html: getText('pricing_heading', 'Simple, Transparent Pricing') }}
+              editable={editable}
+              onChange={handleTextChange}
+              as="h2"
             />
-            <p
-              data-eid="pricing_subheading"
-              contentEditable={editable}
-              suppressContentEditableWarning
-              onBlur={(e) => onContentChange?.('pricing_subheading', { text: e.currentTarget.innerHTML })}
+            <TiptapEditableText
+              eid="pricing_subheading"
+              defaultText={getText('pricing_subheading', 'Choose the perfect plan for your business')}
               className="text-xl text-slate-600 max-w-2xl mx-auto"
-              dangerouslySetInnerHTML={{ __html: getText('pricing_subheading', 'Choose the perfect plan for your business') }}
+              editable={editable}
+              onChange={handleTextChange}
+              as="p"
             />
           </div>
           <div className="max-w-4xl mx-auto">
@@ -478,73 +491,74 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
               <div className="absolute top-0 right-8 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-2 rounded-b-xl text-sm font-bold shadow-lg">MOST POPULAR</div>
 
               <div className="text-center">
-                <h3
-                  data-eid="pricing_plan_name"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
-                  className="text-3xl font-bold text-slate-900 mb-2 whitespace-pre-wrap break-words"
-                >
-                  {getText('pricing_plan_name', 'Pro Plan')}
-                </h3>
-                <p
-                  data-eid="pricing_plan_description"
-                  contentEditable={editable}
-                  suppressContentEditableWarning
-                  className="text-slate-600 mb-8 whitespace-pre-wrap break-words"
-                >
-                  {getText('pricing_plan_description', 'Perfect for growing teams')}
-                </p>
+                <TiptapEditableText
+                  eid="pricing_plan_name"
+                  defaultText={getText('pricing_plan_name', 'Pro Plan')}
+                  className="text-3xl font-bold text-slate-900 mb-2"
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="h3"
+                />
+                <TiptapEditableText
+                  eid="pricing_plan_description"
+                  defaultText={getText('pricing_plan_description', 'Perfect for growing teams')}
+                  className="text-slate-600 mb-8"
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="p"
+                />
                 <div className="mb-8">
-                  <span
-                    data-eid="pricing_plan_price"
-                    contentEditable={editable}
-                    suppressContentEditableWarning
-                    className="text-6xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent whitespace-pre-wrap break-words"
-                  >
-                    {getText('pricing_plan_price', '$49')}
-                  </span>
+                  <TiptapEditableText
+                    eid="pricing_plan_price"
+                    defaultText={getText('pricing_plan_price', '$49')}
+                    className="text-6xl font-bold"
+                    editorClassName="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent"
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="span"
+                  />
                   <span className="text-2xl text-slate-600">/month</span>
                 </div>
                 <ul className="text-left space-y-4 mb-8 max-w-md mx-auto">
                   <li className="flex items-center text-slate-700">
                     <span className="text-green-500 mr-3 text-xl">✓</span>
-                    <span
-                      data-eid="pricing_feature_1"
-                      contentEditable={editable}
-                      suppressContentEditableWarning
-                    >
-                      {getText('pricing_feature_1', 'Unlimited projects')}
-                    </span>
+                    <TiptapEditableText
+                      eid="pricing_feature_1"
+                      defaultText={getText('pricing_feature_1', 'Unlimited projects')}
+                      editable={editable}
+                      onChange={handleTextChange}
+                      as="span"
+                    />
                   </li>
                   <li className="flex items-center text-slate-700">
                     <span className="text-green-500 mr-3 text-xl">✓</span>
-                    <span
-                      data-eid="pricing_feature_2"
-                      contentEditable={editable}
-                      suppressContentEditableWarning
-                    >
-                      {getText('pricing_feature_2', 'Advanced analytics')}
-                    </span>
+                    <TiptapEditableText
+                      eid="pricing_feature_2"
+                      defaultText={getText('pricing_feature_2', 'Advanced analytics')}
+                      editable={editable}
+                      onChange={handleTextChange}
+                      as="span"
+                    />
                   </li>
                   <li className="flex items-center text-slate-700">
                     <span className="text-green-500 mr-3 text-xl">✓</span>
-                    <span
-                      data-eid="pricing_feature_3"
-                      contentEditable={editable}
-                      suppressContentEditableWarning
-                    >
-                      {getText('pricing_feature_3', 'Priority support')}
-                    </span>
+                    <TiptapEditableText
+                      eid="pricing_feature_3"
+                      defaultText={getText('pricing_feature_3', 'Priority support')}
+                      editable={editable}
+                      onChange={handleTextChange}
+                      as="span"
+                    />
                   </li>
                   <li className="flex items-center text-slate-700">
                     <span className="text-green-500 mr-3 text-xl">✓</span>
-                    <span
-                      data-eid="pricing_feature_4"
-                      contentEditable={editable}
-                      suppressContentEditableWarning
-                    >
-                      {getText('pricing_feature_4', 'Custom integrations')}
-                    </span>
+                    <TiptapEditableText
+                      eid="pricing_feature_4"
+                      defaultText={getText('pricing_feature_4', 'Custom integrations')}
+                      editable={editable}
+                      onChange={handleTextChange}
+                      as="span"
+                    />
                   </li>
                 </ul>
                 <EditableButton
@@ -568,21 +582,21 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
           <div className="absolute bottom-10 right-10 w-80 h-80 bg-white/10 rounded-full blur-3xl"></div>
         </div>
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <h2
-            data-eid="cta_heading"
-            contentEditable={editable}
-            suppressContentEditableWarning
-            onBlur={(e) => onContentChange?.('cta_heading', { text: e.currentTarget.innerHTML })}
-            className="text-4xl md:text-5xl font-bold mb-8 whitespace-pre-wrap break-words"
-            dangerouslySetInnerHTML={{ __html: getText('cta_heading', 'Ready to Get Started?') }}
+          <TiptapEditableText
+            eid="cta_heading"
+            defaultText={getText('cta_heading', 'Ready to Get Started?')}
+            className="text-4xl md:text-5xl font-bold mb-8"
+            editable={editable}
+            onChange={handleTextChange}
+            as="h2"
           />
-          <p
-            data-eid="cta_description"
-            contentEditable={editable}
-            suppressContentEditableWarning
-            onBlur={(e) => onContentChange?.('cta_description', { text: e.currentTarget.innerHTML })}
-            className="text-xl text-blue-100 mb-10 max-w-2xl mx-auto whitespace-pre-wrap break-words"
-            dangerouslySetInnerHTML={{ __html: getText('cta_description', 'Join thousands of companies already using our platform') }}
+          <TiptapEditableText
+            eid="cta_description"
+            defaultText={getText('cta_description', 'Join thousands of companies already using our platform')}
+            className="text-xl text-blue-100 mb-10 max-w-2xl mx-auto"
+            editable={editable}
+            onChange={handleTextChange}
+            as="p"
           />
           <EditableButton
             eid="cta_button"
@@ -602,23 +616,23 @@ export default function SaasLandingEnhanced({ editable = false, data = {}, onCon
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
               <span className="text-white font-bold text-xl">S</span>
             </div>
-            <span
-              data-eid="footer_brand"
-              contentEditable={editable}
-              suppressContentEditableWarning
-              className="text-2xl font-bold whitespace-pre-wrap break-words"
-            >
-              {getText('footer_brand', 'SaaSify')}
-            </span>
+            <TiptapEditableText
+              eid="footer_brand"
+              defaultText={getText('footer_brand', 'SaaSify')}
+              className="text-2xl font-bold"
+              editable={editable}
+              onChange={handleTextChange}
+              as="span"
+            />
           </div>
-          <p
-            data-eid="footer_tagline"
-            contentEditable={editable}
-            suppressContentEditableWarning
-            className="text-slate-400 mb-6 whitespace-pre-wrap break-words"
-          >
-            {getText('footer_tagline', 'Building the future of SaaS, one feature at a time.')}
-          </p>
+          <TiptapEditableText
+            eid="footer_tagline"
+            defaultText={getText('footer_tagline', 'Building the future of SaaS, one feature at a time.')}
+            className="text-slate-400 mb-6"
+            editable={editable}
+            onChange={handleTextChange}
+            as="p"
+          />
           <div className="flex items-center justify-center gap-6 text-sm text-slate-400">
             <EditableLink href="#" className="hover:text-white transition-colors" editable={editable}>Privacy Policy</EditableLink>
             <EditableLink href="#" className="hover:text-white transition-colors" editable={editable}>Terms of Service</EditableLink>

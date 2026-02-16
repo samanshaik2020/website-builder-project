@@ -32,7 +32,8 @@ interface TiptapEditableTextProps {
     style?: React.CSSProperties;
     editable?: boolean;
     onChange?: (eid: string, value: string) => void;
-    as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span' | 'div';
+    as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span' | 'div' | 'li' | 'dt' | 'dd';
+    editorClassName?: string;
 }
 
 // Color palette for text colors
@@ -46,6 +47,7 @@ export const TiptapEditableText: React.FC<TiptapEditableTextProps> = ({
     eid,
     defaultText,
     className = '',
+    editorClassName = '',
     style,
     editable = false,
     onChange,
@@ -98,7 +100,7 @@ export const TiptapEditableText: React.FC<TiptapEditableTextProps> = ({
         },
         editorProps: {
             attributes: {
-                class: 'outline-none focus:outline-none min-h-[1em]',
+                class: `outline-none focus:outline-none min-h-[1em] ${editorClassName}`,
             },
         },
     });

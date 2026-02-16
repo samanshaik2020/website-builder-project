@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { EditableImage } from '@/components/editor/editable-image';
 import { EditableButton } from '@/components/editor/editable-button';
+import { TiptapEditableText } from '@/components/editor/tiptap-editable-text';
 import { BaseTemplateProps } from '@/types/template';
 
 interface GlassmorphismProductTemplateProps extends BaseTemplateProps {
@@ -32,6 +33,12 @@ export default function GlassmorphismProductTemplate({
   const handleImageChange = (eid: string, data: { image: string; linkUrl?: string | undefined }) => {
     if (onContentChange) {
       onContentChange(eid, data);
+    }
+  };
+
+  const handleTextChange = (eid: string, content: string) => {
+    if (onContentChange) {
+      onContentChange(eid, { text: content });
     }
   };
 
@@ -76,40 +83,40 @@ export default function GlassmorphismProductTemplate({
                     </g>
                   </svg>
                 </div>
-                <span
-                  data-eid="nav_brand"
-                  contentEditable={editable ? true : undefined}
-                  suppressContentEditableWarning
+                <TiptapEditableText
+                  eid="nav_brand"
+                  defaultText={getText('nav_brand', 'Glassify')}
                   className="text-[#0e121b] text-xl font-bold tracking-tighter whitespace-pre-wrap break-words"
-                >
-                  {getText('nav_brand', 'Glassify')}
-                </span>
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="span"
+                />
               </div>
               <nav className="hidden md:flex items-center gap-9">
-                <span
-                  data-eid="nav_link_1"
-                  contentEditable={editable ? true : undefined}
-                  suppressContentEditableWarning
+                <TiptapEditableText
+                  eid="nav_link_1"
+                  defaultText={getText('nav_link_1', 'Shop')}
                   className="text-[#0e121b] text-sm font-medium leading-normal hover:text-[#3670e2] transition-colors cursor-pointer"
-                >
-                  {getText('nav_link_1', 'Shop')}
-                </span>
-                <span
-                  data-eid="nav_link_2"
-                  contentEditable={editable ? true : undefined}
-                  suppressContentEditableWarning
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="span"
+                />
+                <TiptapEditableText
+                  eid="nav_link_2"
+                  defaultText={getText('nav_link_2', 'Collections')}
                   className="text-[#0e121b] text-sm font-medium leading-normal hover:text-[#3670e2] transition-colors cursor-pointer"
-                >
-                  {getText('nav_link_2', 'Collections')}
-                </span>
-                <span
-                  data-eid="nav_link_3"
-                  contentEditable={editable ? true : undefined}
-                  suppressContentEditableWarning
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="span"
+                />
+                <TiptapEditableText
+                  eid="nav_link_3"
+                  defaultText={getText('nav_link_3', 'About Us')}
                   className="text-[#0e121b] text-sm font-medium leading-normal hover:text-[#3670e2] transition-colors cursor-pointer"
-                >
-                  {getText('nav_link_3', 'About Us')}
-                </span>
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="span"
+                />
               </nav>
             </div>
             <div className="flex items-center gap-4">
@@ -225,44 +232,44 @@ export default function GlassmorphismProductTemplate({
             <section className="w-full flex flex-col gap-6 p-4 md:p-8 rounded-xl bg-white/40 backdrop-blur-xl border border-white/60 shadow-lg">
               <div className="flex flex-col md:flex-row justify-between items-start gap-4">
                 <div className="flex flex-col gap-2">
-                  <h1
-                    data-eid="product_title"
-                    contentEditable={editable ? true : undefined}
-                    suppressContentEditableWarning
+                  <TiptapEditableText
+                    eid="product_title"
+                    defaultText={getText('product_title', 'AuraWave Speaker')}
                     className="text-3xl md:text-4xl font-bold tracking-tight text-[#0e121b] whitespace-pre-wrap break-words"
-                  >
-                    {getText('product_title', 'AuraWave Speaker')}
-                  </h1>
-                  <p
-                    data-eid="product_subtitle"
-                    contentEditable={editable ? true : undefined}
-                    suppressContentEditableWarning
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="h1"
+                  />
+                  <TiptapEditableText
+                    eid="product_subtitle"
+                    defaultText={getText('product_subtitle', 'Experience sound in its purest form. Visually stunning, acoustically brilliant.')}
                     className="text-slate-600 whitespace-pre-wrap break-words"
-                  >
-                    {getText('product_subtitle', 'Experience sound in its purest form. Visually stunning, acoustically brilliant.')}
-                  </p>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="p"
+                  />
                 </div>
-                <span
-                  data-eid="product_price"
-                  contentEditable={editable ? true : undefined}
-                  suppressContentEditableWarning
+                <TiptapEditableText
+                  eid="product_price"
+                  defaultText={getText('product_price', '$249.00')}
                   className="flex-shrink-0 text-3xl md:text-4xl font-bold text-[#3670e2] whitespace-pre-wrap break-words"
-                >
-                  {getText('product_price', '$249.00')}
-                </span>
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="span"
+                />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Color Selection */}
                 <div className="flex flex-col gap-4">
-                  <h3
-                    data-eid="color_label"
-                    contentEditable={editable ? true : undefined}
-                    suppressContentEditableWarning
+                  <TiptapEditableText
+                    eid="color_label"
+                    defaultText={getText('color_label', 'Color')}
                     className="text-sm font-semibold uppercase tracking-wider text-slate-700"
-                  >
-                    {getText('color_label', 'Color')}
-                  </h3>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="h3"
+                  />
                   <div className="flex items-center gap-3">
                     <button className="size-9 rounded-full bg-slate-200 ring-2 ring-offset-2 ring-[#3670e2] ring-offset-white/50"></button>
                     <button className="size-9 rounded-full bg-slate-800"></button>
@@ -272,31 +279,31 @@ export default function GlassmorphismProductTemplate({
                 </div>
                 {/* Size Selection */}
                 <div className="flex flex-col gap-4">
-                  <h3
-                    data-eid="size_label"
-                    contentEditable={editable ? true : undefined}
-                    suppressContentEditableWarning
+                  <TiptapEditableText
+                    eid="size_label"
+                    defaultText={getText('size_label', 'Size')}
                     className="text-sm font-semibold uppercase tracking-wider text-slate-700"
-                  >
-                    {getText('size_label', 'Size')}
-                  </h3>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="h3"
+                  />
                   <div className="flex items-center gap-3">
-                    <span
-                      data-eid="size_option_1"
-                      contentEditable={editable ? true : undefined}
-                      suppressContentEditableWarning
+                    <TiptapEditableText
+                      eid="size_option_1"
+                      defaultText={getText('size_option_1', 'Standard')}
                       className="px-4 py-2 rounded-lg border border-[#3670e2] bg-[#3670e2]/20 text-[#3670e2] font-semibold text-sm cursor-pointer"
-                    >
-                      {getText('size_option_1', 'Standard')}
-                    </span>
-                    <span
-                      data-eid="size_option_2"
-                      contentEditable={editable ? true : undefined}
-                      suppressContentEditableWarning
+                      editable={editable}
+                      onChange={handleTextChange}
+                      as="span"
+                    />
+                    <TiptapEditableText
+                      eid="size_option_2"
+                      defaultText={getText('size_option_2', 'Mini')}
                       className="px-4 py-2 rounded-lg border border-slate-300 bg-white/50 text-slate-600 font-semibold text-sm cursor-pointer"
-                    >
-                      {getText('size_option_2', 'Mini')}
-                    </span>
+                      editable={editable}
+                      onChange={handleTextChange}
+                      as="span"
+                    />
                   </div>
                 </div>
               </div>
@@ -325,33 +332,33 @@ export default function GlassmorphismProductTemplate({
               <ul className="flex flex-col gap-2 pt-4 text-slate-700 text-sm">
                 <li className="flex items-center gap-2">
                   <span className="material-symbols-outlined text-[#3670e2] text-lg">check_circle</span>
-                  <span
-                    data-eid="highlight_1"
-                    contentEditable={editable ? true : undefined}
-                    suppressContentEditableWarning
-                  >
-                    {getText('highlight_1', '360° Immersive Sound')}
-                  </span>
+                  <TiptapEditableText
+                    eid="highlight_1"
+                    defaultText={getText('highlight_1', '360° Immersive Sound')}
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="span"
+                  />
                 </li>
                 <li className="flex items-center gap-2">
                   <span className="material-symbols-outlined text-[#3670e2] text-lg">check_circle</span>
-                  <span
-                    data-eid="highlight_2"
-                    contentEditable={editable ? true : undefined}
-                    suppressContentEditableWarning
-                  >
-                    {getText('highlight_2', '24-Hour Battery Life')}
-                  </span>
+                  <TiptapEditableText
+                    eid="highlight_2"
+                    defaultText={getText('highlight_2', '24-Hour Battery Life')}
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="span"
+                  />
                 </li>
                 <li className="flex items-center gap-2">
                   <span className="material-symbols-outlined text-[#3670e2] text-lg">check_circle</span>
-                  <span
-                    data-eid="highlight_3"
-                    contentEditable={editable ? true : undefined}
-                    suppressContentEditableWarning
-                  >
-                    {getText('highlight_3', 'Bluetooth 5.2 & Ambient Lighting')}
-                  </span>
+                  <TiptapEditableText
+                    eid="highlight_3"
+                    defaultText={getText('highlight_3', 'Bluetooth 5.2 & Ambient Lighting')}
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="span"
+                  />
                 </li>
               </ul>
             </section>
@@ -361,62 +368,62 @@ export default function GlassmorphismProductTemplate({
               {/* Tabs */}
               <div className="border-b border-white/60">
                 <nav className="-mb-px flex gap-6">
-                  <span
-                    data-eid="tab_1"
-                    contentEditable={editable ? true : undefined}
-                    suppressContentEditableWarning
+                  <TiptapEditableText
+                    eid="tab_1"
+                    defaultText={getText('tab_1', 'Description')}
                     className="whitespace-nowrap border-b-2 border-[#3670e2] px-1 py-4 text-sm font-medium text-[#3670e2] cursor-pointer"
-                  >
-                    {getText('tab_1', 'Description')}
-                  </span>
-                  <span
-                    data-eid="tab_2"
-                    contentEditable={editable ? true : undefined}
-                    suppressContentEditableWarning
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="span"
+                  />
+                  <TiptapEditableText
+                    eid="tab_2"
+                    defaultText={getText('tab_2', 'Specifications')}
                     className="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-slate-500 hover:border-slate-300 hover:text-slate-700 cursor-pointer"
-                  >
-                    {getText('tab_2', 'Specifications')}
-                  </span>
-                  <span
-                    data-eid="tab_3"
-                    contentEditable={editable ? true : undefined}
-                    suppressContentEditableWarning
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="span"
+                  />
+                  <TiptapEditableText
+                    eid="tab_3"
+                    defaultText={getText('tab_3', 'Reviews')}
                     className="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-slate-500 hover:border-slate-300 hover:text-slate-700 cursor-pointer"
-                  >
-                    {getText('tab_3', 'Reviews')}
-                  </span>
-                  <span
-                    data-eid="tab_4"
-                    contentEditable={editable ? true : undefined}
-                    suppressContentEditableWarning
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="span"
+                  />
+                  <TiptapEditableText
+                    eid="tab_4"
+                    defaultText={getText('tab_4', 'FAQ')}
                     className="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-slate-500 hover:border-slate-300 hover:text-slate-700 cursor-pointer"
-                  >
-                    {getText('tab_4', 'FAQ')}
-                  </span>
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="span"
+                  />
                 </nav>
               </div>
               <div className="prose prose-slate max-w-none text-slate-700">
-                <p
-                  data-eid="product_description"
-                  contentEditable={editable ? true : undefined}
-                  suppressContentEditableWarning
+                <TiptapEditableText
+                  eid="product_description"
+                  defaultText={getText('product_description', 'The AuraWave Speaker is not just a device; it\'s an experience. Crafted with a unique transparent casing, it reveals the intricate technology within. Our proprietary sound engine delivers crystal-clear highs and deep, resonant bass, filling any room with rich, multi-dimensional audio. Sync the ambient LED lights to your music for a mesmerizing visual spectacle that moves with the beat.')}
                   className="whitespace-pre-wrap break-words"
-                >
-                  {getText('product_description', 'The AuraWave Speaker is not just a device; it\'s an experience. Crafted with a unique transparent casing, it reveals the intricate technology within. Our proprietary sound engine delivers crystal-clear highs and deep, resonant bass, filling any room with rich, multi-dimensional audio. Sync the ambient LED lights to your music for a mesmerizing visual spectacle that moves with the beat.')}
-                </p>
+                  editable={editable}
+                  onChange={handleTextChange}
+                  as="p"
+                />
               </div>
             </section>
 
             {/* Gallery Section */}
             <section className="w-full flex flex-col gap-4 p-4 md:p-8 rounded-xl bg-white/40 backdrop-blur-xl border border-white/60 shadow-lg">
-              <h2
-                data-eid="gallery_title"
-                contentEditable={editable ? true : undefined}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="gallery_title"
+                defaultText={getText('gallery_title', 'Gallery')}
                 className="text-2xl font-bold tracking-tight text-[#0e121b]"
-              >
-                {getText('gallery_title', 'Gallery')}
-              </h2>
+                editable={editable}
+                onChange={handleTextChange}
+                as="h2"
+              />
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="w-full aspect-square rounded-xl overflow-hidden">
                   <EditableImage
@@ -463,14 +470,14 @@ export default function GlassmorphismProductTemplate({
 
             {/* Reviews Section */}
             <section className="w-full flex flex-col gap-6 p-4 md:p-8 rounded-xl bg-white/40 backdrop-blur-xl border border-white/60 shadow-lg">
-              <h2
-                data-eid="reviews_title"
-                contentEditable={editable ? true : undefined}
-                suppressContentEditableWarning
+              <TiptapEditableText
+                eid="reviews_title"
+                defaultText={getText('reviews_title', 'Customer Reviews')}
                 className="text-2xl font-bold tracking-tight text-[#0e121b] whitespace-pre-wrap break-words"
-              >
-                {getText('reviews_title', 'Customer Reviews')}
-              </h2>
+                editable={editable}
+                onChange={handleTextChange}
+                as="h2"
+              />
               <div className="flex flex-col gap-6">
                 {/* Review 1 */}
                 <div className="flex flex-col sm:flex-row gap-4 border-b border-white/60 pb-6">
@@ -486,14 +493,14 @@ export default function GlassmorphismProductTemplate({
                   </div>
                   <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-2">
-                      <span
-                        data-eid="review_1_name"
-                        contentEditable={editable ? true : undefined}
-                        suppressContentEditableWarning
+                      <TiptapEditableText
+                        eid="review_1_name"
+                        defaultText={getText('review_1_name', 'Sarah J.')}
                         className="font-semibold"
-                      >
-                        {getText('review_1_name', 'Sarah J.')}
-                      </span>
+                        editable={editable}
+                        onChange={handleTextChange}
+                        as="span"
+                      />
                       <div className="flex text-amber-400">
                         <span className="material-symbols-outlined !text-base">star</span>
                         <span className="material-symbols-outlined !text-base">star</span>
@@ -502,14 +509,14 @@ export default function GlassmorphismProductTemplate({
                         <span className="material-symbols-outlined !text-base">star</span>
                       </div>
                     </div>
-                    <p
-                      data-eid="review_1_text"
-                      contentEditable={editable ? true : undefined}
-                      suppressContentEditableWarning
+                    <TiptapEditableText
+                      eid="review_1_text"
+                      defaultText={getText('review_1_text', '"Absolutely blown away by the sound quality and the design is a conversation starter. It looks like a piece of art on my shelf. Highly recommend!"')}
                       className="text-sm text-slate-700"
-                    >
-                      {getText('review_1_text', '"Absolutely blown away by the sound quality and the design is a conversation starter. It looks like a piece of art on my shelf. Highly recommend!"')}
-                    </p>
+                      editable={editable}
+                      onChange={handleTextChange}
+                      as="p"
+                    />
                   </div>
                 </div>
 
@@ -527,14 +534,14 @@ export default function GlassmorphismProductTemplate({
                   </div>
                   <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-2">
-                      <span
-                        data-eid="review_2_name"
-                        contentEditable={editable ? true : undefined}
-                        suppressContentEditableWarning
+                      <TiptapEditableText
+                        eid="review_2_name"
+                        defaultText={getText('review_2_name', 'Mike T.')}
                         className="font-semibold"
-                      >
-                        {getText('review_2_name', 'Mike T.')}
-                      </span>
+                        editable={editable}
+                        onChange={handleTextChange}
+                        as="span"
+                      />
                       <div className="flex text-amber-400">
                         <span className="material-symbols-outlined !text-base">star</span>
                         <span className="material-symbols-outlined !text-base">star</span>
@@ -543,14 +550,14 @@ export default function GlassmorphismProductTemplate({
                         <span className="material-symbols-outlined !text-base">star_half</span>
                       </div>
                     </div>
-                    <p
-                      data-eid="review_2_text"
-                      contentEditable={editable ? true : undefined}
-                      suppressContentEditableWarning
+                    <TiptapEditableText
+                      eid="review_2_text"
+                      defaultText={getText('review_2_text', '"Great speaker, the sound is crisp and the bass is surprisingly deep for its size. The battery life is also excellent. The app could use a few more features, but overall a solid 4.5/5."')}
                       className="text-sm text-slate-700"
-                    >
-                      {getText('review_2_text', '"Great speaker, the sound is crisp and the bass is surprisingly deep for its size. The battery life is also excellent. The app could use a few more features, but overall a solid 4.5/5."')}
-                    </p>
+                      editable={editable}
+                      onChange={handleTextChange}
+                      as="p"
+                    />
                   </div>
                 </div>
 
@@ -568,14 +575,14 @@ export default function GlassmorphismProductTemplate({
                   </div>
                   <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-2">
-                      <span
-                        data-eid="review_3_name"
-                        contentEditable={editable ? true : undefined}
-                        suppressContentEditableWarning
+                      <TiptapEditableText
+                        eid="review_3_name"
+                        defaultText={getText('review_3_name', 'Chloe L.')}
                         className="font-semibold"
-                      >
-                        {getText('review_3_name', 'Chloe L.')}
-                      </span>
+                        editable={editable}
+                        onChange={handleTextChange}
+                        as="span"
+                      />
                       <div className="flex text-amber-400">
                         <span className="material-symbols-outlined !text-base">star</span>
                         <span className="material-symbols-outlined !text-base">star</span>
@@ -584,14 +591,14 @@ export default function GlassmorphismProductTemplate({
                         <span className="material-symbols-outlined !text-base">star</span>
                       </div>
                     </div>
-                    <p
-                      data-eid="review_3_text"
-                      contentEditable={editable ? true : undefined}
-                      suppressContentEditableWarning
+                    <TiptapEditableText
+                      eid="review_3_text"
+                      defaultText={getText('review_3_text', '"The ambient lighting is my favorite feature! It creates such a cool vibe for parties. Connecting via Bluetooth was seamless. A perfect blend of style and function."')}
                       className="text-sm text-slate-700"
-                    >
-                      {getText('review_3_text', '"The ambient lighting is my favorite feature! It creates such a cool vibe for parties. Connecting via Bluetooth was seamless. A perfect blend of style and function."')}
-                    </p>
+                      editable={editable}
+                      onChange={handleTextChange}
+                      as="p"
+                    />
                   </div>
                 </div>
               </div>

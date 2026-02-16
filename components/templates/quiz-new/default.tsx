@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { SlateEditableText } from '@/components/editor/slate-editable-text';
+import { TiptapEditableText } from '@/components/editor/tiptap-editable-text';
 import { EditableButton } from '@/components/editor/editable-button';
 import { EditableImage } from '@/components/editor/editable-image';
 
@@ -21,7 +21,9 @@ export default function QuizNewTemplate({
     const getButton = (eid: string, defaultText: string, defaultUrl: string) =>
         data[eid]?.button || { text: defaultText, url: defaultUrl };
 
-    const handleSlateTextChange = (eid: string, value: string) => onContentChange(eid, { text: value });
+    const handleTextChange = (eid: string, content: string) => {
+        onContentChange(eid, { text: content });
+    };
     const handleImageChange = (eid: string, data: { image: string; linkUrl?: string | undefined }) => onContentChange(eid, data);
     const handleButtonChange = (eid: string, content: { button: { text: string; url: string } }) =>
         onContentChange(eid, content);
@@ -143,44 +145,49 @@ export default function QuizNewTemplate({
                                 <span className="material-symbols-outlined text-xl font-bold">photo_camera</span>
                             </div>
                             <span className="text-lg font-bold tracking-tight">
-                                <SlateEditableText
+                                <TiptapEditableText
                                     eid="brand_name"
                                     defaultText={getText('brand_name', 'LensLife')}
                                     editable={editable}
-                                    onChange={handleSlateTextChange}
+                                    onChange={handleTextChange}
+                                    as="span"
                                 />
                             </span>
                         </div>
                         <nav className="hidden md:flex items-center gap-8">
-                            <SlateEditableText
+                            <TiptapEditableText
                                 eid="nav_link1"
                                 defaultText={getText('nav_link1', 'Stories')}
                                 className="text-sm font-medium hover:text-[#f9f506] transition-colors cursor-pointer"
                                 editable={editable}
-                                onChange={handleSlateTextChange}
+                                onChange={handleTextChange}
+                                as="span"
                             />
-                            <SlateEditableText
+                            <TiptapEditableText
                                 eid="nav_link2"
                                 defaultText={getText('nav_link2', 'Gallery')}
                                 className="text-sm font-medium hover:text-[#f9f506] transition-colors cursor-pointer"
                                 editable={editable}
-                                onChange={handleSlateTextChange}
+                                onChange={handleTextChange}
+                                as="span"
                             />
-                            <SlateEditableText
+                            <TiptapEditableText
                                 eid="nav_link3"
                                 defaultText={getText('nav_link3', 'Artists')}
                                 className="text-sm font-medium hover:text-[#f9f506] transition-colors cursor-pointer"
                                 editable={editable}
-                                onChange={handleSlateTextChange}
+                                onChange={handleTextChange}
+                                as="span"
                             />
                         </nav>
                         <div className="flex items-center gap-4">
                             <div className="hidden sm:flex items-center justify-center rounded-full bg-[#f9f506] px-5 py-2 text-sm font-bold text-[#181811] hover:bg-[#f9f506]/90 transition-colors cursor-pointer">
-                                <SlateEditableText
+                                <TiptapEditableText
                                     eid="nav_cta"
                                     defaultText={getText('nav_cta', 'Subscribe')}
                                     editable={editable}
-                                    onChange={handleSlateTextChange}
+                                    onChange={handleTextChange}
+                                    as="span"
                                 />
                             </div>
                         </div>
@@ -196,19 +203,21 @@ export default function QuizNewTemplate({
                                 Quiz Time
                             </span>
                             <div className="text-4xl font-black leading-tight tracking-tight text-[#181811] sm:text-5xl md:text-6xl lg:text-[4rem]">
-                                <SlateEditableText
+                                <TiptapEditableText
                                     eid="quiz_title"
                                     defaultText={getText('quiz_title', 'Test Your Knowledge')}
                                     editable={editable}
-                                    onChange={handleSlateTextChange}
+                                    onChange={handleTextChange}
+                                    as="h1"
                                 />
                             </div>
                             <div className="mt-4 text-lg font-medium text-[#6b6b5f]">
-                                <SlateEditableText
+                                <TiptapEditableText
                                     eid="quiz_subtitle"
                                     defaultText={getText('quiz_subtitle', 'How much do you really know about urban architecture? Take the challenge.')}
                                     editable={editable}
-                                    onChange={handleSlateTextChange}
+                                    onChange={handleTextChange}
+                                    as="p"
                                 />
                             </div>
                         </div>
@@ -231,19 +240,21 @@ export default function QuizNewTemplate({
                             <div className="rounded-2xl border border-[#e5e5e0] bg-white p-6 md:p-8 shadow-sm flex flex-col justify-center">
                                 <h3 className="mb-4 text-xl font-bold text-[#181811] flex items-center gap-2">
                                     <span className="material-symbols-outlined text-[#f9f506]">info</span>
-                                    <SlateEditableText
+                                    <TiptapEditableText
                                         eid="quiz_intro_title"
                                         defaultText={getText('quiz_intro_title', 'Instructions')}
                                         editable={editable}
-                                        onChange={handleSlateTextChange}
+                                        onChange={handleTextChange}
+                                        as="span"
                                     />
                                 </h3>
                                 <div className="mb-6 text-[#6b6b5f]">
-                                    <SlateEditableText
+                                    <TiptapEditableText
                                         eid="quiz_intro_desc"
                                         defaultText={getText('quiz_intro_desc', 'Welcome to the Urban Photography quiz. This short test assesses your understanding of architectural styles and photography techniques.')}
                                         editable={editable}
-                                        onChange={handleSlateTextChange}
+                                        onChange={handleTextChange}
+                                        as="p"
                                     />
                                 </div>
                                 <ul className="space-y-4 text-sm font-medium text-[#181811]">
@@ -252,11 +263,12 @@ export default function QuizNewTemplate({
                                             <span className="material-symbols-outlined text-[16px]">format_list_numbered</span>
                                         </div>
                                         <span className="pt-0.5">
-                                            <SlateEditableText
+                                            <TiptapEditableText
                                                 eid="quiz_intro_item1"
                                                 defaultText={getText('quiz_intro_item1', 'There are 5 multiple-choice questions.')}
                                                 editable={editable}
-                                                onChange={handleSlateTextChange}
+                                                onChange={handleTextChange}
+                                                as="span"
                                             />
                                         </span>
                                     </li>
@@ -265,11 +277,12 @@ export default function QuizNewTemplate({
                                             <span className="material-symbols-outlined text-[16px]">timer</span>
                                         </div>
                                         <span className="pt-0.5">
-                                            <SlateEditableText
+                                            <TiptapEditableText
                                                 eid="quiz_intro_item2"
                                                 defaultText={getText('quiz_intro_item2', 'There is no time limit, so take your time.')}
                                                 editable={editable}
-                                                onChange={handleSlateTextChange}
+                                                onChange={handleTextChange}
+                                                as="span"
                                             />
                                         </span>
                                     </li>
@@ -278,11 +291,12 @@ export default function QuizNewTemplate({
                                             <span className="material-symbols-outlined text-[16px]">star</span>
                                         </div>
                                         <span className="pt-0.5">
-                                            <SlateEditableText
+                                            <TiptapEditableText
                                                 eid="quiz_intro_item3"
                                                 defaultText={getText('quiz_intro_item3', 'Score at least 4/5 to earn the Urban Expert badge.')}
                                                 editable={editable}
-                                                onChange={handleSlateTextChange}
+                                                onChange={handleTextChange}
+                                                as="span"
                                             />
                                         </span>
                                     </li>
@@ -303,12 +317,13 @@ export default function QuizNewTemplate({
                                 {/* Question */}
                                 <h2 className="mb-8 text-2xl font-bold leading-snug text-[#181811] md:text-3xl">
                                     <span className="mr-2">{currentQuestion?.id}.</span>
-                                    <SlateEditableText
+                                    <TiptapEditableText
                                         eid={`q${currentQuestion?.id}_question`}
                                         defaultText={currentQuestion?.question}
                                         editable={editable}
-                                        onChange={handleSlateTextChange}
+                                        onChange={handleTextChange}
                                         className="inline"
+                                        as="span"
                                     />
                                 </h2>
 
@@ -343,11 +358,12 @@ export default function QuizNewTemplate({
                                                     {option.id}
                                                 </span>
                                                 <div className="font-medium text-[#181811] flex-1">
-                                                    <SlateEditableText
+                                                    <TiptapEditableText
                                                         eid={`q${currentQuestion.id}_opt${option.id}`}
                                                         defaultText={option.text}
                                                         editable={editable}
-                                                        onChange={handleSlateTextChange}
+                                                        onChange={handleTextChange}
+                                                        as="span"
                                                     />
                                                 </div>
                                                 {isSelected && (
@@ -399,11 +415,12 @@ export default function QuizNewTemplate({
                             <div className="mb-8 rounded-2xl bg-white p-8 border border-[#e5e5e0] text-center shadow-xl">
                                 <span className="material-symbols-outlined text-6xl text-[#f9f506] mb-4">emoji_events</span>
                                 <div className="text-3xl font-black mb-6 text-[#181811]">
-                                    <SlateEditableText
+                                    <TiptapEditableText
                                         eid="result_title"
                                         defaultText={getText('result_title', 'Congratulations!')}
                                         editable={editable}
-                                        onChange={handleSlateTextChange}
+                                        onChange={handleTextChange}
+                                        as="h1"
                                     />
                                 </div>
 
@@ -419,11 +436,12 @@ export default function QuizNewTemplate({
                                 </div>
 
                                 <div className="text-xl text-[#6b6b5f] mb-8 max-w-lg mx-auto">
-                                    <SlateEditableText
+                                    <TiptapEditableText
                                         eid="result_text"
                                         defaultText={getText('result_text', 'You have successfully completed the Urban Photography Quiz. We hope you learned something new about architecture!')}
                                         editable={editable}
-                                        onChange={handleSlateTextChange}
+                                        onChange={handleTextChange}
+                                        as="p"
                                     />
                                 </div>
 

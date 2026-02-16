@@ -3,6 +3,7 @@
 import { useState, useEffect, type FC } from 'react';
 import { EditableButton } from '@/components/editor/editable-button';
 import { EditableImage } from '@/components/editor/editable-image';
+import { TiptapEditableText } from '@/components/editor/tiptap-editable-text';
 
 interface MegaDiscountTemplateProps {
   editable?: boolean;
@@ -33,6 +34,12 @@ export const MegaDiscountTemplate: FC<MegaDiscountTemplateProps> = ({
   const handleImageChange = (id: string, imageData: { image: string; linkUrl?: string | undefined }) => {
     if (onContentChange) {
       onContentChange(id, { image: imageData.image });
+    }
+  };
+
+  const handleTextChange = (eid: string, content: string) => {
+    if (onContentChange) {
+      onContentChange(eid, { text: content });
     }
   };
 
@@ -90,15 +97,16 @@ export const MegaDiscountTemplate: FC<MegaDiscountTemplateProps> = ({
 
               {/* Flash Sale Banner */}
               <div className="w-full text-center mb-6">
-                <p
-                  data-eid="flash_banner_text"
-                  contentEditable={editable ? true : undefined}
-                  suppressContentEditableWarning
-                  className="text-[#4B5563] text-sm font-normal leading-normal py-2 px-4 inline-flex items-center gap-1 rounded-full bg-[#A7F3D0] text-[#1F2937]"
-                >
+                <div className="text-[#4B5563] text-sm font-normal leading-normal py-2 px-4 inline-flex items-center gap-1 rounded-full bg-[#A7F3D0] text-[#1F2937]">
                   <span className="material-symbols-outlined text-base">bolt</span>
-                  {getText('flash_banner_text', 'FLASH SALE LIVE — UP TO 70% OFF')}
-                </p>
+                  <TiptapEditableText
+                    eid="flash_banner_text"
+                    defaultText={getText('flash_banner_text', 'FLASH SALE LIVE — UP TO 70% OFF')}
+                    editable={editable}
+                    onChange={handleTextChange}
+                    as="span"
+                  />
+                </div>
               </div>
 
               {/* Main Content */}
@@ -109,36 +117,36 @@ export const MegaDiscountTemplate: FC<MegaDiscountTemplateProps> = ({
 
                   {/* Hero Card */}
                   <div className="p-6 md:p-8 bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col gap-4">
-                    <h1
-                      data-eid="hero_title"
-                      contentEditable={editable ? true : undefined}
-                      suppressContentEditableWarning
+                    <TiptapEditableText
+                      eid="hero_title"
+                      defaultText={getText('hero_title', '🔥 Mega Discount Sale Is Live — Grab It Now!')}
                       className="text-[#1F2937] text-4xl md:text-5xl lg:text-6xl font-black leading-tight tracking-tighter whitespace-pre-wrap break-words"
                       style={{ fontFamily: "'Rubik', sans-serif" }}
-                    >
-                      {getText('hero_title', '🔥 Mega Discount Sale Is Live — Grab It Now!')}
-                    </h1>
-                    <p
-                      data-eid="hero_description"
-                      contentEditable={editable ? true : undefined}
-                      suppressContentEditableWarning
+                      editable={editable}
+                      onChange={handleTextChange}
+                      as="h1"
+                    />
+                    <TiptapEditableText
+                      eid="hero_description"
+                      defaultText={getText('hero_description', 'Limited-time offer. Prices slashed up to 70%. Hurry before stock runs out!')}
                       className="text-[#4B5563] text-base md:text-lg font-normal leading-normal whitespace-pre-wrap break-words"
-                    >
-                      {getText('hero_description', 'Limited-time offer. Prices slashed up to 70%. Hurry before stock runs out!')}
-                    </p>
+                      editable={editable}
+                      onChange={handleTextChange}
+                      as="p"
+                    />
                   </div>
 
                   {/* Countdown Timer Card */}
                   <div className="p-6 md:p-8 bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col gap-4">
-                    <h3
-                      data-eid="timer_title"
-                      contentEditable={editable ? true : undefined}
-                      suppressContentEditableWarning
+                    <TiptapEditableText
+                      eid="timer_title"
+                      defaultText={getText('timer_title', 'Time Remaining:')}
                       className="text-[#1F2937] text-xl font-bold mb-2 whitespace-pre-wrap break-words"
                       style={{ fontFamily: "'Rubik', sans-serif" }}
-                    >
-                      {getText('timer_title', 'Time Remaining:')}
-                    </h3>
+                      editable={editable}
+                      onChange={handleTextChange}
+                      as="h3"
+                    />
                     <div className="grid grid-cols-4 gap-4">
                       <div className="flex flex-col items-center justify-center p-3 rounded-lg bg-[#67E8F9] text-[#1F2937]">
                         <p
@@ -181,87 +189,87 @@ export const MegaDiscountTemplate: FC<MegaDiscountTemplateProps> = ({
 
                   {/* Key Features Card */}
                   <div className="p-6 md:p-8 bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col gap-4">
-                    <h3
-                      data-eid="features_title"
-                      contentEditable={editable ? true : undefined}
-                      suppressContentEditableWarning
+                    <TiptapEditableText
+                      eid="features_title"
+                      defaultText={getText('features_title', 'Key Features:')}
                       className="text-[#1F2937] text-xl font-bold mb-2 whitespace-pre-wrap break-words"
                       style={{ fontFamily: "'Rubik', sans-serif" }}
-                    >
-                      {getText('features_title', 'Key Features:')}
-                    </h3>
+                      editable={editable}
+                      onChange={handleTextChange}
+                      as="h3"
+                    />
                     <div className="grid grid-cols-2 gap-x-6 gap-y-4">
                       <div className="flex flex-col">
-                        <p
-                          data-eid="feature_1_label"
-                          contentEditable={editable ? true : undefined}
-                          suppressContentEditableWarning
+                        <TiptapEditableText
+                          eid="feature_1_label"
+                          defaultText={getText('feature_1_label', 'Battery life')}
                           className="text-[#6B7280] text-sm"
-                        >
-                          {getText('feature_1_label', 'Battery life')}
-                        </p>
-                        <p
-                          data-eid="feature_1_value"
-                          contentEditable={editable ? true : undefined}
-                          suppressContentEditableWarning
+                          editable={editable}
+                          onChange={handleTextChange}
+                          as="p"
+                        />
+                        <TiptapEditableText
+                          eid="feature_1_value"
+                          defaultText={getText('feature_1_value', '24 Hours')}
                           className="text-[#1F2937] text-base font-medium"
-                        >
-                          {getText('feature_1_value', '24 Hours')}
-                        </p>
+                          editable={editable}
+                          onChange={handleTextChange}
+                          as="p"
+                        />
                       </div>
                       <div className="flex flex-col">
-                        <p
-                          data-eid="feature_2_label"
-                          contentEditable={editable ? true : undefined}
-                          suppressContentEditableWarning
+                        <TiptapEditableText
+                          eid="feature_2_label"
+                          defaultText={getText('feature_2_label', 'Warranty info')}
                           className="text-[#6B7280] text-sm"
-                        >
-                          {getText('feature_2_label', 'Warranty info')}
-                        </p>
-                        <p
-                          data-eid="feature_2_value"
-                          contentEditable={editable ? true : undefined}
-                          suppressContentEditableWarning
+                          editable={editable}
+                          onChange={handleTextChange}
+                          as="p"
+                        />
+                        <TiptapEditableText
+                          eid="feature_2_value"
+                          defaultText={getText('feature_2_value', '2-Year Full')}
                           className="text-[#1F2937] text-base font-medium"
-                        >
-                          {getText('feature_2_value', '2-Year Full')}
-                        </p>
+                          editable={editable}
+                          onChange={handleTextChange}
+                          as="p"
+                        />
                       </div>
                       <div className="flex flex-col">
-                        <p
-                          data-eid="feature_3_label"
-                          contentEditable={editable ? true : undefined}
-                          suppressContentEditableWarning
+                        <TiptapEditableText
+                          eid="feature_3_label"
+                          defaultText={getText('feature_3_label', 'Quality rating')}
                           className="text-[#6B7280] text-sm"
-                        >
-                          {getText('feature_3_label', 'Quality rating')}
-                        </p>
-                        <p
-                          data-eid="feature_3_value"
-                          contentEditable={editable ? true : undefined}
-                          suppressContentEditableWarning
+                          editable={editable}
+                          onChange={handleTextChange}
+                          as="p"
+                        />
+                        <TiptapEditableText
+                          eid="feature_3_value"
+                          defaultText={getText('feature_3_value', '★ 4.8/5')}
                           className="text-[#1F2937] text-base font-medium"
-                        >
-                          {getText('feature_3_value', '★ 4.8/5')}
-                        </p>
+                          editable={editable}
+                          onChange={handleTextChange}
+                          as="p"
+                        />
                       </div>
                       <div className="flex flex-col">
-                        <p
-                          data-eid="feature_4_label"
-                          contentEditable={editable ? true : undefined}
-                          suppressContentEditableWarning
+                        <TiptapEditableText
+                          eid="feature_4_label"
+                          defaultText={getText('feature_4_label', 'Material')}
                           className="text-[#6B7280] text-sm"
-                        >
-                          {getText('feature_4_label', 'Material')}
-                        </p>
-                        <p
-                          data-eid="feature_4_value"
-                          contentEditable={editable ? true : undefined}
-                          suppressContentEditableWarning
+                          editable={editable}
+                          onChange={handleTextChange}
+                          as="p"
+                        />
+                        <TiptapEditableText
+                          eid="feature_4_value"
+                          defaultText={getText('feature_4_value', 'Aero-grade Aluminum')}
                           className="text-[#1F2937] text-base font-medium"
-                        >
-                          {getText('feature_4_value', 'Aero-grade Aluminum')}
-                        </p>
+                          editable={editable}
+                          onChange={handleTextChange}
+                          as="p"
+                        />
                       </div>
                     </div>
                   </div>
@@ -276,14 +284,14 @@ export const MegaDiscountTemplate: FC<MegaDiscountTemplateProps> = ({
                       onChange={onContentChange}
                       className="flex min-w-[84px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 px-5 bg-[#EF4444] text-white text-base font-bold leading-normal tracking-wide hover:opacity-90 transition-opacity"
                     />
-                    <p
-                      data-eid="cta_subtext"
-                      contentEditable={editable ? true : undefined}
-                      suppressContentEditableWarning
+                    <TiptapEditableText
+                      eid="cta_subtext"
+                      defaultText={getText('cta_subtext', 'Free Shipping · 30-Day Guarantee · Secure Checkout')}
                       className="text-[#6B7280] text-sm font-normal leading-normal text-center whitespace-pre-wrap break-words"
-                    >
-                      {getText('cta_subtext', 'Free Shipping · 30-Day Guarantee · Secure Checkout')}
-                    </p>
+                      editable={editable}
+                      onChange={handleTextChange}
+                      as="p"
+                    />
                   </div>
                 </div>
 
@@ -298,14 +306,14 @@ export const MegaDiscountTemplate: FC<MegaDiscountTemplateProps> = ({
                       onChange={handleImageChange}
                       className="w-full h-full object-contain rounded-lg"
                     />
-                    <div
-                      data-eid="discount_badge"
-                      contentEditable={editable ? true : undefined}
-                      suppressContentEditableWarning
+                    <TiptapEditableText
+                      eid="discount_badge"
+                      defaultText={getText('discount_badge', '-70%')}
                       className="absolute -top-4 -right-4 bg-[#EF4444] text-white text-lg font-bold px-4 py-2 rounded-full transform rotate-12"
-                    >
-                      {getText('discount_badge', '-70%')}
-                    </div>
+                      editable={editable}
+                      onChange={handleTextChange}
+                      as="div"
+                    />
                   </div>
                 </div>
               </div>

@@ -351,7 +351,7 @@ function EditorContent() {
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button
-              onClick={() => router.push('/dashboard')}
+              onClick={() => router.push('/templates')}
               className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg font-medium transition-colors"
             >
               ← Back
@@ -387,7 +387,7 @@ function EditorContent() {
               </button>
             )}
             <button
-              onClick={handleSave}
+              onClick={() => setShowSaveDialog(true)}
               className="px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg font-semibold transition-colors"
             >
               Save & Publish
@@ -414,9 +414,22 @@ function EditorContent() {
               </div>
             ) : (
               <>
-                <p className="text-slate-600 mb-6">
-                  Your project "{projectName}" will be saved and published to your dashboard.
-                </p>
+                <div className="mb-6">
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    Project Name
+                  </label>
+                  <input
+                    type="text"
+                    value={projectName}
+                    onChange={(e) => setProjectName(e.target.value)}
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    placeholder="Enter project name"
+                    autoFocus
+                  />
+                  <p className="text-sm text-slate-500 mt-2">
+                    This will be the public name of your website.
+                  </p>
+                </div>
                 <div className="flex gap-3">
                   <button
                     onClick={() => setShowSaveDialog(false)}
@@ -428,7 +441,7 @@ function EditorContent() {
                     onClick={handleSave}
                     className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg font-semibold transition-colors"
                   >
-                    Confirm
+                    Save Project
                   </button>
                 </div>
               </>
