@@ -27,9 +27,14 @@ import { PhotoFolioTemplate, photofolioConfig } from '@/components/templates/pho
 import { QuizNewTemplate, quizNewConfig } from '@/components/templates/quiz-new';
 import { EnergyRevolutionTemplate, energyRevolutionConfig } from '@/components/templates/energy-revolution';
 import { SuperClipsAITemplate, superClipsAIConfig } from '@/components/templates/super-clips-ai';
+import { CustomHtmlTemplate, customHtmlConfig } from '@/components/templates/custom-html';
 
 
 export const templates = {
+  'custom-html': {
+    component: CustomHtmlTemplate,
+    config: customHtmlConfig,
+  },
   portfolio: {
     component: PortfolioTemplate,
     config: portfolioConfig,
@@ -154,6 +159,7 @@ export const templates = {
     component: SuperClipsAITemplate,
     config: superClipsAIConfig,
   },
+
 
 } as const;
 
