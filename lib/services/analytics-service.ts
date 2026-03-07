@@ -4,11 +4,11 @@ import { createClient } from '@/lib/supabase/client'
 import type { ProjectAnalytics, PageView, ButtonClick } from '@/lib/supabase/types'
 
 /**
- * Track a page view for a project
+ * Track a page view for a project using SECURITY DEFINER RPC to bypass RLS
  */
 export async function trackPageView(
   projectId: string,
-  metadata?: {
+  _metadata?: {
     ipAddress?: string
     userAgent?: string
     referrer?: string
@@ -16,68 +16,37 @@ export async function trackPageView(
 ): Promise<void> {
   const supabase = createClient()
 
-  // Insert detailed page view record
-  await supabase.from('page_views').insert({
-    project_id: projectId,
-    ip_address: metadata?.ipAddress,
-    user_agent: metadata?.userAgent,
-    referrer: metadata?.referrer,
+  // Use SECURITY DEFINER function to atomically increment views (bypasses RLS)
+  const { error } = await supabase.rpc('increment_page_view', {
+    p_project_id: projectId,
   })
 
-  // Update aggregate analytics
-  const { data: analytics } = await supabase
-    .from('project_analytics')
-    .select('*')
-    .eq('project_id', projectId)
-    .single()
-
-  if (analytics) {
-    await supabase
-      .from('project_analytics')
-      .update({
-        views: (analytics.views || 0) + 1,
-        last_viewed_at: new Date().toISOString(),
-      })
-      .eq('project_id', projectId)
+  if (error) {
+    console.error('[trackPageView] Error:', error)
   }
 }
 
 /**
- * Track a button click for a project
+ * Track a button click for a project using SECURITY DEFINER RPC to bypass RLS
  */
 export async function trackButtonClick(
   projectId: string,
   buttonId?: string,
-  metadata?: {
+  _metadata?: {
     ipAddress?: string
     userAgent?: string
   }
 ): Promise<void> {
   const supabase = createClient()
 
-  // Insert detailed button click record
-  await supabase.from('button_clicks').insert({
-    project_id: projectId,
-    button_id: buttonId,
-    ip_address: metadata?.ipAddress,
-    user_agent: metadata?.userAgent,
+  // Use SECURITY DEFINER function to atomically increment clicks (bypasses RLS)
+  const { error } = await supabase.rpc('increment_button_click', {
+    p_project_id: projectId,
+    p_button_id: buttonId || null,
   })
 
-  // Update aggregate analytics
-  const { data: analytics } = await supabase
-    .from('project_analytics')
-    .select('*')
-    .eq('project_id', projectId)
-    .single()
-
-  if (analytics) {
-    await supabase
-      .from('project_analytics')
-      .update({
-        clicks: (analytics.clicks || 0) + 1,
-        last_clicked_at: new Date().toISOString(),
-      })
-      .eq('project_id', projectId)
+  if (error) {
+    console.error('[trackButtonClick] Error:', error)
   }
 }
 

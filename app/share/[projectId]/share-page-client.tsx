@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { trackPageView, trackButtonClick } from '@/lib/services/analytics-service';
 import { getTemplateById, type TemplateId } from '@/lib/templates';
 
@@ -10,32 +10,46 @@ interface SharePageClientProps {
 }
 
 export default function SharePageClient({ project, templateId }: SharePageClientProps) {
-  // Client component for shared page rendering
+  const viewTracked = useRef(false);
+
+  // Track page view once per mount
   useEffect(() => {
-    // Track page view
+    if (viewTracked.current) return;
+    viewTracked.current = true;
+
     const trackView = async () => {
-      await trackPageView(project.id, {
-        userAgent: navigator.userAgent,
-        referrer: document.referrer,
-      });
+      try {
+        await trackPageView(project.id, {
+          userAgent: navigator.userAgent,
+          referrer: document.referrer,
+        });
+      } catch (err) {
+        console.error('[SharePage] Failed to track page view:', err);
+      }
     };
 
     trackView();
   }, [project.id]);
 
-  // Track button clicks
+  // Track button/link clicks
   useEffect(() => {
     const handleClick = async (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const button = target.closest('button') || target.closest('a');
 
-      // Track clicks on buttons and links
       if (button) {
-        const buttonId = button.getAttribute('data-eid') || undefined;
+        const buttonId = button.getAttribute('data-eid') || 
+                         button.getAttribute('id') || 
+                         (button as HTMLAnchorElement).href || 
+                         undefined;
 
-        await trackButtonClick(project.id, buttonId, {
-          userAgent: navigator.userAgent,
-        });
+        try {
+          await trackButtonClick(project.id, buttonId, {
+            userAgent: navigator.userAgent,
+          });
+        } catch (err) {
+          console.error('[SharePage] Failed to track button click:', err);
+        }
       }
     };
 

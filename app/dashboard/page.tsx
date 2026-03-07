@@ -102,8 +102,16 @@ export default function DashboardPage() {
       loadProjects();
     };
 
+    // Also refresh every 30 seconds to pick up live analytics
+    const intervalId = setInterval(() => {
+      loadProjects();
+    }, 30000);
+
     window.addEventListener('focus', handleFocus);
-    return () => window.removeEventListener('focus', handleFocus);
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+      clearInterval(intervalId);
+    };
   }, [router]);
 
 
