@@ -33,6 +33,7 @@ export default function SignUpPage() {
   const [password, setPassword] = useState('');
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [error, setError] = useState('');
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,8 +57,7 @@ export default function SignUpPage() {
 
     try {
       await signUp(email, password, fullName);
-      // Show success message or redirect
-      router.push('/dashboard');
+      setIsSuccess(true);
     } catch (err: any) {
       setError(err.message || 'Failed to create account. Please try again.');
     }
@@ -191,11 +191,57 @@ export default function SignUpPage() {
 
           {/* Sign Up Card */}
           <Box sx={{ bgcolor: 'white', borderRadius: '16px', border: '1px solid #e5e7eb', p: 4, boxShadow: '0 4px 6px rgba(0,0,0,0.05)' }}>
-            {error && (
-              <Alert severity="error" sx={{ mb: 3, borderRadius: '8px' }}>
-                {error}
-              </Alert>
-            )}
+            {isSuccess ? (
+              <Box sx={{ textAlign: 'center', py: 4 }}>
+                <Box
+                  sx={{
+                    width: 64,
+                    height: 64,
+                    borderRadius: '50%',
+                    bgcolor: '#e0e7ff',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    mx: 'auto',
+                    mb: 3,
+                  }}
+                >
+                  <EmailIcon sx={{ fontSize: 32, color: '#6366f1' }} />
+                </Box>
+                <Typography sx={{ fontSize: 24, fontWeight: 700, color: '#111827', mb: 2 }}>
+                  Check your mail
+                </Typography>
+                <Typography sx={{ fontSize: 15, color: '#6b7280', mb: 4, lineHeight: 1.6 }}>
+                  We've sent an activation link to <br/>
+                  <span style={{ fontWeight: 600, color: '#374151' }}>{email}</span>
+                  <br/><br/>
+                  Please click the link to verify your account and continue.
+                </Typography>
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  onClick={() => router.push('/signin')}
+                  sx={{
+                    textTransform: 'none',
+                    borderColor: '#e5e7eb',
+                    color: '#374151',
+                    fontWeight: 600,
+                    py: 1.5,
+                    borderRadius: '10px',
+                    fontSize: 15,
+                    '&:hover': { borderColor: '#d1d5db', bgcolor: '#f9fafb' },
+                  }}
+                >
+                  Return to Sign In
+                </Button>
+              </Box>
+            ) : (
+              <>
+                {error && (
+                  <Alert severity="error" sx={{ mb: 3, borderRadius: '8px' }}>
+                    {error}
+                  </Alert>
+                )}
 
             <form onSubmit={handleSignUp}>
               {/* Full Name */}
@@ -433,6 +479,8 @@ export default function SignUpPage() {
                 </Button>
               </Typography>
             </Box>
+              </>
+            )}
           </Box>
         </Box>
       </Box>

@@ -57,40 +57,21 @@ export default function TemplatesPage() {
 
   const getTemplatePreviewImage = (templateId: string) => {
     switch (templateId) {
-      case 'portfolio':
-        return '/portflio.png';
-      case 'portfolio-modern-dark':
-        return '/Portfolio - Modern Dark.png';
-      case 'saas-landing':
-        return '/SaaS.png';
-      case 'saas-vibrant-gradient':
-        return '/SaaS - Vibrant Gradient.png';
-      case 'agency':
-        return '/Agency.png';
-      case 'ai-photo-studio':
-        return '/AI photo studio.png';
+      case 'custom-html':
+        return '/custom-html-preview.png'; // fallback or adjust if needed
       case 'cat-food':
         return '/Cat Food Product.png';
       case 'grocery-delivery':
         return '/Grocery Delivery.png';
-      case 'loan-landing':
-        return '/Loan Landing.png';
+
       case 'samsung-product':
         return '/Samsung Product Page.png';
       case 'furniture-store':
         return '/Furniture Store.png';
-      case 'meditation-app':
-        return '/Meditation App.png';
+
       case 'phone-fun':
         return '/Phone Fun.png';
-      case 'creative-community':
-        return '/Creative Community Hub.png';
-      case 'general-content':
-        return '/General Content Page.png';
-      case 'squpage-promo':
-        return '/Squpage Promotion.png';
-      case 'legal-center':
-        return '/Legal Center.png';
+
       case 'flash-sale':
         return '/Flash sale landing.png';
       case 'mega-discount':
@@ -109,10 +90,7 @@ export default function TemplatesPage() {
         return '/PhotoFolio.png';
       case 'quiz-new':
         return '/quiz-new.png';
-      case 'energy-revolution':
-        return '/Energy Revolution.png';
-      case 'super-clips-ai':
-        return '/SuperClipsAI.png';
+
       default:
         return null;
     }
@@ -294,6 +272,28 @@ export default function TemplatesPage() {
                           }}
                         >
                           Start Building →
+                        </Button>
+                        <Button
+                          variant="outlined"
+                          onClick={() => router.push('/templates/custom-html-tour')}
+                          sx={{
+                            borderColor: 'rgba(168, 85, 247, 0.5)',
+                            color: '#e9d5ff',
+                            '&:hover': { 
+                                borderColor: '#a855f7', 
+                                bgcolor: 'rgba(168, 85, 247, 0.1)', 
+                                transform: 'scale(1.02)' 
+                            },
+                            textTransform: 'none',
+                            fontWeight: 600,
+                            py: 1.5,
+                            px: 4,
+                            borderRadius: 2,
+                            fontSize: 15,
+                            transition: 'all 0.2s ease',
+                          }}
+                        >
+                          Guided Tour 🔍
                         </Button>
                       </Box>
                     </Box>
