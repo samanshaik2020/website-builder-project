@@ -41,6 +41,12 @@ export interface Database {
           theme: string | null
           data: Json
           custom_url: string | null
+          campaign_enabled: boolean
+          campaign_heading: string | null
+          campaign_subheading: string | null
+          affiliate_url: string | null
+          head_scripts: string | null
+          body_scripts: string | null
           created_at: string
           updated_at: string
         }
@@ -52,6 +58,12 @@ export interface Database {
           theme?: string | null
           data?: Json
           custom_url?: string | null
+          campaign_enabled?: boolean
+          campaign_heading?: string | null
+          campaign_subheading?: string | null
+          affiliate_url?: string | null
+          head_scripts?: string | null
+          body_scripts?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -63,6 +75,12 @@ export interface Database {
           theme?: string | null
           data?: Json
           custom_url?: string | null
+          campaign_enabled?: boolean
+          campaign_heading?: string | null
+          campaign_subheading?: string | null
+          affiliate_url?: string | null
+          head_scripts?: string | null
+          body_scripts?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -151,6 +169,35 @@ export interface Database {
           user_agent?: string | null
         }
       }
+      project_leads: {
+        Row: {
+          id: string
+          project_id: string
+          email: string
+          ip_address: string | null
+          user_agent: string | null
+          referrer: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          project_id: string
+          email: string
+          ip_address?: string | null
+          user_agent?: string | null
+          referrer?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          project_id?: string
+          email?: string
+          ip_address?: string | null
+          user_agent?: string | null
+          referrer?: string | null
+          created_at?: string
+        }
+      }
     }
   }
 }
@@ -161,6 +208,7 @@ export type Project = Database['public']['Tables']['projects']['Row']
 export type ProjectAnalytics = Database['public']['Tables']['project_analytics']['Row']
 export type PageView = Database['public']['Tables']['page_views']['Row']
 export type ButtonClick = Database['public']['Tables']['button_clicks']['Row']
+export type ProjectLead = Database['public']['Tables']['project_leads']['Row']
 
 // Combined project with analytics
 export type ProjectWithAnalytics = Project & {

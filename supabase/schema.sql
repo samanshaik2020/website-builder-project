@@ -40,6 +40,12 @@ CREATE TABLE IF NOT EXISTS projects (
   theme text,
   data jsonb NOT NULL DEFAULT '{}',
   custom_url text UNIQUE,
+  campaign_enabled boolean DEFAULT false,
+  campaign_heading text,
+  campaign_subheading text,
+  affiliate_url text,
+  head_scripts text DEFAULT '',
+  body_scripts text DEFAULT '',
   created_at timestamp with time zone DEFAULT now(),
   updated_at timestamp with time zone DEFAULT now()
 );

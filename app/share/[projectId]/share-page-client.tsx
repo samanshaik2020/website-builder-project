@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { trackPageView, trackButtonClick } from '@/lib/services/analytics-service';
 import { getTemplateById, type TemplateId } from '@/lib/templates';
+import EmailGate from '@/components/campaign/email-gate';
 
 interface SharePageClientProps {
   project: any;
@@ -11,6 +12,32 @@ interface SharePageClientProps {
 
 export default function SharePageClient({ project, templateId }: SharePageClientProps) {
   const viewTracked = useRef(false);
+  const [showEmailGate, setShowEmailGate] = useState(false);
+  const [gateCompleted, setGateCompleted] = useState(false);
+
+  // Determine if campaign is enabled
+  const campaignEnabled = project.campaign_enabled === true;
+  const affiliateUrl = project.affiliate_url || '';
+  const campaignHeading = project.campaign_heading || 'Get Exclusive Access';
+  const campaignSubheading = project.campaign_subheading || 'Enter your email to continue';
+
+  // Check if user already passed the gate (localStorage)
+  useEffect(() => {
+    if (campaignEnabled) {
+      const alreadySubmitted = localStorage.getItem(`lead_${project.id}`);
+      if (alreadySubmitted) {
+        // If there's an affiliate URL, redirect immediately
+        if (affiliateUrl) {
+          window.location.href = affiliateUrl;
+          return;
+        }
+        // Otherwise show the landing page
+        setGateCompleted(true);
+      } else {
+        setShowEmailGate(true);
+      }
+    }
+  }, [campaignEnabled, project.id, affiliateUrl]);
 
   // Track page view once per mount
   useEffect(() => {
@@ -57,6 +84,12 @@ export default function SharePageClient({ project, templateId }: SharePageClient
     return () => document.removeEventListener('click', handleClick);
   }, [project.id]);
 
+  // When the email gate is completed (email submitted)
+  const handleGateComplete = useCallback(() => {
+    setShowEmailGate(false);
+    setGateCompleted(true);
+  }, []);
+
   // Resolve the template on the client side using the templateId string
   const template = getTemplateById(templateId as TemplateId);
 
@@ -71,6 +104,32 @@ export default function SharePageClient({ project, templateId }: SharePageClient
   }
 
   const TemplateComponent = template.component;
+
+  // If campaign is enabled and gate hasn't been completed yet, show the gate
+  if (campaignEnabled && showEmailGate && !gateCompleted) {
+    return (
+      <EmailGate
+        projectId={project.id}
+        heading={campaignHeading}
+        subheading={campaignSubheading}
+        affiliateUrl={affiliateUrl}
+        onComplete={handleGateComplete}
+      />
+    );
+  }
+
+  // If campaign has affiliate URL and gate is completed, redirect
+  // (This is a fallback - EmailGate should already handle the redirect)
+  if (campaignEnabled && affiliateUrl && gateCompleted) {
+    window.location.href = affiliateUrl;
+    return (
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-white text-lg">Redirecting...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">

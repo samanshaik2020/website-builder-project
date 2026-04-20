@@ -182,7 +182,17 @@ export default async function SharePage({ params }: SharePageProps) {
       );
     }
 
-    return <SharePageClient project={project} templateId={project.template} />;
+    return (
+      <>
+        {project.head_scripts && (
+          <div dangerouslySetInnerHTML={{ __html: project.head_scripts }} />
+        )}
+        <SharePageClient project={project} templateId={project.template} />
+        {project.body_scripts && (
+          <div dangerouslySetInnerHTML={{ __html: project.body_scripts }} />
+        )}
+      </>
+    );
   } catch {
     // Error loading project
     return (

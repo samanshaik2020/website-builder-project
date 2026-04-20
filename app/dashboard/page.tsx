@@ -19,6 +19,8 @@ import {
   Avatar,
   InputAdornment,
   Tooltip,
+  Switch,
+  Chip,
 } from '@mui/material';
 import {
   Add as AddIcon,
@@ -38,10 +40,13 @@ import {
   Settings as SettingsIcon,
   Help as HelpIcon,
   CreditCard as CreditCardIcon,
+  Email as EmailIcon,
 } from '@mui/icons-material';
 import { getAllTemplates } from '@/lib/templates';
 import { getCurrentUser, signOut as authSignOut } from '@/lib/services/auth-service';
 import { getUserProjects, deleteProject as deleteProjectService, updateProject, isCustomUrlAvailable } from '@/lib/services/project-service';
+import { getLeadCountsForProjects, updateCampaignSettings } from '@/lib/services/lead-service';
+import LeadsDialog from '@/components/campaign/leads-dialog';
 
 interface Project {
   id: string;
@@ -55,6 +60,13 @@ interface Project {
   lastViewedAt?: string;
   lastClickedAt?: string;
   customUrl?: string;
+  campaignEnabled?: boolean;
+  campaignHeading?: string;
+  campaignSubheading?: string;
+  affiliateUrl?: string;
+  headScripts?: string;
+  bodyScripts?: string;
+  leadCount?: number;
 }
 
 export default function DashboardPage() {
@@ -74,6 +86,20 @@ export default function DashboardPage() {
   const [isClient, setIsClient] = useState(false);
   const [userMenuAnchor, setUserMenuAnchor] = useState<null | HTMLElement>(null);
   const [currentUser, setCurrentUser] = useState<any>(null);
+
+  // Campaign states
+  const [campaignEnabled, setCampaignEnabled] = useState(false);
+  const [campaignHeading, setCampaignHeading] = useState('Get Exclusive Access');
+  const [campaignSubheading, setCampaignSubheading] = useState('Enter your email to continue');
+  const [affiliateUrl, setAffiliateUrl] = useState('');
+  const [headScripts, setHeadScripts] = useState('');
+  const [bodyScripts, setBodyScripts] = useState('');
+  const [campaignSaving, setCampaignSaving] = useState(false);
+  const [campaignSaved, setCampaignSaved] = useState(false);
+
+  // Leads dialog
+  const [showLeadsDialog, setShowLeadsDialog] = useState(false);
+  const [leadsDialogProject, setLeadsDialogProject] = useState<Project | null>(null);
 
   useEffect(() => {
     setIsClient(true);
@@ -119,6 +145,15 @@ export default function DashboardPage() {
     try {
       const projectsData = await getUserProjects();
 
+      // Get lead counts for all projects
+      const projectIds = projectsData.map((p: any) => p.id);
+      let leadCounts: Record<string, number> = {};
+      try {
+        leadCounts = await getLeadCountsForProjects(projectIds);
+      } catch {
+        // Failed to load lead counts, continue with 0s
+      }
+
       // Transform Supabase data to match our Project interface
       const transformedProjects = projectsData.map((p: any) => ({
         id: p.id,
@@ -132,6 +167,13 @@ export default function DashboardPage() {
         lastViewedAt: p.analytics?.last_viewed_at,
         lastClickedAt: p.analytics?.last_clicked_at,
         customUrl: p.custom_url,
+        campaignEnabled: p.campaign_enabled || false,
+        campaignHeading: p.campaign_heading || 'Get Exclusive Access',
+        campaignSubheading: p.campaign_subheading || 'Enter your email to continue',
+        affiliateUrl: p.affiliate_url || '',
+        headScripts: p.head_scripts || '',
+        bodyScripts: p.body_scripts || '',
+        leadCount: leadCounts[p.id] || 0,
       }));
 
       setProjects(transformedProjects);
@@ -176,6 +218,54 @@ export default function DashboardPage() {
     setShowShareDialog(true);
     handleMenuClose();
 
+    // Load campaign settings
+    setCampaignEnabled(project.campaignEnabled || false);
+    setCampaignHeading(project.campaignHeading || 'Get Exclusive Access');
+    setCampaignSubheading(project.campaignSubheading || 'Enter your email to continue');
+    setAffiliateUrl(project.affiliateUrl || '');
+    setHeadScripts(project.headScripts || '');
+    setBodyScripts(project.bodyScripts || '');
+    setCampaignSaved(false);
+  };
+
+  const handleViewLeads = (projectId: string) => {
+    const project = projects.find(p => p.id === projectId);
+    if (project) {
+      setLeadsDialogProject(project);
+      setShowLeadsDialog(true);
+    }
+    handleMenuClose();
+  };
+
+  const handleSaveCampaignSettings = async () => {
+    const projectId = selectedProject || currentDialogProject?.id;
+    if (!projectId) return;
+
+    setCampaignSaving(true);
+    try {
+      await updateCampaignSettings(projectId, {
+        campaignEnabled,
+        campaignHeading,
+        campaignSubheading,
+        affiliateUrl,
+        headScripts,
+        bodyScripts,
+      });
+
+      // Update local state
+      setProjects(prev => prev.map(p =>
+        p.id === projectId
+          ? { ...p, campaignEnabled, campaignHeading, campaignSubheading, affiliateUrl, headScripts, bodyScripts }
+          : p
+      ));
+
+      setCampaignSaved(true);
+      setTimeout(() => setCampaignSaved(false), 2000);
+    } catch {
+      alert('Failed to save campaign settings. Please try again.');
+    } finally {
+      setCampaignSaving(false);
+    }
   };
 
   const handleDeleteClick = (projectId: string) => {
@@ -590,6 +680,38 @@ export default function DashboardPage() {
                           <RemoveRedEyeIcon sx={{ fontSize: 14, ml: 0.5 }} />
                         </Typography>
                       </Tooltip>
+                      {(project.leadCount || 0) > 0 && (
+                        <Tooltip title="View Email Leads" arrow>
+                          <Chip
+                            icon={<EmailIcon sx={{ fontSize: 14 }} />}
+                            label={`${project.leadCount} Lead${project.leadCount !== 1 ? 's' : ''}`}
+                            size="small"
+                            onClick={() => handleViewLeads(project.id)}
+                            sx={{
+                              fontSize: 12,
+                              height: 24,
+                              bgcolor: '#ede9fe',
+                              color: '#7c3aed',
+                              fontWeight: 600,
+                              cursor: 'pointer',
+                              '&:hover': { bgcolor: '#ddd6fe' },
+                            }}
+                          />
+                        </Tooltip>
+                      )}
+                      {project.campaignEnabled && (
+                        <Chip
+                          label="Campaign Active"
+                          size="small"
+                          sx={{
+                            fontSize: 11,
+                            height: 22,
+                            bgcolor: '#d1fae5',
+                            color: '#059669',
+                            fontWeight: 600,
+                          }}
+                        />
+                      )}
                       <Tooltip title="Total Clicks" arrow>
                         <Typography sx={{ fontSize: 13, color: '#9ca3af', display: 'flex', alignItems: 'center', gap: 0.5, cursor: 'help' }}>
                           {project.clicks || 0}
@@ -677,7 +799,11 @@ export default function DashboardPage() {
       >
         <MenuItem onClick={() => selectedProject && handleShare(selectedProject)}>
           <ShareIcon sx={{ mr: 2, fontSize: 20 }} />
-          Share
+          Share & Campaign
+        </MenuItem>
+        <MenuItem onClick={() => selectedProject && handleViewLeads(selectedProject)}>
+          <EmailIcon sx={{ mr: 2, fontSize: 20 }} />
+          View Leads
         </MenuItem>
         <Divider />
         <MenuItem
@@ -728,10 +854,10 @@ export default function DashboardPage() {
           sx: { borderRadius: 3, p: 1 },
         }}
       >
-        <DialogTitle sx={{ fontWeight: 700, pb: 1 }}>Share Your Project</DialogTitle>
+        <DialogTitle sx={{ fontWeight: 700, pb: 1 }}>Share & Campaign Settings</DialogTitle>
         <DialogContent>
           <Typography sx={{ mb: 3, color: '#666', fontSize: 14 }}>
-            Anyone with this link can view your project
+            Share your project and configure email collection
           </Typography>
 
           {/* Custom URL Section */}
@@ -864,6 +990,129 @@ export default function DashboardPage() {
               ),
             }}
           />
+
+          {/* Email Campaign Section */}
+          <Box sx={{ mt: 3, p: 2.5, bgcolor: '#f9fafb', borderRadius: '12px', border: '1px solid #e5e7eb' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+              <Box>
+                <Typography sx={{ fontSize: 14, fontWeight: 700, color: '#111827', display: 'flex', alignItems: 'center', gap: 1 }}>
+                  📧 Email Campaign
+                </Typography>
+                <Typography sx={{ fontSize: 12, color: '#6b7280', mt: 0.5 }}>
+                  Collect emails before visitors see the page or get redirected
+                </Typography>
+              </Box>
+              <Switch
+                checked={campaignEnabled}
+                onChange={(e) => setCampaignEnabled(e.target.checked)}
+                sx={{
+                  '& .MuiSwitch-switchBase.Mui-checked': { color: '#8b5cf6' },
+                  '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { bgcolor: '#8b5cf6' },
+                }}
+              />
+            </Box>
+
+            {campaignEnabled && (
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <TextField
+                  fullWidth
+                  size="small"
+                  label="Heading"
+                  value={campaignHeading}
+                  onChange={(e) => setCampaignHeading(e.target.value)}
+                  placeholder="Get Exclusive Access"
+                  sx={{ '& .MuiOutlinedInput-root': { bgcolor: 'white', fontSize: 13 } }}
+                />
+                <TextField
+                  fullWidth
+                  size="small"
+                  label="Subheading"
+                  value={campaignSubheading}
+                  onChange={(e) => setCampaignSubheading(e.target.value)}
+                  placeholder="Enter your email to continue"
+                  sx={{ '& .MuiOutlinedInput-root': { bgcolor: 'white', fontSize: 13 } }}
+                />
+                <TextField
+                  fullWidth
+                  size="small"
+                  label="Affiliate / Redirect URL (optional)"
+                  value={affiliateUrl}
+                  onChange={(e) => setAffiliateUrl(e.target.value)}
+                  placeholder="https://example.com/affiliate?ref=123"
+                  helperText="After submitting email, visitors will be redirected to this URL. Leave empty to show the landing page."
+                  sx={{ '& .MuiOutlinedInput-root': { bgcolor: 'white', fontSize: 13, fontFamily: 'monospace' } }}
+                />
+              </Box>
+            )}
+
+          {/* Advanced Tracking Pixels */}
+          <Box sx={{ p: 2, bgcolor: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0', mt: 3 }}>
+            <Box sx={{ mb: 2 }}>
+              <Typography sx={{ fontSize: 14, fontWeight: 600, color: '#1e293b' }}>
+                Advanced Tracking (Pixels)
+              </Typography>
+              <Typography sx={{ fontSize: 12, color: '#6b7280', mt: 0.5 }}>
+                Add Facebook Pixel, Google Analytics, or TikTok tags.
+              </Typography>
+            </Box>
+
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+              <TextField
+                fullWidth
+                multiline
+                rows={3}
+                size="small"
+                label="Header Scripts (<head>)"
+                value={headScripts}
+                onChange={(e) => setHeadScripts(e.target.value)}
+                placeholder="<!-- Facebook Pixel Code -->&#10;<script>...</script>"
+                sx={{ '& .MuiOutlinedInput-root': { bgcolor: 'white', fontSize: 12, fontFamily: 'monospace' } }}
+              />
+              <TextField
+                fullWidth
+                multiline
+                rows={3}
+                size="small"
+                label="Body Scripts (<body>)"
+                value={bodyScripts}
+                onChange={(e) => setBodyScripts(e.target.value)}
+                placeholder="<!-- Noscript / Footer Tags -->"
+                sx={{ '& .MuiOutlinedInput-root': { bgcolor: 'white', fontSize: 12, fontFamily: 'monospace' } }}
+              />
+            </Box>
+          </Box>
+
+          {!campaignEnabled && (
+            <Typography sx={{ fontSize: 13, color: '#6b7280', fontStyle: 'italic', mt: 2, mb: 1 }}>
+              Email capture campaign is currently inactive.
+            </Typography>
+          )}
+
+            {/* Always show Save button for campaign settings */}
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: campaignEnabled ? 2 : 0 }}>
+              <Button
+                size="small"
+                variant="contained"
+                onClick={handleSaveCampaignSettings}
+                disabled={campaignSaving}
+                sx={{
+                  textTransform: 'none',
+                  fontSize: 12,
+                  fontWeight: 600,
+                  bgcolor: '#1f2937',
+                  '&:hover': { bgcolor: '#111827' },
+                  boxShadow: 'none',
+                }}
+              >
+                {campaignSaving ? 'Saving...' : 'Save Settings'}
+              </Button>
+              {campaignSaved && (
+                <Typography sx={{ fontSize: 12, color: '#10b981', fontWeight: 600 }}>
+                  ✓ Saved!
+                </Typography>
+              )}
+            </Box>
+          </Box>
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2 }}>
           <Button onClick={handleCloseShareDialog} sx={{ textTransform: 'none', color: '#6b7280' }}>
@@ -885,6 +1134,20 @@ export default function DashboardPage() {
           </Button>
         </DialogActions>
       </Dialog>
+
+      {/* Leads Dialog */}
+      {leadsDialogProject && (
+        <LeadsDialog
+          open={showLeadsDialog}
+          onClose={() => {
+            setShowLeadsDialog(false);
+            setTimeout(() => setLeadsDialogProject(null), 100);
+          }}
+          projectId={leadsDialogProject.id}
+          projectName={leadsDialogProject.name}
+          totalViews={leadsDialogProject.views || 0}
+        />
+      )}
 
       {/* User Profile Menu */}
       <Menu
