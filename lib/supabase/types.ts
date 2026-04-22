@@ -47,6 +47,7 @@ export interface Database {
           affiliate_url: string | null
           head_scripts: string | null
           body_scripts: string | null
+          redirect_after_submit: boolean
           created_at: string
           updated_at: string
         }
@@ -64,6 +65,7 @@ export interface Database {
           affiliate_url?: string | null
           head_scripts?: string | null
           body_scripts?: string | null
+          redirect_after_submit?: boolean
           created_at?: string
           updated_at?: string
         }
@@ -81,6 +83,7 @@ export interface Database {
           affiliate_url?: string | null
           head_scripts?: string | null
           body_scripts?: string | null
+          redirect_after_submit?: boolean
           created_at?: string
           updated_at?: string
         }

@@ -8,6 +8,7 @@ interface EmailGateProps {
   heading: string;
   subheading: string;
   affiliateUrl: string;
+  redirectAfterSubmit?: boolean;
   onComplete: () => void;
 }
 
@@ -16,6 +17,7 @@ export default function EmailGate({
   heading,
   subheading,
   affiliateUrl,
+  redirectAfterSubmit = true,
   onComplete,
 }: EmailGateProps) {
   const [email, setEmail] = useState('');
@@ -31,13 +33,9 @@ export default function EmailGate({
   useEffect(() => {
     const submitted = localStorage.getItem(`lead_${projectId}`);
     if (submitted) {
-      if (affiliateUrl) {
-        window.location.href = affiliateUrl;
-      } else {
-        onComplete();
-      }
+      onComplete();
     }
-  }, [projectId, affiliateUrl, onComplete]);
+  }, [projectId, onComplete]);
 
   // Exit-intent: fires when mouse leaves viewport toward the top (browser bar / close button)
   useEffect(() => {
@@ -102,7 +100,7 @@ export default function EmailGate({
       }
 
       setTimeout(() => {
-        if (affiliateUrl) {
+        if (redirectAfterSubmit && affiliateUrl) {
           window.location.href = affiliateUrl;
         } else {
           onComplete();
@@ -211,19 +209,22 @@ export default function EmailGate({
 
   return (
     <>
-      {/* ── Main Email Gate ───────────────────────────────────────────── */}
+      {/* ── Main Email Gate (transparent overlay modal) ──────────────── */}
       <div style={{
         position: 'fixed', inset: 0, zIndex: 9000,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        background: '#f9fafb',
+        background: 'rgba(0, 0, 0, 0.5)',
+        backdropFilter: 'blur(4px)',
+        WebkitBackdropFilter: 'blur(4px)',
         fontFamily: "'Inter', 'Segoe UI', system-ui, sans-serif",
+        animation: 'eg-fade-in 0.3s ease',
       }}>
         <div style={{
           width: '100%', maxWidth: '440px',
           margin: '0 20px', padding: '40px 32px',
-          borderRadius: '12px', background: '#ffffff',
-          border: '1px solid #e5e7eb',
-          boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03)',
+          borderRadius: '16px', background: '#ffffff',
+          boxShadow: '0 25px 60px rgba(0,0,0,0.25)',
+          animation: 'eg-slide-up 0.3s ease',
         }}>
           <h1 style={{
             textAlign: 'center', fontSize: '24px', fontWeight: 700,

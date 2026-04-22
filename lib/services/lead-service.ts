@@ -19,6 +19,7 @@ export interface CampaignSettings {
   affiliateUrl: string
   headScripts: string
   bodyScripts: string
+  redirectAfterSubmit: boolean
 }
 
 /**
@@ -140,6 +141,7 @@ export async function updateCampaignSettings(
   if (settings.affiliateUrl !== undefined) updateData.affiliate_url = settings.affiliateUrl
   if (settings.headScripts !== undefined) updateData.head_scripts = settings.headScripts
   if (settings.bodyScripts !== undefined) updateData.body_scripts = settings.bodyScripts
+  if (settings.redirectAfterSubmit !== undefined) updateData.redirect_after_submit = settings.redirectAfterSubmit
 
   const { error } = await supabase
     .from('projects')
@@ -160,7 +162,7 @@ export async function getCampaignSettings(projectId: string): Promise<CampaignSe
 
   const { data, error } = await supabase
     .from('projects')
-    .select('campaign_enabled, campaign_heading, campaign_subheading, affiliate_url, head_scripts, body_scripts')
+    .select('campaign_enabled, campaign_heading, campaign_subheading, affiliate_url, head_scripts, body_scripts, redirect_after_submit')
     .eq('id', projectId)
     .single()
 
@@ -176,6 +178,7 @@ export async function getCampaignSettings(projectId: string): Promise<CampaignSe
     affiliateUrl: data.affiliate_url || '',
     headScripts: data.head_scripts || '',
     bodyScripts: data.body_scripts || '',
+    redirectAfterSubmit: data.redirect_after_submit !== false,
   }
 }
 

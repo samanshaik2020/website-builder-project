@@ -66,6 +66,7 @@ interface Project {
   affiliateUrl?: string;
   headScripts?: string;
   bodyScripts?: string;
+  redirectAfterSubmit?: boolean;
   leadCount?: number;
 }
 
@@ -94,6 +95,7 @@ export default function DashboardPage() {
   const [affiliateUrl, setAffiliateUrl] = useState('');
   const [headScripts, setHeadScripts] = useState('');
   const [bodyScripts, setBodyScripts] = useState('');
+  const [redirectAfterSubmit, setRedirectAfterSubmit] = useState(true);
   const [campaignSaving, setCampaignSaving] = useState(false);
   const [campaignSaved, setCampaignSaved] = useState(false);
 
@@ -173,6 +175,7 @@ export default function DashboardPage() {
         affiliateUrl: p.affiliate_url || '',
         headScripts: p.head_scripts || '',
         bodyScripts: p.body_scripts || '',
+        redirectAfterSubmit: p.redirect_after_submit !== false,
         leadCount: leadCounts[p.id] || 0,
       }));
 
@@ -225,6 +228,7 @@ export default function DashboardPage() {
     setAffiliateUrl(project.affiliateUrl || '');
     setHeadScripts(project.headScripts || '');
     setBodyScripts(project.bodyScripts || '');
+    setRedirectAfterSubmit(project.redirectAfterSubmit !== false);
     setCampaignSaved(false);
   };
 
@@ -250,12 +254,13 @@ export default function DashboardPage() {
         affiliateUrl,
         headScripts,
         bodyScripts,
+        redirectAfterSubmit,
       });
 
       // Update local state
       setProjects(prev => prev.map(p =>
         p.id === projectId
-          ? { ...p, campaignEnabled, campaignHeading, campaignSubheading, affiliateUrl, headScripts, bodyScripts }
+          ? { ...p, campaignEnabled, campaignHeading, campaignSubheading, affiliateUrl, headScripts, bodyScripts, redirectAfterSubmit }
           : p
       ));
 
@@ -1042,6 +1047,30 @@ export default function DashboardPage() {
                   helperText="After submitting email, visitors will be redirected to this URL. Leave empty to show the landing page."
                   sx={{ '& .MuiOutlinedInput-root': { bgcolor: 'white', fontSize: 13, fontFamily: 'monospace' } }}
                 />
+
+                {affiliateUrl && (
+                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 1.5, bgcolor: '#f0fdf4', borderRadius: '8px', border: '1px solid #bbf7d0' }}>
+                    <Box>
+                      <Typography sx={{ fontSize: 13, fontWeight: 600, color: '#166534' }}>
+                        Redirect after email?
+                      </Typography>
+                      <Typography sx={{ fontSize: 11, color: '#15803d' }}>
+                        {redirectAfterSubmit
+                          ? 'ON — Visitor is sent to affiliate link after submitting.'
+                          : 'OFF — Visitor stays on your landing page (Content Unlock).'}
+                      </Typography>
+                    </Box>
+                    <Switch
+                      checked={redirectAfterSubmit}
+                      onChange={(e) => setRedirectAfterSubmit(e.target.checked)}
+                      size="small"
+                      sx={{
+                        '& .MuiSwitch-switchBase.Mui-checked': { color: '#16a34a' },
+                        '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { bgcolor: '#16a34a' },
+                      }}
+                    />
+                  </Box>
+                )}
               </Box>
             )}
 
