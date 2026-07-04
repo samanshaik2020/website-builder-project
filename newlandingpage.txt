@@ -1,0 +1,35 @@
+Landing Page Host — Functionality
+Overview
+File reviewed: hosting.html — a self-contained, browser-based tool for preparing affiliate/bridge landing
+pages before deployment.
+1. Page Upload &amp; Hosting
+• Upload an .html file, or paste raw HTML directly into a text box.
+• Generates a local in-browser blob URL for each page — this is a staging/preview tool, not a live web
+host.
+• Each page entry supports: title editing, download as .html, &quot;Open&quot; in new tab, rename, delete, and
+copy-link.
+• Pages persist across browser sessions via localStorage.
+2. Tracking Pixel Injection
+• Accepts a Facebook Pixel ID and/or a Google Tag (GA4) ID.
+• Automatically injects the correct &lt;script&gt; snippets into the &lt;head&gt; of every uploaded page — no
+manual pixel code required.
+3. Legal Page Generator (About / Privacy / Disclaimer)
+• Auto-generates boilerplate About Us, Privacy Policy, and Disclaimer text, customizable by brand
+name, contact email, jurisdiction/country, and site type (affiliate, health, finance, or general).
+• Generated text is fully editable before use.
+• Each legal section can instead point to an external URL rather than generating content.
+• Legal content is auto-injected as a footer on every uploaded page, with in-page modal popups
+linking to About/Privacy/Disclaimer.
+• Legal settings are saved once and reused for all future uploads.
+4. Image Manager
+• Supports image upload, drag-and-drop, or pasting an external image URL.
+• Uploaded files are automatically sent to tmpfiles.org (a free, keyless third-party file host) to obtain a
+public direct-link URL, since the tool has no real backend storage.
+• Lets you configure alt text, width, height, and alignment, then generates a ready-to-paste &lt;img&gt; tag.
+• Maintains a reusable &quot;Image Library&quot; (saved in localStorage) so images can be reloaded and reused
+across pages.
+Note / Flag
+The image uploader sends files to tmpfiles.org, a public third-party server. Uploaded content is publicly
+accessible via a guessable-ish link and is typically auto-deleted after a period of time. This is acceptable
+for temporary, non-sensitive images (e.g., bridge-page graphics) but should not be relied on for anything
+private or permanent.

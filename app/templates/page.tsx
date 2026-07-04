@@ -21,7 +21,6 @@ import { getCurrentUser } from '@/lib/auth';
 export default function TemplatesPage() {
   const router = useRouter();
   const templates = getAllTemplates();
-  const [selectedCategory, setSelectedCategory] = useState('all');
 
   useEffect(() => {
     // Check authentication
@@ -39,58 +38,10 @@ export default function TemplatesPage() {
     router.push(`/editor?template=${templateId}`);
   };
 
-  const categories = [
-    { id: 'all', label: 'All' },
-    { id: 'portfolio', label: 'Portfolio' },
-    { id: 'free', label: 'Free' },
-    { id: 'pro', label: 'Pro' },
-    { id: 'finance', label: 'Finance' },
-    { id: 'product', label: 'Product' },
-    { id: 'ecommerce', label: 'E-commerce' },
-    { id: 'advanced', label: 'Advanced' },
-  ];
-
-  const filteredTemplates = templates.filter((template) => {
-    const matchesCategory = selectedCategory === 'all' || template.category.toLowerCase() === selectedCategory;
-    return matchesCategory;
-  });
-
   const getTemplatePreviewImage = (templateId: string) => {
     switch (templateId) {
       case 'custom-html':
-        return '/custom-html-preview.png'; // fallback or adjust if needed
-      case 'cat-food':
-        return '/Cat Food Product.png';
-      case 'grocery-delivery':
-        return '/Grocery Delivery.png';
-
-      case 'samsung-product':
-        return '/Samsung Product Page.png';
-      case 'furniture-store':
-        return '/Furniture Store.png';
-
-      case 'phone-fun':
-        return '/Phone Fun.png';
-
-      case 'flash-sale':
-        return '/Flash sale landing.png';
-      case 'mega-discount':
-        return '/Mega Discount Sale.png';
-      case 'festival-sale':
-        return '/Festival Sale Poster.png';
-      case 'mobile-shop':
-        return '/Mobile Shop.png';
-      case 'gadget-deals':
-        return '/Gadget Deals.png';
-      case 'galaxy-phone':
-        return '/Galaxy Phone Product.png';
-      case 'glassmorphism-product':
-        return '/Glassmorphism Product.png';
-      case 'photofolio':
-        return '/PhotoFolio.png';
-      case 'quiz-new':
-        return '/quiz-new.png';
-
+        return '/custom-html-preview.png';
       default:
         return null;
     }
@@ -123,10 +74,10 @@ export default function TemplatesPage() {
         {/* Header */}
         <Box sx={{ textAlign: 'center', mb: 4 }}>
           <Typography variant="h3" sx={{ fontWeight: 700, color: '#000', mb: 1.5, fontSize: 40 }}>
-            Choose Your Template
+            Custom HTML Project
           </Typography>
           <Typography sx={{ color: '#737373', mb: 4, fontSize: 15, maxWidth: 600, mx: 'auto', lineHeight: 1.6 }}>
-            Start with a professionally designed template and customize every element to match your vision
+            Create a website from scratch or import your own code.
           </Typography>
 
           {/* Dashboard Button */}
@@ -151,38 +102,11 @@ export default function TemplatesPage() {
           >
             Go to Dashboard
           </Button>
-
-          {/* Category Pills */}
-          <Box sx={{ display: 'flex', gap: 1.5, justifyContent: 'center', mb: 6 }}>
-            {categories.map((category) => (
-              <Button
-                key={category.id}
-                onClick={() => setSelectedCategory(category.id)}
-                sx={{
-                  textTransform: 'none',
-                  fontWeight: 500,
-                  fontSize: 14,
-                  px: 3,
-                  py: 0.75,
-                  borderRadius: 20,
-                  minWidth: 'auto',
-                  bgcolor: selectedCategory === category.id ? '#000' : 'transparent',
-                  color: selectedCategory === category.id ? '#fff' : '#525252',
-                  border: selectedCategory === category.id ? 'none' : '1px solid #e5e5e5',
-                  '&:hover': {
-                    bgcolor: selectedCategory === category.id ? '#000' : '#f5f5f5',
-                  },
-                }}
-              >
-                {category.label}
-              </Button>
-            ))}
-          </Box>
         </Box>
 
         {/* Templates Grid */}
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, gap: 4 }}>
-          {filteredTemplates.map((template) => {
+          {templates.map((template) => {
             const isCustomHtml = template.id === 'custom-html';
 
             if (isCustomHtml) {
@@ -398,7 +322,7 @@ export default function TemplatesPage() {
         </Box>
 
         {/* No Results */}
-        {filteredTemplates.length === 0 && (
+        {templates.length === 0 && (
           <Box sx={{ textAlign: 'center', py: 8 }}>
             <Typography variant="h5" sx={{ color: '#999', mb: 2 }}>
               No templates found

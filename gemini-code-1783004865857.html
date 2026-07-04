@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Landing Page Host</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f1117; color: #e2e8f0; min-height: 100vh; }
+.topbar { background: #0f1117; border-bottom: 1px solid #1e2433; padding: 12px 24px; display: flex; align-items: center; gap: 10px; }
+.badge { font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 99px; letter-spacing: 0.05em; text-transform: uppercase; }
+.badge-self { background: #0d2a1f; color: #10e890; border: 1px solid #10e89033; }
+.badge-cf { background: #2a1a0d; color: #f6821f; border: 1px solid #f6821f33; }
+.main { max-width: 860px; margin: 0 auto; padding: 32px 24px 80px; }
+h1 { font-size: 30px; font-weight: 700; color: #fff; margin: 16px 0 6px; }
+.subtitle { font-size: 14px; color: #64748b; margin-bottom: 28px; }
+.card { background: #161b27; border: 1px solid #1e2433; border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+.section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #475569; margin-bottom: 16px; }
+.tabs { display: flex; border-bottom: 1px solid #1e2433; margin-bottom: 20px; gap: 0; flex-wrap: wrap; }
+.tab { font-size: 13px; padding: 9px 16px; cursor: pointer; color: #64748b; background: none; border: none; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.15s; white-space: nowrap; }
+.tab.active { color: #10e890; border-bottom-color: #10e890; }
+.tab:hover:not(.active) { color: #94a3b8; }
+.field-label { font-size: 13px; color: #94a3b8; margin-bottom: 6px; display: block; }
+input[type=text], input[type=url], textarea, select { width: 100%; font-size: 14px; padding: 9px 12px; border: 1px solid #1e2433; border-radius: 8px; background: #0f1117; color: #e2e8f0; margin-bottom: 14px; outline: none; transition: border-color 0.15s; font-family: inherit; }
+input[type=text]:focus, input[type=url]:focus, textarea:focus, select:focus { border-color: #10e89066; }
+input::placeholder, textarea::placeholder { color: #334155; }
+textarea { height: 150px; resize: vertical; font-family: 'Courier New', monospace; font-size: 13px; }
+textarea.tall { height: 260px; }
+.file-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.file-btn { font-size: 13px; padding: 8px 16px; border: 1px solid #1e2433; border-radius: 8px; cursor: pointer; color: #94a3b8; background: #0f1117; white-space: nowrap; }
+.file-btn:hover { border-color: #334155; color: #e2e8f0; }
+.file-name { font-size: 13px; color: #475569; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.btn-primary { background: #10e890; color: #0a0f0a; border: none; padding: 10px 24px; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.btn-primary:hover { background: #0fd47e; }
+.pixel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; padding-top: 16px; border-top: 1px solid #1e2433; }
+.pixel-label { font-size: 12px; color: #64748b; margin-bottom: 6px; }
+.pixel-grid input { margin-bottom: 0; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* legal pages section */
+.legal-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+.legal-card { background: #0f1117; border: 1px solid #1e2433; border-radius: 10px; padding: 14px; cursor: pointer; transition: border-color 0.15s; }
+.legal-card:hover, .legal-card.selected { border-color: #10e89066; }
+.legal-card.selected { background: #0d2a1f; }
+.legal-card-title { font-size: 13px; font-weight: 600; color: #e2e8f0; margin-bottom: 4px; }
+.legal-card-desc { font-size: 11px; color: #475569; }
+.legal-status { font-size: 11px; margin-top: 6px; }
+.legal-status.done { color: #10e890; }
+.legal-status.empty { color: #334155; }
+.legal-editor { display: none; }
+.legal-editor.active { display: block; }
+.legal-editor textarea { height: 320px; }
+.url-or-generate { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; }
+.url-or-generate span { font-size: 12px; color: #475569; flex-shrink: 0; }
+.toggle-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.toggle-label { font-size: 13px; color: #94a3b8; }
+.toggle { position: relative; width: 36px; height: 20px; flex-shrink: 0; }
+.toggle input { opacity: 0; width: 0; height: 0; }
+.toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: #1e2433; border-radius: 20px; transition: 0.2s; }
+.toggle-slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background: #475569; border-radius: 50%; transition: 0.2s; }
+.toggle input:checked + .toggle-slider { background: #10e890; }
+.toggle input:checked + .toggle-slider:before { transform: translateX(16px); background: #0a0f0a; }
+
+/* page list */
+.page-list { display: flex; flex-direction: column; gap: 10px; }
+.page-item { background: #0f1117; border: 1px solid #1e2433; border-radius: 10px; padding: 14px 16px; }
+.page-item:hover { border-color: #2a3447; }
+.page-row { display: flex; align-items: flex-start; gap: 12px; }
+.page-icon { width: 36px; height: 36px; border-radius: 8px; background: #0d2a1f; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.page-info { flex: 1; min-width: 0; }
+.page-title-text { font-size: 14px; font-weight: 600; color: #e2e8f0; }
+.page-url { font-size: 12px; color: #10e890; margin-top: 3px; font-family: monospace; word-break: break-all; }
+.page-meta { font-size: 11px; color: #334155; margin-top: 4px; }
+.page-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+.act-btn { border: 1px solid #1e2433; background: transparent; color: #64748b; font-size: 12px; padding: 6px 11px; border-radius: 7px; cursor: pointer; display: flex; align-items: center; gap: 4px; white-space: nowrap; font-family: inherit; transition: all 0.15s; }
+.act-btn:hover { border-color: #334155; color: #94a3b8; background: #161b27; }
+.act-btn.open-btn { background: #0d2a1f; border-color: #10e89033; color: #10e890; }
+.act-btn.open-btn:hover { background: #0d3320; border-color: #10e89066; }
+.act-btn.del-btn:hover { border-color: #7f1d1d; color: #f87171; background: #1a0a0a; }
+.rename-row { display: flex; gap: 8px; margin-top: 10px; }
+.rename-row input { margin: 0; flex: 1; }
+.btn-sm { font-size: 12px; padding: 7px 14px; border-radius: 7px; border: none; cursor: pointer; font-family: inherit; font-weight: 600; }
+.btn-sm.confirm { background: #10e890; color: #0a0f0a; }
+.btn-sm.cancel { background: #161b27; color: #64748b; border: 1px solid #1e2433; }
+.download-link { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: #10e890; text-decoration: none; padding: 3px 9px; border: 1px solid #10e89033; border-radius: 6px; margin-top: 6px; }
+.download-link:hover { background: #0d2a1f; }
+.empty-state { text-align: center; padding: 40px 20px; color: #334155; }
+.empty-state p { font-size: 14px; }
+.toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); background: #10e890; color: #0a0f0a; font-size: 13px; font-weight: 600; padding: 10px 22px; border-radius: 99px; opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 9999; white-space: nowrap; }
+.toast.show { opacity: 1; }
+.info-box { background: #0d1a2a; border: 1px solid #1e3a5f; border-radius: 8px; padding: 12px 14px; font-size: 13px; color: #7fb3d3; margin-bottom: 14px; line-height: 1.6; }
+.info-box strong { color: #a8d4f0; }
+
+/* image manager */
+.img-tabs { display: flex; border-bottom: 1px solid #1e2433; margin-bottom: 16px; }
+.img-tab { font-size: 13px; padding: 8px 16px; cursor: pointer; color: #64748b; background: none; border: none; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.img-tab.active { color: #10e890; border-bottom-color: #10e890; }
+.img-preview-box { width: 100%; height: 180px; background: #0a0e17; border: 1px dashed #1e2433; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; overflow: hidden; position: relative; }
+.img-preview-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.img-preview-placeholder { color: #334155; font-size: 13px; text-align: center; }
+.img-settings { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.img-settings input, .img-settings select { margin-bottom: 0; font-size: 13px; }
+.img-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; margin-top: 12px; }
+.img-item { background: #0a0e17; border: 1px solid #1e2433; border-radius: 8px; overflow: hidden; position: relative; cursor: pointer; transition: border-color 0.15s; }
+.img-item:hover { border-color: #10e89066; }
+.img-item img { width: 100%; height: 90px; object-fit: cover; display: block; }
+.img-item-info { padding: 6px 8px; }
+.img-item-name { font-size: 11px; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.img-item-actions { display: flex; gap: 4px; margin-top: 4px; }
+.img-act { font-size: 10px; padding: 3px 7px; border: 1px solid #1e2433; border-radius: 5px; background: transparent; color: #64748b; cursor: pointer; font-family: inherit; }
+.img-act:hover { border-color: #10e89033; color: #10e890; }
+.img-act.del { }
+.img-act.del:hover { border-color: #7f1d1d; color: #f87171; }
+.img-tag-box { background: #0a0e17; border: 1px solid #1e2433; border-radius: 6px; padding: 8px 10px; font-size: 12px; font-family: monospace; color: #94a3b8; word-break: break-all; margin-top: 8px; display: none; }
+.drop-zone { border: 2px dashed #1e2433; border-radius: 10px; padding: 32px 20px; text-align: center; color: #334155; font-size: 14px; cursor: pointer; transition: border-color 0.15s, background 0.15s; margin-bottom: 12px; }
+.drop-zone:hover, .drop-zone.drag-over { border-color: #10e89066; background: #0d2a1f22; color: #10e890; }
+.legal-pages-section { margin-top: 16px; padding-top: 16px; border-top: 1px solid #1e2433; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 640px) {
+  .pixel-grid, .legal-grid, .two-col { grid-template-columns: 1fr; }
+  .page-actions { flex-direction: column; align-items: flex-start; }
+  h1 { font-size: 22px; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="badge badge-self">Self-hosted</span>
+  <span class="badge badge-cf">Cloudflare</span>
+</div>
+
+<div class="main">
+  <h1>Landing Page Host</h1>
+  <p class="subtitle">Upload HTML pages, inject tracking pixels, auto-attach legal footer — each page gets a permanent link.</p>
+
+  <!-- ADD A PAGE -->
+  <div class="card">
+    <div class="section-label">Add a page</div>
+    <div class="tabs" id="main-tabs">
+      <button class="tab active" onclick="switchTab('upload', this, 'main-tabs', 'main-panels')">Upload file</button>
+      <button class="tab" onclick="switchTab('paste', this, 'main-tabs', 'main-panels')">Paste HTML</button>
+    </div>
+
+    <div id="main-panels">
+      <div id="tab-upload" class="tab-panel active">
+        <label class="field-label">Title (optional)</label>
+        <input type="text" id="up-title" placeholder="e.g. Ted's Woodworking — Bridge Page" />
+        <label class="field-label">HTML file</label>
+        <div class="file-row">
+          <label class="file-btn" for="file-input">&#8593; Choose file</label>
+          <input type="file" id="file-input" accept=".html,.htm" style="display:none" onchange="onFileChange()" />
+          <span class="file-name" id="file-name">No file chosen</span>
+        </div>
+      </div>
+      <div id="tab-paste" class="tab-panel">
+        <label class="field-label">Title (optional)</label>
+        <input type="text" id="paste-title" placeholder="e.g. LivPure — Weight Loss Bridge" />
+        <label class="field-label">Paste your HTML</label>
+        <textarea id="paste-html" placeholder="<!DOCTYPE html>&#10;<html>&#10;  ...&#10;</html>"></textarea>
+      </div>
+    </div>
+
+    <!-- TRACKING PIXELS -->
+    <div class="pixel-grid">
+      <div>
+        <div class="pixel-label">Facebook Pixel ID</div>
+        <input type="text" id="fb-pixel" placeholder="e.g. 123456789012345" />
+      </div>
+      <div>
+        <div class="pixel-label">Google Tag ID</div>
+        <input type="text" id="ga-pixel" placeholder="e.g. G-XXXXXXXXXX" />
+      </div>
+    </div>
+
+    <!-- LEGAL PAGES -->
+    <div class="legal-pages-section">
+      <div class="section-label">Legal pages — attach to this upload</div>
+      <div class="info-box">
+        These pages will be <strong>auto-injected as a footer</strong> into every page you upload, and also hosted as <strong>separate URLs</strong> (e.g. <code>/privacy</code>, <code>/disclaimer</code>, <code>/about</code>). Set once, applies to all future uploads too.
+      </div>
+
+      <div class="tabs" id="legal-tabs" style="margin-bottom:16px;">
+        <button class="tab active" onclick="switchTab('about', this, 'legal-tabs', 'legal-panels')">About Us</button>
+        <button class="tab" onclick="switchTab('privacy', this, 'legal-tabs', 'legal-panels')">Privacy Policy</button>
+        <button class="tab" onclick="switchTab('disclaimer', this, 'legal-tabs', 'legal-panels')">Disclaimer</button>
+      </div>
+
+      <div id="legal-panels">
+        <!-- ABOUT US -->
+        <div id="tab-about" class="tab-panel active">
+          <div class="toggle-row">
+            <label class="toggle"><input type="checkbox" id="about-use-url" onchange="toggleUrlMode('about')" /><span class="toggle-slider"></span></label>
+            <span class="toggle-label">Use external URL instead of generating content</span>
+          </div>
+          <div id="about-url-row" style="display:none;">
+            <label class="field-label">About Us page URL</label>
+            <input type="url" id="about-url" placeholder="https://yoursite.com/about" />
+          </div>
+          <div id="about-content-row">
+            <label class="field-label">Site / Brand name</label>
+            <input type="text" id="about-brand" placeholder="[YOUR BRAND NAME]" />
+            <div class="two-col">
+              <div>
+                <label class="field-label">Contact email</label>
+                <input type="text" id="about-email" placeholder="contact@yourdomain.com" />
+              </div>
+              <div>
+                <label class="field-label">Website URL</label>
+                <input type="text" id="about-website" placeholder="https://yourdomain.com" />
+              </div>
+            </div>
+            <label class="field-label">About Us content (edit freely)</label>
+            <textarea class="tall" id="about-text"></textarea>
+          </div>
+          <button class="btn-primary" style="font-size:13px;padding:8px 18px;" onclick="generateLegal('about')">&#9889; Generate About Us</button>
+        </div>
+
+        <!-- PRIVACY POLICY -->
+        <div id="tab-privacy" class="tab-panel">
+          <div class="toggle-row">
+            <label class="toggle"><input type="checkbox" id="privacy-use-url" onchange="toggleUrlMode('privacy')" /><span class="toggle-slider"></span></label>
+            <span class="toggle-label">Use external URL instead of generating content</span>
+          </div>
+          <div id="privacy-url-row" style="display:none;">
+            <label class="field-label">Privacy Policy URL</label>
+            <input type="url" id="privacy-url" placeholder="https://yoursite.com/privacy-policy" />
+          </div>
+          <div id="privacy-content-row">
+            <label class="field-label">Site / Brand name</label>
+            <input type="text" id="privacy-brand" placeholder="[YOUR BRAND NAME]" />
+            <div class="two-col">
+              <div>
+                <label class="field-label">Contact email</label>
+                <input type="text" id="privacy-email" placeholder="contact@yourdomain.com" />
+              </div>
+              <div>
+                <label class="field-label">Country / Jurisdiction</label>
+                <input type="text" id="privacy-country" placeholder="India" />
+              </div>
+            </div>
+            <label class="field-label">Privacy Policy content (edit freely)</label>
+            <textarea class="tall" id="privacy-text"></textarea>
+          </div>
+          <button class="btn-primary" style="font-size:13px;padding:8px 18px;" onclick="generateLegal('privacy')">&#9889; Generate Privacy Policy</button>
+        </div>
+
+        <!-- DISCLAIMER -->
+        <div id="tab-disclaimer" class="tab-panel">
+          <div class="toggle-row">
+            <label class="toggle"><input type="checkbox" id="disclaimer-use-url" onchange="toggleUrlMode('disclaimer')" /><span class="toggle-slider"></span></label>
+            <span class="toggle-label">Use external URL instead of generating content</span>
+          </div>
+          <div id="disclaimer-url-row" style="display:none;">
+            <label class="field-label">Disclaimer URL</label>
+            <input type="url" id="disclaimer-url" placeholder="https://yoursite.com/disclaimer" />
+          </div>
+          <div id="disclaimer-content-row">
+            <label class="field-label">Site / Brand name</label>
+            <input type="text" id="disclaimer-brand" placeholder="[YOUR BRAND NAME]" />
+            <div class="two-col">
+              <div>
+                <label class="field-label">Contact email</label>
+                <input type="text" id="disclaimer-email" placeholder="contact@yourdomain.com" />
+              </div>
+              <div>
+                <label class="field-label">Type of site</label>
+                <select id="disclaimer-type">
+                  <option value="affiliate">Affiliate / Review site</option>
+                  <option value="health">Health / Wellness</option>
+                  <option value="finance">Finance / Make Money</option>
+                  <option value="general">General</option>
+                </select>
+              </div>
+            </div>
+            <label class="field-label">Disclaimer content (edit freely)</label>
+            <textarea class="tall" id="disclaimer-text"></textarea>
+          </div>
+          <button class="btn-primary" style="font-size:13px;padding:8px 18px;" onclick="generateLegal('disclaimer')">&#9889; Generate Disclaimer</button>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <div class="toggle-row">
+          <label class="toggle"><input type="checkbox" id="inject-footer" checked /><span class="toggle-slider"></span></label>
+          <span class="toggle-label">Auto-inject legal footer into uploaded pages</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:20px;padding-top:20px;border-top:1px solid #1e2433;">
+      <button class="btn-primary" onclick="uploadPage()">&#8593; Upload Page</button>
+    </div>
+  </div>
+
+  <!-- IMAGE MANAGER -->
+  <div class="card">
+    <div class="section-label">&#128247; Image Manager</div>
+    <div class="info-box" style="margin-bottom:16px;">
+      Upload images to get a <strong>Live Cloud URL</strong> instantly for your Gemini builder prompts, or load and save them locally.
+    </div>
+
+    <div class="img-tabs" id="img-tabs">
+      <button class="img-tab active" onclick="switchImgTab('imgupload', this)">&#8593; Upload image</button>
+      <button class="img-tab" onclick="switchImgTab('imgurl', this)">&#128279; Paste URL</button>
+    </div>
+
+    <!-- Upload tab -->
+    <div id="tab-imgupload" class="img-tab-panel">
+      <div class="drop-zone" id="img-drop-zone" onclick="document.getElementById('img-file-input').click()"
+        ondragover="event.preventDefault();this.classList.add('drag-over')"
+        ondragleave="this.classList.remove('drag-over')"
+        ondrop="onImgDrop(event)">
+        &#128247; Click to choose or drag &amp; drop an image here<br/>
+        <span style="font-size:12px;opacity:0.6;">JPG, PNG, GIF, WebP, SVG</span>
+      </div>
+      <input type="file" id="img-file-input" accept="image/*" style="display:none" onchange="onImgFileChange(event)" />
+    </div>
+
+    <!-- URL tab -->
+    <div id="tab-imgurl" class="img-tab-panel" style="display:none;">
+      <label class="field-label">Image URL</label>
+      <div style="display:flex;gap:8px;margin-bottom:12px;">
+        <input type="url" id="img-url-input" placeholder="https://example.com/image.jpg" style="margin:0;flex:1;" oninput="previewFromUrl()" />
+        <button class="btn-primary" style="padding:9px 16px;font-size:13px;" onclick="addImageFromUrl()">Add</button>
+      </div>
+    </div>
+
+    <!-- Preview + settings -->
+    <div id="img-editor" style="display:none;">
+      <div class="img-preview-box" id="img-preview-box">
+        <div class="img-preview-placeholder">Preview will appear here</div>
+      </div>
+
+      <!-- Live Cloud URL Display Box -->
+      <div class="field-label" style="margin-bottom:6px; color: #10e890; font-weight: bold;">🌍 Live Cloud URL (Give this to Gemini)</div>
+      <div style="display:flex; gap:8px; margin-bottom:14px;">
+        <input type="text" id="img-cloud-url" readonly placeholder="Uploading to cloud..." style="margin:0; flex:1; border-color: #10e89044; background: #0d2a1f22; color: #10e890;" onclick="this.select()" />
+        <button class="btn-primary" style="padding:9px 16px; font-size:13px;" onclick="copyCloudUrl()">Copy URL</button>
+      </div>
+
+      <div class="field-label" style="margin-bottom:6px;">Alt text (recommended for SEO &amp; Facebook)</div>
+      <input type="text" id="img-alt" placeholder="Describe the image..." style="margin-bottom:10px;" />
+      <div class="img-settings">
+        <div>
+          <div class="field-label">Width</div>
+          <input type="text" id="img-width" placeholder="e.g. 600px or 100%" />
+        </div>
+        <div>
+          <div class="field-label">Height</div>
+          <input type="text" id="img-height" placeholder="e.g. auto" />
+        </div>
+        <div>
+          <div class="field-label">Alignment</div>
+          <select id="img-align">
+            <option value="">None</option>
+            <option value="display:block;margin:0 auto;">Center</option>
+            <option value="float:left;margin-right:16px;">Left</option>
+            <option value="float:right;margin-left:16px;">Right</option>
+          </select>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn-primary" style="font-size:13px;padding:8px 18px;" onclick="saveImageToLibrary()">&#10003; Save to Library</button>
+        <button class="act-btn" onclick="copyImgTag()">&#10697; Copy &lt;img&gt; tag</button>
+      </div>
+      <div class="img-tag-box" id="img-tag-box"></div>
+    </div>
+
+    <!-- Image library -->
+    <div id="img-library-section" style="margin-top:20px;padding-top:16px;border-top:1px solid #1e2433;display:none;">
+      <div class="section-label" style="margin-bottom:12px;">Saved Images</div>
+      <div class="img-grid" id="img-grid"></div>
+    </div>
+  </div>
+
+  <!-- YOUR PAGES -->
+  <div class="card">
+    <div class="section-label">Your pages</div>
+    <div class="page-list" id="page-list"></div>
+  </div>
+
+  <!-- LEGAL PAGES LIST -->
+  <div class="card">
+    <div class="section-label">Legal pages — separate URLs</div>
+    <div class="info-box" style="margin-bottom:12px;">These are hosted as standalone pages. Once you deploy to Cloudflare, they'll be available at <code>/about</code>, <code>/privacy</code>, <code>/disclaimer</code>.</div>
+    <div id="legal-pages-list"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── STATE ───────────────────────────────────────────────
+let pages = [];
+let legalPages = { about: null, privacy: null, disclaimer: null };
+let activeMainTab = 'upload';
+let selectedFile = null;
+let selectedFileContent = null;
+
+// ─── TABS ────────────────────────────────────────────────
+function switchTab(tab, el, tabsId, panelsId) {
+  const tabsEl = document.getElementById(tabsId);
+  const panelsEl = document.getElementById(panelsId);
+  tabsEl.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  panelsEl.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  const panel = document.getElementById('tab-' + tab);
+  if (panel) panel.classList.add('active');
+  if (tabsId === 'main-tabs') activeMainTab = tab;
+}
+
+function toggleUrlMode(type) {
+  const useUrl = document.getElementById(type + '-use-url').checked;
+  document.getElementById(type + '-url-row').style.display = useUrl ? 'block' : 'none';
+  document.getElementById(type + '-content-row').style.display = useUrl ? 'none' : 'block';
+}
+
+// ─── FILE ────────────────────────────────────────────────
+function onFileChange() {
+  const fi = document.getElementById('file-input');
+  selectedFile = fi.files[0] || null;
+  document.getElementById('file-name').textContent = selectedFile ? selectedFile.name : 'No file chosen';
+  if (selectedFile) {
+    const r = new FileReader();
+    r.onload = e => { selectedFileContent = e.target.result; };
+    r.readAsText(selectedFile);
+  } else { selectedFileContent = null; }
+}
+
+// ─── LEGAL GENERATORS ────────────────────────────────────
+function generateLegal(type) {
+  const brand = document.getElementById(type + '-brand').value.trim() || '[YOUR BRAND NAME]';
+  const email = document.getElementById(type + '-email').value.trim() || '[YOUR EMAIL]';
+  const date = new Date().toLocaleDateString('en-IN', { year:'numeric', month:'long', day:'numeric' });
+
+  let content = '';
+
+  if (type === 'about') {
+    const website = document.getElementById('about-website').value.trim() || '[YOUR WEBSITE]';
+    content = `Welcome to ${brand}
+
+We are a digital content and affiliate marketing platform dedicated to helping people make informed decisions about health, wellness, home improvement, and financial opportunities.
+
+At ${brand}, our mission is to provide honest, research-backed content that empowers our readers to take meaningful action in their lives. We partner with carefully selected products and services we believe can genuinely help our audience.
+
+What We Do:
+- Publish educational content across health, wellness, DIY, and make-money-online topics
+- Review and recommend products through our affiliate partnerships
+- Help readers discover solutions that match their needs and goals
+
+Affiliate Disclosure:
+Some of the links on our site are affiliate links. This means we may earn a small commission if you purchase through our link — at no extra cost to you. This helps us keep our content free and our site running.
+
+Contact Us:
+If you have any questions, feedback, or partnership inquiries, please reach out to us at:
+Email: ${email}
+Website: ${website}
+
+Thank you for visiting ${brand}. We are committed to being a trusted resource for you.
+
+Last updated: ${date}`;
+  }
+
+  if (type === 'privacy') {
+    const country = document.getElementById('privacy-country').value.trim() || 'India';
+    content = `Privacy Policy — ${brand}
+Last updated: ${date}
+
+1. Introduction
+${brand} ("we", "our", or "us") is committed to protecting your personal information and your right to privacy. This Privacy Policy explains how we collect, use, and share information when you visit our website or interact with our content.
+
+2. Information We Collect
+- Personal information you provide (name, email, etc.) when you opt in or contact us
+- Usage data such as pages visited, time spent, and referring URLs
+- Device information such as browser type, operating system, and IP address
+- Cookies and tracking data (see Section 5)
+
+3. How We Use Your Information
+- To provide and improve our content and services
+- To send you newsletters or updates if you have opted in
+- To analyze website traffic and performance
+- To comply with legal obligations
+
+4. Affiliate Links & Third Parties
+Our website contains affiliate links to third-party products. When you click these links, you may be tracked by the third-party site. We are not responsible for the privacy practices of these external websites.
+
+5. Cookies & Tracking
+We use cookies and tracking technologies including:
+- Google Analytics (to understand site traffic)
+- Facebook Pixel (to measure ad performance)
+You can opt out of these through your browser settings or tools like Google Analytics Opt-out Add-on.
+
+6. Data Sharing
+We do not sell your personal data. We may share data with trusted service providers who help us operate our website, subject to confidentiality agreements.
+
+7. Your Rights
+Depending on your location (including ${country}), you may have the right to access, correct, or delete your personal data. Contact us at ${email} to make a request.
+
+8. Data Retention
+We retain your data only as long as necessary for the purposes described in this policy.
+
+9. Children's Privacy
+Our website is not directed at children under 13. We do not knowingly collect data from minors.
+
+10. Changes to This Policy
+We may update this policy periodically. Changes will be posted on this page with a revised date.
+
+11. Contact Us
+ For privacy-related questions: ${email}`;
+  }
+
+  if (type === 'disclaimer') {
+    const siteType = document.getElementById('disclaimer-type').value;
+    let extra = '';
+    if (siteType === 'affiliate') extra = `\nAffiliate Disclaimer:\n${brand} participates in affiliate programs. We earn commissions from qualifying purchases made through links on our site. This does not affect our editorial independence or the price you pay.\n`;
+    if (siteType === 'health') extra = `\nHealth Disclaimer:\nThe content on ${brand} is for informational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider before making health decisions.\n`;
+    if (siteType === 'finance') extra = `\nFinancial Disclaimer:\nThe content on ${brand} is for educational purposes only and does not constitute financial advice. Results mentioned are not typical. Always do your own research before making financial decisions.\n`;
+    content = `Disclaimer — ${brand}
+Last updated: ${date}
+
+General Disclaimer:
+The information provided on ${brand} is for general informational and educational purposes only. While we strive to keep information accurate and up to date, we make no warranties or representations of any kind — express or implied — about the completeness, accuracy, reliability, or availability of the information.
+${extra}
+No Guarantee of Results:
+Any results, testimonials, or case studies mentioned on this site are examples only and are not guarantees of what you will achieve. Individual results will vary based on personal effort, experience, and other factors.
+
+External Links:
+Our site may contain links to external websites. These links are provided for convenience and do not constitute an endorsement. We have no control over the content of those sites and accept no responsibility for them.
+
+Limitation of Liability:
+In no event shall ${brand} be liable for any loss or damage arising from the use of, or inability to use, the information on this website.
+
+Contact:
+For questions about this disclaimer, contact us at: ${email}`;
+  }
+
+  document.getElementById(type + '-text').value = content;
+  showToast('✓ ' + type.charAt(0).toUpperCase() + type.slice(1) + ' generated — review and edit as needed.');
+}
+
+// ─── BUILD LEGAL HTML PAGE ───────────────────────────────
+function buildLegalHtmlPage(type, content, brand) {
+  const titles = { about: 'About Us', privacy: 'Privacy Policy', disclaimer: 'Disclaimer' };
+  const title = titles[type] || type;
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>${title} — ${brand || 'Our Site'}</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fff;color:#1a1a2e;margin:0;padding:0;}
+.wrap{max-width:760px;margin:0 auto;padding:48px 24px 80px;}
+h1{font-size:28px;font-weight:700;margin-bottom:8px;}
+.date{font-size:13px;color:#64748b;margin-bottom:32px;}
+pre{white-space:pre-wrap;font-family:inherit;font-size:15px;line-height:1.8;color:#334155;}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>${title}</h1>
+<div class="date">Last updated: ${new Date().toLocaleDateString('en-IN',{year:'numeric',month:'long',day:'numeric'})}</div>
+<pre>${esc(content)}</pre>
+</div>
+</body>
+</html>`;
+}
+
+// ─── BUILD FOOTER HTML ───────────────────────────────────
+function buildFooter(legalData) {
+  const links = [];
+  if (legalData.about) links.push({ label: 'About Us', type: 'about', data: legalData.about });
+  if (legalData.privacy) links.push({ label: 'Privacy Policy', type: 'privacy', data: legalData.privacy });
+  if (legalData.disclaimer) links.push({ label: 'Disclaimer', type: 'disclaimer', data: legalData.disclaimer });
+  if (!links.length) return '';
+
+  const linkHtml = links.map(l => {
+    const href = l.data.useUrl ? l.data.url : ('#__' + l.type);
+    return `<a href="${href}" style="color:#94a3b8;text-decoration:none;font-size:13px;padding:0 10px;border-right:1px solid #334155;" target="${l.data.useUrl ? '_blank' : '_self'}">${l.label}</a>`;
+  }).join('');
+
+  let inlinePages = '';
+  links.filter(l => !l.data.useUrl && l.data.content).forEach(l => {
+    const titles2 = { about: 'About Us', privacy: 'Privacy Policy', disclaimer: 'Disclaimer' };
+    inlinePages += `<div id="__${l.type}" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#fff;z-index:99999;overflow-y:auto;padding:40px 24px 60px;">
+<div style="max-width:760px;margin:0 auto;">
+<button onclick="document.getElementById('__${l.type}').style.display='none'" style="margin-bottom:20px;padding:8px 18px;background:#f1f5f9;border:none;border-radius:6px;cursor:pointer;font-size:13px;">&#8592; Close</button>
+<h2 style="font-size:24px;margin-bottom:16px;">${titles2[l.type]}</h2>
+<pre style="white-space:pre-wrap;font-size:14px;line-height:1.8;color:#334155;font-family:inherit;">${esc(l.data.content)}</pre>
+</div></div>`;
+  });
+
+  return `${inlinePages}
+<div style="background:#0f1117;padding:20px 24px;text-align:center;margin-top:40px;">
+<div style="display:flex;justify-content:center;flex-wrap:wrap;gap:4px;margin-bottom:8px;">
+${linkHtml.replace(/border-right:1px solid #334155;" [^>]*>([^<]*)<\/a>\s*$/, 'border-right:none;" >$1</a>')}
+</div>
+<p style="font-size:12px;color:#475569;">© ${new Date().getFullYear()} All rights reserved. This site may contain affiliate links.</p>
+</div>`;
+}
+
+// ─── PIXEL INJECTION ─────────────────────────────────────
+function injectPixels(html, fbId, gaId) {
+  let inject = '';
+  if (fbId) inject += `<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','${fbId}');fbq('track','PageView');<\/script><noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=${fbId}&ev=PageView&noscript=1"/></noscript>`;
+  if (gaId) inject += `<script async src="https://www.googletagmanager.com/gtag/js?id=${gaId}"><\/script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${gaId}');<\/script>`;
+  if (!inject) return html;
+  return /<head>/i.test(html) ? html.replace(/<head>/i, '<head>' + inject) : inject + html;
+}
+
+// ─── FOOTER INJECTION ────────────────────────────────────
+function injectFooter(html, footerHtml) {
+  if (!footerHtml) return html;
+  return /<\/body>/i.test(html) ? html.replace(/<\/body>/i, footerHtml + '</body>') : html + footerHtml;
+}
+
+// ─── UPLOAD ──────────────────────────────────────────────
+function uploadPage() {
+  let title, htmlContent;
+  if (activeMainTab === 'upload') {
+    if (!selectedFile || !selectedFileContent) { showToast('⚠ Please choose an HTML file.'); return; }
+    title = document.getElementById('up-title').value.trim() || selectedFile.name;
+    htmlContent = selectedFileContent;
+  } else {
+    htmlContent = document.getElementById('paste-html').value.trim();
+    if (!htmlContent) { showToast('⚠ Please paste some HTML.'); return; }
+    title = document.getElementById('paste-title').value.trim() || 'Untitled page';
+  }
+
+  const fbId = document.getElementById('fb-pixel').value.trim();
+  const gaId = document.getElementById('ga-pixel').value.trim();
+  const injectFooterOn = document.getElementById('inject-footer').checked;
+
+  // Collect legal data
+  const currentLegal = collectLegalData();
+  legalPages = currentLegal;
+  saveLegalPages();
+
+  let finalHtml = injectPixels(htmlContent, fbId, gaId);
+  if (injectFooterOn) {
+    const footerHtml = buildFooter(currentLegal);
+    finalHtml = injectFooter(finalHtml, footerHtml);
+  }
+
+  const id = genId();
+  const blob = new Blob([finalHtml], { type: 'text/html' });
+  const blobUrl = URL.createObjectURL(blob);
+  const page = {
+    id, title, blobUrl, html: finalHtml, fbId, gaId,
+    created: new Date().toLocaleDateString('en-IN'),
+    filename: title.replace(/[^a-z0-9]/gi, '_').toLowerCase() + '.html',
+    hasFooter: injectFooterOn
+  };
+  pages.unshift(page);
+  savePages();
+  renderPages();
+  renderLegalPagesList();
+  clearForm();
+  showToast('✓ Page uploaded with legal footer!');
+}
+
+function collectLegalData() {
+  const types = ['about', 'privacy', 'disclaimer'];
+  const result = {};
+  types.forEach(type => {
+    const useUrl = document.getElementById(type + '-use-url').checked;
+    if (useUrl) {
+      const url = document.getElementById(type + '-url').value.trim();
+      result[type] = url ? { useUrl: true, url } : null;
+    } else {
+      const content = document.getElementById(type + '-text').value.trim();
+      const brand = document.getElementById(type + '-brand').value.trim();
+      result[type] = content ? { useUrl: false, content, brand } : null;
+    }
+  });
+  return result;
+}
+
+// ─── RENDER PAGES ────────────────────────────────────────
+function genId() {
+  return Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 6);
+}
+
+function esc(s) {
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function renderPages() {
+  const list = document.getElementById('page-list');
+  if (!pages.length) {
+    list.innerHTML = '<div class="empty-state"><p>No pages yet. Upload your first HTML page above.</p></div>';
+    return;
+  }
+  list.innerHTML = pages.map(p => `
+    <div class="page-item" id="item-${p.id}">
+      <div class="page-row">
+        <div class="page-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10e890" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div class="page-info">
+          <div class="page-title-text">${esc(p.title)}</div>
+          <div class="page-url">blob:// local preview</div>
+          <div class="page-meta">
+            ${p.fbId ? 'FB Pixel &nbsp;' : ''}${p.gaId ? 'GA Tag &nbsp;' : ''}${p.hasFooter ? '&#10003; Legal footer &nbsp;' : ''}${p.created}
+          </div>
+          <a class="download-link" href="${p.blobUrl}" download="${esc(p.filename)}">&#8595; Download HTML</a>
+        </div>
+        <div class="page-actions">
+          <button class="act-btn" onclick="startRename('${p.id}')">&#9998; Rename</button>
+          <button class="act-btn" onclick="copyBlob('${p.id}')">&#10697; Copy link</button>
+          <button class="act-btn open-btn" onclick="openPage('${p.id}')">&#8599; Open</button>
+          <button class="act-btn del-btn" onclick="deletePage('${p.id}')">&#128465; Delete</button>
+        </div>
+      </div>
+      <div id="rename-${p.id}" style="display:none;" class="rename-row">
+        <input type="text" id="rename-input-${p.id}" value="${esc(p.title)}" placeholder="New title" />
+        <button class="btn-sm confirm" onclick="confirmRename('${p.id}')">Save</button>
+        <button class="btn-sm cancel" onclick="cancelRename('${p.id}')">Cancel</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderLegalPagesList() {
+  const el = document.getElementById('legal-pages-list');
+  const types = ['about', 'privacy', 'disclaimer'];
+  const labels = { about: 'About Us', privacy: 'Privacy Policy', disclaimer: 'Disclaimer' };
+  const slugs = { about: '/about', privacy: '/privacy', disclaimer: '/disclaimer' };
+  let html = '<div style="display:flex;flex-direction:column;gap:10px;">';
+  types.forEach(type => {
+    const d = legalPages[type];
+    if (!d) {
+      html += `<div class="page-item" style="opacity:0.4;">
+        <div class="page-row">
+          <div class="page-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <div class="page-info"><div class="page-title-text">${labels[type]}</div><div class="page-meta">Not set yet — generate content above</div></div>
+        </div></div>`;
+      return;
+    }
+    if (d.useUrl) {
+      html += `<div class="page-item">
+        <div class="page-row">
+          <div class="page-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10e890" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+          <div class="page-info">
+            <div class="page-title-text">${labels[type]}</div>
+            <div class="page-url">${esc(d.url)}</div>
+            <div class="page-meta">External URL — will be used in footer links</div>
+          </div>
+          <div class="page-actions"><button class="act-btn open-btn" onclick="window.open('${esc(d.url)}','_blank')">&#8599; Open</button></div>
+        </div></div>`;
+    } else {
+      const pageHtml = buildLegalHtmlPage(type, d.content, d.brand);
+      const blob = new Blob([pageHtml], { type: 'text/html' });
+      const blobUrl = URL.createObjectURL(blob);
+      const fname = type + '_page.html';
+      html += `<div class="page-item">
+        <div class="page-row">
+          <div class="page-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10e890" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <div class="page-info">
+            <div class="page-title-text">${labels[type]}</div>
+            <div class="page-url">Will be hosted at: yourdomain.com${slugs[type]}</div>
+            <div class="page-meta">Generated content &nbsp;&#10003;</div>
+            <a class="download-link" href="${blobUrl}" download="${fname}">&#8595; Download HTML</a>
+          </div>
+          <div class="page-actions">
+            <button class="act-btn open-btn" onclick="window.open('${blobUrl}','_blank')">&#8599; Preview</button>
+          </div>
+        </div></div>`;
+    }
+  });
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+// ─── PAGE ACTIONS ────────────────────────────────────────
+function openPage(id) { const p = pages.find(x => x.id === id); if (p) window.open(p.blobUrl, '_blank'); }
+function copyBlob(id) {
+  const p = pages.find(x => x.id === id);
+  if (!p) return;
+  navigator.clipboard.writeText(p.blobUrl).then(() => showToast('✓ Link copied! (valid this session)')).catch(() => showToast('Use Download button to save the file.'));
+}
+function deletePage(id) {
+  if (!confirm('Delete this page? This cannot be undone.')) return;
+  const p = pages.find(x => x.id === id);
+  if (p && p.blobUrl) URL.revokeObjectURL(p.blobUrl);
+  pages = pages.filter(x => x.id !== id);
+  savePages();
+  renderPages();
+  showToast('Page deleted.');
+}
+function startRename(id) { document.getElementById('rename-' + id).style.display = 'flex'; document.getElementById('rename-input-' + id).focus(); }
+function cancelRename(id) { document.getElementById('rename-' + id).style.display = 'none'; }
+function confirmRename(id) {
+  const val = document.getElementById('rename-input-' + id).value.trim();
+  if (!val) { showToast('⚠ Title cannot be empty.'); return; }
+  const p = pages.find(x => x.id === id);
+  if (p) { p.title = val; p.filename = val.replace(/[^a-z0-9]/gi,'_').toLowerCase()+'.html'; savePages(); renderPages(); showToast('✓ Renamed!'); }
+}
+
+// ─── STORAGE ─────────────────────────────────────────────
+function savePages() {
+  const toSave = pages.map(p => ({ id:p.id, title:p.title, html:p.html, fbId:p.fbId, gaId:p.gaId, created:p.created, filename:p.filename, hasFooter:p.hasFooter }));
+  try { localStorage.setItem('lph_pages_v2', JSON.stringify(toSave)); } catch(e) {}
+}
+function saveLegalPages() {
+  try { localStorage.setItem('lph_legal_v2', JSON.stringify(legalPages)); } catch(e) {}
+}
+function loadAll() {
+  try {
+    const raw = localStorage.getItem('lph_pages_v2');
+    if (raw) {
+      const saved = JSON.parse(raw);
+      pages = saved.map(p => {
+        const blob = new Blob([p.html], { type:'text/html' });
+        return { ...p, blobUrl: URL.createObjectURL(blob) };
+      });
+    }
+    const rawL = localStorage.getItem('lph_legal_v2');
+    if (rawL) legalPages = JSON.parse(rawL);
+  } catch(e) {}
+  renderPages();
+  renderLegalPagesList();
+}
+
+// ─── CLEAR ───────────────────────────────────────────────
+function clearForm() {
+  ['up-title','paste-title','paste-html','fb-pixel','ga-pixel'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+  document.getElementById('file-input').value = '';
+  document.getElementById('file-name').textContent = 'No file chosen';
+  selectedFile = null; selectedFileContent = null;
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ─── IMAGE MANAGER ───────────────────────────────────────
+let imgLibrary = [];  // { id, name, src, type } src = base64 data URL or external URL
+let currentImgSrc = null;
+let currentImgName = '';
+
+function switchImgTab(tab, el) {
+  document.querySelectorAll('.img-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.img-tab-panel').forEach(p => p.style.display = 'none');
+  el.classList.add('active');
+  document.getElementById('tab-' + tab).style.display = 'block';
+  if (tab === 'imgurl') {
+    const urlVal = document.getElementById('img-url-input').value.trim();
+    if (urlVal) previewFromUrl();
+  }
+}
+
+function onImgDrop(e) {
+  e.preventDefault();
+  document.getElementById('img-drop-zone').classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) readImageFile(file);
+}
+
+function onImgFileChange(e) {
+  const file = e.target.files[0];
+  if (file) readImageFile(file);
+}
+
+// KEYLESS OPEN CLOUD UPLOAD ENGINE
+function readImageFile(file) {
+  currentImgName = file.name;
+  
+  // Show a local layout preview instantly while handling cloud delivery
+  const localReader = new FileReader();
+  localReader.onload = ev => {
+    showImgEditor(ev.target.result);
+    document.getElementById('img-cloud-url').value = "Uploading file to public cloud mirror...";
+  };
+  localReader.readAsDataURL(file);
+
+  const formData = new FormData();
+  formData.append('file', file);
+
+  // Directly uploading via a keyless open endpoint
+  fetch('https://tmpfiles.org/api/v1/upload', { 
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(res => {
+    if (res && res.data && res.data.url) {
+      // Modify URL structure to obtain a clean direct image download pipeline
+      const directCloudUrl = res.data.url.replace('tmpfiles.org/', 'tmpfiles.org/dl/');
+      
+      currentImgSrc = directCloudUrl; 
+      document.getElementById('img-cloud-url').value = directCloudUrl;
+      updateImgTag();
+      showToast('✓ Cloud URL successfully generated!');
+    } else {
+      throw new Error('Upload mismatch');
+    }
+  })
+  .catch(err => {
+    console.error(err);
+    document.getElementById('img-cloud-url').value = "Upload failed. Using local storage mode.";
+    showToast('⚠ Cloud upload failed. Using local browser view fallback.');
+  });
+}
+
+// Simple copy button execution
+function copyCloudUrl() {
+  const urlField = document.getElementById('img-cloud-url');
+  if(!urlField.value || urlField.value.startsWith('Upload')) {
+    showToast('⚠ URL not ready yet.');
+    return;
+  }
+  navigator.clipboard.writeText(urlField.value).then(() => {
+    showToast('✓ Copied! Now paste this direct link to Gemini.');
+  });
+}
+
+function previewFromUrl() {
+  const url = document.getElementById('img-url-input').value.trim();
+  if (!url) return;
+  currentImgSrc = url;
+  currentImgName = url.split('/').pop().split('?')[0] || 'image';
+  showImgEditor(url);
+}
+
+function addImageFromUrl() {
+  previewFromUrl();
+}
+
+// Modified to handle cloud strings correctly
+function showImgEditor(src) {
+  const box = document.getElementById('img-preview-box');
+  box.innerHTML = `<img src="${src}" alt="preview" onerror="this.parentNode.innerHTML='<div class=img-preview-placeholder>Could not load image — check the URL</div>'" />`;
+  document.getElementById('img-editor').style.display = 'block';
+  updateImgTag();
+}
+
+function buildImgTag() {
+  if (!currentImgSrc) return '';
+  const alt = document.getElementById('img-alt').value.trim();
+  const w = document.getElementById('img-width').value.trim();
+  const h = document.getElementById('img-height').value.trim();
+  const align = document.getElementById('img-align').value;
+  let style = align;
+  if (w) style += `width:${w};`;
+  if (h) style += `height:${h};`;
+  const src = currentImgSrc;
+  return `<img src="${src.length > 200 ? '[base64 embedded]' : src}" alt="${alt || ''}"${style ? ` style="${style}"` : ''} />`;
+}
+
+function buildRealImgTag(src) {
+  const alt = document.getElementById('img-alt').value.trim();
+  const w = document.getElementById('img-width').value.trim();
+  const h = document.getElementById('img-height').value.trim();
+  const align = document.getElementById('img-align').value;
+  let style = align;
+  if (w) style += `width:${w};`;
+  if (h) style += `height:${h};`;
+  return `<img src="${src}" alt="${alt || ''}"${style ? ` style="${style}"` : ''} />`;
+}
+
+function updateImgTag() {
+  const box = document.getElementById('img-tag-box');
+  if (currentImgSrc) {
+    const tag = buildImgTag();
+    box.textContent = tag;
+    box.style.display = 'block';
+  }
+}
+
+function copyImgTag() {
+  if (!currentImgSrc) { showToast('⚠ No image loaded.'); return; }
+  const realTag = buildRealImgTag(currentImgSrc);
+  navigator.clipboard.writeText(realTag).then(() => {
+    const box = document.getElementById('img-tag-box');
+    box.textContent = realTag.length > 300 ? realTag.slice(0, 80) + '...[base64]...' + realTag.slice(-20) : realTag;
+    box.style.display = 'block';
+    showToast('✓ <img> tag copied! Paste into your HTML.');
+  }).catch(() => {
+    showToast('Could not auto-copy. See the tag box below.');
+  });
+}
+
+function saveImageToLibrary() {
+  if (!currentImgSrc) { showToast('⚠ No image loaded.'); return; }
+  const alt = document.getElementById('img-alt').value.trim();
+  const isUrl = !currentImgSrc.startsWith('data:');
+  const img = {
+    id: genId(),
+    name: currentImgName || (isUrl ? 'URL image' : 'Uploaded image'),
+    alt,
+    src: currentImgSrc,
+    type: isUrl ? 'url' : 'base64',
+    width: document.getElementById('img-width').value.trim(),
+    height: document.getElementById('img-height').value.trim(),
+    align: document.getElementById('img-align').value,
+    added: new Date().toLocaleDateString('en-IN')
+  };
+  imgLibrary.unshift(img);
+  saveImgLibrary();
+  renderImgLibrary();
+  showToast('✓ Saved to Image Library!');
+}
+
+function renderImgLibrary() {
+  const section = document.getElementById('img-library-section');
+  const grid = document.getElementById('img-grid');
+  if (!imgLibrary.length) { section.style.display = 'none'; return; }
+  section.style.display = 'block';
+  grid.innerHTML = imgLibrary.map(img => `
+    <div class="img-item" id="imglib-${img.id}">
+      <img src="${img.src}" alt="${esc(img.alt||img.name)}"
+        onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2290%22><rect fill=%22%231e2433%22 width=%22100%22 height=%2290%22/><text x=%2250%25%22 y=%2250%25%22 fill=%22%23475569%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22 font-size=%2211%22>No preview</text></svg>'" />
+      <div class="img-item-info">
+        <div class="img-item-name" title="${esc(img.name)}">${esc(img.name)}</div>
+        <div style="font-size:10px;color:#334155;">${img.type === 'base64' ? '📦 Embedded' : '🔗 URL'} · ${img.added}</div>
+        <div class="img-item-actions">
+          <button class="img-act" onclick="loadFromLibrary('${img.id}')">Load</button>
+          <button class="img-act" onclick="copyLibraryTag('${img.id}')">Copy tag</button>
+          <button class="img-act del" onclick="deleteFromLibrary('${img.id}')">✕</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function loadFromLibrary(id) {
+  const img = imgLibrary.find(x => x.id === id);
+  if (!img) return;
+  currentImgSrc = img.src;
+  currentImgName = img.name;
+  document.getElementById('img-alt').value = img.alt || '';
+  document.getElementById('img-width').value = img.width || '';
+  document.getElementById('img-height').value = img.height || '';
+  document.getElementById('img-align').value = img.align || '';
+  showImgEditor(img.src);
+  showToast('✓ Image loaded into editor.');
+  window.scrollTo({ top: document.getElementById('img-editor').getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
+}
+
+function copyLibraryTag(id) {
+  const img = imgLibrary.find(x => x.id === id);
+  if (!img) return;
+  let style = img.align || '';
+  if (img.width) style += `width:${img.width};`;
+  if (img.height) style += `height:${img.height};`;
+  const tag = `<img src="${img.src}" alt="${img.alt||''}"${style ? ` style="${style}"` : ''} />`;
+  navigator.clipboard.writeText(tag).then(() => showToast('✓ <img> tag copied!')).catch(() => showToast('⚠ Could not copy.'));
+}
+
+function deleteFromLibrary(id) {
+  if (!confirm('Remove this image from library?')) return;
+  imgLibrary = imgLibrary.filter(x => x.id !== id);
+  saveImgLibrary();
+  renderImgLibrary();
+  showToast('Image removed.');
+}
+
+function saveImgLibrary() {
+  try { localStorage.setItem('lph_images_v1', JSON.stringify(imgLibrary)); } catch(e) { showToast('⚠ Storage full — try deleting old images.'); }
+}
+
+function loadImgLibrary() {
+  try {
+    const raw = localStorage.getItem('lph_images_v1');
+    if (raw) imgLibrary = JSON.parse(raw);
+    renderImgLibrary();
+  } catch(e) {}
+}
+
+// wire up live settings changes
+setTimeout(() => {
+  ['img-alt','img-width','img-height','img-align'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', updateImgTag);
+  });
+}, 100);
+
+loadAll();
+loadImgLibrary();
+</script>
+</body>
+</html>

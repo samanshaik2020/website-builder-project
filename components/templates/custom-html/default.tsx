@@ -2,7 +2,11 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { Box, Button, Typography, TextField, IconButton } from '@mui/material';
-import { Code as CodeIcon, Upload as UploadIcon, OpenInFull as OpenInFullIcon, CloseFullscreen as CloseFullscreenIcon } from '@mui/icons-material';
+import { Code as CodeIcon, Upload as UploadIcon, OpenInFull as OpenInFullIcon, CloseFullscreen as CloseFullscreenIcon, TrackChanges as TrackChangesIcon, Gavel as GavelIcon, Image as ImageIconMui } from '@mui/icons-material';
+
+import TrackingPixels from './tracking-pixels';
+import LegalPages, { defaultLegalSettings, generateLegalContent, buildLegalFooterHtml, type LegalSettings } from './legal-pages';
+import ImageManager, { defaultImageLibrary, type ImageEntry } from './image-manager';
 
 interface CustomHtmlProps {
     editable?: boolean;
@@ -46,12 +50,62 @@ const defaultHtml = `<!DOCTYPE html>
 </body>
 </html>`;
 
+type EditorTab = 'code' | 'tracking' | 'legal' | 'images';
+
+// ─── Injection Helpers ───────────────────────────────────────────────────────
+function injectPixelsIntoHtml(code: string, fbId: string, googleId: string): string {
+    let newCode = code;
+    newCode = newCode.replace(/<!-- Facebook Pixel Code -->[\s\S]*?<!-- End Facebook Pixel Code -->/g, '');
+    newCode = newCode.replace(/<!-- Google tag \(gtag\.js\) -->[\s\S]*?<!-- End Google tag -->/g, '');
+
+    let snippets = '';
+    if (fbId.trim()) {
+        snippets += `<!-- Facebook Pixel Code -->\n<script>\n!function(f,b,e,v,n,t,s)\n{if(f.fbq)return;n=f.fbq=function(){n.callMethod?\nn.callMethod.apply(n,arguments):n.queue.push(arguments)};\nif(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';\nn.queue=[];t=b.createElement(e);t.async=!0;\nt.src=v;s=b.getElementsByTagName(e)[0];\ns.parentNode.insertBefore(t,s)}(window, document,'script',\n'https://connect.facebook.net/en_US/fbevents.js');\nfbq('init', '${fbId.trim()}');\nfbq('track', 'PageView');\n</script>\n<noscript><img height="1" width="1" style="display:none"\nsrc="https://www.facebook.com/tr?id=${fbId.trim()}&ev=PageView&noscript=1"\n/></noscript>\n<!-- End Facebook Pixel Code -->\n`;
+    }
+    if (googleId.trim()) {
+        snippets += `<!-- Google tag (gtag.js) -->\n<script async src="https://www.googletagmanager.com/gtag/js?id=${googleId.trim()}"></script>\n<script>\nwindow.dataLayer = window.dataLayer || [];\nfunction gtag(){dataLayer.push(arguments);}\ngtag('js', new Date());\ngtag('config', '${googleId.trim()}');\n</script>\n<!-- End Google tag -->\n`;
+    }
+
+    if (snippets) {
+        if (newCode.includes('</head>')) {
+            newCode = newCode.replace('</head>', snippets + '</head>');
+        } else if (newCode.includes('<body')) {
+            newCode = newCode.replace('<body', snippets + '<body');
+        } else {
+            newCode = snippets + newCode;
+        }
+    }
+    return newCode;
+}
+
+function injectLegalIntoHtml(code: string, settings: LegalSettings): string {
+    let newCode = code.replace(/<!-- Legal Footer - Auto Generated -->[\s\S]*?<!-- End Legal Footer -->/g, '');
+    const footerHtml = buildLegalFooterHtml(settings);
+    if (newCode.includes('</body>')) {
+        newCode = newCode.replace('</body>', footerHtml + '\n</body>');
+    } else {
+        newCode = newCode + '\n' + footerHtml;
+    }
+    return newCode;
+}
+
 export default function CustomHtmlTemplate({ editable = false, data = {}, onContentChange }: CustomHtmlProps) {
     const customHtml = data.custom_html?.code || defaultHtml;
     const [localCode, setLocalCode] = useState(customHtml);
     const [isFullscreen, setIsFullscreen] = useState(false);
+    const [activeTab, setActiveTab] = useState<EditorTab>('images');
     const fileInputRef = useRef<HTMLInputElement>(null);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
+    // Tracking pixel state
+    const [facebookPixelId, setFacebookPixelId] = useState(data.custom_html?.facebookPixelId || '');
+    const [googleTagId, setGoogleTagId] = useState(data.custom_html?.googleTagId || '');
+
+    // Legal pages state
+    const [legalSettings, setLegalSettings] = useState<LegalSettings>(data.custom_html?.legalSettings || defaultLegalSettings);
+
+    // Image library state
+    const [imageLibrary, setImageLibrary] = useState<ImageEntry[]>(data.custom_html?.imageLibrary || defaultImageLibrary);
 
     useEffect(() => {
         if (data.custom_html?.code) {
@@ -59,12 +113,23 @@ export default function CustomHtmlTemplate({ editable = false, data = {}, onCont
         }
     }, [data.custom_html?.code]);
 
+    const emitChange = (updates: Record<string, any>) => {
+        if (onContentChange) {
+            onContentChange('custom_html', {
+                code: localCode,
+                facebookPixelId,
+                googleTagId,
+                legalSettings,
+                imageLibrary,
+                ...updates,
+            });
+        }
+    };
+
     const handleCodeChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const newCode = e.target.value;
         setLocalCode(newCode);
-        if (onContentChange) {
-            onContentChange('custom_html', { code: newCode });
-        }
+        emitChange({ code: newCode });
     };
 
     const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,11 +137,20 @@ export default function CustomHtmlTemplate({ editable = false, data = {}, onCont
         if (file) {
             const reader = new FileReader();
             reader.onload = (e) => {
-                const content = e.target?.result as string;
-                setLocalCode(content);
-                if (onContentChange) {
-                    onContentChange('custom_html', { code: content });
+                let content = e.target?.result as string;
+                
+                // Auto-inject tracking pixels if they exist
+                if (facebookPixelId.trim() || googleTagId.trim()) {
+                    content = injectPixelsIntoHtml(content, facebookPixelId, googleTagId);
                 }
+                
+                // Auto-inject legal footer if enabled
+                if (legalSettings.autoInjectLegal && legalSettings.brandName.trim()) {
+                    content = injectLegalIntoHtml(content, legalSettings);
+                }
+
+                setLocalCode(content);
+                emitChange({ code: content });
             };
             reader.readAsText(file);
         }
@@ -95,9 +169,7 @@ export default function CustomHtmlTemplate({ editable = false, data = {}, onCont
             if (event.data?.type === 'CUSTOM_HTML_UPDATE') {
                 const newCode = event.data.code;
                 setLocalCode(newCode); // keep local text editor in sync
-                if (onContentChange) {
-                    onContentChange('custom_html', { code: newCode });
-                }
+                emitChange({ code: newCode });
             } else if (event.data?.type === 'CUSTOM_HTML_SELECT') {
                 const textToFind = event.data.text;
                 if (textToFind && textAreaRef.current) {
@@ -123,6 +195,41 @@ export default function CustomHtmlTemplate({ editable = false, data = {}, onCont
         window.addEventListener('message', handleMessage);
         return () => window.removeEventListener('message', handleMessage);
     }, [editable, onContentChange]);
+
+    // ─── Tracking Pixel Injection ────────────────────────────────────────────
+    const handleInjectPixels = () => {
+        const code = injectPixelsIntoHtml(localCode, facebookPixelId, googleTagId);
+        setLocalCode(code);
+        emitChange({ code, facebookPixelId, googleTagId });
+    };
+
+    // ─── Legal Footer Injection ──────────────────────────────────────────────
+    const handleInjectLegal = () => {
+        const code = injectLegalIntoHtml(localCode, legalSettings);
+        setLocalCode(code);
+        emitChange({ code, legalSettings });
+    };
+
+    // ─── State Change Handlers ───────────────────────────────────────────────
+    const handleFacebookPixelChange = (id: string) => {
+        setFacebookPixelId(id);
+        emitChange({ facebookPixelId: id });
+    };
+
+    const handleGoogleTagChange = (id: string) => {
+        setGoogleTagId(id);
+        emitChange({ googleTagId: id });
+    };
+
+    const handleLegalSettingsChange = (settings: LegalSettings) => {
+        setLegalSettings(settings);
+        emitChange({ legalSettings: settings });
+    };
+
+    const handleImageLibraryChange = (library: ImageEntry[]) => {
+        setImageLibrary(library);
+        emitChange({ imageLibrary: library });
+    };
 
     const injectEditorCode = (code: string) => {
         if (!editable) return code;
@@ -214,7 +321,15 @@ export default function CustomHtmlTemplate({ editable = false, data = {}, onCont
         );
     }
 
-    // Editable Mode (Side-by-Side Editor & Preview)
+    // ─── Tab Definitions ─────────────────────────────────────────────────────
+    const tabs: { id: EditorTab; label: string; icon: React.ReactNode }[] = [
+        { id: 'images', label: 'Image Manager', icon: <ImageIconMui sx={{ fontSize: 18 }} /> },
+        { id: 'code', label: 'Code Editor', icon: <CodeIcon sx={{ fontSize: 18 }} /> },
+        { id: 'tracking', label: 'Tracking Pixels', icon: <TrackChangesIcon sx={{ fontSize: 18 }} /> },
+        { id: 'legal', label: 'Legal Pages', icon: <GavelIcon sx={{ fontSize: 18 }} /> },
+    ];
+
+    // Editable Mode (Tabbed Editor)
     return (
         <Box sx={{ width: '100%', height: 'calc(100vh - 72px)', display: 'flex', flexDirection: 'column', bgcolor: '#0f172a' }}>
             {/* Header Section */}
@@ -272,48 +387,123 @@ export default function CustomHtmlTemplate({ editable = false, data = {}, onCont
                 </Box>
             </Box>
 
-            {/* Side-by-Side Workspace */}
-            <Box sx={{ display: 'flex', flex: 1, overflow: 'hidden', flexDirection: { xs: 'column', md: 'row' } }}>
-                {/* Code Editor (Left) - Hides when fullscreen */}
-                {!isFullscreen && (
-                    <Box sx={{ flex: 1, borderRight: { md: '1px solid #334155' }, borderBottom: { xs: '1px solid #334155', md: 'none' }, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-                        <TextField
-                            inputRef={textAreaRef}
-                            multiline
-                            fullWidth
-                            value={localCode}
-                            onChange={handleCodeChange}
-                            placeholder="<html>\n  <body>\n    <h1>My Website</h1>\n  </body>\n</html>"
-                            variant="outlined"
-                            sx={{
-                                flex: 1,
-                                overflowY: 'auto',
-                                '& .MuiOutlinedInput-root': {
-                                    color: '#fbbf24',
-                                    fontFamily: '"Fira Code", "Source Code Pro", monospace',
-                                    fontSize: '13px',
-                                    bgcolor: '#0f172a',
-                                    lineHeight: 1.6,
-                                    padding: '16px',
-                                    height: '100%',
-                                    alignItems: 'flex-start',
-                                    '& fieldset': { border: 'none' },
-                                },
-                            }}
+            {/* Tab Bar */}
+            <Box sx={{
+                display: 'flex',
+                borderBottom: '1px solid #334155',
+                bgcolor: '#1e293b',
+                px: { xs: 1, md: 3 },
+                gap: 0.5,
+                overflowX: 'auto',
+            }}>
+                {tabs.map((tab) => (
+                    <Button
+                        key={tab.id}
+                        onClick={() => setActiveTab(tab.id)}
+                        startIcon={tab.icon}
+                        sx={{
+                            textTransform: 'none',
+                            fontWeight: activeTab === tab.id ? 700 : 500,
+                            fontSize: 14,
+                            px: 2.5,
+                            py: 1.5,
+                            borderRadius: 0,
+                            color: activeTab === tab.id ? '#f8fafc' : '#94a3b8',
+                            borderBottom: activeTab === tab.id ? '2px solid #6366f1' : '2px solid transparent',
+                            '&:hover': {
+                                bgcolor: 'rgba(99, 102, 241, 0.08)',
+                                color: '#f8fafc',
+                            },
+                            transition: 'all 0.2s ease',
+                            minWidth: 'auto',
+                        }}
+                    >
+                        {tab.label}
+                    </Button>
+                ))}
+            </Box>
+
+            {/* Tab Content */}
+            <Box sx={{ flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+                {/* Code Editor Tab */}
+                {activeTab === 'code' && (
+                    <Box sx={{ display: 'flex', flex: 1, overflow: 'hidden', flexDirection: { xs: 'column', md: 'row' } }}>
+                        {/* Code Editor (Left) - Hides when fullscreen */}
+                        {!isFullscreen && (
+                            <Box sx={{ flex: 1, borderRight: { md: '1px solid #334155' }, borderBottom: { xs: '1px solid #334155', md: 'none' }, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+                                <TextField
+                                    inputRef={textAreaRef}
+                                    multiline
+                                    fullWidth
+                                    value={localCode}
+                                    onChange={handleCodeChange}
+                                    placeholder="<html>\n  <body>\n    <h1>My Website</h1>\n  </body>\n</html>"
+                                    variant="outlined"
+                                    sx={{
+                                        flex: 1,
+                                        overflowY: 'auto',
+                                        '& .MuiOutlinedInput-root': {
+                                            color: '#fbbf24',
+                                            fontFamily: '"Fira Code", "Source Code Pro", monospace',
+                                            fontSize: '13px',
+                                            bgcolor: '#0f172a',
+                                            lineHeight: 1.6,
+                                            padding: '16px',
+                                            height: '100%',
+                                            alignItems: 'flex-start',
+                                            '& fieldset': { border: 'none' },
+                                        },
+                                    }}
+                                />
+                            </Box>
+                        )}
+
+                        {/* Live Preview (Right) */}
+                        <Box sx={{ flex: 1, bgcolor: '#ffffff', position: 'relative', overflow: 'hidden' }}>
+                            <iframe
+                                ref={iframeRef}
+                                srcDoc={injectEditorCode(localCode)}
+                                style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
+                                title="Custom HTML Content Live Preview"
+                                sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+                            />
+                        </Box>
+                    </Box>
+                )}
+
+                {/* Tracking Pixels Tab */}
+                {activeTab === 'tracking' && (
+                    <Box sx={{ flex: 1, overflowY: 'auto' }}>
+                        <TrackingPixels
+                            facebookPixelId={facebookPixelId}
+                            googleTagId={googleTagId}
+                            onFacebookPixelChange={handleFacebookPixelChange}
+                            onGoogleTagChange={handleGoogleTagChange}
+                            onInjectPixels={handleInjectPixels}
                         />
                     </Box>
                 )}
 
-                {/* Live Preview (Right) */}
-                <Box sx={{ flex: 1, bgcolor: '#ffffff', position: 'relative', overflow: 'hidden' }}>
-                    <iframe
-                        ref={iframeRef}
-                        srcDoc={injectEditorCode(localCode)}
-                        style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
-                        title="Custom HTML Content Live Preview"
-                        sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-                    />
-                </Box>
+                {/* Legal Pages Tab */}
+                {activeTab === 'legal' && (
+                    <Box sx={{ flex: 1, overflowY: 'auto' }}>
+                        <LegalPages
+                            legalSettings={legalSettings}
+                            onSettingsChange={handleLegalSettingsChange}
+                            onInjectLegal={handleInjectLegal}
+                        />
+                    </Box>
+                )}
+
+                {/* Image Manager Tab */}
+                {activeTab === 'images' && (
+                    <Box sx={{ flex: 1, overflowY: 'auto' }}>
+                        <ImageManager
+                            imageLibrary={imageLibrary}
+                            onLibraryChange={handleImageLibraryChange}
+                        />
+                    </Box>
+                )}
             </Box>
         </Box>
     );
