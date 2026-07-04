@@ -5,7 +5,7 @@ import { Box, Button, Typography, TextField, IconButton } from '@mui/material';
 import { Code as CodeIcon, Upload as UploadIcon, OpenInFull as OpenInFullIcon, CloseFullscreen as CloseFullscreenIcon, TrackChanges as TrackChangesIcon, Gavel as GavelIcon, Image as ImageIconMui } from '@mui/icons-material';
 
 import TrackingPixels from './tracking-pixels';
-import LegalPages, { defaultLegalSettings, generateLegalContent, buildLegalFooterHtml, type LegalSettings } from './legal-pages';
+import LegalPages, { defaultLegalSettings, buildLegalFooterHtml, type LegalSettings } from './legal-pages';
 import ImageManager, { defaultImageLibrary, type ImageEntry } from './image-manager';
 
 interface CustomHtmlProps {
