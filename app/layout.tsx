@@ -16,6 +16,9 @@ export const metadata: Metadata = {
       { url: '/favicon.svg', type: 'image/svg+xml' },
     ],
   },
+  other: {
+    "facebook-domain-verification": "fx404rj2atmmq0r77h07nm20q3iyjr",
+  },
 }
 
 export default function RootLayout({
