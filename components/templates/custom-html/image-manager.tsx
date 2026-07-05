@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import {
   Box,
   Typography,
@@ -17,7 +17,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ImageIcon from '@mui/icons-material/Image';
 import LinkIcon from '@mui/icons-material/Link';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import WarningIcon from '@mui/icons-material/Warning';
+import CheckIcon from '@mui/icons-material/Check';
+import { createClient } from '@/lib/supabase/client';
 
 export interface ImageEntry {
   id: string;
@@ -81,22 +82,34 @@ export default function ImageManager({
     setUploading(true);
     setUploadError('');
     try {
+      const supabase = createClient();
       const newEntries: ImageEntry[] = [];
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         if (!file) continue;
-        const formData = new FormData();
-        formData.append('file', file);
-        const response = await fetch('https://tmpfiles.org/api/v1/upload', {
-          method: 'POST',
-          body: formData,
-        });
-        const result = await response.json();
-        const directUrl = result.data.url.replace('tmpfiles.org/', 'tmpfiles.org/dl/');
+        // Generate a unique file path to avoid collisions
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${fileExt}`;
+        const filePath = `uploads/${fileName}`;
+
+        const { error } = await supabase.storage
+          .from('project-images')
+          .upload(filePath, file, { cacheControl: '3600', upsert: false });
+
+        if (error) {
+          console.error('Upload error:', error);
+          setUploadError(`Failed to upload ${file.name}: ${error.message}`);
+          continue;
+        }
+
+        const { data: urlData } = supabase.storage
+          .from('project-images')
+          .getPublicUrl(filePath);
+
         newEntries.push({
           id: generateId(),
           name: file.name,
-          url: directUrl,
+          url: urlData.publicUrl,
           altText: file.name.replace(/\.[^/.]+$/, ''),
           width: 'auto',
           height: 'auto',
@@ -104,7 +117,9 @@ export default function ImageManager({
           uploadedAt: new Date().toISOString(),
         });
       }
-      onLibraryChange([...newEntries, ...imageLibrary]);
+      if (newEntries.length > 0) {
+        onLibraryChange([...newEntries, ...imageLibrary]);
+      }
     } catch {
       setUploadError('One or more uploads failed. Please try again or use an external URL.');
     } finally {
@@ -526,26 +541,24 @@ export default function ImageManager({
         )}
       </Paper>
       
-      {/* Warning Note */}
+      {/* Info Note */}
       <Box
         sx={{
           display: 'flex',
           gap: 1.5,
           p: 2,
-          bgcolor: 'rgba(245, 158, 11, 0.08)',
-          borderLeft: `4px solid #f59e0b`,
+          bgcolor: 'rgba(34, 197, 94, 0.08)',
+          borderLeft: `4px solid #22c55e`,
           borderRadius: 1,
         }}
       >
-        <WarningIcon
-          sx={{ color: '#f59e0b', fontSize: 20, flexShrink: 0, mt: 0.2 }}
+        <CheckIcon
+          sx={{ color: '#22c55e', fontSize: 20, flexShrink: 0, mt: 0.2 }}
         />
         <Typography variant="body2" sx={{ color: '#94a3b8', lineHeight: 1.6 }}>
-          <strong style={{ color: '#f59e0b' }}>Note:</strong> tmpfiles.org is a
-          temporary, public file hosting service. Uploaded images may be
-          automatically deleted after some time and should not be used for sensitive
-          or private content. For permanent hosting, consider using a dedicated image
-          hosting service.
+          <strong style={{ color: '#22c55e' }}>Supabase Storage:</strong> Images
+          are permanently hosted on your Supabase cloud bucket. URLs will never
+          expire and are ready to use in your landing pages.
         </Typography>
       </Box>
     </Box>
