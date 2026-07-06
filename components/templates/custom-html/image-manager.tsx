@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import {
   Box,
   Typography,
@@ -28,6 +29,7 @@ export interface ImageEntry {
   width: string;
   height: string;
   alignment: 'left' | 'center' | 'right';
+  storagePath?: string;
   uploadedAt: string;
 }
 
@@ -36,10 +38,6 @@ export const defaultImageLibrary = [] as ImageEntry[];
 interface ImageManagerProps {
   imageLibrary: ImageEntry[];
   onLibraryChange: (library: ImageEntry[]) => void;
-}
-
-function generateId(): string {
-  return Date.now().toString(36) + Math.random().toString(36).slice(2);
 }
 
 function generateImgTag(entry: {
@@ -64,11 +62,14 @@ export default function ImageManager({
   imageLibrary,
   onLibraryChange,
 }: ImageManagerProps) {
+  const searchParams = useSearchParams();
+  const projectId = searchParams.get('projectId');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState('');
   const [externalUrl, setExternalUrl] = useState('');
+  const [loading, setLoading] = useState(true);
 
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
@@ -78,44 +79,138 @@ export default function ImageManager({
     setTimeout(() => setCopiedId(null), 2000);
   }, []);
 
+  // Load images from Supabase on mount
+  useEffect(() => {
+    const loadImages = async () => {
+      if (!projectId) {
+        setLoading(false);
+        return;
+      }
+      try {
+        const supabase = createClient();
+        const { data, error } = await supabase
+          .from('project_images')
+          .select('*')
+          .eq('project_id', projectId)
+          .order('created_at', { ascending: false });
+
+        if (error) {
+          console.error('Failed to load images:', error);
+          setLoading(false);
+          return;
+        }
+
+        if (data && data.length > 0) {
+          const entries: ImageEntry[] = data.map((row) => ({
+            id: row.id,
+            name: row.name,
+            url: row.url,
+            altText: row.alt_text || '',
+            width: row.width || 'auto',
+            height: row.height || 'auto',
+            alignment: (row.alignment as 'left' | 'center' | 'right') || 'center',
+            storagePath: row.storage_path || '',
+            uploadedAt: row.created_at,
+          }));
+          onLibraryChange(entries);
+        }
+      } catch (err) {
+        console.error('Failed to load images:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadImages();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [projectId]);
+
   const handleFileUpload = async (files: FileList | File[]) => {
     setUploading(true);
     setUploadError('');
     try {
       const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        setUploadError('You must be logged in to upload images.');
+        setUploading(false);
+        return;
+      }
+
       const newEntries: ImageEntry[] = [];
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         if (!file) continue;
-        // Generate a unique file path to avoid collisions
+
+        // Generate unique file path
         const fileExt = file.name.split('.').pop();
         const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${fileExt}`;
         const filePath = `uploads/${fileName}`;
 
-        const { error } = await supabase.storage
+        // Upload to Supabase Storage
+        const { error: storageError } = await supabase.storage
           .from('project-images')
           .upload(filePath, file, { cacheControl: '3600', upsert: false });
 
-        if (error) {
-          console.error('Upload error:', error);
-          setUploadError(`Failed to upload ${file.name}: ${error.message}`);
+        if (storageError) {
+          console.error('Upload error:', storageError);
+          setUploadError(`Failed to upload ${file.name}: ${storageError.message}`);
           continue;
         }
 
+        // Get permanent public URL
         const { data: urlData } = supabase.storage
           .from('project-images')
           .getPublicUrl(filePath);
 
-        newEntries.push({
-          id: generateId(),
-          name: file.name,
-          url: urlData.publicUrl,
-          altText: file.name.replace(/\.[^/.]+$/, ''),
-          width: 'auto',
-          height: 'auto',
-          alignment: 'center',
-          uploadedAt: new Date().toISOString(),
-        });
+        const publicUrl = urlData.publicUrl;
+
+        // Save metadata to project_images table
+        if (projectId) {
+          const { data: insertedRow, error: dbError } = await supabase
+            .from('project_images')
+            .insert({
+              project_id: projectId,
+              user_id: user.id,
+              name: file.name,
+              url: publicUrl,
+              alt_text: file.name.replace(/\.[^/.]+$/, ''),
+              width: 'auto',
+              height: 'auto',
+              alignment: 'center',
+              storage_path: filePath,
+            })
+            .select()
+            .single();
+
+          if (dbError) {
+            console.error('DB save error:', dbError);
+          }
+
+          newEntries.push({
+            id: insertedRow?.id || Date.now().toString(36),
+            name: file.name,
+            url: publicUrl,
+            altText: file.name.replace(/\.[^/.]+$/, ''),
+            width: 'auto',
+            height: 'auto',
+            alignment: 'center',
+            storagePath: filePath,
+            uploadedAt: insertedRow?.created_at || new Date().toISOString(),
+          });
+        } else {
+          // No projectId yet (new project) — keep in state only
+          newEntries.push({
+            id: Date.now().toString(36) + Math.random().toString(36).slice(2),
+            name: file.name,
+            url: publicUrl,
+            altText: file.name.replace(/\.[^/.]+$/, ''),
+            width: 'auto',
+            height: 'auto',
+            alignment: 'center',
+            storagePath: filePath,
+            uploadedAt: new Date().toISOString(),
+          });
+        }
       }
       if (newEntries.length > 0) {
         onLibraryChange([...newEntries, ...imageLibrary]);
@@ -154,13 +249,52 @@ export default function ImageManager({
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
-  const handleAddFromUrl = () => {
+  const handleAddFromUrl = async () => {
     if (!externalUrl.trim()) return;
     const urlParts = externalUrl.trim().split('/');
     const fileName = urlParts[urlParts.length - 1] || 'external-image';
-    
+
+    if (projectId) {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data: insertedRow, error } = await supabase
+          .from('project_images')
+          .insert({
+            project_id: projectId,
+            user_id: user.id,
+            name: fileName,
+            url: externalUrl.trim(),
+            alt_text: fileName.replace(/\.[^/.]+$/, ''),
+            width: 'auto',
+            height: 'auto',
+            alignment: 'center',
+            storage_path: null,
+          })
+          .select()
+          .single();
+
+        if (!error && insertedRow) {
+          const newEntry: ImageEntry = {
+            id: insertedRow.id,
+            name: fileName,
+            url: externalUrl.trim(),
+            altText: fileName.replace(/\.[^/.]+$/, ''),
+            width: 'auto',
+            height: 'auto',
+            alignment: 'center',
+            uploadedAt: insertedRow.created_at,
+          };
+          onLibraryChange([newEntry, ...imageLibrary]);
+          setExternalUrl('');
+          return;
+        }
+      }
+    }
+
+    // Fallback: keep in state only
     const newEntry: ImageEntry = {
-      id: generateId(),
+      id: Date.now().toString(36) + Math.random().toString(36).slice(2),
       name: fileName,
       url: externalUrl.trim(),
       altText: fileName.replace(/\.[^/.]+$/, ''),
@@ -173,8 +307,22 @@ export default function ImageManager({
     setExternalUrl('');
   };
 
-  const handleDeleteEntry = (id: string) => {
-    onLibraryChange(imageLibrary.filter((entry) => entry.id !== id));
+  const handleDeleteEntry = async (id: string) => {
+    const entry = imageLibrary.find((e) => e.id === id);
+
+    // Remove from Supabase table
+    if (projectId) {
+      const supabase = createClient();
+      await supabase.from('project_images').delete().eq('id', id);
+
+      // Also remove from storage if we have a storage path
+      if (entry?.storagePath) {
+        await supabase.storage.from('project-images').remove([entry.storagePath]);
+      }
+    }
+
+    // Remove from local state
+    onLibraryChange(imageLibrary.filter((e) => e.id !== id));
   };
 
   const colors = {
@@ -185,6 +333,17 @@ export default function ImageManager({
     textMuted: '#94a3b8',
     accent: '#f59e0b',
   };
+
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', py: 10 }}>
+        <CircularProgress sx={{ color: colors.accent }} />
+        <Typography variant="body1" sx={{ color: colors.textMuted, ml: 2 }}>
+          Loading images...
+        </Typography>
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
@@ -556,9 +715,9 @@ export default function ImageManager({
           sx={{ color: '#22c55e', fontSize: 20, flexShrink: 0, mt: 0.2 }}
         />
         <Typography variant="body2" sx={{ color: '#94a3b8', lineHeight: 1.6 }}>
-          <strong style={{ color: '#22c55e' }}>Supabase Storage:</strong> Images
-          are permanently hosted on your Supabase cloud bucket. URLs will never
-          expire and are ready to use in your landing pages.
+          <strong style={{ color: '#22c55e' }}>Cloud Saved:</strong> Images
+          are permanently hosted on Supabase Storage and saved to your project database.
+          They will automatically load when you reopen your project.
         </Typography>
       </Box>
     </Box>
