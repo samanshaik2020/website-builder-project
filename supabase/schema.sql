@@ -76,7 +76,105 @@ CREATE INDEX IF NOT EXISTS idx_projects_custom_url ON projects(custom_url);
 CREATE INDEX IF NOT EXISTS idx_projects_created_at ON projects(created_at DESC);
 
 -- =====================================================
--- 3. PROJECT_ANALYTICS TABLE (Analytics tracking)
+-- 3. PROJECT_IMAGES TABLE (Account-level image library)
+-- =====================================================
+CREATE TABLE IF NOT EXISTS project_images (
+  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  -- Saved images belong to the user account; project_id is optional for legacy associations.
+  project_id uuid REFERENCES projects(id) ON DELETE SET NULL,
+  user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+  name text NOT NULL,
+  url text NOT NULL,
+  alt_text text DEFAULT '',
+  width text DEFAULT 'auto',
+  height text DEFAULT 'auto',
+  alignment text DEFAULT 'center' CHECK (alignment IN ('left', 'center', 'right')),
+  storage_path text,
+  created_at timestamp with time zone DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now()
+);
+
+ALTER TABLE project_images ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can view own project images" ON project_images
+  FOR SELECT
+  TO authenticated
+  USING ((SELECT auth.uid()) = user_id);
+
+CREATE POLICY "Users can create own project images" ON project_images
+  FOR INSERT
+  TO authenticated
+  WITH CHECK (
+    (SELECT auth.uid()) = user_id
+    AND (
+      project_id IS NULL
+      OR EXISTS (
+      SELECT 1 FROM projects
+      WHERE projects.id = project_images.project_id
+      AND projects.user_id = (SELECT auth.uid())
+      )
+    )
+  );
+
+CREATE POLICY "Users can update own project images" ON project_images
+  FOR UPDATE
+  TO authenticated
+  USING ((SELECT auth.uid()) = user_id)
+  WITH CHECK (
+    (SELECT auth.uid()) = user_id
+    AND (
+      project_id IS NULL
+      OR EXISTS (
+      SELECT 1 FROM projects
+      WHERE projects.id = project_images.project_id
+      AND projects.user_id = (SELECT auth.uid())
+      )
+    )
+  );
+
+CREATE POLICY "Users can delete own project images" ON project_images
+  FOR DELETE
+  TO authenticated
+  USING ((SELECT auth.uid()) = user_id);
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON project_images TO authenticated;
+
+CREATE INDEX IF NOT EXISTS idx_project_images_project_id ON project_images(project_id);
+CREATE INDEX IF NOT EXISTS idx_project_images_user_id ON project_images(user_id);
+CREATE INDEX IF NOT EXISTS idx_project_images_created_at ON project_images(created_at DESC);
+
+-- Public bucket for image URLs copied into published pages.
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+VALUES (
+  'project-images',
+  'project-images',
+  true,
+  10485760,
+  ARRAY['image/jpeg', 'image/png', 'image/gif', 'image/webp']::text[]
+)
+ON CONFLICT (id) DO UPDATE SET
+  public = EXCLUDED.public,
+  file_size_limit = EXCLUDED.file_size_limit,
+  allowed_mime_types = EXCLUDED.allowed_mime_types;
+
+CREATE POLICY "Users can upload own project image objects" ON storage.objects
+  FOR INSERT
+  TO authenticated
+  WITH CHECK (
+    bucket_id = 'project-images'
+    AND (storage.foldername(name))[1] = (SELECT auth.uid()::text)
+  );
+
+CREATE POLICY "Users can delete own project image objects" ON storage.objects
+  FOR DELETE
+  TO authenticated
+  USING (
+    bucket_id = 'project-images'
+    AND owner_id = (SELECT auth.uid()::text)
+  );
+
+-- =====================================================
+-- 4. PROJECT_ANALYTICS TABLE (Analytics tracking)
 -- =====================================================
 CREATE TABLE IF NOT EXISTS project_analytics (
   id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -209,6 +307,13 @@ CREATE TRIGGER update_profiles_updated_at
 DROP TRIGGER IF EXISTS update_projects_updated_at ON projects;
 CREATE TRIGGER update_projects_updated_at
   BEFORE UPDATE ON projects
+  FOR EACH ROW
+  EXECUTE FUNCTION update_updated_at_column();
+
+-- Trigger for project_images
+DROP TRIGGER IF EXISTS update_project_images_updated_at ON project_images;
+CREATE TRIGGER update_project_images_updated_at
+  BEFORE UPDATE ON project_images
   FOR EACH ROW
   EXECUTE FUNCTION update_updated_at_column();
 

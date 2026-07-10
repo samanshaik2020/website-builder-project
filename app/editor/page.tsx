@@ -345,7 +345,6 @@ function EditorContent() {
       {/* Mobile Warning Popup */}
       <MobileWarning />
 
-
       {/* Editor Toolbar */}
       <div className="fixed top-0 left-0 right-0 bg-slate-900 border-b border-slate-700 z-[100]">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -450,11 +449,11 @@ function EditorContent() {
         </div>
       )}
 
-
       {/* Editing Hint */}
       <div className="fixed bottom-6 right-6 bg-slate-900 text-white px-6 py-4 rounded-lg shadow-xl border border-slate-700">
         <p className="text-sm font-medium">💡 Click on any text to edit</p>
       </div>
+
     </div>
   );
 }

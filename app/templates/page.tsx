@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import {
   ArrowBack as ArrowBackIcon,
+  Collections as CollectionsIcon,
 } from '@mui/icons-material';
 import { getAllTemplates } from '@/lib/templates';
 import { getCurrentUser } from '@/lib/auth';
@@ -74,10 +75,10 @@ export default function TemplatesPage() {
         {/* Header */}
         <Box sx={{ textAlign: 'center', mb: 4 }}>
           <Typography variant="h3" sx={{ fontWeight: 700, color: '#000', mb: 1.5, fontSize: 40 }}>
-            Custom HTML Project
+            Start a Project
           </Typography>
           <Typography sx={{ color: '#737373', mb: 4, fontSize: 15, maxWidth: 600, mx: 'auto', lineHeight: 1.6 }}>
-            Create a website from scratch or import your own code.
+            Create a website from scratch, import your own code, or manage images you can reuse anywhere.
           </Typography>
 
           {/* Dashboard Button */}
@@ -106,6 +107,110 @@ export default function TemplatesPage() {
 
         {/* Templates Grid */}
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, gap: 4 }}>
+          <Box sx={{ gridColumn: { xs: '1', sm: '1 / -1', md: '1 / -1' } }}>
+            <Card
+              elevation={0}
+              sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', md: 'row' },
+                borderRadius: 3,
+                border: '1px solid rgba(14, 165, 233, 0.3)',
+                transition: 'all 0.3s ease',
+                background: 'linear-gradient(135deg, #082f49 0%, #0f172a 55%, #164e63 100%)',
+                overflow: 'hidden',
+                '&:hover': {
+                  boxShadow: '0 20px 60px rgba(14, 165, 233, 0.2)',
+                  borderColor: 'rgba(56, 189, 248, 0.6)',
+                  transform: 'translateY(-2px)',
+                },
+              }}
+            >
+              <Box
+                sx={{
+                  width: { xs: '100%', md: '45%' },
+                  minHeight: { xs: 200, md: 260 },
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  background: 'radial-gradient(circle at 50% 35%, rgba(56, 189, 248, 0.28), transparent 45%), linear-gradient(135deg, rgba(14, 116, 144, 0.35), rgba(15, 23, 42, 0.5))',
+                }}
+              >
+                {[[-80, -52], [68, -36], [-62, 56], [80, 64]].map(([left, top], index) => (
+                  <Box
+                    key={index}
+                    sx={{
+                      position: 'absolute',
+                      width: 86,
+                      height: 64,
+                      left: `calc(50% + ${left}px)`,
+                      top: `calc(50% + ${top}px)`,
+                      borderRadius: 2,
+                      border: '1px solid rgba(186, 230, 253, 0.45)',
+                      bgcolor: 'rgba(14, 116, 144, 0.35)',
+                      transform: `rotate(${index % 2 === 0 ? -9 : 9}deg)`,
+                    }}
+                  />
+                ))}
+                <Box sx={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
+                  <Box sx={{
+                    width: 80,
+                    height: 80,
+                    borderRadius: '20px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: 'linear-gradient(135deg, #0ea5e9, #22d3ee)',
+                    boxShadow: '0 8px 32px rgba(34, 211, 238, 0.35)',
+                    mb: 2,
+                    mx: 'auto',
+                  }}>
+                    <CollectionsIcon sx={{ fontSize: 40, color: '#082f49' }} />
+                  </Box>
+                  <Typography sx={{ color: 'rgba(255,255,255,0.62)', fontSize: 12, letterSpacing: 2 }}>
+                    YOUR SAVED MEDIA
+                  </Typography>
+                </Box>
+              </Box>
+
+              <Box sx={{ flex: 1, p: { xs: 3, md: 5 }, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
+                  <Chip label="Cloud Saved" size="small" sx={{ bgcolor: 'rgba(14, 165, 233, 0.2)', color: '#bae6fd', fontWeight: 600, fontSize: 11, height: 24, border: '1px solid rgba(56, 189, 248, 0.3)' }} />
+                  <Chip label="Reusable" size="small" sx={{ bgcolor: 'rgba(34, 211, 238, 0.15)', color: '#a5f3fc', fontWeight: 600, fontSize: 11, height: 24, border: '1px solid rgba(34, 211, 238, 0.25)' }} />
+                </Box>
+                <Typography variant="h4" sx={{ fontWeight: 800, color: '#fff', mb: 1.5, fontSize: { xs: 24, md: 28 }, lineHeight: 1.2 }}>
+                  Image Library
+                </Typography>
+                <Typography sx={{ color: '#bae6fd', mb: 3, fontSize: 15, lineHeight: 1.7, maxWidth: 470 }}>
+                  Upload, store, and reuse images across all of your projects. Copy a direct URL or a ready-to-paste HTML image tag whenever you need it.
+                </Typography>
+                <Box>
+                  <Button
+                    variant="contained"
+                    startIcon={<CollectionsIcon />}
+                    onClick={() => router.push('/templates/image-library')}
+                    sx={{
+                      background: 'linear-gradient(135deg, #0ea5e9, #22d3ee)',
+                      color: '#082f49',
+                      '&:hover': { background: 'linear-gradient(135deg, #0284c7, #06b6d4)', transform: 'scale(1.02)' },
+                      textTransform: 'none',
+                      fontWeight: 700,
+                      py: 1.5,
+                      px: 4,
+                      borderRadius: 2,
+                      fontSize: 15,
+                      boxShadow: '0 4px 16px rgba(14, 165, 233, 0.35)',
+                      transition: 'all 0.2s ease',
+                    }}
+                  >
+                    Open Image Library
+                  </Button>
+                </Box>
+              </Box>
+            </Card>
+          </Box>
+
           {templates.map((template) => {
             const isCustomHtml = template.id === 'custom-html';
 

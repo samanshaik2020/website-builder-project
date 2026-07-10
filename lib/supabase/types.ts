@@ -88,6 +88,50 @@ export interface Database {
           updated_at?: string
         }
       }
+      project_images: {
+        Row: {
+          id: string
+          project_id: string | null
+          user_id: string
+          name: string
+          url: string
+          alt_text: string | null
+          width: string | null
+          height: string | null
+          alignment: string | null
+          storage_path: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          project_id?: string | null
+          user_id: string
+          name: string
+          url: string
+          alt_text?: string | null
+          width?: string | null
+          height?: string | null
+          alignment?: string | null
+          storage_path?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          project_id?: string | null
+          user_id?: string
+          name?: string
+          url?: string
+          alt_text?: string | null
+          width?: string | null
+          height?: string | null
+          alignment?: string | null
+          storage_path?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
       project_analytics: {
         Row: {
           id: string
@@ -208,6 +252,7 @@ export interface Database {
 // Helper types for application use
 export type Profile = Database['public']['Tables']['profiles']['Row']
 export type Project = Database['public']['Tables']['projects']['Row']
+export type ProjectImage = Database['public']['Tables']['project_images']['Row']
 export type ProjectAnalytics = Database['public']['Tables']['project_analytics']['Row']
 export type PageView = Database['public']['Tables']['page_views']['Row']
 export type ButtonClick = Database['public']['Tables']['button_clicks']['Row']

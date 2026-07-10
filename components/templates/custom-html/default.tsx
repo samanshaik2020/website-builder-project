@@ -2,11 +2,10 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { Box, Button, Typography, TextField, IconButton } from '@mui/material';
-import { Code as CodeIcon, Upload as UploadIcon, OpenInFull as OpenInFullIcon, CloseFullscreen as CloseFullscreenIcon, TrackChanges as TrackChangesIcon, Gavel as GavelIcon, Image as ImageIconMui } from '@mui/icons-material';
+import { Code as CodeIcon, Upload as UploadIcon, OpenInFull as OpenInFullIcon, CloseFullscreen as CloseFullscreenIcon, TrackChanges as TrackChangesIcon, Gavel as GavelIcon } from '@mui/icons-material';
 
 import TrackingPixels from './tracking-pixels';
 import LegalPages, { defaultLegalSettings, buildLegalFooterHtml, type LegalSettings } from './legal-pages';
-import ImageManager, { defaultImageLibrary, type ImageEntry } from './image-manager';
 
 interface CustomHtmlProps {
     editable?: boolean;
@@ -50,7 +49,7 @@ const defaultHtml = `<!DOCTYPE html>
 </body>
 </html>`;
 
-type EditorTab = 'code' | 'tracking' | 'legal' | 'images';
+type EditorTab = 'code' | 'tracking' | 'legal';
 
 // ─── Injection Helpers ───────────────────────────────────────────────────────
 function injectPixelsIntoHtml(code: string, fbId: string, googleId: string): string {
@@ -93,7 +92,7 @@ export default function CustomHtmlTemplate({ editable = false, data = {}, onCont
     const customHtml = data.custom_html?.code || defaultHtml;
     const [localCode, setLocalCode] = useState(customHtml);
     const [isFullscreen, setIsFullscreen] = useState(false);
-    const [activeTab, setActiveTab] = useState<EditorTab>('images');
+    const [activeTab, setActiveTab] = useState<EditorTab>('code');
     const fileInputRef = useRef<HTMLInputElement>(null);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -103,9 +102,6 @@ export default function CustomHtmlTemplate({ editable = false, data = {}, onCont
 
     // Legal pages state
     const [legalSettings, setLegalSettings] = useState<LegalSettings>(data.custom_html?.legalSettings || defaultLegalSettings);
-
-    // Image library state
-    const [imageLibrary, setImageLibrary] = useState<ImageEntry[]>(data.custom_html?.imageLibrary || defaultImageLibrary);
 
     useEffect(() => {
         if (data.custom_html?.code) {
@@ -120,7 +116,6 @@ export default function CustomHtmlTemplate({ editable = false, data = {}, onCont
                 facebookPixelId,
                 googleTagId,
                 legalSettings,
-                imageLibrary,
                 ...updates,
             });
         }
@@ -226,10 +221,7 @@ export default function CustomHtmlTemplate({ editable = false, data = {}, onCont
         emitChange({ legalSettings: settings });
     };
 
-    const handleImageLibraryChange = (library: ImageEntry[]) => {
-        setImageLibrary(library);
-        emitChange({ imageLibrary: library });
-    };
+
 
     const injectEditorCode = (code: string) => {
         if (!editable) return code;
@@ -323,7 +315,6 @@ export default function CustomHtmlTemplate({ editable = false, data = {}, onCont
 
     // ─── Tab Definitions ─────────────────────────────────────────────────────
     const tabs: { id: EditorTab; label: string; icon: React.ReactNode }[] = [
-        { id: 'images', label: 'Image Manager', icon: <ImageIconMui sx={{ fontSize: 18 }} /> },
         { id: 'code', label: 'Code Editor', icon: <CodeIcon sx={{ fontSize: 18 }} /> },
         { id: 'tracking', label: 'Tracking Pixels', icon: <TrackChangesIcon sx={{ fontSize: 18 }} /> },
         { id: 'legal', label: 'Legal Pages', icon: <GavelIcon sx={{ fontSize: 18 }} /> },
@@ -495,15 +486,7 @@ export default function CustomHtmlTemplate({ editable = false, data = {}, onCont
                     </Box>
                 )}
 
-                {/* Image Manager Tab */}
-                {activeTab === 'images' && (
-                    <Box sx={{ flex: 1, overflowY: 'auto' }}>
-                        <ImageManager
-                            imageLibrary={imageLibrary}
-                            onLibraryChange={handleImageLibraryChange}
-                        />
-                    </Box>
-                )}
+
             </Box>
         </Box>
     );
