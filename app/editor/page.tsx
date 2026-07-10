@@ -369,10 +369,12 @@ function EditorContent() {
             <span className="text-slate-400 text-sm">
               Template: <span className="text-white font-medium">{template.config.name}</span>
             </span>
-            <AiButton
-              templateSlug={templateId}
-              onGenerated={handleAiGenerated}
-            />
+            {templateId !== 'quiz-builder' && (
+              <AiButton
+                templateSlug={templateId}
+                onGenerated={handleAiGenerated}
+              />
+            )}
             {showRevertButton && (
               <button
                 onClick={handleRevert}

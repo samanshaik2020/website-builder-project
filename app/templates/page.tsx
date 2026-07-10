@@ -43,6 +43,8 @@ export default function TemplatesPage() {
     switch (templateId) {
       case 'custom-html':
         return '/custom-html-preview.png';
+      case 'quiz-builder':
+        return '/quiz-builder-preview.svg';
       default:
         return null;
     }

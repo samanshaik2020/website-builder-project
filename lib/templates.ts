@@ -1,11 +1,16 @@
 
 import { CustomHtmlTemplate, customHtmlConfig } from '@/components/templates/custom-html';
+import { QuizBuilderTemplate, quizBuilderConfig } from '@/components/templates/quiz-builder';
 
 
 export const templates = {
   'custom-html': {
     component: CustomHtmlTemplate,
     config: customHtmlConfig,
+  },
+  'quiz-builder': {
+    component: QuizBuilderTemplate,
+    config: quizBuilderConfig,
   },
 
 } as const;
